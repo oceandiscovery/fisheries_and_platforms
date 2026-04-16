@@ -1,2 +1,2 @@
 # fisheries_and_platforms
-Reproducible pipeline to analyse fish landings, species composition, and spatial exposure to offshore oil platforms in coastal Brazil. The project links landing-point and locality-year data to explore how platform proximity relates to fishery production, diversity metrics, and shifts in species assemblages.
+Fish catches and oil platforms Brazil is a reproducible analysis pipeline that integrates fish landing records, species composition, spatial exposure to offshore oil platforms, and exploratory ecological statistics for coastal localities in Brazil. The project focuses on how platform proximity may relate to fishery production, diversity patterns, and changes in species assemblages using locality-year and landing-point-based analyses.
