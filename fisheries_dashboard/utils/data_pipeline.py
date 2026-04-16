@@ -9,10 +9,10 @@ data_pipeline.py — Carga, integración y cálculo de métricas derivadas:
 import os
 import math
 import warnings
+import json
 import numpy as np
 import pandas as pd
-import geopandas as gpd
-from shapely.geometry import Point
+from shapely.geometry import Point, mapping
 from utils.coords import PORT_COORDS, PORT_META
 
 warnings.filterwarnings("ignore")
@@ -130,50 +130,68 @@ def build_master(dfs, cpue_port, biodiv):
 
 
 # ─────────────────────────────────────────────
-# 5. GeoDataFrame + EXPORTACIÓN QGIS
+# 5. GeoDataFrame liviano + EXPORTACIÓN QGIS
+# (sin geopandas/fiona — compatible con Streamlit Cloud)
 # ─────────────────────────────────────────────
 def to_geodataframe(master):
-    """Convierte master a GeoDataFrame con geometría de puntos."""
-    gdf = gpd.GeoDataFrame(
-        master,
-        geometry=[Point(lon, lat) if pd.notna(lon) else None
-                  for lat, lon in zip(master["lat"], master["lon"])],
-        crs="EPSG:4326",
-    )
-    return gdf
+    """Devuelve el master DataFrame con columna geometry de Shapely (sin geopandas)."""
+    master = master.copy()
+    master["geometry"] = [
+        Point(lon, lat) if pd.notna(lon) and pd.notna(lat) else None
+        for lat, lon in zip(master["lat"], master["lon"])
+    ]
+    return master
+
+
+def _df_to_geojson(df, lat_col="lat", lon_col="lon", exclude_cols=None):
+    """Convierte un DataFrame con columnas lat/lon a dict GeoJSON FeatureCollection."""
+    exclude_cols = set(exclude_cols or [])
+    features = []
+    for _, row in df.iterrows():
+        lat, lon = row.get(lat_col), row.get(lon_col)
+        if pd.isna(lat) or pd.isna(lon):
+            continue
+        props = {
+            k: (None if pd.isna(v) else (v.item() if hasattr(v, "item") else v))
+            for k, v in row.items()
+            if k not in exclude_cols and k not in {lat_col, lon_col}
+        }
+        features.append({
+            "type": "Feature",
+            "geometry": {"type": "Point", "coordinates": [float(lon), float(lat)]},
+            "properties": props,
+        })
+    return {"type": "FeatureCollection", "features": features}
 
 
 def export_geojson(gdf, cpue_gear, dfs, output_dir="outputs/geojson"):
-    """Exporta capas GeoJSON para uso en QGIS."""
+    """Exporta capas GeoJSON para uso en QGIS (sin dependencia de fiona/GDAL)."""
     os.makedirs(output_dir, exist_ok=True)
 
     # Capa 1: puertos con indicadores promedio
-    ports_avg = gdf.groupby("local_norm").agg({
-        "lat": "first", "lon": "first", "port_name": "first", "region": "first",
-        "cpue": "mean", "shannon_index": "mean", "species_richness": "mean",
-        "estimated_fishermen": "mean", "production_ton": "sum",
-        "total_vessels": "mean",
-    }).reset_index()
-    ports_gdf = gpd.GeoDataFrame(
-        ports_avg,
-        geometry=[Point(lon, lat) for lat, lon in zip(ports_avg["lat"], ports_avg["lon"])],
-        crs="EPSG:4326",
-    )
-    ports_gdf.to_file(os.path.join(output_dir, "ports_indicators.geojson"), driver="GeoJSON")
+    agg_cols = {c: "first" for c in ["lat", "lon", "port_name", "region"]}
+    agg_cols.update({"cpue": "mean", "shannon_index": "mean", "species_richness": "mean",
+                     "estimated_fishermen": "mean", "production_ton": "sum", "total_vessels": "mean"})
+    ports_avg = gdf.groupby("local_norm").agg(
+        {k: v for k, v in agg_cols.items() if k in gdf.columns}
+    ).reset_index()
+    geojson1 = _df_to_geojson(ports_avg)
+    with open(os.path.join(output_dir, "ports_indicators.geojson"), "w", encoding="utf-8") as f:
+        json.dump(geojson1, f, ensure_ascii=False, indent=2)
 
-    # Capa 2: CPUE por arte de pesca (wide format)
-    cpue_wide = cpue_gear.groupby(["local_norm", "gear_type"])["cpue"].mean().unstack(fill_value=0).reset_index()
-    cpue_wide["lat"] = cpue_wide["local_norm"].map(lambda x: PORT_COORDS.get(x, {}).get("lat"))
-    cpue_wide["lon"] = cpue_wide["local_norm"].map(lambda x: PORT_COORDS.get(x, {}).get("lon"))
-    cpue_gdf = gpd.GeoDataFrame(
-        cpue_wide,
-        geometry=[Point(lon, lat) for lat, lon in zip(cpue_wide["lat"], cpue_wide["lon"])],
-        crs="EPSG:4326",
-    )
-    cpue_gdf.to_file(os.path.join(output_dir, "cpue_by_gear.geojson"), driver="GeoJSON")
+    # Capa 2: CPUE por arte de pesca
+    cpue_export = cpue_gear.groupby(["local_norm", "gear_type", "gear_group"]).agg(
+        cpue=("cpue", "mean"), production_ton=("production_ton", "sum")
+    ).reset_index()
+    cpue_export["lat"] = cpue_export["local_norm"].map(lambda x: PORT_COORDS.get(x, {}).get("lat"))
+    cpue_export["lon"] = cpue_export["local_norm"].map(lambda x: PORT_COORDS.get(x, {}).get("lon"))
+    geojson2 = _df_to_geojson(cpue_export)
+    with open(os.path.join(output_dir, "cpue_by_gear.geojson"), "w", encoding="utf-8") as f:
+        json.dump(geojson2, f, ensure_ascii=False, indent=2)
 
-    # Capa 3: Serie temporal completa
-    gdf.drop(columns=["geometry"]).to_csv(os.path.join(output_dir, "master_timeseries.csv"), index=False)
+    # Capa 3: Serie temporal completa (CSV)
+    drop_cols = [c for c in ["geometry"] if c in gdf.columns]
+    gdf.drop(columns=drop_cols).to_csv(os.path.join(output_dir, "master_timeseries.csv"), index=False)
     print(f"[OK] GeoJSON exportados en: {output_dir}")
 
 

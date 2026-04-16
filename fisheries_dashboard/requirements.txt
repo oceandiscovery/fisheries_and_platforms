@@ -8,10 +8,8 @@ pandas>=2.1.0
 numpy>=1.26.0
 pyarrow>=14.0.0
 
-# GIS
-geopandas>=0.14.0
+# GIS (sin GDAL — compatible con Streamlit Cloud)
 shapely>=2.0.0
-fiona>=1.9.0
 
 # Mapping
 folium>=0.15.0
