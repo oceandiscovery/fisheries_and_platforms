@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "ports_indicators",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "local_norm": "AREIA BRANCA", "lat": -4.9529, "lon": -37.1373, "port_name": "Areia Branca", "region": "Litoral Oeste", "cpue": 0.051530650474391093, "shannon_index": 1.351215, "species_richness": 42.1, "estimated_fishermen": 363.4305, "production_ton": 36173.95239, "total_vessels": 129.15 }, "geometry": { "type": "Point", "coordinates": [ -37.1373, -4.9529 ] } },
+{ "type": "Feature", "properties": { "local_norm": "CAICARA DO NORTE", "lat": -5.0697, "lon": -36.0703, "port_name": "Caiçara do Norte", "region": "Litoral Leste", "cpue": 0.019792495202869968, "shannon_index": 2.6152478260869567, "species_richness": 42.521739130434781, "estimated_fishermen": 648.05608695652177, "production_ton": 21035.15397, "total_vessels": 218.13043478260869 }, "geometry": { "type": "Point", "coordinates": [ -36.0703, -5.0697 ] } },
+{ "type": "Feature", "properties": { "local_norm": "GUAMARE", "lat": -5.1131, "lon": -36.3266, "port_name": "Guamaré", "region": "Litoral Norte", "cpue": 0.015498753472078785, "shannon_index": 2.6641521739130436, "species_richness": 41.956521739130437, "estimated_fishermen": 171.27130434782609, "production_ton": 4731.64019, "total_vessels": 75.0 }, "geometry": { "type": "Point", "coordinates": [ -36.3266, -5.1131 ] } },
+{ "type": "Feature", "properties": { "local_norm": "MACAU", "lat": -5.1151, "lon": -36.6352, "port_name": "Macau", "region": "Litoral Norte", "cpue": 0.0077881829369805377, "shannon_index": 2.4440695652173914, "species_richness": 42.782608695652172, "estimated_fishermen": 609.12217391304341, "production_ton": 24493.59137, "total_vessels": 265.43478260869563 }, "geometry": { "type": "Point", "coordinates": [ -36.6352, -5.1151 ] } },
+{ "type": "Feature", "properties": { "local_norm": "PORTO DO MANGUE", "lat": -5.1614, "lon": -36.8428, "port_name": "Porto do Mangue", "region": "Litoral Norte", "cpue": 0.018065152392874886, "shannon_index": 2.7804478260869563, "species_richness": 40.260869565217391, "estimated_fishermen": 265.29521739130433, "production_ton": 7676.95167, "total_vessels": 111.78260869565217 }, "geometry": { "type": "Point", "coordinates": [ -36.8428, -5.1614 ] } }
+]
+}
