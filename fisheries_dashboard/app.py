@@ -2,7 +2,7 @@
 ╔══════════════════════════════════════════════════════════════════╗
 ║  FISHERIES GIS DASHBOARD — Rio Grande do Norte (Brasil)          ║
 ║  Capturas, CPUE, Biodiversidad y Análisis Espacial               ║
-║  Desarrollado para integración con QGIS / GeoPandas              ║
+║  Modelos GAM, Ordenación Multivariante, Gradiente de Composición ║
 ╚══════════════════════════════════════════════════════════════════╝
 
 Ejecución:
@@ -33,6 +33,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from utils.data_pipeline import build_all
 from utils.map_builder import species_distribution_map, cpue_map, biodiversity_hotspot_map
 from utils.coords import PORT_COORDS, GEAR_LABELS
+from utils.analysis_loader import load_analysis
+from utils.analysis_tabs import (
+    tab_exposure, tab_gam, tab_robustness, tab_ordination, tab_gradient
+)
 
 warnings.filterwarnings("ignore")
 
@@ -85,6 +89,11 @@ st.markdown("""
 @st.cache_data(show_spinner="Cargando y procesando datos...")
 def get_data():
     return build_all(export=True, output_dir="outputs/geojson")
+
+
+@st.cache_data(show_spinner="Cargando datos de análisis...")
+def get_analysis():
+    return load_analysis()
 
 
 @st.cache_resource(show_spinner=False)
@@ -673,6 +682,7 @@ def main():
 
     # Cargar datos
     artefacts = get_data()
+    ad = get_analysis()
 
     # Sidebar + filtros
     yr_range, selected_ports, selected_species, selected_gears = sidebar(artefacts)
@@ -681,8 +691,9 @@ def main():
         st.warning("Selecciona al menos un puerto en el panel lateral.")
         return
 
-    # Tabs
-    tabs = st.tabs([
+    # Tabs — exploración de datos
+    st.markdown("### 📊 Exploración de datos")
+    tabs_data = st.tabs([
         "📊 Resumen general",
         "🗺️ Mapas interactivos",
         "🐠 Análisis de especies",
@@ -690,19 +701,39 @@ def main():
         "📈 Correlaciones",
         "💰 Valor económico",
     ])
-
-    with tabs[0]:
+    with tabs_data[0]:
         tab_overview(artefacts, yr_range, selected_ports)
-    with tabs[1]:
+    with tabs_data[1]:
         tab_maps(artefacts, yr_range)
-    with tabs[2]:
+    with tabs_data[2]:
         tab_species(artefacts, yr_range, selected_ports, selected_species)
-    with tabs[3]:
+    with tabs_data[3]:
         tab_gear(artefacts, yr_range, selected_ports, selected_gears)
-    with tabs[4]:
+    with tabs_data[4]:
         tab_stats(artefacts, yr_range, selected_ports)
-    with tabs[5]:
+    with tabs_data[5]:
         tab_value(artefacts, yr_range, selected_ports)
+
+    # Tabs — análisis
+    st.markdown("---")
+    st.markdown("### 🔬 Resultados de análisis")
+    tabs_analysis = st.tabs([
+        "📡 Exposición a plataformas",
+        "📈 Modelos GAM",
+        "🔬 Robustez del modelo",
+        "🦭 Ordenación multivariante",
+        "🌊 Gradiente de composición",
+    ])
+    with tabs_analysis[0]:
+        tab_exposure(ad)
+    with tabs_analysis[1]:
+        tab_gam(ad)
+    with tabs_analysis[2]:
+        tab_robustness(ad)
+    with tabs_analysis[3]:
+        tab_ordination(ad)
+    with tabs_analysis[4]:
+        tab_gradient(ad)
 
     # Footer
     st.markdown("---")
