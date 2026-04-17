@@ -776,6 +776,8 @@ def tab_gradient(ad):
 
     # ── KPIs del gradiente ────────────────────────────────────────────────
     row = summary.iloc[0]
+    # 'axis' en grad_summary, 'primary_axis' en grad_scores — usamos el de scores
+    primary_axis_label = scores["primary_axis"].iloc[0] if "primary_axis" in scores.columns else row.get("axis", "Axis1")
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Ordenación", f"{row['ordination'].replace('_',' ')}")
     c2.metric("PERMANOVA R²", f"{row['permanova_r2']:.4f}", "p=0.001")
@@ -804,7 +806,7 @@ def tab_gradient(ad):
             height=400,
             labels={
                 exp_var: _elabel(exp_var),
-                "primary_axis_score": f"Score {row['primary_axis']}",
+                "primary_axis_score": f"Score {primary_axis_label}",
                 "port_name": "Localidad",
             },
             hover_data=["year"],
@@ -821,7 +823,7 @@ def tab_gradient(ad):
             markers=True,
             color_discrete_map={_port_name(k): v for k, v in LOCALITY_COLORS.items()},
             height=400,
-            labels={"primary_axis_score": f"Score {row['primary_axis']}",
+            labels={"primary_axis_score": f"Score {primary_axis_label}",
                     "year": "Año", "port_name": "Localidad"},
         )
         fig2.add_hline(y=0, line_dash="dash", line_color="#aaa", line_width=1)
