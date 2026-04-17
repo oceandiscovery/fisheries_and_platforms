@@ -1,8 +1,8 @@
 """
-map_builder.py — Construcción de mapas Folium interactivos:
-  1. Mapa de distribución espacial de especies
-  2. Mapa CPUE por arte de pesca y puerto
-  3. Mapa de hotspots de biodiversidad
+map_builder.py — Interactive Folium map construction:
+  1. Spatial species distribution map
+  2. CPUE map by fishing gear and port
+  3. Biodiversity hotspots map
 """
 
 import numpy as np
@@ -30,7 +30,7 @@ def _base_map(center=(-5.1, -36.6), zoom=9):
     folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(m)
     folium.TileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        name="Satélite",
+        name="Satellite",
         attr="Esri",
     ).add_to(m)
     Fullscreen(position="topright").add_to(m)
@@ -43,8 +43,8 @@ def _base_map(center=(-5.1, -36.6), zoom=9):
 # ─────────────────────────────────────────────
 def species_distribution_map(dfs, year_range=None):
     """
-    Mapa con círculos proporcionales a la captura de cada especie
-    por puerto. Usa MarkerCluster agrupado por especie.
+    Map with circles proportional to species catch per port.
+    Uses MarkerCluster grouped by species.
     """
     sp = dfs["species"].copy()
     if year_range:
@@ -66,7 +66,7 @@ def species_distribution_map(dfs, year_range=None):
     ]
     HeatMap(
         heat_data,
-        name="Intensidad de capturas",
+        name="Catch intensity",
         min_opacity=0.3,
         max_zoom=14,
         radius=25,
@@ -90,11 +90,11 @@ def species_distribution_map(dfs, year_range=None):
         popup_html = f"""
         <div style='font-family:Arial;min-width:220px'>
           <h4 style='color:#2c3e50;margin-bottom:4px'>{PORT_COORDS[local]['name']}</h4>
-          <p><b>Total capturado:</b> {row['total_ton']:.1f} t<br>
-          <b>Nº especies:</b> {len(port_sp)}</p>
+          <p><b>Total catch:</b> {row['total_ton']:.1f} t<br>
+          <b>No. species:</b> {len(port_sp)}</p>
           <table style='width:100%;border-collapse:collapse;font-size:12px'>
             <tr style='background:#2980b9;color:white'>
-              <th>Especie</th><th>Captura</th>
+              <th>Species</th><th>Catch</th>
             </tr>
             {table_rows}
           </table>
@@ -112,7 +112,7 @@ def species_distribution_map(dfs, year_range=None):
         ).add_to(m)
 
     # Marcadores de especie top por puerto
-    mc = MarkerCluster(name="Especies por puerto", show=False)
+    mc = MarkerCluster(name="Species by port", show=False)
     for _, row in sp_agg[sp_agg["sp_production_ton"] > 0].iterrows():
         folium.CircleMarker(
             location=[row["lat"] + np.random.uniform(-0.01, 0.01),
@@ -135,8 +135,8 @@ def species_distribution_map(dfs, year_range=None):
 # ─────────────────────────────────────────────
 def cpue_map(cpue_gear, master, year_range=None):
     """
-    Mapa coropleta de CPUE por puerto con burbujas coloreadas
-    según arte de pesca dominante y CPUE media.
+    Choropleth map of CPUE by port with colored bubbles
+    by dominant fishing gear and mean CPUE.
     """
     cg = cpue_gear.copy()
     if year_range:
@@ -168,13 +168,13 @@ def cpue_map(cpue_gear, master, year_range=None):
     colormap = cm.LinearColormap(
         ["#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026"],
         vmin=0, vmax=max_cpue,
-        caption="CPUE media (ton/viaje)",
+        caption="Mean CPUE (t/trip)",
     )
     colormap.add_to(m)
 
     # CPUE por arte — layer separado por grupo
     for group, grp_df in cg.groupby("gear_group"):
-        fg = folium.FeatureGroup(name=f"Arte {group}", show=True)
+        fg = folium.FeatureGroup(name=f"Gear {group}", show=True)
         gear_port = grp_df.groupby(["local_norm", "gear_type"]).agg(
             cpue=("cpue", "mean"), prod=("production_ton", "sum")
         ).reset_index()
@@ -188,10 +188,10 @@ def cpue_map(cpue_gear, master, year_range=None):
             popup_html = f"""
             <div style='font-family:Arial'>
               <b>{PORT_COORDS[row['local_norm']]['name']}</b><br>
-              Arte: <b>{row['gear_type']}</b><br>
-              Grupo: {row['gear_group']}<br>
-              CPUE: <b>{row['cpue']:.4f}</b> ton/viaje<br>
-              Producción total: {row['prod']:.1f} t
+              Gear: <b>{row['gear_type']}</b><br>
+              Group: {row['gear_group']}<br>
+              CPUE: <b>{row['cpue']:.4f}</b> t/trip<br>
+              Total production: {row['prod']:.1f} t
             </div>"""
             folium.CircleMarker(
                 location=[row["lat"] + np.random.uniform(-0.015, 0.015),
@@ -212,9 +212,9 @@ def cpue_map(cpue_gear, master, year_range=None):
         popup_html = f"""
         <div style='font-family:Arial;min-width:200px'>
           <h4 style='color:#2c3e50'>{PORT_COORDS[row['local_norm']]['name']}</h4>
-          <b>CPUE media:</b> {row['cpue_mean']:.4f} ton/viaje<br>
-          <b>Arte dominante:</b> {row.get('gear_type','N/D')}<br>
-          <b>Producción acumulada:</b> {row['production_sum']:.1f} t
+          <b>Mean CPUE:</b> {row['cpue_mean']:.4f} ton/viaje<br>
+          <b>Dominant gear:</b> {row.get('gear_type','N/A')}<br>
+          <b>Cumulative production:</b> {row['production_sum']:.1f} t
         </div>"""
         folium.Marker(
             location=[row["lat"], row["lon"]],
@@ -240,8 +240,8 @@ def cpue_map(cpue_gear, master, year_range=None):
 # ─────────────────────────────────────────────
 def biodiversity_hotspot_map(biodiv, master, year_range=None):
     """
-    Mapa de hotspots con heatmap de Shannon y burbujas de riqueza.
-    Incluye metadatos completos en popups.
+    Hotspot map with Shannon heatmap and richness bubbles.
+    Includes full metadata in popups.
     """
     bio = biodiv.copy()
     if year_range:
@@ -266,7 +266,7 @@ def biodiversity_hotspot_map(biodiv, master, year_range=None):
     ]
     HeatMap(
         heat_data,
-        name="Heatmap Biodiversidad (Shannon)",
+        name="Biodiversity heatmap (Shannon)",
         min_opacity=0.4,
         radius=60,
         blur=40,
@@ -279,7 +279,7 @@ def biodiversity_hotspot_map(biodiv, master, year_range=None):
     colormap = cm.LinearColormap(
         ["#ffffcc", "#a1dab4", "#41b6c4", "#2c7fb8", "#253494"],
         vmin=0, vmax=max_h,
-        caption="Índice de Shannon-Wiener (H')",
+        caption="Shannon-Wiener index (H')",
     )
     colormap.add_to(m)
 
@@ -288,13 +288,13 @@ def biodiversity_hotspot_map(biodiv, master, year_range=None):
     for _, row in bio_port.dropna(subset=["lat", "lon"]).iterrows():
         # Clasificación del hotspot
         if row["shannon_mean"] >= 0.75 * max_h:
-            badge = "🔴 HOTSPOT ALTO"
+            badge = "🔴 HIGH HOTSPOT"
             badge_color = "#c0392b"
         elif row["shannon_mean"] >= 0.5 * max_h:
-            badge = "🟠 HOTSPOT MEDIO"
+            badge = "🟠 MID HOTSPOT"
             badge_color = "#e67e22"
         else:
-            badge = "🟡 BIODIVERSIDAD BAJA"
+            badge = "🟡 LOW BIODIVERSITY"
             badge_color = "#f39c12"
 
         # Serie temporal de Shannon para este puerto
@@ -311,14 +311,14 @@ def biodiversity_hotspot_map(biodiv, master, year_range=None):
                        border-radius:4px;font-size:11px'>{badge}</span>
           <hr style='margin:6px 0'>
           <b>Shannon H':</b> {row['shannon_mean']:.4f}<br>
-          <b>Riqueza media:</b> {row['richness_mean']:.1f} spp<br>
+          <b>Mean richness:</b> {row['richness_mean']:.1f} spp<br>
           <b>Pielou J':</b> {row['pielou_mean']:.4f}<br>
-          <b>Producción total:</b> {row['sp_prod_sum']:.1f} t<br>
+          <b>Total production:</b> {row['sp_prod_sum']:.1f} t<br>
           <hr style='margin:6px 0'>
-          <b>Serie temporal:</b>
+          <b>Time series:</b>
           <table style='width:100%;border-collapse:collapse;font-size:11px'>
             <tr style='background:#2980b9;color:white'>
-              <th>Año</th><th>H'</th><th>Riqueza</th>
+              <th>Year</th><th>H'</th><th>Richness</th>
             </tr>
             {ts_rows}
           </table>

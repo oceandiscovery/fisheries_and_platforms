@@ -1,9 +1,9 @@
 """
-coords.py — Coordenadas geográficas conocidas para los 5 municipios costeros
-del estado de Rio Grande do Norte (Brasil).
+coords.py — Known geographic coordinates for the 5 coastal municipalities
+of Rio Grande do Norte state (Brazil).
 """
 
-# Coordenadas (lat, lon) verificadas para cada localidad canónica
+# Verified (lat, lon) coordinates for each canonical locality
 PORT_COORDS = {
     "AREIA BRANCA":     {"lat": -4.9529, "lon": -37.1373, "name": "Areia Branca"},
     "CAICARA DO NORTE": {"lat": -5.0697, "lon": -36.0703, "name": "Caiçara do Norte"},
@@ -12,13 +12,13 @@ PORT_COORDS = {
     "PORTO DO MANGUE":  {"lat": -5.1614, "lon": -36.8428, "name": "Porto do Mangue"},
 }
 
-# Metadata adicional para los mapas
+# Additional metadata for maps
 PORT_META = {
-    "AREIA BRANCA":     {"state": "RN", "country": "Brasil", "region": "Litoral Oeste"},
-    "CAICARA DO NORTE": {"state": "RN", "country": "Brasil", "region": "Litoral Leste"},
-    "GUAMARE":          {"state": "RN", "country": "Brasil", "region": "Litoral Norte"},
-    "MACAU":            {"state": "RN", "country": "Brasil", "region": "Litoral Norte"},
-    "PORTO DO MANGUE":  {"state": "RN", "country": "Brasil", "region": "Litoral Norte"},
+    "AREIA BRANCA":     {"state": "RN", "country": "Brasil", "region": "Western Coast"},
+    "CAICARA DO NORTE": {"state": "RN", "country": "Brasil", "region": "Eastern Coast"},
+    "GUAMARE":          {"state": "RN", "country": "Brasil", "region": "Northern Coast"},
+    "MACAU":            {"state": "RN", "country": "Brasil", "region": "Northern Coast"},
+    "PORTO DO MANGUE":  {"state": "RN", "country": "Brasil", "region": "Northern Coast"},
 }
 
 GEAR_LABELS = {

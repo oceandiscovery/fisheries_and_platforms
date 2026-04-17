@@ -1,11 +1,11 @@
 """
 ╔══════════════════════════════════════════════════════════════════╗
-║  FISHERIES GIS DASHBOARD — Rio Grande do Norte (Brasil)          ║
-║  Capturas, CPUE, Biodiversidad y Análisis Espacial               ║
-║  Modelos GAM, Ordenación Multivariante, Gradiente de Composición ║
+║  FISHERIES GIS DASHBOARD — Rio Grande do Norte (Brazil)          ║
+║  Catches, CPUE, Biodiversity and Spatial Analysis                ║
+║  GAM Models, Multivariate Ordination, Composition Gradient       ║
 ╚══════════════════════════════════════════════════════════════════╝
 
-Ejecución:
+Run:
     streamlit run app.py
 """
 
@@ -26,7 +26,7 @@ import folium
 from streamlit_folium import st_folium
 from scipy import stats as scipy_stats
 
-# Asegurar que el directorio de trabajo es correcto
+# Ensure working directory is correct
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -35,22 +35,23 @@ from utils.map_builder import species_distribution_map, cpue_map, biodiversity_h
 from utils.coords import PORT_COORDS, GEAR_LABELS
 from utils.analysis_loader import load_analysis
 from utils.analysis_tabs import (
-    tab_exposure, tab_gam, tab_robustness, tab_ordination, tab_gradient
+    tab_exposure, tab_gam, tab_robustness, tab_ordination, tab_gradient,
+    tab_methods_results
 )
 
 warnings.filterwarnings("ignore")
 
 # ─────────────────────────────────────────────
-# CONFIGURACIÓN DE PÁGINA
+# PAGE CONFIGURATION
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="Fisheries GIS Dashboard · RN Brasil",
+    page_title="Fisheries GIS Dashboard · RN Brazil",
     page_icon="🐟",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# CSS personalizado
+# Custom CSS
 st.markdown("""
 <style>
   .main-header {
@@ -84,14 +85,14 @@ st.markdown("""
 
 
 # ─────────────────────────────────────────────
-# CARGA DE DATOS (CACHEADO)
+# DATA LOADING (CACHED)
 # ─────────────────────────────────────────────
-@st.cache_data(show_spinner="Cargando y procesando datos...")
+@st.cache_data(show_spinner="Loading and processing data...")
 def get_data():
     return build_all(export=True, output_dir="outputs/geojson")
 
 
-@st.cache_data(show_spinner="Cargando datos de análisis...")
+@st.cache_data(show_spinner="Loading analysis datasets...")
 def get_analysis():
     return load_analysis()
 
@@ -111,21 +112,21 @@ def get_maps(year_min, year_max):
 # ─────────────────────────────────────────────
 def sidebar(artefacts):
     with st.sidebar:
-        st.markdown("## 🎛️ Filtros globales")
+        st.markdown("## 🎛️ Global filters")
         master = artefacts["master"]
         years = sorted(master["year"].dropna().unique().astype(int))
         yr_range = st.slider(
-            "Rango de años",
+            "Year range",
             min_value=int(years[0]), max_value=int(years[-1]),
             value=(int(years[0]), int(years[-1])),
             step=1,
         )
 
         st.markdown("---")
-        st.markdown("**Puertos**")
+        st.markdown("**Ports**")
         ports = sorted(master["local_norm"].unique())
         selected_ports = st.multiselect(
-            "Seleccionar puertos",
+            "Select ports",
             options=ports,
             default=ports,
             format_func=lambda x: PORT_COORDS.get(x, {}).get("name", x),
@@ -134,7 +135,7 @@ def sidebar(artefacts):
         st.markdown("---")
         species_list = sorted(artefacts["dfs"]["species"]["species"].unique())
         selected_species = st.multiselect(
-            "Especies de interés",
+            "Species of interest",
             options=species_list,
             default=species_list[:6],
         )
@@ -142,18 +143,18 @@ def sidebar(artefacts):
         st.markdown("---")
         gear_list = sorted(artefacts["dfs"]["gear"]["gear_type"].unique())
         selected_gears = st.multiselect(
-            "Artes de pesca",
+            "Fishing gears",
             options=gear_list,
             default=gear_list,
         )
 
         st.markdown("---")
-        st.markdown("### 📥 Exportar GeoJSON")
+        st.markdown("### 📥 Export GeoJSON")
         geojson_path = "outputs/geojson/ports_indicators.geojson"
         if os.path.exists(geojson_path):
             with open(geojson_path, "rb") as f:
                 st.download_button(
-                    "⬇️ Puertos (QGIS)",
+                    "⬇️ Ports (QGIS)",
                     data=f,
                     file_name="ports_indicators.geojson",
                     mime="application/geo+json",
@@ -162,7 +163,7 @@ def sidebar(artefacts):
         if os.path.exists(cpue_path):
             with open(cpue_path, "rb") as f:
                 st.download_button(
-                    "⬇️ CPUE por arte (QGIS)",
+                    "⬇️ CPUE by gear (QGIS)",
                     data=f,
                     file_name="cpue_by_gear.geojson",
                     mime="application/geo+json",
@@ -171,7 +172,7 @@ def sidebar(artefacts):
         if os.path.exists(csv_path):
             with open(csv_path, "rb") as f:
                 st.download_button(
-                    "⬇️ Serie temporal (CSV)",
+                    "⬇️ Time series (CSV)",
                     data=f,
                     file_name="master_timeseries.csv",
                     mime="text/csv",
@@ -181,7 +182,7 @@ def sidebar(artefacts):
 
 
 # ─────────────────────────────────────────────
-# TAB 1: RESUMEN GENERAL
+# TAB 1: OVERVIEW
 # ─────────────────────────────────────────────
 def tab_overview(artefacts, yr_range, selected_ports):
     master = artefacts["master"]
@@ -190,33 +191,33 @@ def tab_overview(artefacts, yr_range, selected_ports):
         (master["local_norm"].isin(selected_ports))
     ]
 
-    st.markdown('<h3 class="section-title">Métricas globales del período seleccionado</h3>',
+    st.markdown('<h3 class="section-title">Global metrics for the selected period</h3>',
                 unsafe_allow_html=True)
 
     c1, c2, c3, c4, c5 = st.columns(5)
-    c1.metric("Producción total (t)", f"{filt['production_ton'].sum():,.1f}")
-    c2.metric("CPUE media", f"{filt['cpue'].mean():.4f} t/viaje")
-    c3.metric("Pescadores estimados", f"{filt['estimated_fishermen'].sum():,.0f}")
-    c4.metric("Viajes asistidos", f"{filt['assisted_trips'].sum():,.0f}")
-    c5.metric("Riqueza media (spp)", f"{filt['species_richness'].mean():.1f}")
+    c1.metric("Total production (t)", f"{filt['production_ton'].sum():,.1f}")
+    c2.metric("Mean CPUE", f"{filt['cpue'].mean():.4f} t/trip")
+    c3.metric("Estimated fishers", f"{filt['estimated_fishermen'].sum():,.0f}")
+    c4.metric("Assisted trips", f"{filt['assisted_trips'].sum():,.0f}")
+    c5.metric("Mean richness (spp)", f"{filt['species_richness'].mean():.1f}")
 
     st.markdown("---")
     col_l, col_r = st.columns(2)
 
     with col_l:
-        st.markdown("#### Producción anual por puerto (t)")
+        st.markdown("#### Annual production by port (t)")
         fig = px.bar(
             filt.groupby(["year", "port_name"])["production_ton"].sum().reset_index(),
             x="year", y="production_ton", color="port_name",
             barmode="stack", height=350,
-            labels={"production_ton": "Producción (t)", "year": "Año", "port_name": "Puerto"},
+            labels={"production_ton": "Production (t)", "year": "Year", "port_name": "Port"},
             color_discrete_sequence=px.colors.qualitative.Bold,
         )
-        fig.update_layout(legend_title_text="Puerto", margin=dict(t=20, b=20))
+        fig.update_layout(legend_title_text="Port", margin=dict(t=20, b=20))
         st.plotly_chart(fig, use_container_width=True)
 
     with col_r:
-        st.markdown("#### Evolución CPUE media anual")
+        st.markdown("#### Annual mean CPUE trend")
         cpue_yr = artefacts["cpue_port"][
             (artefacts["cpue_port"]["year"].between(*yr_range)) &
             (artefacts["cpue_port"]["local_norm"].isin(selected_ports))
@@ -226,17 +227,17 @@ def tab_overview(artefacts, yr_range, selected_ports):
         fig2 = px.line(
             cpue_yr, x="year", y="cpue", color="port_name",
             markers=True, height=350,
-            labels={"cpue": "CPUE (t/viaje)", "year": "Año", "port_name": "Puerto"},
+            labels={"cpue": "CPUE (t/trip)", "year": "Year", "port_name": "Port"},
             color_discrete_sequence=px.colors.qualitative.Safe,
         )
-        fig2.update_layout(legend_title_text="Puerto", margin=dict(t=20, b=20))
+        fig2.update_layout(legend_title_text="Port", margin=dict(t=20, b=20))
         st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("---")
     col_l2, col_r2 = st.columns(2)
 
     with col_l2:
-        st.markdown("#### Pescadores por puerto (últimos datos)")
+        st.markdown("#### Fishers per port (latest data)")
         socio = artefacts["dfs"]["socioeco"]
         latest = socio[socio["year"] == socio["year"].max()]
         latest = latest[latest["local_norm"].isin(selected_ports)].copy()
@@ -245,14 +246,14 @@ def tab_overview(artefacts, yr_range, selected_ports):
         fig3 = px.bar(
             latest, x="port_name", y="estimated_fishermen",
             color="port_name", height=300,
-            labels={"estimated_fishermen": "Pescadores", "port_name": "Puerto"},
+            labels={"estimated_fishermen": "Fishers", "port_name": "Port"},
             color_discrete_sequence=px.colors.qualitative.Pastel,
         )
         fig3.update_layout(showlegend=False, margin=dict(t=20, b=20))
         st.plotly_chart(fig3, use_container_width=True)
 
     with col_r2:
-        st.markdown("#### Índice de Shannon por puerto")
+        st.markdown("#### Shannon index by port")
         bio_filt = artefacts["biodiv"][
             (artefacts["biodiv"]["year"].between(*yr_range)) &
             (artefacts["biodiv"]["local_norm"].isin(selected_ports))
@@ -263,7 +264,7 @@ def tab_overview(artefacts, yr_range, selected_ports):
         fig4 = px.box(
             bio_filt, x="port_name", y="shannon_index",
             color="port_name", height=300,
-            labels={"shannon_index": "Shannon H'", "port_name": "Puerto"},
+            labels={"shannon_index": "Shannon H'", "port_name": "Port"},
             color_discrete_sequence=px.colors.qualitative.Antique,
         )
         fig4.update_layout(showlegend=False, margin=dict(t=20, b=20))
@@ -271,64 +272,64 @@ def tab_overview(artefacts, yr_range, selected_ports):
 
 
 # ─────────────────────────────────────────────
-# TAB 2: MAPAS INTERACTIVOS
+# TAB 2: INTERACTIVE MAPS
 # ─────────────────────────────────────────────
 def tab_maps(artefacts, yr_range):
-    st.markdown('<h3 class="section-title">Mapas interactivos GIS</h3>',
+    st.markdown('<h3 class="section-title">Interactive GIS maps</h3>',
                 unsafe_allow_html=True)
 
     map_choice = st.radio(
-        "Seleccionar mapa",
-        ["🐟 Distribución de especies", "⚓ CPUE por arte de pesca", "🌿 Hotspots de biodiversidad"],
+        "Select map",
+        ["🐟 Species distribution", "⚓ CPUE by fishing gear", "🌿 Biodiversity hotspots"],
         horizontal=True,
     )
 
     st.info(
-        "Los mapas son completamente interactivos: zoom, capas, popups con metadatos. "
-        "Haz clic en los marcadores para ver información detallada.",
+        "Maps are fully interactive: zoom, layers, popups with metadata. "
+        "Click on markers for detailed information.",
         icon="ℹ️",
     )
 
-    if map_choice == "🐟 Distribución de especies":
-        st.markdown("**Distribución espacial de capturas por especie y puerto.** "
-                    "El tamaño de los círculos es proporcional a la captura total. "
-                    "El heatmap muestra la intensidad de capturas en el territorio.")
+    if map_choice == "🐟 Species distribution":
+        st.markdown("**Spatial distribution of catches by species and port.** "
+                    "Circle size is proportional to total catch. "
+                    "The heatmap shows catch intensity across the territory.")
         m = species_distribution_map(artefacts["dfs"], year_range=yr_range)
 
-    elif map_choice == "⚓ CPUE por arte de pesca":
-        st.markdown("**CPUE (t/viaje) por arte de pesca y puerto.** "
-                    "Artes activos en rojo, pasivos en azul, mixtos en morado.")
+    elif map_choice == "⚓ CPUE by fishing gear":
+        st.markdown("**CPUE (t/trip) by fishing gear and port.** "
+                    "Active gears in red, passive in blue, mixed in purple.")
         m = cpue_map(artefacts["cpue_gear"], artefacts["master"], year_range=yr_range)
 
     else:
-        st.markdown("**Hotspots de biodiversidad** según índice de Shannon-Wiener (H'). "
-                    "Círculos más grandes = mayor riqueza de especies. "
-                    "El heatmap azul indica mayor diversidad.")
+        st.markdown("**Biodiversity hotspots** based on the Shannon-Wiener index (H'). "
+                    "Larger circles = higher species richness. "
+                    "The blue heatmap indicates higher diversity.")
         m = biodiversity_hotspot_map(artefacts["biodiv"], artefacts["master"], year_range=yr_range)
 
     st_folium(m, width="100%", height=520, returned_objects=[])
 
-    # Tabla resumen bajo el mapa
-    with st.expander("📋 Tabla de indicadores por puerto"):
+    # Summary table below map
+    with st.expander("📋 Port indicators table"):
         master_filt = artefacts["master"][artefacts["master"]["year"].between(*yr_range)]
         summary = master_filt.groupby("port_name").agg(
-            Producción_t=("production_ton", "sum"),
-            CPUE_media=("cpue", "mean"),
+            Production_t=("production_ton", "sum"),
+            Mean_CPUE=("cpue", "mean"),
             Shannon_H=("shannon_index", "mean"),
-            Riqueza_spp=("species_richness", "mean"),
-            Pescadores=("estimated_fishermen", "mean"),
-            Embarcaciones=("total_vessels", "mean"),
+            Richness_spp=("species_richness", "mean"),
+            Fishers=("estimated_fishermen", "mean"),
+            Vessels=("total_vessels", "mean"),
         ).round(3).reset_index()
-        summary.columns = ["Puerto", "Producción (t)", "CPUE (t/viaje)", "Shannon H'",
-                           "Riqueza (spp)", "Pescadores", "Embarcaciones"]
+        summary.columns = ["Port", "Production (t)", "CPUE (t/trip)", "Shannon H'",
+                           "Richness (spp)", "Fishers", "Vessels"]
         st.dataframe(summary, use_container_width=True, hide_index=True)
 
 
 # ─────────────────────────────────────────────
-# TAB 3: ANÁLISIS DE ESPECIES
+# TAB 3: SPECIES ANALYSIS
 # ─────────────────────────────────────────────
 def tab_species(artefacts, yr_range, selected_ports, selected_species):
-    st.markdown('<h3 class="section-title">Análisis de desembarques por especie</h3>',
+    st.markdown('<h3 class="section-title">Landings analysis by species</h3>',
                 unsafe_allow_html=True)
 
     sp = artefacts["dfs"]["species"]
@@ -343,7 +344,7 @@ def tab_species(artefacts, yr_range, selected_ports, selected_species):
     col_l, col_r = st.columns(2)
 
     with col_l:
-        st.markdown("#### Top 15 especies por captura total")
+        st.markdown("#### Top 15 species by total catch")
         top15 = (
             filt.groupby("species")["sp_production_ton"].sum()
             .sort_values(ascending=False).head(15).reset_index()
@@ -351,7 +352,7 @@ def tab_species(artefacts, yr_range, selected_ports, selected_species):
         fig = px.bar(
             top15, x="sp_production_ton", y="species",
             orientation="h", height=420,
-            labels={"sp_production_ton": "Captura (t)", "species": "Especie"},
+            labels={"sp_production_ton": "Catch (t)", "species": "Species"},
             color="sp_production_ton",
             color_continuous_scale="Blues",
         )
@@ -359,7 +360,7 @@ def tab_species(artefacts, yr_range, selected_ports, selected_species):
         st.plotly_chart(fig, use_container_width=True)
 
     with col_r:
-        st.markdown("#### Composición de capturas por puerto (%)")
+        st.markdown("#### Catch composition by port (%)")
         sp_port = filt.groupby(["port_name", "species"])["sp_production_ton"].sum().reset_index()
         top5_sp = (
             filt.groupby("species")["sp_production_ton"].sum()
@@ -369,14 +370,14 @@ def tab_species(artefacts, yr_range, selected_ports, selected_species):
         fig2 = px.bar(
             sp_port_top, x="port_name", y="sp_production_ton",
             color="species", barmode="stack", height=420,
-            labels={"sp_production_ton": "Captura (t)", "port_name": "Puerto", "species": "Especie"},
+            labels={"sp_production_ton": "Catch (t)", "port_name": "Port", "species": "Species"},
             color_discrete_sequence=px.colors.qualitative.Vivid,
         )
-        fig2.update_layout(legend_title_text="Especie", margin=dict(t=20))
+        fig2.update_layout(legend_title_text="Species", margin=dict(t=20))
         st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("---")
-    st.markdown("#### Evolución temporal de capturas por especie")
+    st.markdown("#### Temporal trend of catches by species")
     sp_yr = filt.groupby(["year", "species"])["sp_production_ton"].sum().reset_index()
     top_sp_yr = (
         sp_yr.groupby("species")["sp_production_ton"].sum()
@@ -386,14 +387,14 @@ def tab_species(artefacts, yr_range, selected_ports, selected_species):
     fig3 = px.line(
         sp_yr_top, x="year", y="sp_production_ton", color="species",
         markers=True, height=380,
-        labels={"sp_production_ton": "Captura (t)", "year": "Año", "species": "Especie"},
+        labels={"sp_production_ton": "Catch (t)", "year": "Year", "species": "Species"},
         color_discrete_sequence=px.colors.qualitative.Alphabet,
     )
-    fig3.update_layout(legend_title_text="Especie", margin=dict(t=20))
+    fig3.update_layout(legend_title_text="Species", margin=dict(t=20))
     st.plotly_chart(fig3, use_container_width=True)
 
-    # Heatmap especie × puerto
-    st.markdown("#### Heatmap: captura (t) — Especie × Puerto")
+    # Species × Port heatmap
+    st.markdown("#### Heatmap: catch (t) — Species × Port")
     pivot = filt.groupby(["species", "port_name"])["sp_production_ton"].sum().unstack(fill_value=0)
     top_sp_heat = pivot.sum(axis=1).sort_values(ascending=False).head(20).index
     pivot = pivot.loc[top_sp_heat]
@@ -402,7 +403,7 @@ def tab_species(artefacts, yr_range, selected_ports, selected_species):
         x=pivot.columns.tolist(),
         y=pivot.index.tolist(),
         color_continuous_scale="YlOrRd",
-        labels={"x": "Puerto", "y": "Especie", "color": "Captura (t)"},
+        labels={"x": "Port", "y": "Species", "color": "Catch (t)"},
         height=500,
         aspect="auto",
     )
@@ -411,10 +412,10 @@ def tab_species(artefacts, yr_range, selected_ports, selected_species):
 
 
 # ─────────────────────────────────────────────
-# TAB 4: ANÁLISIS DE ARTES
+# TAB 4: GEAR ANALYSIS
 # ─────────────────────────────────────────────
 def tab_gear(artefacts, yr_range, selected_ports, selected_gears):
-    st.markdown('<h3 class="section-title">Artes de pesca y CPUE</h3>',
+    st.markdown('<h3 class="section-title">Fishing gears and CPUE</h3>',
                 unsafe_allow_html=True)
 
     gear = artefacts["dfs"]["gear"]
@@ -439,25 +440,25 @@ def tab_gear(artefacts, yr_range, selected_ports, selected_gears):
     col_l, col_r = st.columns(2)
 
     with col_l:
-        st.markdown("#### Producción por arte de pesca (t)")
+        st.markdown("#### Production by fishing gear (t)")
         gear_sum = filt_g.groupby("gear_type")["gear_production_ton"].sum().sort_values(ascending=False).reset_index()
         fig = px.bar(
             gear_sum, x="gear_production_ton", y="gear_type",
             orientation="h", height=380,
             color="gear_production_ton", color_continuous_scale="Teal",
-            labels={"gear_production_ton": "Producción (t)", "gear_type": "Arte"},
+            labels={"gear_production_ton": "Production (t)", "gear_type": "Gear"},
         )
         fig.update_layout(coloraxis_showscale=False, margin=dict(t=20))
         st.plotly_chart(fig, use_container_width=True)
 
     with col_r:
-        st.markdown("#### CPUE media por arte de pesca")
+        st.markdown("#### Mean CPUE by fishing gear")
         cpue_gear_sum = cg.groupby("gear_type")["cpue"].mean().sort_values(ascending=False).reset_index()
         fig2 = px.bar(
             cpue_gear_sum, x="cpue", y="gear_type",
             orientation="h", height=380,
             color="cpue", color_continuous_scale="Oranges",
-            labels={"cpue": "CPUE (t/viaje)", "gear_type": "Arte"},
+            labels={"cpue": "CPUE (t/trip)", "gear_type": "Gear"},
         )
         fig2.update_layout(coloraxis_showscale=False, margin=dict(t=20))
         st.plotly_chart(fig2, use_container_width=True)
@@ -466,48 +467,48 @@ def tab_gear(artefacts, yr_range, selected_ports, selected_gears):
     col_l2, col_r2 = st.columns(2)
 
     with col_l2:
-        st.markdown("#### Distribución de CPUE por arte (boxplot)")
+        st.markdown("#### CPUE distribution by gear (boxplot)")
         fig3 = px.box(
             cg, x="gear_type", y="cpue", color="gear_group",
             height=380,
-            labels={"cpue": "CPUE (t/viaje)", "gear_type": "Arte", "gear_group": "Grupo"},
+            labels={"cpue": "CPUE (t/trip)", "gear_type": "Gear", "gear_group": "Group"},
             color_discrete_map={"active": "#e74c3c", "passive": "#2980b9", "mixed": "#8e44ad"},
         )
         fig3.update_xaxes(tickangle=45)
-        fig3.update_layout(legend_title_text="Grupo", margin=dict(t=20))
+        fig3.update_layout(legend_title_text="Group", margin=dict(t=20))
         st.plotly_chart(fig3, use_container_width=True)
 
     with col_r2:
-        st.markdown("#### Evolución temporal de producción por grupo de arte")
+        st.markdown("#### Temporal trend of production by gear group")
         grp_yr = filt_g.groupby(["year", "gear_group"])["gear_production_ton"].sum().reset_index()
         fig4 = px.area(
             grp_yr, x="year", y="gear_production_ton", color="gear_group",
             height=380,
-            labels={"gear_production_ton": "Producción (t)", "year": "Año", "gear_group": "Grupo"},
+            labels={"gear_production_ton": "Production (t)", "year": "Year", "gear_group": "Group"},
             color_discrete_map={"active": "#e74c3c", "passive": "#2980b9", "mixed": "#8e44ad"},
         )
-        fig4.update_layout(legend_title_text="Grupo", margin=dict(t=20))
+        fig4.update_layout(legend_title_text="Group", margin=dict(t=20))
         st.plotly_chart(fig4, use_container_width=True)
 
-    # CPUE heatmap arte × puerto
-    st.markdown("#### Heatmap CPUE media — Arte × Puerto")
+    # CPUE heatmap gear × port
+    st.markdown("#### CPUE heatmap — Gear × Port")
     pivot_cpue = cg.groupby(["gear_type", "port_name"])["cpue"].mean().unstack(fill_value=0)
     fig5 = px.imshow(
         pivot_cpue.values,
         x=pivot_cpue.columns.tolist(),
         y=pivot_cpue.index.tolist(),
         color_continuous_scale="RdYlGn",
-        labels={"x": "Puerto", "y": "Arte de pesca", "color": "CPUE (t/viaje)"},
+        labels={"x": "Port", "y": "Fishing gear", "color": "CPUE (t/trip)"},
         height=420, aspect="auto",
     )
     st.plotly_chart(fig5, use_container_width=True)
 
 
 # ─────────────────────────────────────────────
-# TAB 5: ESTADÍSTICA Y CORRELACIONES
+# TAB 5: STATISTICS & CORRELATIONS
 # ─────────────────────────────────────────────
 def tab_stats(artefacts, yr_range, selected_ports):
-    st.markdown('<h3 class="section-title">Análisis estadístico de correlaciones</h3>',
+    st.markdown('<h3 class="section-title">Statistical correlation analysis</h3>',
                 unsafe_allow_html=True)
 
     master = artefacts["master"]
@@ -523,7 +524,7 @@ def tab_stats(artefacts, yr_range, selected_ports):
     col_l, col_r = st.columns(2)
 
     with col_l:
-        st.markdown("#### Correlación de Pearson (variables clave)")
+        st.markdown("#### Pearson correlation (key variables)")
         fig_p = px.imshow(
             pearson.round(3),
             color_continuous_scale="RdBu_r",
@@ -535,7 +536,7 @@ def tab_stats(artefacts, yr_range, selected_ports):
         st.plotly_chart(fig_p, use_container_width=True)
 
     with col_r:
-        st.markdown("#### Correlación de Spearman (variables clave)")
+        st.markdown("#### Spearman correlation (key variables)")
         fig_s = px.imshow(
             spearman.round(3),
             color_continuous_scale="RdBu_r",
@@ -547,16 +548,16 @@ def tab_stats(artefacts, yr_range, selected_ports):
         st.plotly_chart(fig_s, use_container_width=True)
 
     st.markdown("---")
-    st.markdown("#### Pares de variables con mayor correlación (|r| > 0.3)")
+    st.markdown("#### Variable pairs with strongest correlation (|r| > 0.3)")
     top_sig = top_pairs[top_pairs["pearson_r"].abs() > 0.3].copy()
-    top_sig["significativo"] = top_sig["p_value"].apply(
-        lambda p: "✅ Sí (p<0.05)" if p is not None and p < 0.05 else "⚠️ No")
-    top_sig = top_sig[["var1", "var2", "pearson_r", "spearman_r", "p_value", "significativo"]].head(20)
-    top_sig.columns = ["Variable 1", "Variable 2", "Pearson r", "Spearman ρ", "p-valor", "Significativo"]
+    top_sig["significant"] = top_sig["p_value"].apply(
+        lambda p: "✅ Yes (p<0.05)" if p is not None and p < 0.05 else "⚠️ No")
+    top_sig = top_sig[["var1", "var2", "pearson_r", "spearman_r", "p_value", "significant"]].head(20)
+    top_sig.columns = ["Variable 1", "Variable 2", "Pearson r", "Spearman ρ", "p-value", "Significant"]
     st.dataframe(top_sig, use_container_width=True, hide_index=True)
 
     st.markdown("---")
-    st.markdown("#### Scatter: CPUE vs Riqueza de especies")
+    st.markdown("#### Scatter: CPUE vs Species richness")
     scatter_df = filt.dropna(subset=["cpue", "species_richness"])
     scatter_df["port_name"] = scatter_df["local_norm"].map(
         lambda x: PORT_COORDS.get(x, {}).get("name", x))
@@ -565,30 +566,30 @@ def tab_stats(artefacts, yr_range, selected_ports):
         color="port_name", size="production_ton",
         trendline="ols",
         height=380,
-        labels={"cpue": "CPUE (t/viaje)", "species_richness": "Riqueza (spp)", "port_name": "Puerto"},
+        labels={"cpue": "CPUE (t/trip)", "species_richness": "Richness (spp)", "port_name": "Port"},
         color_discrete_sequence=px.colors.qualitative.Bold,
     )
-    fig_sc.update_layout(legend_title_text="Puerto", margin=dict(t=20))
+    fig_sc.update_layout(legend_title_text="Port", margin=dict(t=20))
     st.plotly_chart(fig_sc, use_container_width=True)
 
-    # Regresión CPUE ~ Pescadores
-    st.markdown("#### Regresión lineal: CPUE ~ Pescadores estimados")
+    # Regression CPUE ~ Fishers
+    st.markdown("#### Linear regression: CPUE ~ Estimated fishers")
     reg_df = filt.dropna(subset=["cpue", "estimated_fishermen"])
     slope, intercept, r_val, p_val, std_err = scipy_stats.linregress(
         reg_df["estimated_fishermen"], reg_df["cpue"])
-    st.write(f"**R²** = {r_val**2:.4f} | **pendiente** = {slope:.6f} | **p-valor** = {p_val:.4f}")
+    st.write(f"**R²** = {r_val**2:.4f} | **slope** = {slope:.6f} | **p-value** = {p_val:.4f}")
     fig_reg = px.scatter(
         reg_df, x="estimated_fishermen", y="cpue",
         trendline="ols", trendline_color_override="#e74c3c",
         height=340,
-        labels={"estimated_fishermen": "Pescadores estimados", "cpue": "CPUE (t/viaje)"},
+        labels={"estimated_fishermen": "Estimated fishers", "cpue": "CPUE (t/trip)"},
         color_discrete_sequence=["#2980b9"],
     )
     fig_reg.update_layout(margin=dict(t=20))
     st.plotly_chart(fig_reg, use_container_width=True)
 
-    # Análisis ANOVA: CPUE por arte
-    st.markdown("#### ANOVA de un factor: CPUE por grupo de arte de pesca")
+    # One-way ANOVA: CPUE by gear group
+    st.markdown("#### One-way ANOVA: CPUE by fishing gear group")
     cpue_g = artefacts["cpue_gear"][
         (artefacts["cpue_gear"]["year"].between(*yr_range)) &
         (artefacts["cpue_gear"]["local_norm"].isin(selected_ports))
@@ -596,15 +597,15 @@ def tab_stats(artefacts, yr_range, selected_ports):
     groups = [grp["cpue"].dropna().values for _, grp in cpue_g.groupby("gear_group")]
     if len(groups) >= 2:
         f_stat, p_anova = scipy_stats.f_oneway(*groups)
-        st.write(f"**F-estadístico** = {f_stat:.4f} | **p-valor** = {p_anova:.4f}")
+        st.write(f"**F-statistic** = {f_stat:.4f} | **p-value** = {p_anova:.4f}")
         if p_anova < 0.05:
-            st.success("✅ Diferencias significativas en CPUE entre grupos de artes (p < 0.05)")
+            st.success("✅ Significant differences in CPUE across gear groups (p < 0.05)")
         else:
-            st.warning("⚠️ Sin diferencias significativas entre grupos de artes (p ≥ 0.05)")
+            st.warning("⚠️ No significant differences across gear groups (p ≥ 0.05)")
         fig_box = px.box(
             cpue_g, x="gear_group", y="cpue", color="gear_group",
             height=320,
-            labels={"cpue": "CPUE (t/viaje)", "gear_group": "Grupo de arte"},
+            labels={"cpue": "CPUE (t/trip)", "gear_group": "Gear group"},
             color_discrete_map={"active": "#e74c3c", "passive": "#2980b9", "mixed": "#8e44ad"},
         )
         fig_box.update_layout(showlegend=False, margin=dict(t=20))
@@ -612,10 +613,10 @@ def tab_stats(artefacts, yr_range, selected_ports):
 
 
 # ─────────────────────────────────────────────
-# TAB 6: VALOR DE PRODUCCIÓN
+# TAB 6: PRODUCTION VALUE
 # ─────────────────────────────────────────────
 def tab_value(artefacts, yr_range, selected_ports):
-    st.markdown('<h3 class="section-title">Valor económico de la producción pesquera</h3>',
+    st.markdown('<h3 class="section-title">Economic value of fisheries production</h3>',
                 unsafe_allow_html=True)
 
     pv = artefacts["dfs"]["prod_value"].copy()
@@ -626,27 +627,27 @@ def tab_value(artefacts, yr_range, selected_ports):
     ]
 
     c1, c2, c3 = st.columns(3)
-    c1.metric("Valor total (BRL)", f"R$ {filt['production_value'].sum():,.0f}")
-    c2.metric("Valor medio anual (BRL)", f"R$ {filt['production_value'].mean():,.0f}")
-    c3.metric("Municipios con datos", str(filt["municipality_canonical"].nunique()))
+    c1.metric("Total value (BRL)", f"R$ {filt['production_value'].sum():,.0f}")
+    c2.metric("Mean annual value (BRL)", f"R$ {filt['production_value'].mean():,.0f}")
+    c3.metric("Municipalities with data", str(filt["municipality_canonical"].nunique()))
 
     st.markdown("---")
     col_l, col_r = st.columns(2)
 
     with col_l:
-        st.markdown("#### Valor de producción por municipio y año")
+        st.markdown("#### Production value by municipality and year")
         pv_yr = filt.groupby(["year", "port_name"])["production_value"].sum().reset_index()
         fig = px.line(
             pv_yr, x="year", y="production_value", color="port_name",
             markers=True, height=380,
-            labels={"production_value": "Valor (BRL)", "year": "Año", "port_name": "Municipio"},
+            labels={"production_value": "Value (BRL)", "year": "Year", "port_name": "Municipality"},
             color_discrete_sequence=px.colors.qualitative.Prism,
         )
-        fig.update_layout(legend_title_text="Municipio", margin=dict(t=20))
+        fig.update_layout(legend_title_text="Municipality", margin=dict(t=20))
         st.plotly_chart(fig, use_container_width=True)
 
     with col_r:
-        st.markdown("#### Distribución del valor total por municipio")
+        st.markdown("#### Total value distribution by municipality")
         pv_total = filt.groupby("port_name")["production_value"].sum().reset_index()
         fig2 = px.pie(
             pv_total, names="port_name", values="production_value",
@@ -656,13 +657,13 @@ def tab_value(artefacts, yr_range, selected_ports):
         fig2.update_layout(margin=dict(t=20))
         st.plotly_chart(fig2, use_container_width=True)
 
-    # Tabla completa
-    with st.expander("📋 Datos completos de valor de producción"):
+    # Full table
+    with st.expander("📋 Complete production value data"):
         disp = filt[["year", "port_name", "semester", "production_value"]].copy()
-        disp.columns = ["Año", "Municipio", "Semestre", "Valor (BRL)"]
-        disp["Valor (BRL)"] = disp["Valor (BRL)"].apply(
+        disp.columns = ["Year", "Municipality", "Semester", "Value (BRL)"]
+        disp["Value (BRL)"] = disp["Value (BRL)"].apply(
             lambda x: f"R$ {x:,.2f}" if pd.notna(x) else "—")
-        st.dataframe(disp.sort_values(["Año", "Municipio"]), use_container_width=True, hide_index=True)
+        st.dataframe(disp.sort_values(["Year", "Municipality"]), use_container_width=True, hide_index=True)
 
 
 # ─────────────────────────────────────────────
@@ -674,32 +675,32 @@ def main():
     <div class="main-header">
       <h1 style='margin:0;font-size:1.8rem'>🐟 Fisheries GIS Dashboard</h1>
       <p style='margin:4px 0 0;opacity:0.85'>
-        Análisis espacial de capturas, CPUE, biodiversidad y valor económico —
-        Litoral do Rio Grande do Norte, Brasil
+        Spatial analysis of catches, CPUE, biodiversity and economic value —
+        Rio Grande do Norte coast, Brazil
       </p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Cargar datos
+    # Load data
     artefacts = get_data()
     ad = get_analysis()
 
-    # Sidebar + filtros
+    # Sidebar + filters
     yr_range, selected_ports, selected_species, selected_gears = sidebar(artefacts)
 
     if not selected_ports:
-        st.warning("Selecciona al menos un puerto en el panel lateral.")
+        st.warning("Please select at least one port in the sidebar.")
         return
 
-    # Tabs — exploración de datos
-    st.markdown("### 📊 Exploración de datos")
+    # Tabs — data exploration
+    st.markdown("### 📊 Data exploration")
     tabs_data = st.tabs([
-        "📊 Resumen general",
-        "🗺️ Mapas interactivos",
-        "🐠 Análisis de especies",
-        "⚓ Artes de pesca",
-        "📈 Correlaciones",
-        "💰 Valor económico",
+        "📊 Overview",
+        "🗺️ Interactive maps",
+        "🐠 Species analysis",
+        "⚓ Fishing gears",
+        "📈 Correlations",
+        "💰 Economic value",
     ])
     with tabs_data[0]:
         tab_overview(artefacts, yr_range, selected_ports)
@@ -714,15 +715,16 @@ def main():
     with tabs_data[5]:
         tab_value(artefacts, yr_range, selected_ports)
 
-    # Tabs — análisis
+    # Tabs — analysis results
     st.markdown("---")
-    st.markdown("### 🔬 Resultados de análisis")
+    st.markdown("### 🔬 Analysis results")
     tabs_analysis = st.tabs([
-        "📡 Exposición a plataformas",
-        "📈 Modelos GAM",
-        "🔬 Robustez del modelo",
-        "🦭 Ordenación multivariante",
-        "🌊 Gradiente de composición",
+        "📡 Platform exposure",
+        "📈 GAM models",
+        "🔬 Model robustness",
+        "🦭 Multivariate ordination",
+        "🌊 Composition gradient",
+        "📄 Methods & Results",
     ])
     with tabs_analysis[0]:
         tab_exposure(ad)
@@ -734,13 +736,15 @@ def main():
         tab_ordination(ad)
     with tabs_analysis[4]:
         tab_gradient(ad)
+    with tabs_analysis[5]:
+        tab_methods_results()
 
     # Footer
     st.markdown("---")
     st.caption(
-        "Dashboard desarrollado con GeoPandas · Folium · Streamlit · Plotly · SciPy. "
-        "Datos: PMDP/IBAMA — Rio Grande do Norte, Brasil. "
-        "Capas GeoJSON disponibles para importar en QGIS desde el panel lateral."
+        "Dashboard built with Folium · Streamlit · Plotly · SciPy. "
+        "Data: PMDP/IBAMA — Rio Grande do Norte, Brazil. "
+        "GeoJSON layers available for import into QGIS from the sidebar."
     )
 
 
