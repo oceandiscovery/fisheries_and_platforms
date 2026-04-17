@@ -338,7 +338,7 @@ def tab_overview(artefacts, yr_range, selected_ports):
                             showlegend=True)
 
         fig.update_layout(margin=dict(t=8, b=20, l=0, r=0))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, key=f"overview_chart_{panel_id}")
 
     # ── 2×2 grid of panels ───────────────────────────────────────────────────
     row1_l, row1_r = st.columns(2)
