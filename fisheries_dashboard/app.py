@@ -191,6 +191,7 @@ def tab_overview(artefacts, yr_range, selected_ports):
         (master["local_norm"].isin(selected_ports))
     ]
 
+    # ── KPI cards ────────────────────────────────────────────────────────────
     st.markdown('<h3 class="section-title">Global metrics for the selected period</h3>',
                 unsafe_allow_html=True)
 
@@ -202,73 +203,157 @@ def tab_overview(artefacts, yr_range, selected_ports):
     c5.metric("Mean richness (spp)", f"{filt['species_richness'].mean():.1f}")
 
     st.markdown("---")
-    col_l, col_r = st.columns(2)
 
-    with col_l:
-        st.markdown("#### Annual production by port (t)")
-        fig = px.bar(
-            filt.groupby(["year", "port_name"])["production_ton"].sum().reset_index(),
-            x="year", y="production_ton", color="port_name",
-            barmode="stack", height=350,
-            labels={"production_ton": "Production (t)", "year": "Year", "port_name": "Port"},
-            color_discrete_sequence=px.colors.qualitative.Bold,
+    # ── Metric catalogue ─────────────────────────────────────────────────────
+    # Each entry: (label, source, column, aggregation, unit)
+    # source: "master" | "biodiv" | "cpue_port" | "socioeco"
+    METRICS = {
+        "Production (t)":              ("master",   "production_ton",        "sum",  "t"),
+        "CPUE (t/trip)":               ("master",   "cpue",                  "mean", "t/trip"),
+        "Species richness (S)":        ("master",   "species_richness",      "mean", "spp"),
+        "Shannon H'":                  ("master",   "shannon_index",         "mean", "H'"),
+        "Pielou J'":                   ("master",   "pielou_index",          "mean", "J'"),
+        "Estimated fishers":           ("master",   "estimated_fishermen",   "sum",  "fishers"),
+        "Fishers per vessel":          ("master",   "fishermen_per_vessel",  "mean", "fisher/vessel"),
+        "Total vessels":               ("master",   "total_vessels",         "sum",  "vessels"),
+        "Assisted trips":              ("master",   "assisted_trips",        "sum",  "trips"),
+        "Fleet production (t)":        ("master",   "fleet_production_ton",  "sum",  "t"),
+        "Production per species (t)":  ("master",   "sp_production_ton",     "sum",  "t"),
+    }
+    METRIC_KEYS = list(METRICS.keys())
+
+    # Chart type options
+    CHART_TYPES = ["Line (by port)", "Stacked bar (by port)", "Area (by port)",
+                   "Line (total)", "Bar (total)", "Box (by port)"]
+
+    # Default selections per panel
+    DEFAULTS = [
+        ("Production (t)",      "Stacked bar (by port)"),
+        ("CPUE (t/trip)",       "Line (by port)"),
+        ("Estimated fishers",   "Line (by port)"),
+        ("Shannon H'",          "Box (by port)"),
+    ]
+
+    PORT_COLOR_SEQ = px.colors.qualitative.Bold
+
+    def build_chart(panel_id, default_metric, default_chart):
+        """Renders one configurable chart panel."""
+        sel_col1, sel_col2 = st.columns([3, 2])
+        metric_key = sel_col1.selectbox(
+            "Metric (Y axis)",
+            options=METRIC_KEYS,
+            index=METRIC_KEYS.index(default_metric),
+            key=f"metric_{panel_id}",
         )
-        fig.update_layout(legend_title_text="Port", margin=dict(t=20, b=20))
+        chart_type = sel_col2.selectbox(
+            "Chart type",
+            options=CHART_TYPES,
+            index=CHART_TYPES.index(default_chart),
+            key=f"chart_{panel_id}",
+        )
+
+        src, col, agg, unit = METRICS[metric_key]
+
+        # Build per-year data
+        df_src = master[
+            (master["year"].between(*yr_range)) &
+            (master["local_norm"].isin(selected_ports))
+        ].copy()
+        df_src["port_name"] = df_src["local_norm"].map(
+            lambda x: PORT_COORDS.get(x, {}).get("name", x))
+
+        # Aggregate
+        agg_fn = {"sum": "sum", "mean": "mean"}[agg]
+        by_port = (df_src.groupby(["year", "port_name"])[col]
+                   .agg(agg_fn).reset_index())
+        by_total = (df_src.groupby("year")[col]
+                    .agg(agg_fn).reset_index())
+
+        ylab = f"{metric_key} ({unit})"
+        h = 320
+
+        if chart_type == "Line (by port)":
+            fig = px.line(by_port, x="year", y=col, color="port_name",
+                          markers=True, height=h,
+                          labels={col: ylab, "year": "Year", "port_name": "Port"},
+                          color_discrete_sequence=PORT_COLOR_SEQ)
+            fig.update_layout(legend_title_text="Port")
+
+        elif chart_type == "Stacked bar (by port)":
+            fig = px.bar(by_port, x="year", y=col, color="port_name",
+                         barmode="stack", height=h,
+                         labels={col: ylab, "year": "Year", "port_name": "Port"},
+                         color_discrete_sequence=PORT_COLOR_SEQ)
+            fig.update_layout(legend_title_text="Port")
+
+        elif chart_type == "Area (by port)":
+            fig = px.area(by_port, x="year", y=col, color="port_name",
+                          height=h,
+                          labels={col: ylab, "year": "Year", "port_name": "Port"},
+                          color_discrete_sequence=PORT_COLOR_SEQ)
+            fig.update_layout(legend_title_text="Port")
+
+        elif chart_type == "Line (total)":
+            fig = px.line(by_total, x="year", y=col,
+                          markers=True, height=h,
+                          labels={col: ylab, "year": "Year"})
+            fig.update_traces(line_color="#1a6eb5", line_width=2.5)
+
+        elif chart_type == "Bar (total)":
+            fig = px.bar(by_total, x="year", y=col, height=h,
+                         labels={col: ylab, "year": "Year"},
+                         color=col,
+                         color_continuous_scale="Blues")
+            fig.update_layout(coloraxis_showscale=False)
+
+        else:  # Box (by port)
+            fig = px.box(df_src, x="port_name", y=col, color="port_name",
+                         height=h,
+                         labels={col: ylab, "port_name": "Port"},
+                         color_discrete_sequence=PORT_COLOR_SEQ)
+            fig.update_layout(showlegend=False)
+
+        # Add trend line for non-box charts
+        if "by port" in chart_type and chart_type not in ("Box (by port)", "Stacked bar (by port)"):
+            # per-port OLS trend as dashed line
+            for port, grp in by_port.groupby("port_name"):
+                if len(grp) >= 3:
+                    z = np.polyfit(grp["year"], grp[col].fillna(0), 1)
+                    p = np.poly1d(z)
+                    yrs = np.linspace(grp["year"].min(), grp["year"].max(), 50)
+                    fig.add_scatter(x=yrs, y=p(yrs),
+                                    mode="lines",
+                                    line=dict(dash="dot", width=1),
+                                    showlegend=False,
+                                    opacity=0.5)
+
+        elif chart_type in ("Line (total)", "Bar (total)") and len(by_total) >= 3:
+            z = np.polyfit(by_total["year"], by_total[col].fillna(0), 1)
+            p = np.poly1d(z)
+            yrs = np.linspace(by_total["year"].min(), by_total["year"].max(), 50)
+            fig.add_scatter(x=yrs, y=p(yrs),
+                            mode="lines",
+                            line=dict(color="#e74c3c", dash="dash", width=1.8),
+                            name="Trend",
+                            showlegend=True)
+
+        fig.update_layout(margin=dict(t=8, b=20, l=0, r=0))
         st.plotly_chart(fig, use_container_width=True)
 
-    with col_r:
-        st.markdown("#### Annual mean CPUE trend")
-        cpue_yr = artefacts["cpue_port"][
-            (artefacts["cpue_port"]["year"].between(*yr_range)) &
-            (artefacts["cpue_port"]["local_norm"].isin(selected_ports))
-        ]
-        cpue_yr["port_name"] = cpue_yr["local_norm"].map(
-            lambda x: PORT_COORDS.get(x, {}).get("name", x))
-        fig2 = px.line(
-            cpue_yr, x="year", y="cpue", color="port_name",
-            markers=True, height=350,
-            labels={"cpue": "CPUE (t/trip)", "year": "Year", "port_name": "Port"},
-            color_discrete_sequence=px.colors.qualitative.Safe,
-        )
-        fig2.update_layout(legend_title_text="Port", margin=dict(t=20, b=20))
-        st.plotly_chart(fig2, use_container_width=True)
+    # ── 2×2 grid of panels ───────────────────────────────────────────────────
+    row1_l, row1_r = st.columns(2)
+    with row1_l:
+        build_chart("A", *DEFAULTS[0])
+    with row1_r:
+        build_chart("B", *DEFAULTS[1])
 
-    st.markdown("---")
-    col_l2, col_r2 = st.columns(2)
+    st.markdown("")
+    row2_l, row2_r = st.columns(2)
+    with row2_l:
+        build_chart("C", *DEFAULTS[2])
+    with row2_r:
+        build_chart("D", *DEFAULTS[3])
 
-    with col_l2:
-        st.markdown("#### Fishers per port (latest data)")
-        socio = artefacts["dfs"]["socioeco"]
-        latest = socio[socio["year"] == socio["year"].max()]
-        latest = latest[latest["local_norm"].isin(selected_ports)].copy()
-        latest["port_name"] = latest["local_norm"].map(
-            lambda x: PORT_COORDS.get(x, {}).get("name", x))
-        fig3 = px.bar(
-            latest, x="port_name", y="estimated_fishermen",
-            color="port_name", height=300,
-            labels={"estimated_fishermen": "Fishers", "port_name": "Port"},
-            color_discrete_sequence=px.colors.qualitative.Pastel,
-        )
-        fig3.update_layout(showlegend=False, margin=dict(t=20, b=20))
-        st.plotly_chart(fig3, use_container_width=True)
-
-    with col_r2:
-        st.markdown("#### Shannon index by port")
-        bio_filt = artefacts["biodiv"][
-            (artefacts["biodiv"]["year"].between(*yr_range)) &
-            (artefacts["biodiv"]["local_norm"].isin(selected_ports))
-        ]
-        bio_filt = bio_filt.copy()
-        bio_filt["port_name"] = bio_filt["local_norm"].map(
-            lambda x: PORT_COORDS.get(x, {}).get("name", x))
-        fig4 = px.box(
-            bio_filt, x="port_name", y="shannon_index",
-            color="port_name", height=300,
-            labels={"shannon_index": "Shannon H'", "port_name": "Port"},
-            color_discrete_sequence=px.colors.qualitative.Antique,
-        )
-        fig4.update_layout(showlegend=False, margin=dict(t=20, b=20))
-        st.plotly_chart(fig4, use_container_width=True)
 
 
 # ─────────────────────────────────────────────
