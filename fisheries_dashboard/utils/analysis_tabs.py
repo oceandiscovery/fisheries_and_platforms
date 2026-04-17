@@ -16,6 +16,13 @@ from utils.coords import PORT_COORDS
 
 # ── Helpers ────────────────────────────────────────────────────────────────
 
+def _hex_to_rgba(hex_color: str, alpha: float = 0.15) -> str:
+    """Convierte '#rrggbb' a 'rgba(r,g,b,alpha)' válido para Plotly."""
+    h = hex_color.lstrip("#")
+    r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    return f"rgba({r},{g},{b},{alpha})"
+
+
 EXPOSURE_LABELS = {
     "mean_nearest_platform_distance_km":     "Distancia media a plataforma (km)",
     "closest_nearest_platform_distance_km":  "Distancia mínima a plataforma (km)",
@@ -452,7 +459,7 @@ def tab_robustness(ad):
         fig.add_trace(go.Scatter(
             x=pd.concat([grp_s[exp_col], grp_s[exp_col].iloc[::-1]]),
             y=pd.concat([grp_s["predicted_ci_high"], grp_s["predicted_ci_low"].iloc[::-1]]),
-            fill="toself", fillcolor=color.replace("#","rgba(") + ",0.08)",
+            fill="toself", fillcolor=_hex_to_rgba(color, 0.08),
             line=dict(width=0), showlegend=False,
         ))
         fig.add_trace(go.Scatter(
