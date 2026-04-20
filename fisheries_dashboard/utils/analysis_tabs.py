@@ -1015,15 +1015,18 @@ modelling.
     st.markdown("### GAM modelling")
     st.markdown("""
 Generalized Additive Models (GAMs) were fitted for each candidate exposure–response
-pair using a natural spline basis (df = 4, degree = 3) for the platform exposure term,
-plus gear-type richness, boat-type richness, and year (centred) as linear covariates
-(Module 08). Model fit was evaluated by R², adjusted R², AIC, and RMSE. Spline
-degrees of freedom were varied (df = 3, 5) and a quadratic alternative was tested to
-assess curve stability (Module 09).
+pair using **penalised regression splines** (pyGAM `LinearGAM`; cubic spline basis,
+`n_splines = 10`) for the platform exposure term, with smoothing parameter λ selected
+by Generalised Cross-Validation (GCV) on a log-spaced grid. Gear-type richness,
+boat-type richness, and year (centred) entered as linear terms. Model fit was evaluated
+by R², AIC, and RMSE (Module 08). Spline flexibility was varied (`n_splines` ∈ {6, 15})
+to assess curve-shape stability (Module 09).
 
-Sensitivity was further evaluated via leave-one-locality-out (LOLO) and
-leave-one-year-out (LOYO) cross-validation. Influential observations were identified
-through Cook's D and studentized residuals.
+Sensitivity was further evaluated via leave-one-locality-out (LOLO) influence analysis
+and leave-one-year-out (LOYO) temporal sensitivity. LOLO quantifies the leverage of
+each locality rather than generalisation error (n = 5 localities). Influential
+observations were identified through Cook's D and studentized residuals approximated
+from the GCV effective degrees of freedom.
 """)
 
     st.markdown("### Community ordination")
@@ -1100,12 +1103,13 @@ evenness despite lower yields.
 
     st.markdown("### GAM model performance")
     st.markdown("""
-GAM-spline models (df = 4) consistently outperformed their linear equivalents by
-ΔR² ≈ 0.40–0.50, confirming non-linear exposure–response relationships. The
-best-performing models used the closest platform distance as the exposure variable
-(Table 3). Shannon H' and Pielou J' models explained ~61% and ~60% of variance,
-respectively; the CPUE model explained ~60%; and the production model ~57%. All four
-models incorporated gear-type richness, boat-type richness, and year as linear
+GAM-spline models (GCV-penalised) consistently outperformed their linear equivalents:
+ΔR² ranged from 0.343 (Shannon H') to 0.499 (Pielou J'), confirming strongly non-linear
+exposure–response relationships. The best-performing models used the closest platform
+distance as the exposure variable for diversity indices, and mean platform distance for
+production metrics (Table 3). Shannon H' and Pielou J' models explained 60.3% and 58.6%
+of variance, respectively; the CPUE model 54.5%; and the production model 59.5%. All
+four models incorporated gear-type richness, boat-type richness, and year as linear
 covariates.
 """)
 
@@ -1115,9 +1119,9 @@ covariates.
         "Response":         ["Shannon H'", "Pielou J'", "CPUE (t/trip)", "Production (t)"],
         "Exposure":         ["Closest platform dist. (km)", "Closest platform dist. (km)",
                              "Closest platform dist. (km)", "Mean platform dist. (km)"],
-        "R²":               [0.614, 0.605, 0.603, 0.571],
-        "Adj. R²":          [0.588, 0.578, 0.576, 0.542],
-        "AIC":              [135.50, -164.97, -89.53, 1766.03],
+        "R²":               [0.603, 0.586, 0.545, 0.595],
+        "Adj. R²":          ["n/a", "n/a", "n/a", "n/a"],
+        "AIC":              [163.14, -120.85, -53.24, 1691.73],
     })
     st.dataframe(tbl3, use_container_width=True, hide_index=True)
 
@@ -1125,23 +1129,24 @@ covariates.
     st.markdown("""
 All GAM curves were non-monotonic, exhibiting hump-shaped or U-shaped responses to
 platform distance. **Diversity indices (H' and J') peaked at intermediate distances**
-(~17–18 km), whereas **CPUE showed an inverse pattern** — lowest at intermediate
+(∼17–18 km), whereas **CPUE showed an inverse pattern** — lowest at intermediate
 distances and highest at greater distances — consistent with a trade-off between
-ecological and extractive productivity. Production peaked at ~29 km from the nearest
-platform. The predicted range of the Pielou J' curve was 0.56 J' units; for CPUE the
-range was 0.72 t/trip.
+ecological and extractive productivity. Production peaked at approximately 29 km from
+the nearest platform. These qualitative curve shapes are robust across spline flexibility
+variants (n_splines ∈ {6, 10, 15}).
 """)
 
     st.markdown("### Model robustness")
     st.markdown("""
-Spline variants (df = 3 and df = 5) and a quadratic alternative produced
-qualitatively similar curves, confirming shape stability. Leave-one-year-out (LOYO)
-validation returned R² values of 0.585–0.644 across all 23 years, indicating that no
-single year drives the result. Leave-one-locality-out (LOLO) analysis revealed that
-removing Areia Branca reduced the Pielou J' model R² from 0.605 to 0.339, reflecting
-the high leverage of this locality given its atypically high CPUE and low diversity
-at distances > 30 km from platforms. All remaining localities yielded stable R²
-(0.59–0.66).
+Spline flexibility variants (`n_splines` ∈ {6, 10, 15}) produced qualitatively similar
+curves, confirming shape stability across basis sizes. Leave-one-year-out (LOYO)
+temporal sensitivity returned R² values of 0.565–0.646 across all 23 years (mean
+0.583–0.604 per response), indicating that no single year drives the result.
+Leave-one-locality-out (LOLO) influence analysis revealed that removing Areia Branca
+produced the largest perturbation: Pielou J' model R² fell from 0.586 to 0.286
+(ΔR² = −0.300), and CPUE showed a similar pattern (ΔR² = −0.242). This reflects the
+high leverage of Areia Branca given its atypically high CPUE and low diversity at
+distances > 30 km from platforms. All other localities yielded stable R² (ΔR² > −0.02).
 """)
 
     st.markdown("### Community structure")
@@ -1187,7 +1192,8 @@ localities (Q3) were characterised by oceanic or offshore species: Peixe Voador
 
     st.markdown("---")
     st.caption(
-        "All analyses were performed in Python (scikit-learn, scipy, statsmodels, skbio). "
-        "PERMANOVA was run with 999 permutations. GAM models used OLS-based polynomial "
-        "spline approximation. Data source: PMDP/IBAMA — Rio Grande do Norte, Brazil (2001–2023)."
+        "All analyses were performed in Python (scikit-learn, scipy, statsmodels, skbio, pyGAM). "
+        "PERMANOVA was run with 999 permutations. GAM models used penalised regression splines "
+        "with GCV smoothing-parameter selection (pyGAM LinearGAM, cubic basis, n_splines = 10). "
+        "Data source: PMDP/IBAMA — Rio Grande do Norte, Brazil (2001–2023)."
     )
