@@ -358,33 +358,49 @@ def tab_gam(ad):
         {True: "#27ae60", False: "#95a5a6"})
 
     if not coef_sel.empty:
-        fig_coef = go.Figure()
-        for _, r in coef_sel.iterrows():
-            fig_coef.add_trace(go.Scatter(
-                x=[r["conf_low"], r["conf_high"]], y=[r["term"], r["term"]],
-                mode="lines", line=dict(color=r["color"], width=3),
-                showlegend=False,
-            ))
-            fig_coef.add_trace(go.Scatter(
-                x=[r["estimate"]], y=[r["term"]],
-                mode="markers",
-                marker=dict(color=r["color"], size=10, symbol="circle"),
-                name=r["sig"],
-                showlegend=False,
-                hovertemplate=f"Estimado: {r['estimate']:.4f}<br>"
-                              f"IC: [{r['conf_low']:.4f}, {r['conf_high']:.4f}]<br>"
-                              f"p={r['p_value']:.4f}<extra>{r['term']}</extra>",
-            ))
-        fig_coef.add_vline(x=0, line_dash="dash", line_color="#aaa", line_width=1)
-        fig_coef.update_layout(height=max(200, len(coef_sel) * 50),
-                               margin=dict(t=20), xaxis_title="Estimate (95% CI)")
-        st.plotly_chart(fig_coef, use_container_width=True)
+        # Check whether point estimates are available (not present in old outputs)
+        has_estimates = coef_sel["estimate"].notna().any()
 
-        disp_coef = coef_sel[["term", "estimate", "std_error", "t_value",
-                               "p_value", "sig"]].copy()
-        disp_coef.columns = ["Term", "Estimate", "Std. error", "t", "p-valor", "Sig."]
-        disp_coef = disp_coef.round({"Estimate": 5, "Std. error": 5, "t": 3, "p-valor": 4})
-        st.dataframe(disp_coef, use_container_width=True, hide_index=True)
+        if has_estimates:
+            fig_coef = go.Figure()
+            for _, r in coef_sel.iterrows():
+                fig_coef.add_trace(go.Scatter(
+                    x=[r["conf_low"], r["conf_high"]], y=[r["term"], r["term"]],
+                    mode="lines", line=dict(color=r["color"], width=3),
+                    showlegend=False,
+                ))
+                fig_coef.add_trace(go.Scatter(
+                    x=[r["estimate"]], y=[r["term"]],
+                    mode="markers",
+                    marker=dict(color=r["color"], size=10, symbol="circle"),
+                    name=r["sig"],
+                    showlegend=False,
+                    hovertemplate=f"Estimate: {r['estimate']:.4f}<br>"
+                                  f"CI: [{r['conf_low']:.4f}, {r['conf_high']:.4f}]<br>"
+                                  f"p={r['p_value']:.4f}<extra>{r['term']}</extra>",
+                ))
+            fig_coef.add_vline(x=0, line_dash="dash", line_color="#aaa", line_width=1)
+            fig_coef.update_layout(height=max(200, len(coef_sel) * 50),
+                                   margin=dict(t=20), xaxis_title="Estimate (95% CI)")
+            st.plotly_chart(fig_coef, use_container_width=True)
+        else:
+            st.info("Point estimates and confidence intervals are not available in "
+                    "the current output files (spline-term coefficients are not "
+                    "directly interpretable). Re-run script 08 with the updated "
+                    "version to unlock this chart.")
+
+        # Significance table — always shown
+        disp_cols = ["term", "p_value", "sig"]
+        disp_rename = {"term": "Term", "p_value": "p-value", "sig": "Sig."}
+        for extra, label in [("estimate", "Estimate"), ("std_error", "Std. error"), ("t_value", "t")]:
+            if coef_sel[extra].notna().any():
+                disp_cols.insert(-1, extra)
+                disp_rename[extra] = label
+        disp_coef = coef_sel[disp_cols].copy().rename(columns=disp_rename)
+        numeric_cols = {k: 5 for k in ("Estimate", "Std. error") if k in disp_coef.columns}
+        numeric_cols.update({k: 3 for k in ("t",) if k in disp_coef.columns})
+        numeric_cols.update({"p-value": 4})
+        st.dataframe(disp_coef.round(numeric_cols), use_container_width=True, hide_index=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -522,6 +538,17 @@ def tab_robustness(ad):
     st.markdown("---")
     st.markdown("#### Leave-one-year-out (LOYO) — temporal stability")
     loyo_m = loyo[loyo["model_name"].str.contains(rv_ev_base, regex=False)].copy()
+
+    # Detect whether LOYO contains real prediction curves or synthetic R² lines
+    _loyo_is_r2 = (
+        not loyo_m.empty and
+        loyo_m["predicted_ci_low"].equals(loyo_m["predicted"]) and
+        loyo_m["predicted_ci_high"].equals(loyo_m["predicted"])
+    ) if not loyo_m.empty and "predicted_ci_low" in loyo_m.columns else False
+    if _loyo_is_r2:
+        st.caption("⚠️ LOYO prediction curves are not available in the current output files. "
+                   "Each line represents the R² of the year-removed model — a flat line "
+                   "per year. Re-run script 09 with the updated version for full curves.")
 
     if not loyo_m.empty:
         exp_loyo = loyo_m.columns[0]
