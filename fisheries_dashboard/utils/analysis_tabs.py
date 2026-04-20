@@ -410,6 +410,13 @@ def tab_robustness(ad):
                             for m in rob_curves["model_name"].unique()]))
     sel_base = st.selectbox("Base model", all_base)
 
+    # Extract the response_vs_exposure fragment used in LOLO/LOYO/influence model names.
+    # rob_curves names: "gam_nsp{n}_{resp}_vs_{exp}"  →  rv_ev_base = "{resp}_vs_{exp}"
+    # lolo/loyo/influence names: "{resp}_vs_{exp}_lolo_*" / "_loyo_*"
+    import re as _re
+    _stripped = _re.sub(r'^gam_nsp\d+_', '', sel_base)
+    rv_ev_base = _stripped  # e.g. "shannon_species_vs_mean_nearest_platform_distance_km"
+
     st.markdown("---")
 
     # ── 1. Variantes de spline ────────────────────────────────────────────
@@ -418,7 +425,8 @@ def tab_robustness(ad):
 
     # Añadir curva base del módulo 08
     base_name_exact = sel_base.replace("_alt_df3","").replace("_alt_df5","").replace("_quadratic","")
-    base_key = [m for m in gam_smooth["model_name"].unique() if m.startswith(sel_base[:35])]
+    # gam_smooth model names: "gam_{resp}_vs_{exp}"; rv_ev_base = "{resp}_vs_{exp}"
+    base_key = [m for m in gam_smooth["model_name"].unique() if rv_ev_base in m]
     if base_key:
         base_sm = gam_smooth[gam_smooth["model_name"] == base_key[0]].copy()
         base_sm["variant"] = "base (df=4)"
@@ -469,7 +477,7 @@ def tab_robustness(ad):
                       dash="solid" if variant == "base (df=4)" else "dot"),
         ))
 
-    row_resp = signature[signature["model_name"].str.startswith(sel_base[:35])].head(1)
+    row_resp = signature[signature["model_name"].str.contains(rv_ev_base, regex=False)].head(1)
     y_label = _rlabel(row_resp["response_variable"].values[0]) if not row_resp.empty else "Response"
     x_label = _elabel(row_resp["exposure_variable"].values[0]) if not row_resp.empty else "Exposure"
 
@@ -481,7 +489,7 @@ def tab_robustness(ad):
     # ── 2. Leave-one-locality-out ─────────────────────────────────────────
     st.markdown("---")
     st.markdown("#### Leave-one-locality-out (LOLO) — stability by locality")
-    lolo_m = lolo[lolo["model_name"].str.startswith(sel_base[:35])].copy()
+    lolo_m = lolo[lolo["model_name"].str.contains(rv_ev_base, regex=False)].copy()
 
     if not lolo_m.empty:
         fig2 = go.Figure()
@@ -513,7 +521,7 @@ def tab_robustness(ad):
     # ── 3. Leave-one-year-out ─────────────────────────────────────────────
     st.markdown("---")
     st.markdown("#### Leave-one-year-out (LOYO) — temporal stability")
-    loyo_m = loyo[loyo["model_name"].str.startswith(sel_base[:35])].copy()
+    loyo_m = loyo[loyo["model_name"].str.contains(rv_ev_base, regex=False)].copy()
 
     if not loyo_m.empty:
         exp_loyo = loyo_m.columns[0]
@@ -546,7 +554,7 @@ def tab_robustness(ad):
     # ── 4. Puntos de influencia ───────────────────────────────────────────
     st.markdown("---")
     st.markdown("#### Influence diagnostics — Cook's D and leverage")
-    inf_m = influence[influence["model_name"].str.startswith(sel_base[:35])].copy()
+    inf_m = influence[influence["model_name"].str.contains(rv_ev_base, regex=False)].copy()
 
     if not inf_m.empty:
         inf_m["port_name"] = inf_m["local_canonical"].map(_port_name)

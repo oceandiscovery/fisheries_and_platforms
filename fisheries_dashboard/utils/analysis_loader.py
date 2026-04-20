@@ -33,14 +33,14 @@ def load_analysis():
         "div_locality":     pd.read_parquet(_p("07_diversity_locality_summary")),
         "div_year":         pd.read_parquet(_p("07_diversity_year_summary")),
 
-        # ── Módulo 08: Modelos GAM-lineal ──
+        # ── Módulo 08: Modelos GAM (pyGAM — LinearGAM + GCV) ──
         "gam_best":         pd.read_parquet(_p("08_best_gam_linear_models")),
         "gam_coef":         pd.read_parquet(_p("08_gam_linear_coefficients")),
         "gam_fitted":       pd.read_parquet(_p("08_gam_linear_fitted_values")),
         "gam_smooth":       pd.read_parquet(_p("08_gam_linear_smooth_predictions")),
         "gam_comparison":   pd.read_parquet(_p("08_gam_linear_model_comparison")),
 
-        # ── Módulo 09: Robustez GAM ──
+        # ── Módulo 09: Diagnóstico GAM (flexibilidad, LOLO, LOYO, residuos) ──
         "rob_curves":       pd.read_parquet(_p("09_gam_alternative_curves")),
         "rob_comparison":   pd.read_parquet(_p("09_gam_alternative_model_comparison")),
         "rob_signature":    pd.read_parquet(_p("09_gam_curve_signature_table")),
