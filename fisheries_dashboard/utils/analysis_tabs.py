@@ -2431,85 +2431,105 @@ def tab_protected_areas(ad: dict) -> None:
                         pivot.columns = [_zone_label(c) for c in pivot.columns]
                         st.dataframe(pivot, use_container_width=True)
 
-def tab_methods_results():
+def tab_methods_results(ad=None):
     """Synthesized Methods and Results in academic journal style."""
 
     st.markdown('<h3 class="section-title">Methods & Results</h3>', unsafe_allow_html=True)
 
+    if ad is None:
+        from utils.analysis_loader import load_analysis
+        ad = load_analysis()
+
+    div = ad.get("div_table", pd.DataFrame()).copy()
+    best = ad.get("gam_best", pd.DataFrame()).copy()
+    comparison = ad.get("gam_comparison", pd.DataFrame()).copy()
+    perm_inter = ad.get("permanova_interaction", pd.DataFrame()).copy()
+    perm_full = ad.get("permanova_full", ad.get("permanova", pd.DataFrame())).copy()
+    axis_exp = ad.get("axis_exp_full", ad.get("axis_exp", pd.DataFrame())).copy()
+    mean_ab = ad.get("mean_abund_bin", pd.DataFrame()).copy()
+    pa_turnover = ad.get("pa_turnover", pd.DataFrame()).copy()
+
+    n_obs = int(len(div)) if not div.empty else np.nan
+    n_localities = int(div["local_canonical"].nunique()) if "local_canonical" in div.columns and not div.empty else np.nan
+    year_min = int(div["year"].min()) if "year" in div.columns and div["year"].notna().any() else np.nan
+    year_max = int(div["year"].max()) if "year" in div.columns and div["year"].notna().any() else np.nan
+
+    richness_mean = div["species_richness"].mean() if "species_richness" in div.columns else np.nan
+    richness_sd = div["species_richness"].std() if "species_richness" in div.columns else np.nan
+    shannon_mean = div["shannon_species"].mean() if "shannon_species" in div.columns else np.nan
+    shannon_sd = div["shannon_species"].std() if "shannon_species" in div.columns else np.nan
+    pielou_mean = div["pielou_species"].mean() if "pielou_species" in div.columns else np.nan
+    pielou_sd = div["pielou_species"].std() if "pielou_species" in div.columns else np.nan
+
+    def _fmt(value, digits=3, na="n/a"):
+        return na if pd.isna(value) else f"{value:.{digits}f}"
+
+    def _fmt_int(value, na="n/a"):
+        return na if pd.isna(value) else f"{int(value):,}"
+
+    def _basis_col(df):
+        if "ordination_basis" in df.columns:
+            return "ordination_basis"
+        if "distance_basis" in df.columns:
+            return "distance_basis"
+        return None
+
+    def _best_perm_row(df, basis="BrayCurtis"):
+        if df.empty:
+            return pd.Series(dtype=object)
+        out = df.copy()
+        bcol = _basis_col(out)
+        if bcol:
+            subset = out[out[bcol].astype(str).str.contains(basis, na=False)].copy()
+            if not subset.empty:
+                out = subset
+        if "r2" in out.columns:
+            out = out.sort_values("r2", ascending=False)
+        return out.iloc[0] if not out.empty else pd.Series(dtype=object)
+
     st.markdown("""
 > *Synthesis of the main analytical findings. Statistical details and interactive
-> visualizations are available in the preceding analysis tabs.*
+> visualizations are available in the preceding analysis tabs. Values in this section
+> are read from the current parquet outputs whenever possible.*
 """)
 
     # ── METHODS ──────────────────────────────────────────────────────────────
     st.markdown("## Methods")
 
-    st.markdown("### Study area and data")
+    st.markdown("### Study area and analytical unit")
     st.markdown("""
-Fisheries landings were compiled for **five coastal localities** along the Rio Grande
-do Norte coast, Brazil (Areia Branca, Caiçara do Norte, Guamaré, Macau, and Porto do
-Mangue), yielding **112 locality-year observations** spanning 2001–2025 (25 years). The
-dataset records **59 species** across multiple fishing gears and vessel types. Offshore
-oil platform coordinates were used to compute per-locality annual exposure metrics: mean,
-closest, and farthest distances to the nearest platform, and the number of platforms
-within 10 and 20 km radii. Two multi-use marine protected areas in the study region —
-**APA Dunas do Rosado** (environmental protection area, Areia Branca) and **RDS Ponta
-do Tubarão** (sustainable development reserve, Macau–Guamaré) — were also incorporated
-as spatial covariates (see *Protected area exposure* below).
+Fisheries landings were analysed as a locality-year panel for coastal fishing
+communities in Rio Grande do Norte, Brazil. Each observation links catch diversity,
+production, fleet and effort descriptors, offshore oil-platform exposure metrics,
+and spatial descriptors of nearby marine protected areas (MPAs). Platform exposure
+was represented primarily by mean distance to the nearest platform and by platform
+density within distance buffers. Protected-area exposure was represented by distance
+to the nearest MPA, nearest/dominant protected-area identity, and categorical
+inside/outside or edge-relation classes for APA Dunas do Rosado and RDS Ponta do
+Tubarão.
 """)
 
-    st.markdown("### Exposure–response screening")
+    st.markdown("### Diversity and GAM modelling")
     st.markdown("""
-All pairwise associations between platform exposure variables and fisheries response
-variables (species richness, Shannon H', Pielou J', total production, and CPUE in
-t/trip) were quantified with Spearman rank correlation across the full 112-observation
-panel (Module 07). Pairs with |ρ| > 0.30 were retained as candidates for formal
-modelling.
+Taxonomic diversity was described using species richness, Shannon diversity and
+Pielou evenness, alongside production metrics. Generalized Additive Models (GAMs)
+were fitted to evaluate non-linear exposure-response relationships. The candidate
+set included simple continuous predictors, categorical protected-area predictors,
+platform distance x inside-MPA interactions, and tensor interactions between platform
+distance and distance to the nearest protected area. Model comparison used R2, AIC,
+RMSE and effective degrees of freedom, with linear models retained as baselines where
+available.
 """)
 
-    st.markdown("### GAM modelling")
+    st.markdown("### Community composition")
     st.markdown("""
-Generalized Additive Models (GAMs) were fitted for each candidate exposure–response
-pair using **penalised regression splines** (pyGAM `LinearGAM`; cubic spline basis,
-`n_splines = 10`) for the platform exposure term, with smoothing parameter λ selected
-by Generalised Cross-Validation (GCV) on a log-spaced grid. Gear-type richness,
-boat-type richness, and year (centred) entered as linear terms. Model fit was evaluated
-by R², AIC, and RMSE (Module 08). Spline flexibility was varied (`n_splines` ∈ {6, 15})
-to assess curve-shape stability (Module 09).
-
-Sensitivity was further evaluated via leave-one-locality-out (LOLO) influence analysis
-and leave-one-year-out (LOYO) temporal sensitivity. LOLO quantifies the leverage of
-each locality rather than generalisation error (n = 5 localities). Influential
-observations were identified through Cook's D and studentized residuals approximated
-from the GCV effective degrees of freedom.
-""")
-
-    st.markdown("### Protected area exposure")
-    st.markdown("""
-Two multi-use marine protected areas (MPAs) in Rio Grande do Norte were incorporated
-as additional exposure variables: the APA Dunas do Rosado (environmental protection
-area, Areia Branca) and the RDS Ponta do Tubarão (sustainable development reserve,
-Macau–Guamaré). For each fishing locality, mean distance to the nearest protected
-area boundary (km) and a categorical zone variable (inside APA / inside RDS /
-outside closer to APA / outside closer to RDS) were derived from landing-point
-shapefiles (Module 05). Four predictor families were tested in GAMs (Module 08):
-(1) platform distance alone (continuous), (2) PA distance alone (continuous),
-(3) platform distance × inside/outside PA (interaction), and
-(4) platform distance × PA distance (tensor product interaction).
-""")
-
-    st.markdown("### Community ordination")
-    st.markdown("""
-Species composition was analysed using Principal Coordinates Analysis (PCoA) with
-Bray-Curtis and Hellinger dissimilarities, and Non-metric Multidimensional Scaling
-(NMDS). Differences in community composition across platform-exposure tertiles were
-tested with PERMANOVA (999 permutations). Beta-dispersion was assessed with a
-multivariate homogeneity test. Associations between ordination axes and exposure
-variables were quantified by Spearman correlation (Module 10).
-
-Species turnover along the primary gradient was characterized by comparing mean
-relative abundances between the nearest (Q1) and farthest (Q3) platform-exposure
-tertiles (Module 11).
+Species composition was analysed using ordination and permutation tests. PERMANOVA
+contrasted compositional differences across exposure groups, including explicit
+combined groups for platform distance x protected-area relation. This provides a
+multivariate test of whether industrial infrastructure and conservation geography
+jointly structure catch composition. Species turnover was summarized from relative
+abundance differences between near and far exposure groups when Module 11 outputs
+were available.
 """)
 
     st.markdown("---")
@@ -2518,169 +2538,239 @@ tertiles (Module 11).
     st.markdown("## Results")
 
     st.markdown("### Fisheries overview")
-
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Observations", "112", "locality-years")
-    col2.metric("Species recorded", "59")
-    col3.metric("Mean richness", "41.7 ± 11.5 spp")
-    col4.metric("Study period", "2001–2025")
+    col1.metric("Observations", _fmt_int(n_obs), "locality-years")
+    col2.metric("Localities", _fmt_int(n_localities))
+    col3.metric("Mean richness", f"{_fmt(richness_mean, 1)} ± {_fmt(richness_sd, 1)} spp")
+    col4.metric("Study period", f"{_fmt_int(year_min)}-{_fmt_int(year_max)}")
 
-    st.markdown("""
-Mean Shannon diversity across the dataset was H' = 2.40 ± 0.67, with Pielou evenness
-J' = 0.67 ± 0.17. Substantial inter-locality differences were evident: Areia Branca
-had the highest mean CPUE (0.539 t/trip) and production (1,809 t/yr) but the lowest
-diversity (H' = 1.35; J' = 0.40), whereas Porto do Mangue showed the highest diversity
-(H' = 2.78; J' = 0.78) with a mean platform distance of 24.8 km (Table 1).
+    st.markdown(f"""
+Across the current analytical table, mean Shannon diversity was
+**{_fmt(shannon_mean, 2)} ± {_fmt(shannon_sd, 2)}** and mean Pielou evenness was
+**{_fmt(pielou_mean, 2)} ± {_fmt(pielou_sd, 2)}**. The panel therefore captures
+substantial variation in both species richness and catch evenness while preserving
+the locality-year structure needed to compare platform and protected-area gradients.
 """)
 
-    # Table 1
-    st.markdown("**Table 1.** Summary statistics by fishing locality (2001–2025 means).")
-    tbl1 = pd.DataFrame({
-        "Locality":           ["Areia Branca", "Caiçara do Norte", "Guamaré", "Macau", "Porto do Mangue"],
-        "Shannon H'":         [1.35, 2.62, 2.66, 2.44, 2.78],
-        "Pielou J'":          [0.40, 0.72, 0.74, 0.66, 0.78],
-        "Production (t/yr)":  [1809, 915, 206, 1065, 334],
-        "CPUE (t/trip)":      [0.539, 0.127, 0.061, 0.092, 0.053],
-        "Mean dist. (km)":    [31.2, 31.7, 15.5, 8.70, 24.8],
-    })
-    st.dataframe(tbl1, use_container_width=True, hide_index=True)
-
-    st.markdown("### Platform exposure associations")
-    st.markdown("""
-The strongest global association identified in the screening was a **negative
-correlation between CPUE and the number of platforms within 20 km**
-(ρ = −0.611, closest-platform count; ρ = −0.521, mean count; n = 112). Total
-production showed a similarly strong negative relationship with platform density
-(ρ = −0.500). In contrast, **diversity indices were positively associated with
-platform proximity** (Pielou J' ~ closest-platform count: ρ = +0.348; Shannon H':
-ρ = +0.326), indicating that localities closer to platforms maintained higher
-evenness despite lower yields.
-""")
-
-    # Table 2
-    st.markdown("**Table 2.** Top-ranked Spearman associations (n = 112).")
-    tbl2 = pd.DataFrame({
-        "Rank": [1, 2, 3, 4, 6, 9],
-        "Response":  ["CPUE (t/trip)", "CPUE (t/trip)", "Total production (t)",
-                      "CPUE (t/trip)", "Pielou J'", "Shannon H'"],
-        "Exposure":  ["No. platforms ≤20 km (closest)", "No. platforms ≤20 km (mean)",
-                      "No. platforms ≤20 km (closest)", "Farthest platform distance",
-                      "No. platforms ≤20 km (closest)", "No. platforms ≤20 km (closest)"],
-        "Spearman ρ": [-0.611, -0.521, -0.500, +0.457, +0.348, +0.326],
-    })
-    st.dataframe(tbl2, use_container_width=True, hide_index=True)
+    if not div.empty and "local_canonical" in div.columns:
+        loc_cols = [
+            "local_canonical", "species_richness", "shannon_species", "pielou_species",
+            "production_ton", "production_per_trip_ton", "production_per_fisher_ton",
+            "mean_nearest_platform_distance_km", "mean_distance_to_nearest_protected_area_km",
+        ]
+        loc_cols = [c for c in loc_cols if c in div.columns]
+        loc_summary = div[loc_cols].groupby("local_canonical", dropna=False).mean(numeric_only=True).reset_index()
+        loc_summary["Locality"] = loc_summary["local_canonical"].map(_port_name)
+        rename = {
+            "species_richness": "Richness",
+            "shannon_species": "Shannon H'",
+            "pielou_species": "Pielou J'",
+            "production_ton": "Production (t)",
+            "production_per_trip_ton": "Production/trip (t)",
+            "production_per_fisher_ton": "Production/fisher (t)",
+            "mean_nearest_platform_distance_km": "Platform distance (km)",
+            "mean_distance_to_nearest_protected_area_km": "Nearest MPA distance (km)",
+        }
+        show_cols = ["Locality"] + [rename[c] for c in loc_summary.columns if c in rename]
+        loc_summary = loc_summary.rename(columns=rename)
+        st.markdown("**Table 1.** Mean locality-level diversity, production and spatial exposure.")
+        st.dataframe(loc_summary[show_cols].round(3), use_container_width=True, hide_index=True)
 
     st.markdown("### GAM model performance")
-    st.markdown("""
-GAM-spline models (GCV-penalised) consistently outperformed their linear equivalents,
-confirming strongly non-linear exposure–response relationships. The best-performing model
-family for diversity indices (Shannon H' and Pielou J') was the **platform distance ×
-inside/outside PA interaction**, with R² = 0.611–0.612. For total production, a **tensor
-product interaction** between platform distance and PA distance yielded the best fit
-(R² = 0.614). For production per trip, the simple **platform distance alone** model was
-optimal (R² = 0.578). All models incorporated gear-type richness, boat-type richness,
-and year as linear covariates (Table 3).
+    if best.empty:
+        st.info("Best-model outputs from Module 08 are not available.")
+    else:
+        fam_counts = best["predictor_family"].value_counts().to_dict() if "predictor_family" in best.columns else {}
+        top_row = best.sort_values("r_squared", ascending=False).iloc[0]
+        interaction_n = int(best["predictor_family"].isin(["platform_inside_interaction", "tensor_interaction"]).sum()) \
+            if "predictor_family" in best.columns else 0
+
+        st.markdown(f"""
+The current best-model table is dominated by interaction formulations: **{interaction_n} of
+{len(best)}** best response-specific models use either a platform x inside-MPA interaction
+or a tensor interaction between platform distance and MPA distance. The strongest single
+fit was for **{_rlabel(top_row['response_variable'])}**, explained by
+**{_elabel(top_row['predictor'])}** (R2 = **{_fmt(top_row['r_squared'], 3)}**,
+AIC = **{_fmt(top_row['aic'], 2)}**).
 """)
 
-    # Table 3
-    st.markdown("**Table 3.** Best-fit GAM models per response variable.")
-    tbl3 = pd.DataFrame({
-        "Response":        ["Shannon H'", "Pielou J'", "Production per trip (t)", "Total production (t)"],
-        "Predictor family": ["platform_inside_interaction", "platform_inside_interaction",
-                             "continuous", "tensor_interaction"],
-        "Best predictor":  [
-            "platform dist. × inside/outside PA",
-            "platform dist. × inside/outside PA",
-            "Mean platform dist. (km)",
-            "platform dist. × PA dist. (tensor)",
-        ],
-        "R²":              [0.611, 0.612, 0.578, 0.614],
-        "AIC":             [178.87, -143.05, -63.12, 1849.08],
-    })
-    st.dataframe(tbl3, use_container_width=True, hide_index=True)
+        tbl3 = best[[
+            "response_variable", "predictor_family", "predictor", "n_rows", "r_squared", "aic", "rmse"
+        ]].copy()
+        tbl3["Response"] = tbl3["response_variable"].map(_rlabel)
+        tbl3["Predictor family"] = tbl3["predictor_family"].map(_family_label)
+        tbl3["Best predictor"] = tbl3["predictor"].map(_elabel)
+        tbl3 = tbl3[["Response", "Predictor family", "Best predictor", "n_rows", "r_squared", "aic", "rmse"]]
+        tbl3 = tbl3.rename(columns={"n_rows": "N", "r_squared": "R2", "aic": "AIC", "rmse": "RMSE"})
+        st.markdown("**Table 2.** Best GAM per response variable.")
+        st.dataframe(tbl3.sort_values("R2", ascending=False).round(4), use_container_width=True, hide_index=True)
 
-    st.markdown("### Protected area effects on GAM performance")
-    st.markdown("""
-For diversity indices (Shannon H' and Pielou J'), the interaction between platform
-distance and protected area status (inside/outside any PA) was the best-performing
-model family (ΔAIC = –2.0 to –1.4 vs. platform-distance-alone), suggesting that
-proximity to oil platforms has a differential effect depending on whether fishing
-localities operate within or outside protected areas. For total production, a tensor
-product interaction between platform distance and PA distance provided the best fit
-(R² = 0.614), indicating joint spatial structuring by both infrastructure types.
-For production per trip, the simple platform distance model remained optimal
-(ΔAIC > 3 vs. any PA interaction term).
+        fam_text = ", ".join(f"{_family_label(k)}: {v}" for k, v in fam_counts.items())
+        st.caption(f"Best-model family counts: {fam_text}.")
+
+    if not comparison.empty and {"model_type", "predictor_family", "r_squared"}.issubset(comparison.columns):
+        gam_only = comparison[comparison["model_type"].eq("gam_penalised")].copy()
+        if not gam_only.empty:
+            fam_summary = (
+                gam_only.groupby("predictor_family", dropna=False)
+                .agg(
+                    n_models=("model_name", "nunique"),
+                    mean_r2=("r_squared", "mean"),
+                    max_r2=("r_squared", "max"),
+                    min_aic=("aic", "min"),
+                )
+                .reset_index()
+                .sort_values("max_r2", ascending=False)
+            )
+            fam_summary["Predictor family"] = fam_summary["predictor_family"].map(_family_label)
+            fam_summary = fam_summary[["Predictor family", "n_models", "mean_r2", "max_r2", "min_aic"]]
+            fam_summary = fam_summary.rename(columns={
+                "n_models": "N models", "mean_r2": "Mean R2",
+                "max_r2": "Best R2", "min_aic": "Best AIC",
+            })
+            st.markdown("**Table 3.** GAM performance summarized by predictor family.")
+            st.dataframe(fam_summary.round(4), use_container_width=True, hide_index=True)
+
+    st.markdown("### Protected-area modulation")
+    if not best.empty and "predictor_family" in best.columns:
+        inside_best = best[best["predictor_family"].eq("platform_inside_interaction")]
+        tensor_best = best[best["predictor_family"].eq("tensor_interaction")]
+        inside_responses = ", ".join(_rlabel(v) for v in inside_best["response_variable"].tolist())
+        tensor_responses = ", ".join(_rlabel(v) for v in tensor_best["response_variable"].tolist())
+        st.markdown(f"""
+Protected-area covariates do not behave as peripheral controls in the current run;
+they are part of the best explanatory structure. Platform x inside-MPA interactions
+were selected for **{inside_responses or 'no response variables'}**, while tensor
+platform-distance x MPA-distance interactions were selected for
+**{tensor_responses or 'no response variables'}**. This pattern supports the core
+interpretation that MPA geography modulates the platform-catch relationship rather
+than acting only as an independent spatial covariate.
 """)
 
-    st.markdown("### Non-monotonic exposure–response curves")
-    st.markdown("""
-All GAM curves were non-monotonic, exhibiting hump-shaped or U-shaped responses to
-platform distance. **Diversity indices (H' and J') peaked at intermediate distances**
-(∼17–18 km), whereas **CPUE showed an inverse pattern** — lowest at intermediate
-distances and highest at greater distances — consistent with a trade-off between
-ecological and extractive productivity. Production peaked at approximately 29 km from
-the nearest platform. These qualitative curve shapes are robust across spline flexibility
-variants (n_splines ∈ {6, 10, 15}).
-""")
+    st.markdown("### Community composition and interaction PERMANOVA")
+    bray_inter = _best_perm_row(perm_inter, "BrayCurtis")
+    hell_inter = _best_perm_row(perm_inter, "Euclidean")
+    bray_full = _best_perm_row(perm_full, "BrayCurtis")
 
-    st.markdown("### Model robustness")
-    st.markdown("""
-Spline flexibility variants (`n_splines` ∈ {6, 10, 15}) produced qualitatively similar
-curves, confirming shape stability across basis sizes. Leave-one-year-out (LOYO)
-temporal sensitivity returned R² values of 0.565–0.646 across all 23 years (mean
-0.583–0.604 per response), indicating that no single year drives the result.
-Leave-one-locality-out (LOLO) influence analysis revealed that removing Areia Branca
-produced the largest perturbation: Pielou J' model R² fell from 0.586 to 0.286
-(ΔR² = −0.300), and CPUE showed a similar pattern (ΔR² = −0.242). This reflects the
-high leverage of Areia Branca given its atypically high CPUE and low diversity at
-distances > 30 km from platforms. All other localities yielded stable R² (ΔR² > −0.02).
+    if not bray_inter.empty:
+        st.markdown(f"""
+The explicit platform x protected-area grouping test detected strong community
+structure. For Bray-Curtis composition, the interaction grouping explained
+**R2 = {_fmt(bray_inter.get('r2'), 4)}** of compositional variation
+(pseudo-F = **{_fmt(bray_inter.get('pseudo_F'), 3)}**, p = **{_fmt(bray_inter.get('p_value'), 3)}**,
+N = **{_fmt_int(bray_inter.get('n_rows'))}**). The Hellinger version was consistent
+(R2 = **{_fmt(hell_inter.get('r2'), 4)}**, pseudo-F = **{_fmt(hell_inter.get('pseudo_F'), 3)}**,
+p = **{_fmt(hell_inter.get('p_value'), 3)}**) when available. These results indicate
+that the combined spatial position relative to platforms and MPAs is associated with
+marked differences in species composition.
 """)
-
-    st.markdown("### Community structure")
-    st.markdown("""
-PERMANOVA confirmed significant compositional differences across platform-exposure
-tertiles (Bray-Curtis: pseudo-F = 27.61, R² = 0.336, p = 0.001; Hellinger:
-pseudo-F = 26.52, R² = 0.327, p = 0.001). PCoA Axis 1 (Bray-Curtis) captured 23.8%
-of total variance; Axis 2 explained 16.4%. The primary ordination axis was strongly
-correlated with the farthest platform distance (ρ = 0.897, Bray-Curtis), confirming
-that platform proximity gradient explains a substantial fraction of inter-annual
-community variation. Beta-dispersion was highest in the intermediate-distance tertile
-(Q2; mean = 0.274) and lowest in the far tertile (Q3; 0.051), suggesting that
-communities at intermediate distances are the most compositionally variable.
-
-The three species most strongly loading on Axis 1 were Sardinha (ρ = −0.788),
-Tainha (ρ = −0.763), and Lagosta (ρ = +0.627), reflecting a gradient from
-coastal-dominated to offshore-dominated assemblages.
+    elif not bray_full.empty:
+        st.markdown(f"""
+PERMANOVA detected significant compositional structure along the available spatial
+exposure gradients. For Bray-Curtis composition, the strongest available test explained
+R2 = **{_fmt(bray_full.get('r2'), 4)}** (pseudo-F = **{_fmt(bray_full.get('pseudo_F'), 3)}**,
+p = **{_fmt(bray_full.get('p_value'), 3)}**).
 """)
+    else:
+        st.info("PERMANOVA outputs are not available.")
+
+    if not perm_inter.empty:
+        tbl_perm = perm_inter[[
+            "ordination_basis", "pa_exposure", "n_rows", "n_groups", "pseudo_F", "r2", "p_value"
+        ]].copy()
+        tbl_perm["Protected-area component"] = tbl_perm["pa_exposure"].map(_elabel)
+        tbl_perm = tbl_perm.rename(columns={
+            "ordination_basis": "Ordination basis",
+            "n_rows": "N", "n_groups": "Groups",
+            "pseudo_F": "Pseudo-F", "r2": "R2", "p_value": "p-value",
+        })
+        tbl_perm = tbl_perm[["Ordination basis", "Protected-area component", "N", "Groups", "Pseudo-F", "R2", "p-value"]]
+        st.markdown("**Table 4.** PERMANOVA tests for combined platform x protected-area groups.")
+        st.dataframe(tbl_perm.round(4), use_container_width=True, hide_index=True)
+
+    if not axis_exp.empty and "abs_spearman_corr" in axis_exp.columns:
+        axis_show = axis_exp.sort_values("abs_spearman_corr", ascending=False).head(8).copy()
+        axis_show["Exposure"] = axis_show["exposure_variable"].map(_elabel)
+        axis_show = axis_show.rename(columns={
+            "ordination": "Ordination", "axis": "Axis",
+            "spearman_corr": "Spearman rho", "pearson_corr": "Pearson r",
+            "abs_spearman_corr": "|rho|",
+        })
+        st.markdown("**Table 5.** Strongest ordination-axis associations with spatial predictors.")
+        st.dataframe(
+            axis_show[["Ordination", "Axis", "Exposure", "n_complete", "Spearman rho", "Pearson r", "|rho|"]]
+            .rename(columns={"n_complete": "N"})
+            .round(4),
+            use_container_width=True,
+            hide_index=True,
+        )
 
     st.markdown("### Species turnover")
-    st.markdown("""
-The primary composition gradient (PCoA Bray-Curtis Axis 1 ~ mean platform distance;
-ρ = 0.773) corresponded to a clear turnover in dominant species. Near-platform
-localities (Q1) were dominated by coastal species — Sardinha (Δ = −0.154;
-7,014 t historical total), Tainha (Δ = −0.150; 4,076 t), Caranguejo, and Buzios —
-all showing significantly higher relative abundance close to platforms. Far-platform
-localities (Q3) were characterised by oceanic or offshore species: Peixe Voador
-(Δ = +0.226; 8,111 t), Dourado (Δ = +0.063; 2,900 t), and Lagosta
-(Δ = +0.056; 3,090 t) (Table 4).
+    if not mean_ab.empty and {"species_name", "exposure_bin", "mean_relative_abundance"}.issubset(mean_ab.columns):
+        pivot = mean_ab.pivot_table(
+            index="species_name", columns="exposure_bin",
+            values="mean_relative_abundance", aggfunc="mean"
+        ).fillna(0)
+        if {"Q1", "Q3"}.issubset(pivot.columns):
+            turnover = pivot[["Q1", "Q3"]].reset_index()
+            turnover["Delta Q3-Q1"] = turnover["Q3"] - turnover["Q1"]
+            turnover["Abs delta"] = turnover["Delta Q3-Q1"].abs()
+            turnover["Dominant group"] = np.where(turnover["Delta Q3-Q1"] >= 0, "Q3 (far)", "Q1 (near)")
+            top_turn = turnover.sort_values("Abs delta", ascending=False).head(10)
+            near_names = ", ".join(top_turn[top_turn["Dominant group"].eq("Q1 (near)")]["species_name"].head(4))
+            far_names = ", ".join(top_turn[top_turn["Dominant group"].eq("Q3 (far)")]["species_name"].head(4))
+            st.markdown(f"""
+Species turnover along the primary platform-distance bins indicates a change in the
+relative dominance of catch taxa between near and far exposure classes. The strongest
+near-platform signals include **{near_names or 'no dominant near-platform taxa among the top contrasts'}**,
+whereas far-platform bins are characterized by **{far_names or 'no dominant far-platform taxa among the top contrasts'}**.
+This turnover result complements the PERMANOVA evidence by identifying the taxa that
+contribute most to compositional separation.
 """)
+            st.markdown("**Table 6.** Largest species-level relative-abundance contrasts between Q3 and Q1.")
+            st.dataframe(
+                top_turn[["species_name", "Q1", "Q3", "Delta Q3-Q1", "Dominant group"]]
+                .rename(columns={"species_name": "Species"})
+                .round(4),
+                use_container_width=True,
+                hide_index=True,
+            )
+        else:
+            st.info("Primary-bin abundance data are available, but Q1/Q3 contrasts could not be computed.")
+    else:
+        st.info("Species-turnover outputs are not available.")
 
-    # Table 4
-    st.markdown("**Table 4.** Key species in the composition gradient (Q3 − Q1 relative abundance difference).")
-    tbl4 = pd.DataFrame({
-        "Species":         ["Sardinha", "Tainha", "Caranguejo", "Buzios",
-                            "Peixe Voador", "Dourado", "Lagosta"],
-        "Δ (Q3 − Q1)":    [-0.154, -0.150, -0.052, -0.039, +0.226, +0.063, +0.056],
-        "Dominant in":     ["Q1 (near)", "Q1 (near)", "Q1 (near)", "Q1 (near)",
-                            "Q3 (far)", "Q3 (far)", "Q3 (far)"],
-        "Total catch (t)": [7014, 4076, "—", "—", 8111, 2900, 3090],
-    })
-    st.dataframe(tbl4, use_container_width=True, hide_index=True)
+    if not pa_turnover.empty:
+        st.markdown("### Protected-area turnover")
+        pa_top = pa_turnover.sort_values("abs_difference", ascending=False).head(10).copy()
+        st.markdown("""
+Protected-area turnover summaries further indicate that MPA distance and MPA relation
+are associated with changes in the relative contribution of individual taxa. These
+taxon-level contrasts should be interpreted as compositional signatures of the
+platform-MPA spatial system rather than as direct causal effects of protection.
+""")
+        st.dataframe(
+            pa_top[[
+                "exposure_variable", "species_name", "mean_rel_Q1", "mean_rel_Q3",
+                "difference_far_minus_near", "dominant_in"
+            ]]
+            .rename(columns={
+                "exposure_variable": "Exposure",
+                "species_name": "Species",
+                "mean_rel_Q1": "Mean rel. Q1",
+                "mean_rel_Q3": "Mean rel. Q3",
+                "difference_far_minus_near": "Delta Q3-Q1",
+                "dominant_in": "Dominant in",
+            })
+            .assign(Exposure=lambda d: d["Exposure"].map(_elabel))
+            .round(4),
+            use_container_width=True,
+            hide_index=True,
+        )
 
     st.markdown("---")
     st.caption(
-        "All analyses were performed in Python (scikit-learn, scipy, statsmodels, skbio, pyGAM). "
-        "PERMANOVA was run with 999 permutations. GAM models used penalised regression splines "
-        "with GCV smoothing-parameter selection (pyGAM LinearGAM, cubic basis, n_splines = 10). "
-        "Data source: PMDP/IBAMA — Rio Grande do Norte, Brazil (2001–2025)."
+        "Interpretation note: these outputs quantify spatial associations in an observational "
+        "fishery dataset. Interaction terms indicate modulation or joint spatial structure, "
+        "but causal attribution requires additional design assumptions or external validation."
     )
