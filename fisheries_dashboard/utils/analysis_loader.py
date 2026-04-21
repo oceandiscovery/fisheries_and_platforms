@@ -10,7 +10,7 @@ so that the dashboard works without requiring the user to re-run all scripts.
 
 They are applied selectively:
   _norm_gam_best      — 08_best_models, 08_model_comparison
-  _norm_gam_coef      — 08_gam_term_statistics
+  _norm_gam_coef      — 08_model_term_statistics / 08_gam_term_statistics
   _norm_gam_smooth    — 08_gam_partial_dependence
   _norm_rob_curves    — 09_flexibility_curves
   _norm_rob_lolo      — 09_lolo_curves
@@ -289,7 +289,10 @@ def load_analysis():
     gam_comp_raw    = _read("08_model_comparison")
     gam_fitted_raw  = _read("08_model_fitted_values")
     gam_smooth_raw  = _read("08_gam_partial_dependence")
-    gam_coef_raw    = _read("08_gam_term_statistics")
+    gam_coef_raw    = _read("08_model_term_statistics")
+    if gam_coef_raw.empty:
+        gam_coef_raw = _read("08_gam_term_statistics")
+    gam_predictor_inventory = _read("08_predictor_set_inventory")
 
     # ── Module 09: raw reads ──
     rob_curves_raw  = _read("09_flexibility_curves")
@@ -340,6 +343,7 @@ def load_analysis():
         "gam_smooth":          _norm_gam_smooth(gam_smooth_raw),
         "gam_coef":            _norm_gam_coef(gam_coef_raw),
         "gam_specs":           _read("08_model_specifications"),
+        "gam_predictor_inventory": gam_predictor_inventory,
 
         # ── Module 09 (normalised) ──
         "rob_curves":          _norm_rob_curves(rob_curves_raw),
@@ -358,10 +362,14 @@ def load_analysis():
         "pcoa_rel":            _read("10_refined_pcoa_relative_scores"),
         "nmds_rel":            _read("10_refined_nmds_relative_scores"),
         "permanova":           _read("10_refined_permanova_table_long"),
+        "permanova_full":      _read("10_permanova_table_long"),
+        "permanova_interaction": _read("10_permanova_interaction_table_long"),
         "dispersion":          _read("10_refined_dispersion_table_long"),
         "axis_exp":            _read("10_refined_axis_exposure_associations"),
+        "axis_exp_full":       _read("10_axis_exposure_associations"),
         "top_sp_axis":         _read("10_refined_top_species_axis_associations"),
         "exp_bins":            _read("10_refined_exposure_bins_long"),
+        "interaction_groups":  _read("10_interaction_exposure_groups"),
         "valid_tests":         _read("11_valid_multivariate_tests_summary"),
 
         # ── Module 11 ──

@@ -31,6 +31,22 @@ EXPOSURE_LABELS = {
     "mean_n_platforms_within_20km":          "No. platforms within 20 km (mean)",
     "mean_n_platforms_within_10km":          "No. platforms within 10 km (mean)",
     "inv_distance_sum_mean":                 "Inverse distance sum (mean)",
+    "mean_distance_to_nearest_protected_area_km": "Mean distance to nearest protected area (km)",
+    "mean_distance_to_apa_dunas_do_rosado_km": "Mean distance to APA Dunas do Rosado (km)",
+    "mean_distance_to_rds_ponta_do_tubarao_km": "Mean distance to RDS Ponta do Tubarao (km)",
+    "share_landings_inside_apa_dunas_do_rosado": "Share of landings inside APA Dunas do Rosado",
+    "share_landings_inside_rds_ponta_do_tubarao": "Share of landings inside RDS Ponta do Tubarao",
+    "dominant_protected_area_relation":      "Dominant protected-area relation",
+    "dominant_nearest_protected_area":       "Dominant nearest protected area",
+    "inside_any_protected_area":             "Inside any protected area",
+    "mean_nearest_platform_distance_km__x__inside_any_protected_area":
+        "Mean platform distance x inside any protected area",
+    "mean_nearest_platform_distance_km__x__mean_distance_to_nearest_protected_area_km":
+        "Mean platform distance x mean protected-area distance",
+    "mean_nearest_platform_distance_km__x__dominant_protected_area_relation":
+        "Mean platform distance x protected-area relation",
+    "mean_nearest_platform_distance_km__x__dominant_nearest_protected_area":
+        "Mean platform distance x nearest protected area",
 }
 
 RESPONSE_LABELS = {
@@ -39,6 +55,8 @@ RESPONSE_LABELS = {
     "species_richness":         "Species richness (S)",
     "production_ton":           "Total production (t)",
     "production_per_trip_ton":  "Production per trip (t)",
+    "production_per_fisher_ton": "Production per fisher (t)",
+    "production_value_per_ton":  "Production value per ton",
 }
 
 LOCALITY_COLORS = {
@@ -49,6 +67,45 @@ LOCALITY_COLORS = {
     "PORTO DO MANGUE": "#e67e22",
 }
 
+_PAL_PRIMARY = "#2980b9"
+_PAL_SECONDARY = "#e67e22"
+_PAL_ACCENT = "#8e44ad"
+_PAL_NEUTRAL = "#95a5a6"
+
+_RELATION_COLS = [
+    "share_landings_relation_inside_apa",
+    "share_landings_relation_inside_rds",
+    "share_landings_relation_inside_both",
+    "share_landings_relation_outside_between_both",
+    "share_landings_relation_outside_closer_to_apa",
+    "share_landings_relation_outside_closer_to_rds",
+]
+
+_ZONE_LABELS = {
+    "inside_apa": "Inside APA Dunas do Rosado",
+    "inside_rds": "Inside RDS Ponta do Tubarao",
+    "inside_both": "Inside both protected areas",
+    "outside_between_both": "Outside, between both PAs",
+    "outside_closer_to_apa": "Outside, closer to APA",
+    "outside_closer_to_rds": "Outside, closer to RDS",
+    "outside_unknown": "Outside, unknown relation",
+    "APA_DUNAS_DO_ROSADO": "APA Dunas do Rosado",
+    "RDS_PONTA_DO_TUBARAO": "RDS Ponta do Tubarao",
+    "Q1": "Q1 (near)",
+    "Q2": "Q2 (mid)",
+    "Q3": "Q3 (far)",
+}
+
+_ZONE_COLORS = {
+    "inside_apa": "#27ae60",
+    "inside_rds": "#16a085",
+    "inside_both": "#1abc9c",
+    "outside_between_both": "#95a5a6",
+    "outside_closer_to_apa": "#f39c12",
+    "outside_closer_to_rds": "#e67e22",
+    "outside_unknown": "#7f8c8d",
+}
+
 def _port_name(x):
     return PORT_COORDS.get(x, {}).get("name", x)
 
@@ -57,6 +114,68 @@ def _elabel(col):
 
 def _rlabel(col):
     return RESPONSE_LABELS.get(col, col)
+
+_RESP_LABELS = RESPONSE_LABELS
+
+FAMILY_LABELS = {
+    "continuous":                  "Continuous predictor",
+    "categorical":                 "Categorical predictor",
+    "platform_inside_interaction": "Platform x inside-PA interaction",
+    "tensor_interaction":          "Tensor interaction: platform distance x PA distance",
+    "platform_pa_combined":        "Combined platform x protected-area groups",
+}
+_FAM_LABELS = FAMILY_LABELS
+
+def _family_label(col):
+    return FAMILY_LABELS.get(col, col)
+
+def _model_type_label(col):
+    return {
+        "gam_penalised": "GAM spline",
+        "linear_ols": "Linear",
+        "spline_gam_like": "GAM spline",
+        "linear": "Linear",
+    }.get(col, col)
+
+def _derive_inside_any_pa(df):
+    """Return an inside-PA indicator from available protected-area columns."""
+    if "inside_any_protected_area" in df.columns:
+        return pd.to_numeric(df["inside_any_protected_area"], errors="coerce").fillna(0).astype(int)
+    candidates = [
+        "share_landings_inside_apa_dunas_do_rosado",
+        "share_landings_inside_rds_ponta_do_tubarao",
+        "mean_n_protected_areas_containing_landing",
+        "n_protected_areas_containing_landing",
+    ]
+    present = [c for c in candidates if c in df.columns]
+    if present:
+        vals = df[present].apply(pd.to_numeric, errors="coerce").fillna(0).max(axis=1)
+        return (vals > 0).astype(int)
+    if "dominant_protected_area_relation" in df.columns:
+        return df["dominant_protected_area_relation"].astype("string").str.contains("inside", na=False).astype(int)
+    return pd.Series(0, index=df.index, dtype=int)
+
+def _zone_label(value):
+    if pd.isna(value):
+        return "Unknown"
+    return _ZONE_LABELS.get(str(value), str(value).replace("_", " ").title())
+
+def _zone_color(value):
+    if pd.isna(value):
+        return _PAL_NEUTRAL
+    return _ZONE_COLORS.get(str(value), _PAL_NEUTRAL)
+
+def _derive_dominant_relation(row):
+    best_key = None
+    best_val = -np.inf
+    for col in _RELATION_COLS:
+        if col not in row.index:
+            continue
+        val = pd.to_numeric(pd.Series([row[col]]), errors="coerce").iloc[0]
+        if pd.notna(val) and val > best_val:
+            best_val = val
+            best_key = col.replace("share_landings_relation_", "")
+    return best_key or "outside_between_both"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -353,24 +472,49 @@ def tab_gam(ad):
     smooth = ad["gam_smooth"].copy()
     fitted = ad["gam_fitted"].copy()
     coef = ad["gam_coef"].copy()
+    div_table = ad.get("div_table", pd.DataFrame()).copy()
+
+    if best.empty or comparison.empty:
+        st.info("GAM model outputs are not available.")
+        return
+
+    if "predictor_family" in comparison.columns:
+        st.markdown("#### Model family leaderboard")
+        gam_only = comparison[comparison["model_type"].eq("gam_penalised")].copy()
+        if not gam_only.empty:
+            fam_summary = (
+                gam_only.groupby("predictor_family", dropna=False)
+                .agg(
+                    models=("model_name", "nunique"),
+                    mean_r2=("r_squared", "mean"),
+                    best_r2=("r_squared", "max"),
+                    best_aic=("aic", "min"),
+                    mean_rmse=("rmse", "mean"),
+                )
+                .reset_index()
+                .sort_values(["best_r2", "best_aic"], ascending=[False, True])
+            )
+            fam_summary["Predictor family"] = fam_summary["predictor_family"].map(_family_label)
+            show = fam_summary[["Predictor family", "models", "mean_r2", "best_r2", "best_aic", "mean_rmse"]].copy()
+            show.columns = ["Predictor family", "N models", "Mean R2", "Best R2", "Best AIC", "Mean RMSE"]
+            st.dataframe(show.round(4), use_container_width=True, hide_index=True)
+
+        st.caption(
+            "The current best-response table is dominated by interaction models. "
+            "Partial-dependence curves are only available for simple continuous/categorical GAMs; "
+            "interaction models are shown with fitted/observed diagnostics and interaction-specific summaries."
+        )
 
     # ── Selector de modelo: grouped by predictor_family ───────────────────
     # Step 1: choose predictor family
     families_available = sorted(best["predictor_family"].dropna().unique().tolist()) \
         if "predictor_family" in best.columns else []
 
-    FAMILY_LABELS = {
-        "continuous":                      "Continuous predictor",
-        "categorical":                     "Categorical predictor",
-        "platform_inside_interaction":     "Platform × inside-APA interaction",
-        "tensor_interaction":              "Tensor (distance × AMP distance) interaction",
-    }
-
     if families_available:
         sel_family = st.selectbox(
             "Predictor family",
             options=families_available,
-            format_func=lambda x: FAMILY_LABELS.get(x, x),
+            format_func=_family_label,
             key="gam_family_sel",
         )
         best_family = best[best["predictor_family"] == sel_family].copy()
@@ -424,67 +568,109 @@ def tab_gam(ad):
 
     col_l, col_r = st.columns(2)
 
-    # ── Curva GAM con IC ──────────────────────────────────────────────────
+    # ── Curve or interaction diagnostic ───────────────────────────────────
     with col_l:
-        st.markdown("#### GAM curve with confidence interval (95%)")
+        st.markdown("#### Model effect / interaction diagnostic")
         sm = smooth[smooth["model_name"] == sel_model].copy()
-
-        # Determine the exposure column (column 0 of gam_smooth)
-        # _norm_gam_smooth keeps column 0 as the exposure variable
-        exp_col = row.get("predictor", row.get("exposure_variable", ""))
-        x_col_smooth = exp_col if exp_col in sm.columns else sm.columns[0]
-
-        sm_sorted = sm.dropna(subset=[x_col_smooth]).sort_values(x_col_smooth)
-
-        fig = go.Figure()
-        if "predicted_ci_high" in sm_sorted.columns and "predicted_ci_low" in sm_sorted.columns:
-            fig.add_trace(go.Scatter(
-                x=sm_sorted[x_col_smooth], y=sm_sorted["predicted_ci_high"],
-                mode="lines", line=dict(width=0), showlegend=False,
-                name="CI 95% upper",
-            ))
-            fig.add_trace(go.Scatter(
-                x=sm_sorted[x_col_smooth], y=sm_sorted["predicted_ci_low"],
-                mode="lines", line=dict(width=0), fill="tonexty",
-                fillcolor="rgba(41,128,185,0.18)", showlegend=False,
-                name="CI 95%",
-            ))
-        if "predicted" in sm_sorted.columns:
-            fig.add_trace(go.Scatter(
-                x=sm_sorted[x_col_smooth], y=sm_sorted["predicted"],
-                mode="lines", line=dict(color="#2980b9", width=2.5),
-                name="GAM predicted",
-            ))
-        elif "partial_effect" in sm_sorted.columns:
-            fig.add_trace(go.Scatter(
-                x=sm_sorted[x_col_smooth], y=sm_sorted["partial_effect"],
-                mode="lines", line=dict(color="#2980b9", width=2.5),
-                name="Partial effect",
-            ))
-
-        # Observaciones
         fit_sel = fitted[fitted["model_name"] == sel_model].copy() if not fitted.empty else pd.DataFrame()
-        if not fit_sel.empty and "local_canonical" in fit_sel.columns:
-            fit_sel["port_name"] = fit_sel["local_canonical"].map(_port_name)
-            obs_x = "observed_exposure" if "observed_exposure" in fit_sel.columns else fit_sel.columns[0]
-            obs_y = "observed_response" if "observed_response" in fit_sel.columns else fit_sel.columns[1]
-            fig.add_trace(go.Scatter(
-                x=fit_sel[obs_x], y=fit_sel[obs_y],
-                mode="markers",
-                marker=dict(color=[LOCALITY_COLORS.get(l, "#888") for l in fit_sel["local_canonical"]],
-                            size=7, line=dict(width=1, color="white")),
-                name="Observed",
-                text=fit_sel["port_name"] + " " + fit_sel["year"].astype(str),
-                hovertemplate="%{text}<br>X=%{x:.2f} Y=%{y:.4f}<extra></extra>",
-            ))
+        predictor_family = row.get("predictor_family", "")
+        predictor_name = row.get("predictor", row.get("exposure_variable", ""))
 
-        fig.update_layout(
-            height=400, margin=dict(t=20),
-            xaxis_title=_elabel(exp_col),
-            yaxis_title=_rlabel(row["response_variable"]),
-            legend=dict(orientation="h", y=-0.2),
-        )
-        st.plotly_chart(fig, use_container_width=True)
+        if not sm.empty and predictor_family in {"continuous", "categorical"}:
+            # Determine the exposure column (column 0 of gam_smooth)
+            exp_col = predictor_name
+            x_col_smooth = exp_col if exp_col in sm.columns else sm.columns[0]
+            sm_sorted = sm.dropna(subset=[x_col_smooth]).sort_values(x_col_smooth)
+
+            fig = go.Figure()
+            if "predicted_ci_high" in sm_sorted.columns and "predicted_ci_low" in sm_sorted.columns:
+                fig.add_trace(go.Scatter(
+                    x=sm_sorted[x_col_smooth], y=sm_sorted["predicted_ci_high"],
+                    mode="lines", line=dict(width=0), showlegend=False,
+                    name="CI 95% upper",
+                ))
+                fig.add_trace(go.Scatter(
+                    x=sm_sorted[x_col_smooth], y=sm_sorted["predicted_ci_low"],
+                    mode="lines", line=dict(width=0), fill="tonexty",
+                    fillcolor="rgba(41,128,185,0.18)", showlegend=False,
+                    name="CI 95%",
+                ))
+            y_col_curve = "predicted" if "predicted" in sm_sorted.columns else "partial_effect"
+            if y_col_curve in sm_sorted.columns:
+                fig.add_trace(go.Scatter(
+                    x=sm_sorted[x_col_smooth], y=sm_sorted[y_col_curve],
+                    mode="lines", line=dict(color="#2980b9", width=2.5),
+                    name="GAM predicted",
+                ))
+
+            if not fit_sel.empty and "local_canonical" in fit_sel.columns:
+                fit_sel["port_name"] = fit_sel["local_canonical"].map(_port_name)
+                obs_x = "observed_exposure" if "observed_exposure" in fit_sel.columns else fit_sel.columns[0]
+                obs_y = "observed_response" if "observed_response" in fit_sel.columns else fit_sel.columns[1]
+                fig.add_trace(go.Scatter(
+                    x=fit_sel[obs_x], y=fit_sel[obs_y],
+                    mode="markers",
+                    marker=dict(color=[LOCALITY_COLORS.get(l, "#888") for l in fit_sel["local_canonical"]],
+                                size=7, line=dict(width=1, color="white")),
+                    name="Observed",
+                    text=fit_sel["port_name"] + " " + fit_sel["year"].astype(str),
+                    hovertemplate="%{text}<br>X=%{x:.2f} Y=%{y:.4f}<extra></extra>",
+                ))
+
+            fig.update_layout(
+                height=400, margin=dict(t=20),
+                xaxis_title=_elabel(exp_col),
+                yaxis_title=_rlabel(row["response_variable"]),
+                legend=dict(orientation="h", y=-0.2),
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
+        elif not fit_sel.empty and not div_table.empty and "local_canonical" in fit_sel.columns:
+            merge_cols = [c for c in ["local_canonical", "year"] if c in fit_sel.columns and c in div_table.columns]
+            interaction_df = fit_sel.merge(div_table, on=merge_cols, how="left", suffixes=("", "_div"))
+            fit_sel["port_name"] = fit_sel["local_canonical"].map(_port_name)
+            interaction_df["port_name"] = interaction_df["local_canonical"].map(_port_name)
+            parts = str(predictor_name).split("__x__")
+            platform_col = parts[0] if parts and parts[0] in interaction_df.columns else "mean_nearest_platform_distance_km"
+            modifier_col = parts[1] if len(parts) > 1 else None
+
+            if modifier_col == "inside_any_protected_area" or predictor_family == "platform_inside_interaction":
+                interaction_df["inside_any_protected_area"] = _derive_inside_any_pa(interaction_df)
+                color_col = "inside_any_protected_area"
+                color_label = "Inside any PA"
+            elif modifier_col in interaction_df.columns:
+                color_col = modifier_col
+                color_label = _elabel(modifier_col)
+            else:
+                color_col = "port_name"
+                color_label = "Locality"
+
+            fig = px.scatter(
+                interaction_df.dropna(subset=[platform_col, "observed_response", "fitted"]),
+                x=platform_col,
+                y="observed_response",
+                color=color_col,
+                hover_data=["port_name", "year", "fitted", "residual"],
+                height=400,
+                labels={
+                    platform_col: _elabel(platform_col),
+                    "observed_response": _rlabel(row["response_variable"]),
+                    color_col: color_label,
+                },
+            )
+            fig.add_trace(go.Scatter(
+                x=interaction_df[platform_col],
+                y=interaction_df["fitted"],
+                mode="markers",
+                marker=dict(symbol="x", color="#2c3e50", size=8),
+                name="Fitted",
+                hovertemplate="Fitted=%{y:.4f}<extra></extra>",
+            ))
+            fig.update_layout(margin=dict(t=20), legend_title_text=color_label)
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("Partial-dependence curves are not available for this interaction model. "
+                    "Use the observed-vs-fitted diagnostics and term table below.")
 
     # ── Observado vs Ajustado ─────────────────────────────────────────────
     with col_r:
@@ -560,7 +746,7 @@ def tab_gam(ad):
         model_type_col = "model_type" if "model_type" in comp_sub.columns else None
         if model_type_col:
             comp_sub["model_type_label"] = comp_sub[model_type_col].map(
-                {"spline_gam_like": "GAM spline", "linear": "Linear"})
+                _model_type_label)
         else:
             comp_sub["model_type_label"] = "GAM spline"
 
@@ -1210,6 +1396,71 @@ def tab_ordination(ad):
                 font_size=11,
             )
             st.plotly_chart(fig_sp, use_container_width=True)
+
+    # ── Platform x protected-area interaction PERMANOVA ──────────────────
+    perm_inter = ad.get("permanova_interaction", pd.DataFrame()).copy()
+    interaction_groups = ad.get("interaction_groups", pd.DataFrame()).copy()
+    if not perm_inter.empty:
+        st.markdown("---")
+        st.markdown("#### Platform x protected-area composition screen")
+        st.caption(
+            "PERMANOVA on combined groups such as platform-distance tertile x "
+            "protected-area relation. This is an explicit screen for joint "
+            "platform and protected-area structure in species composition."
+        )
+
+        plot_df = perm_inter.copy()
+        plot_df["interaction_label"] = (
+            plot_df["platform_exposure"].map(_elabel)
+            + " x "
+            + plot_df["pa_exposure"].map(_elabel)
+            + " | "
+            + plot_df["ordination_basis"].astype(str)
+        )
+        plot_df = plot_df.sort_values("r2", ascending=True)
+        fig_int = go.Figure(go.Bar(
+            x=plot_df["r2"],
+            y=plot_df["interaction_label"],
+            orientation="h",
+            marker_color=plot_df["p_value"].apply(lambda p: "#27ae60" if pd.notna(p) and p <= 0.05 else "#95a5a6"),
+            text=plot_df["r2"].apply(lambda v: f"{v:.3f}" if pd.notna(v) else "—"),
+            textposition="outside",
+            customdata=np.stack([
+                plot_df["pseudo_F"],
+                plot_df["p_value"],
+                plot_df["n_groups"],
+                plot_df["n_rows"],
+            ], axis=-1),
+            hovertemplate=(
+                "R2=%{x:.4f}<br>pseudo-F=%{customdata[0]:.3f}<br>"
+                "p=%{customdata[1]:.4f}<br>groups=%{customdata[2]}<br>"
+                "N=%{customdata[3]}<extra></extra>"
+            ),
+        ))
+        fig_int.update_layout(
+            height=max(260, len(plot_df) * 36),
+            margin=dict(t=20, r=80),
+            xaxis_title="PERMANOVA R2",
+            yaxis_title="",
+            showlegend=False,
+        )
+        st.plotly_chart(fig_int, use_container_width=True)
+
+        if not interaction_groups.empty:
+            grp_counts = (
+                interaction_groups.groupby(["exposure_variable", "group_level"], dropna=False)
+                .size()
+                .reset_index(name="n_locality_years")
+            )
+            grp_counts["Interaction"] = grp_counts["exposure_variable"].map(_elabel)
+            grp_counts = grp_counts.sort_values(["Interaction", "group_level"])
+            with st.expander("Combined platform x protected-area group sizes"):
+                st.dataframe(
+                    grp_counts[["Interaction", "group_level", "n_locality_years"]]
+                    .rename(columns={"group_level": "Group", "n_locality_years": "N locality-years"}),
+                    use_container_width=True,
+                    hide_index=True,
+                )
 
     # ── PERMANOVA completo ────────────────────────────────────────────────
     with st.expander("Full PERMANOVA table"):
