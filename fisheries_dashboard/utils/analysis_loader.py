@@ -24,7 +24,7 @@ import numpy as np
 import pandas as pd
 
 # data/ is two levels above utils/
-DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
+DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data_processed"))
 
 
 def _p(name):

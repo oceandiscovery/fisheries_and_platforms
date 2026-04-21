@@ -18,7 +18,7 @@ from utils.coords import PORT_COORDS, PORT_META
 warnings.filterwarnings("ignore")
 
 # Parquets are in the data/ folder at the repo root (3 levels up from utils/ on Streamlit Cloud)
-DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
+DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data_processed"))
 
 # ─────────────────────────────────────────────
 # 1. CARGA DE DATASETS
