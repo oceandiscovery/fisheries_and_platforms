@@ -7,9 +7,12 @@ of Rio Grande do Norte state (Brazil).
 PORT_COORDS = {
     "AREIA BRANCA":     {"lat": -4.9529, "lon": -37.1373, "name": "Areia Branca"},
     "CAICARA DO NORTE": {"lat": -5.0697, "lon": -36.0703, "name": "Caiçara do Norte"},
+    "GALINHOS":         {"lat": -5.1027, "lon": -36.2636, "name": "Galinhos"},
+    "GROSSOS":          {"lat": -4.9782, "lon": -37.1579, "name": "Grossos"},
     "GUAMARE":          {"lat": -5.1131, "lon": -36.3266, "name": "Guamaré"},
     "MACAU":            {"lat": -5.1151, "lon": -36.6352, "name": "Macau"},
     "PORTO DO MANGUE":  {"lat": -5.1614, "lon": -36.8428, "name": "Porto do Mangue"},
+    "TIBAU":            {"lat": -4.8469, "lon": -37.2608, "name": "Tibau"},
 }
 
 # Additional metadata for maps

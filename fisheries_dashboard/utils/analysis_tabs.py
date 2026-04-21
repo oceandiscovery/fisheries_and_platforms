@@ -1294,24 +1294,27 @@ def tab_gradient(ad):
     st.caption("Change in relative abundance between the nearest (Q1) "
                "and farthest (Q3) tertile from oil platforms.")
 
-    turn_plot = turnover.sort_values("difference_Q3_minus_Q1").copy()
-    turn_plot["color"] = turn_plot["difference_Q3_minus_Q1"].apply(
+    turn_plot = turnover.sort_values("difference_far_minus_near").copy()
+    turn_plot["color"] = turn_plot["difference_far_minus_near"].apply(
         lambda x: "#e74c3c" if x < 0 else "#27ae60")
-    turn_plot["label"] = turn_plot["species_name"] + \
+    _has_corr = "axis_spearman_corr" in turn_plot.columns
+    turn_plot["label"] = turn_plot["species_name"] + (
         turn_plot["axis_spearman_corr"].apply(lambda r: f"  (ρ={r:.2f})")
+        if _has_corr else "")
 
     fig3 = go.Figure(go.Bar(
-        x=turn_plot["difference_Q3_minus_Q1"],
+        x=turn_plot["difference_far_minus_near"],
         y=turn_plot["label"],
         orientation="h",
         marker_color=turn_plot["color"],
-        text=turn_plot["difference_Q3_minus_Q1"].apply(lambda x: f"{x:+.3f}"),
+        text=turn_plot["difference_far_minus_near"].apply(lambda x: f"{x:+.3f}"),
         textposition="outside",
         customdata=np.stack([
             turn_plot["mean_rel_Q1"],
             turn_plot["mean_rel_Q3"],
             turn_plot["dominant_in"],
-            turn_plot["species_total_ton"],
+            turn_plot["species_total_ton"] if "species_total_ton" in turn_plot.columns
+            else np.zeros(len(turn_plot)),
         ], axis=-1),
         hovertemplate=(
             "<b>%{y}</b><br>"
@@ -1329,11 +1332,11 @@ def tab_gradient(ad):
         xaxis_title="Relative abundance difference (Q3 − Q1)",
         yaxis_title="",
         annotations=[
-            dict(x=turn_plot["difference_Q3_minus_Q1"].max() * 0.7,
+            dict(x=turn_plot["difference_far_minus_near"].max() * 0.7,
                  y=len(turn_plot) - 0.5,
                  text="More abundant far from platforms",
                  showarrow=False, font=dict(size=10, color="#27ae60")),
-            dict(x=turn_plot["difference_Q3_minus_Q1"].min() * 0.7,
+            dict(x=turn_plot["difference_far_minus_near"].min() * 0.7,
                  y=len(turn_plot) - 0.5,
                  text="More abundant near platforms",
                  showarrow=False, font=dict(size=10, color="#e74c3c")),
