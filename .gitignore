@@ -21,6 +21,13 @@ env/
 fisheries_dashboard/outputs/maps/
 fisheries_dashboard/outputs/geojson/
 
+# Local-only data folders
+data_raw/
+outputs/
+scripts/
+scripts_bk
+tmp/
+
 # OS
 .DS_Store
 Thumbs.db
