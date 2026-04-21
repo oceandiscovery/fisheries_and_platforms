@@ -1484,13 +1484,97 @@ def tab_gradient(ad):
     top_bin   = ad["top_by_bin"].copy()
     mean_ab   = ad["mean_abund_bin"].copy()
 
+    if scores.empty:
+        scores = ad.get("pcoa_rel", pd.DataFrame()).copy()
+    if top_bin.empty and not mean_ab.empty:
+        top_bin = mean_ab.copy()
+    if summary.empty and not scores.empty:
+        axis_exp = ad.get("axis_exp_full", ad.get("axis_exp", pd.DataFrame())).copy()
+        perm = ad.get("permanova_full", ad.get("permanova", pd.DataFrame())).copy()
+
+        if not axis_exp.empty:
+            axis_exp = axis_exp[
+                axis_exp["axis"].isin([c for c in ["Axis1", "Axis2"] if c in scores.columns])
+                & axis_exp["exposure_variable"].isin(scores.columns)
+            ].copy()
+            if not axis_exp.empty:
+                preferred = axis_exp[
+                    axis_exp["ordination"].astype(str).str.contains("PCoA_BrayCurtis", na=False)
+                    & axis_exp["exposure_variable"].eq("mean_nearest_platform_distance_km")
+                ]
+                best_axis = (
+                    preferred.sort_values("abs_spearman_corr", ascending=False).iloc[0]
+                    if not preferred.empty
+                    else axis_exp.sort_values("abs_spearman_corr", ascending=False).iloc[0]
+                )
+                exp_var = best_axis["exposure_variable"]
+                axis = best_axis["axis"]
+                ordination = best_axis["ordination"]
+
+                r2 = np.nan
+                p_value = np.nan
+                if not perm.empty:
+                    basis_col = "ordination_basis" if "ordination_basis" in perm.columns else "distance_basis"
+                    perm_match = perm[perm["exposure_variable"].eq(exp_var)].copy()
+                    if basis_col in perm_match.columns:
+                        perm_match = perm_match[
+                            perm_match[basis_col].astype(str).str.contains("BrayCurtis", na=False)
+                        ]
+                    if not perm_match.empty:
+                        r2 = perm_match.iloc[0].get("r2", np.nan)
+                        p_value = perm_match.iloc[0].get("p_value", np.nan)
+
+                summary = pd.DataFrame([{
+                    "ordination": ordination,
+                    "axis": axis,
+                    "exposure_variable": exp_var,
+                    "permanova_r2": r2,
+                    "permanova_p_value": p_value,
+                    "axis_spearman_corr": best_axis.get("spearman_corr", np.nan),
+                    "axis_pearson_corr": best_axis.get("pearson_corr", np.nan),
+                }])
+
+    if turnover.empty and not mean_ab.empty:
+        pivot = mean_ab.pivot_table(
+            index="species_name",
+            columns="exposure_bin",
+            values="mean_relative_abundance",
+            aggfunc="mean",
+        )
+        if {"Q1", "Q3"}.issubset(pivot.columns):
+            turnover = pivot[["Q1", "Q3"]].fillna(0).reset_index()
+            turnover = turnover.rename(columns={"Q1": "mean_rel_Q1", "Q3": "mean_rel_Q3"})
+            turnover["near_group"] = "Q1"
+            turnover["far_group"] = "Q3"
+            turnover["difference_far_minus_near"] = turnover["mean_rel_Q3"] - turnover["mean_rel_Q1"]
+            turnover["abs_difference"] = turnover["difference_far_minus_near"].abs()
+            turnover["dominant_in"] = np.where(
+                turnover["difference_far_minus_near"] >= 0, "Q3", "Q1"
+            )
+            turnover = turnover.sort_values("abs_difference", ascending=False).head(20)
+
+    if summary.empty or scores.empty:
+        st.info(
+            "Primary-gradient outputs are not available. "
+            "Upload the Module 11 parquet files or keep the Module 10 ordination outputs "
+            "available so this section can be reconstructed."
+        )
+        return
+
     # ── KPIs del gradiente ────────────────────────────────────────────────
     row = summary.iloc[0]
     primary_axis_label = scores["primary_axis"].iloc[0] if "primary_axis" in scores.columns else row.get("axis", "Axis1")
+    if "primary_axis_score" not in scores.columns and primary_axis_label in scores.columns:
+        scores["primary_axis_score"] = scores[primary_axis_label]
+    if "primary_axis_score" not in scores.columns:
+        st.info("Primary-axis scores are not available for the selected gradient.")
+        return
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Ordination", f"{row['ordination'].replace('_',' ')}")
-    c2.metric("PERMANOVA R²", f"{row['permanova_r2']:.4f}", "p=0.001")
-    c3.metric("Axis ↔ distance correlation", f"ρ={row['axis_spearman_corr']:.4f}")
+    p_label = row.get("permanova_p_value", np.nan)
+    p_delta = f"p={p_label:.3f}" if pd.notna(p_label) else None
+    c2.metric("PERMANOVA R²", f"{row['permanova_r2']:.4f}" if pd.notna(row.get("permanova_r2")) else "n/a", p_delta)
+    c3.metric("Axis ↔ distance correlation", f"ρ={row['axis_spearman_corr']:.4f}" if pd.notna(row.get("axis_spearman_corr")) else "n/a")
     c4.metric("Exposure variable", _elabel(row["exposure_variable"]))
 
     st.markdown("---")
@@ -1502,26 +1586,29 @@ def tab_gradient(ad):
         scores["port_name"] = scores["local_canonical"].map(_port_name)
         exp_var = row["exposure_variable"]
 
-        fig = px.scatter(
-            scores.dropna(subset=["primary_axis_score", exp_var]),
-            x=exp_var,
-            y="primary_axis_score",
-            color="port_name",
-            color_discrete_map={_port_name(k): v for k, v in LOCALITY_COLORS.items()},
-            trendline="ols",
-            trendline_scope="overall",
-            trendline_color_override="#2c3e50",
-            size_max=10,
-            height=400,
-            labels={
-                exp_var: _elabel(exp_var),
-                "primary_axis_score": f"Score {primary_axis_label}",
-                "port_name": "Locality",
-            },
-            hover_data=["year"],
-        )
-        fig.update_layout(margin=dict(t=20), legend_title_text="Locality")
-        st.plotly_chart(fig, use_container_width=True)
+        if exp_var not in scores.columns:
+            st.info(f"Exposure variable `{exp_var}` is not available in the ordination scores.")
+        else:
+            fig = px.scatter(
+                scores.dropna(subset=["primary_axis_score", exp_var]),
+                x=exp_var,
+                y="primary_axis_score",
+                color="port_name",
+                color_discrete_map={_port_name(k): v for k, v in LOCALITY_COLORS.items()},
+                trendline="ols",
+                trendline_scope="overall",
+                trendline_color_override="#2c3e50",
+                size_max=10,
+                height=400,
+                labels={
+                    exp_var: _elabel(exp_var),
+                    "primary_axis_score": f"Score {primary_axis_label}",
+                    "port_name": "Locality",
+                },
+                hover_data=["year"],
+            )
+            fig.update_layout(margin=dict(t=20), legend_title_text="Locality")
+            st.plotly_chart(fig, use_container_width=True)
 
     # ── Evolución temporal del score ──────────────────────────────────────
     with col_r:
@@ -1545,55 +1632,58 @@ def tab_gradient(ad):
     st.caption("Change in relative abundance between the nearest (Q1) "
                "and farthest (Q3) tertile from oil platforms.")
 
-    turn_plot = turnover.sort_values("difference_far_minus_near").copy()
-    turn_plot["color"] = turn_plot["difference_far_minus_near"].apply(
-        lambda x: "#e74c3c" if x < 0 else "#27ae60")
-    _has_corr = "axis_spearman_corr" in turn_plot.columns
-    turn_plot["label"] = turn_plot["species_name"] + (
-        turn_plot["axis_spearman_corr"].apply(lambda r: f"  (ρ={r:.2f})")
-        if _has_corr else "")
+    if turnover.empty:
+        st.info("Species-turnover outputs are not available for the primary gradient.")
+    else:
+        turn_plot = turnover.sort_values("difference_far_minus_near").copy()
+        turn_plot["color"] = turn_plot["difference_far_minus_near"].apply(
+            lambda x: "#e74c3c" if x < 0 else "#27ae60")
+        _has_corr = "axis_spearman_corr" in turn_plot.columns
+        turn_plot["label"] = turn_plot["species_name"] + (
+            turn_plot["axis_spearman_corr"].apply(lambda r: f"  (ρ={r:.2f})")
+            if _has_corr else "")
 
-    fig3 = go.Figure(go.Bar(
-        x=turn_plot["difference_far_minus_near"],
-        y=turn_plot["label"],
-        orientation="h",
-        marker_color=turn_plot["color"],
-        text=turn_plot["difference_far_minus_near"].apply(lambda x: f"{x:+.3f}"),
-        textposition="outside",
-        customdata=np.stack([
-            turn_plot["mean_rel_Q1"],
-            turn_plot["mean_rel_Q3"],
-            turn_plot["dominant_in"],
-            turn_plot["species_total_ton"] if "species_total_ton" in turn_plot.columns
-            else np.zeros(len(turn_plot)),
-        ], axis=-1),
-        hovertemplate=(
-            "<b>%{y}</b><br>"
-            "Change Q3−Q1: %{x:.4f}<br>"
-            "Rel. abundance Q1: %{customdata[0]:.4f}<br>"
-            "Rel. abundance Q3: %{customdata[1]:.4f}<br>"
-            "Dominant in: %{customdata[2]}<br>"
-            "Historical total: %{customdata[3]:.0f} t<extra></extra>"
-        ),
-    ))
-    fig3.add_vline(x=0, line_dash="dash", line_color="#aaa", line_width=1)
-    fig3.update_layout(
-        height=max(420, len(turn_plot) * 28),
-        margin=dict(t=20, r=80),
-        xaxis_title="Relative abundance difference (Q3 − Q1)",
-        yaxis_title="",
-        annotations=[
-            dict(x=turn_plot["difference_far_minus_near"].max() * 0.7,
-                 y=len(turn_plot) - 0.5,
-                 text="More abundant far from platforms",
-                 showarrow=False, font=dict(size=10, color="#27ae60")),
-            dict(x=turn_plot["difference_far_minus_near"].min() * 0.7,
-                 y=len(turn_plot) - 0.5,
-                 text="More abundant near platforms",
-                 showarrow=False, font=dict(size=10, color="#e74c3c")),
-        ],
-    )
-    st.plotly_chart(fig3, use_container_width=True)
+        fig3 = go.Figure(go.Bar(
+            x=turn_plot["difference_far_minus_near"],
+            y=turn_plot["label"],
+            orientation="h",
+            marker_color=turn_plot["color"],
+            text=turn_plot["difference_far_minus_near"].apply(lambda x: f"{x:+.3f}"),
+            textposition="outside",
+            customdata=np.stack([
+                turn_plot["mean_rel_Q1"],
+                turn_plot["mean_rel_Q3"],
+                turn_plot["dominant_in"],
+                turn_plot["species_total_ton"] if "species_total_ton" in turn_plot.columns
+                else np.zeros(len(turn_plot)),
+            ], axis=-1),
+            hovertemplate=(
+                "<b>%{y}</b><br>"
+                "Change Q3−Q1: %{x:.4f}<br>"
+                "Rel. abundance Q1: %{customdata[0]:.4f}<br>"
+                "Rel. abundance Q3: %{customdata[1]:.4f}<br>"
+                "Dominant in: %{customdata[2]}<br>"
+                "Historical total: %{customdata[3]:.0f} t<extra></extra>"
+            ),
+        ))
+        fig3.add_vline(x=0, line_dash="dash", line_color="#aaa", line_width=1)
+        fig3.update_layout(
+            height=max(420, len(turn_plot) * 28),
+            margin=dict(t=20, r=80),
+            xaxis_title="Relative abundance difference (Q3 − Q1)",
+            yaxis_title="",
+            annotations=[
+                dict(x=turn_plot["difference_far_minus_near"].max() * 0.7,
+                     y=len(turn_plot) - 0.5,
+                     text="More abundant far from platforms",
+                     showarrow=False, font=dict(size=10, color="#27ae60")),
+                dict(x=turn_plot["difference_far_minus_near"].min() * 0.7,
+                     y=len(turn_plot) - 0.5,
+                     text="More abundant near platforms",
+                     showarrow=False, font=dict(size=10, color="#e74c3c")),
+            ],
+        )
+        st.plotly_chart(fig3, use_container_width=True)
 
     # ── Abundancias por tertil ────────────────────────────────────────────
     st.markdown("---")
@@ -1607,50 +1697,59 @@ def tab_gradient(ad):
         "Q2": "Q2 — Intermediate distance",
         "Q3": "Q3 — Farthest from platforms",
     }
-    for i, (bin_val, col) in enumerate(zip(["Q1", "Q2", "Q3"], col_bins)):
-        grp = top_bin[top_bin["exposure_bin"] == bin_val].sort_values(
-            "mean_relative_abundance", ascending=True)
-        with col:
-            st.markdown(f"**{bin_labels[bin_val]}**")
-            fig_b = go.Figure(go.Bar(
-                x=grp["mean_relative_abundance"],
-                y=grp["species_label"],
-                orientation="h",
-                marker_color=bin_colors[bin_val],
-                text=grp["mean_relative_abundance"].apply(lambda x: f"{x:.3f}"),
-                textposition="outside",
-            ))
-            fig_b.update_layout(
-                height=350, margin=dict(t=10, b=10, l=10, r=40),
-                xaxis_title="Relative abundance",
-                yaxis_title="",
-                font_size=10,
-            )
-            st.plotly_chart(fig_b, use_container_width=True)
+    if top_bin.empty:
+        st.info("Tertile-level species abundance outputs are not available.")
+    else:
+        for i, (bin_val, col) in enumerate(zip(["Q1", "Q2", "Q3"], col_bins)):
+            grp = top_bin[top_bin["exposure_bin"] == bin_val].sort_values(
+                "mean_relative_abundance", ascending=True)
+            with col:
+                st.markdown(f"**{bin_labels[bin_val]}**")
+                if grp.empty:
+                    st.info("No data for this tertile.")
+                    continue
+                fig_b = go.Figure(go.Bar(
+                    x=grp["mean_relative_abundance"],
+                    y=grp["species_label"],
+                    orientation="h",
+                    marker_color=bin_colors[bin_val],
+                    text=grp["mean_relative_abundance"].apply(lambda x: f"{x:.3f}"),
+                    textposition="outside",
+                ))
+                fig_b.update_layout(
+                    height=350, margin=dict(t=10, b=10, l=10, r=40),
+                    xaxis_title="Relative abundance",
+                    yaxis_title="",
+                    font_size=10,
+                )
+                st.plotly_chart(fig_b, use_container_width=True)
 
     # ── Heatmap abundancia completo por especie × tertil ─────────────────
     st.markdown("---")
     st.markdown("#### Relative abundance heatmap — all species × tertile")
-    mean_ab_pivot = mean_ab.pivot_table(
-        index="species_name", columns="exposure_bin",
-        values="mean_relative_abundance", aggfunc="mean"
-    ).fillna(0)
-    mean_ab_pivot = mean_ab_pivot.loc[
-        mean_ab_pivot.max(axis=1).sort_values(ascending=False).index
-    ]
+    if mean_ab.empty:
+        st.info("Mean relative abundance by primary bin is not available.")
+    else:
+        mean_ab_pivot = mean_ab.pivot_table(
+            index="species_name", columns="exposure_bin",
+            values="mean_relative_abundance", aggfunc="mean"
+        ).fillna(0)
+        mean_ab_pivot = mean_ab_pivot.loc[
+            mean_ab_pivot.max(axis=1).sort_values(ascending=False).index
+        ]
 
-    fig_heat = px.imshow(
-        mean_ab_pivot.values,
-        x=["Q1 (near)", "Q2 (mid)", "Q3 (far)"],
-        y=mean_ab_pivot.index.tolist(),
-        color_continuous_scale="YlOrRd",
-        text_auto=".3f",
-        labels={"color": "Rel. abundance"},
-        height=max(500, len(mean_ab_pivot) * 22),
-        aspect="auto",
-    )
-    fig_heat.update_layout(margin=dict(t=20))
-    st.plotly_chart(fig_heat, use_container_width=True)
+        fig_heat = px.imshow(
+            mean_ab_pivot.values,
+            x=[_zone_label(c) for c in mean_ab_pivot.columns],
+            y=mean_ab_pivot.index.tolist(),
+            color_continuous_scale="YlOrRd",
+            text_auto=".3f",
+            labels={"color": "Rel. abundance"},
+            height=max(500, len(mean_ab_pivot) * 22),
+            aspect="auto",
+        )
+        fig_heat.update_layout(margin=dict(t=20))
+        st.plotly_chart(fig_heat, use_container_width=True)
 
     # ══ Protected Area gradient ═══════════════════════════════════════════
     st.markdown("---")
