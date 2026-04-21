@@ -35,8 +35,8 @@ from utils.map_builder import species_distribution_map, cpue_map, biodiversity_h
 from utils.coords import PORT_COORDS, GEAR_LABELS
 from utils.analysis_loader import load_analysis
 from utils.analysis_tabs import (
-    tab_exposure, tab_gam, tab_robustness, tab_ordination, tab_gradient,
-    tab_methods_results
+    tab_exposure, tab_assoc, tab_gam, tab_robustness, tab_ordination,
+    tab_gradient, tab_protected_areas, tab_methods_results
 )
 
 warnings.filterwarnings("ignore")
@@ -805,23 +805,29 @@ def main():
     st.markdown("### 🔬 Analysis results")
     tabs_analysis = st.tabs([
         "📡 Platform exposure",
+        "🔗 Associations",
         "📈 GAM models",
         "🔬 Model robustness",
         "🦭 Multivariate ordination",
         "🌊 Composition gradient",
+        "🛡️ Protected areas",
         "📄 Methods & Results",
     ])
     with tabs_analysis[0]:
         tab_exposure(ad)
     with tabs_analysis[1]:
-        tab_gam(ad)
+        tab_assoc(ad)
     with tabs_analysis[2]:
-        tab_robustness(ad)
+        tab_gam(ad)
     with tabs_analysis[3]:
-        tab_ordination(ad)
+        tab_robustness(ad)
     with tabs_analysis[4]:
-        tab_gradient(ad)
+        tab_ordination(ad)
     with tabs_analysis[5]:
+        tab_gradient(ad)
+    with tabs_analysis[6]:
+        tab_protected_areas(ad)
+    with tabs_analysis[7]:
         tab_methods_results()
 
     # Footer

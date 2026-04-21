@@ -1,6 +1,7 @@
 """
 analysis_tabs.py — The 5 analysis tabs of the dashboard:
   tab_exposure     → Module 07: Platform exposure
+  tab_assoc        → Module 07: Associations (platform + AMP predictors)
   tab_gam          → Module 08: GAM models
   tab_robustness   → Module 09: GAM robustness
   tab_ordination   → Module 10: Multivariate ordination
@@ -190,7 +191,158 @@ def tab_exposure(ad):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 2 — MODELOS GAM (módulo 08)
+# TAB 2 — ASSOCIATIONS (módulo 07 — platform + AMP predictors)
+# ══════════════════════════════════════════════════════════════════════════════
+def tab_assoc(ad):
+    st.markdown('<h3 class="section-title">Associations: platform exposure and protected area predictors</h3>',
+                unsafe_allow_html=True)
+
+    # ── Section 1: Continuous predictor associations (all) ────────────────
+    st.markdown("### Continuous predictor associations (all)")
+    st.caption(
+        "Spearman correlations for all continuous predictors — both platform distance "
+        "metrics and AMP (protected area) distance metrics."
+    )
+
+    assoc_cont = ad.get("assoc_overall_cont", pd.DataFrame())
+
+    if assoc_cont.empty:
+        st.info("Dataset `assoc_overall_cont` (07_diversity_overall_continuous_associations) "
+                "not yet available.")
+    else:
+        # Build heatmap: rows = exposure_variable, columns = response_variable
+        pivot_cont = assoc_cont.pivot_table(
+            index="exposure_variable",
+            columns="response_variable",
+            values="spearman_corr",
+            aggfunc="first",
+        )
+
+        # Nicer axis labels
+        pivot_cont.index = [_elabel(i) for i in pivot_cont.index]
+        pivot_cont.columns = [_rlabel(c) for c in pivot_cont.columns]
+
+        fig_heat = px.imshow(
+            pivot_cont.round(3),
+            color_continuous_scale="RdBu_r",
+            zmin=-1, zmax=1,
+            text_auto=".2f",
+            aspect="auto",
+            height=max(350, len(pivot_cont) * 36),
+            labels={"color": "ρ Spearman"},
+        )
+        fig_heat.update_layout(
+            margin=dict(t=20, b=10),
+            xaxis_title="Response variable",
+            yaxis_title="Predictor",
+            coloraxis_colorbar_title="ρ",
+        )
+        st.plotly_chart(fig_heat, use_container_width=True)
+
+        # Detailed table below the heatmap
+        with st.expander("Full continuous associations table"):
+            disp_cont = assoc_cont[[
+                "response_variable", "exposure_variable", "spearman_corr",
+                "pearson_corr", "spearman_p_value", "spearman_p_value_adj_fdr",
+                "significant_fdr_05", "n_complete",
+            ]].copy()
+            disp_cont["response_variable"] = disp_cont["response_variable"].map(_rlabel)
+            disp_cont["exposure_variable"] = disp_cont["exposure_variable"].map(_elabel)
+            disp_cont = disp_cont.sort_values("spearman_corr", key=abs, ascending=False)
+            disp_cont.columns = [
+                "Response", "Predictor", "ρ Spearman", "r Pearson",
+                "p-value", "p-value (FDR adj.)", "Sig. FDR 5%", "N",
+            ]
+            disp_cont["ρ Spearman"] = disp_cont["ρ Spearman"].round(3)
+            disp_cont["r Pearson"]  = disp_cont["r Pearson"].round(3)
+            disp_cont["p-value"]    = disp_cont["p-value"].apply(lambda v: f"{v:.4g}")
+            disp_cont["p-value (FDR adj.)"] = disp_cont["p-value (FDR adj.)"].apply(
+                lambda v: f"{v:.4g}")
+            st.dataframe(
+                disp_cont.style.background_gradient(subset=["ρ Spearman"], cmap="RdYlGn"),
+                use_container_width=True, hide_index=True,
+            )
+
+    st.markdown("---")
+
+    # ── Section 2: Categorical AMP predictor associations ─────────────────
+    st.markdown("### Categorical AMP predictor associations (Kruskal-Wallis)")
+    st.caption(
+        "Kruskal-Wallis H tests for categorical AMP predictors: "
+        "`dominant_protected_area_relation` and `dominant_nearest_protected_area`."
+    )
+
+    assoc_cat = ad.get("assoc_categorical", pd.DataFrame())
+
+    if assoc_cat.empty:
+        st.info("Dataset `assoc_categorical` (07_diversity_categorical_response_tests) "
+                "not yet available.")
+    else:
+        disp_cat = assoc_cat[[
+            "response_variable", "exposure_variable", "n_complete",
+            "n_levels_tested", "kruskal_h", "kruskal_p_value",
+            "p_value_adj_fdr", "significant_fdr_05",
+        ]].copy()
+        disp_cat["response_variable"] = disp_cat["response_variable"].map(_rlabel)
+        disp_cat = disp_cat.sort_values("kruskal_p_value")
+        disp_cat.columns = [
+            "Response", "Predictor", "N", "Levels",
+            "Kruskal H", "p-value", "p-value (FDR adj.)", "Sig. FDR 5%",
+        ]
+        disp_cat["Kruskal H"] = disp_cat["Kruskal H"].round(3)
+        disp_cat["p-value"]   = disp_cat["p-value"].apply(lambda v: f"{v:.4g}")
+        disp_cat["p-value (FDR adj.)"] = disp_cat["p-value (FDR adj.)"].apply(
+            lambda v: f"{v:.4g}")
+
+        # Highlight significant rows
+        def _highlight_sig(row):
+            style = "background-color: #d4edda;" if row["Sig. FDR 5%"] else ""
+            return [style] * len(row)
+
+        st.dataframe(
+            disp_cat.style.apply(_highlight_sig, axis=1),
+            use_container_width=True, hide_index=True,
+        )
+
+        # Visual: bar chart of H statistic by response × predictor
+        cat_plot = assoc_cat.copy()
+        cat_plot["response"] = cat_plot["response_variable"].map(_rlabel)
+        cat_plot["pair"] = cat_plot["response"] + " ↔ " + cat_plot["exposure_variable"]
+        cat_plot["color"] = cat_plot["significant_fdr_05"].map(
+            {True: "#27ae60", False: "#bdc3c7"})
+        cat_plot = cat_plot.sort_values("kruskal_h", ascending=True)
+
+        fig_h = go.Figure(go.Bar(
+            x=cat_plot["kruskal_h"],
+            y=cat_plot["pair"],
+            orientation="h",
+            marker_color=cat_plot["color"],
+            text=cat_plot["kruskal_h"].apply(lambda v: f"{v:.2f}"),
+            textposition="outside",
+            customdata=cat_plot["kruskal_p_value"].apply(lambda v: f"{v:.4g}"),
+            hovertemplate="H = %{x:.3f}<br>p = %{customdata}<extra>%{y}</extra>",
+        ))
+        fig_h.update_layout(
+            height=max(300, len(cat_plot) * 36),
+            margin=dict(t=20, r=80),
+            xaxis_title="Kruskal-Wallis H statistic",
+            yaxis_title="",
+            showlegend=False,
+        )
+        # Legend annotation
+        fig_h.add_annotation(
+            x=cat_plot["kruskal_h"].max() * 0.95,
+            y=-0.8,
+            text="Green = significant (FDR 5%)",
+            showarrow=False,
+            font=dict(size=10, color="#27ae60"),
+            xanchor="right",
+        )
+        st.plotly_chart(fig_h, use_container_width=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 3 — MODELOS GAM (módulo 08)
 # ══════════════════════════════════════════════════════════════════════════════
 def tab_gam(ad):
     st.markdown('<h3 class="section-title">GAM-spline models and comparison with linear models</h3>',
@@ -202,25 +354,71 @@ def tab_gam(ad):
     fitted = ad["gam_fitted"].copy()
     coef = ad["gam_coef"].copy()
 
-    # ── Selector de modelo ────────────────────────────────────────────────
-    model_names = best["model_name"].tolist()
+    # ── Selector de modelo: grouped by predictor_family ───────────────────
+    # Step 1: choose predictor family
+    families_available = sorted(best["predictor_family"].dropna().unique().tolist()) \
+        if "predictor_family" in best.columns else []
+
+    FAMILY_LABELS = {
+        "continuous":                      "Continuous predictor",
+        "categorical":                     "Categorical predictor",
+        "platform_inside_interaction":     "Platform × inside-APA interaction",
+        "tensor_interaction":              "Tensor (distance × AMP distance) interaction",
+    }
+
+    if families_available:
+        sel_family = st.selectbox(
+            "Predictor family",
+            options=families_available,
+            format_func=lambda x: FAMILY_LABELS.get(x, x),
+            key="gam_family_sel",
+        )
+        best_family = best[best["predictor_family"] == sel_family].copy()
+    else:
+        sel_family = None
+        best_family = best.copy()
+
+    # Step 2: choose response variable within family
+    resp_in_family = sorted(best_family["response_variable"].dropna().unique().tolist())
+    sel_resp_gam = st.selectbox(
+        "Response variable",
+        options=resp_in_family,
+        format_func=_rlabel,
+        key="gam_resp_sel",
+    )
+    best_resp = best_family[best_family["response_variable"] == sel_resp_gam].copy()
+
+    # Step 3: select specific model
+    model_names = best_resp["model_name"].tolist()
+
+    def _model_label(model_name):
+        row_ = best[best["model_name"] == model_name]
+        if row_.empty:
+            return model_name
+        r_ = row_.iloc[0]
+        pred = r_.get("predictor", r_.get("exposure_variable", ""))
+        return f"{_rlabel(r_['response_variable'])} ↔ {_elabel(pred)} [GAM]"
+
     sel_model = st.selectbox(
         "Select model",
         options=model_names,
-        format_func=lambda x: f"{_rlabel(best[best['model_name']==x]['response_variable'].values[0])} "
-                               f"↔ {_elabel(best[best['model_name']==x]['exposure_variable'].values[0])} "
-                               f"[GAM spline]",
+        format_func=_model_label,
+        key="gam_model_sel",
     )
 
     row = best[best["model_name"] == sel_model].iloc[0]
 
-    # KPIs del modelo seleccionado
-    c1, c2, c3, c4, c5 = st.columns(5)
-    c1.metric("R²", f"{row['r_squared']:.4f}")
-    c2.metric("Adj. R²", f"{row['adj_r_squared']:.4f}")
-    c3.metric("AIC", f"{row['aic']:.2f}")
-    c4.metric("RMSE", f"{row['rmse']:.4f}")
-    c5.metric("N parameters", str(int(row['n_parameters'])))
+    # ── KPIs del modelo seleccionado — now includes lam ──────────────────
+    has_lam = "lam" in row.index and pd.notna(row.get("lam"))
+    kpi_cols = st.columns(6 if has_lam else 5)
+    kpi_cols[0].metric("R²", f"{row['r_squared']:.4f}")
+    kpi_cols[1].metric("Adj. R²", f"{row['adj_r_squared']:.4f}" if pd.notna(row.get('adj_r_squared')) else "—")
+    kpi_cols[2].metric("AIC", f"{row['aic']:.2f}" if pd.notna(row.get('aic')) else "—")
+    kpi_cols[3].metric("RMSE", f"{row['rmse']:.4f}" if pd.notna(row.get('rmse')) else "—")
+    edof_val = row.get("edof", row.get("n_parameters", None))
+    kpi_cols[4].metric("eDoF (spline)", f"{float(edof_val):.2f}" if pd.notna(edof_val) else "—")
+    if has_lam:
+        kpi_cols[5].metric("λ (smoothing)", f"{float(row['lam']):.4g}")
 
     st.markdown("---")
 
@@ -230,43 +428,55 @@ def tab_gam(ad):
     with col_l:
         st.markdown("#### GAM curve with confidence interval (95%)")
         sm = smooth[smooth["model_name"] == sel_model].copy()
-        exp_col = row["exposure_variable"]
 
-        # Eje X es el exposure_variable del modelo
+        # Determine the exposure column (column 0 of gam_smooth)
+        # _norm_gam_smooth keeps column 0 as the exposure variable
+        exp_col = row.get("predictor", row.get("exposure_variable", ""))
         x_col_smooth = exp_col if exp_col in sm.columns else sm.columns[0]
 
         sm_sorted = sm.dropna(subset=[x_col_smooth]).sort_values(x_col_smooth)
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(
-            x=sm_sorted[x_col_smooth], y=sm_sorted["predicted_ci_high"],
-            mode="lines", line=dict(width=0), showlegend=False,
-            name="IC 95% sup.",
-        ))
-        fig.add_trace(go.Scatter(
-            x=sm_sorted[x_col_smooth], y=sm_sorted["predicted_ci_low"],
-            mode="lines", line=dict(width=0), fill="tonexty",
-            fillcolor="rgba(41,128,185,0.18)", showlegend=False,
-            name="IC 95%",
-        ))
-        fig.add_trace(go.Scatter(
-            x=sm_sorted[x_col_smooth], y=sm_sorted["predicted"],
-            mode="lines", line=dict(color="#2980b9", width=2.5),
-            name="GAM predicted",
-        ))
+        if "predicted_ci_high" in sm_sorted.columns and "predicted_ci_low" in sm_sorted.columns:
+            fig.add_trace(go.Scatter(
+                x=sm_sorted[x_col_smooth], y=sm_sorted["predicted_ci_high"],
+                mode="lines", line=dict(width=0), showlegend=False,
+                name="CI 95% upper",
+            ))
+            fig.add_trace(go.Scatter(
+                x=sm_sorted[x_col_smooth], y=sm_sorted["predicted_ci_low"],
+                mode="lines", line=dict(width=0), fill="tonexty",
+                fillcolor="rgba(41,128,185,0.18)", showlegend=False,
+                name="CI 95%",
+            ))
+        if "predicted" in sm_sorted.columns:
+            fig.add_trace(go.Scatter(
+                x=sm_sorted[x_col_smooth], y=sm_sorted["predicted"],
+                mode="lines", line=dict(color="#2980b9", width=2.5),
+                name="GAM predicted",
+            ))
+        elif "partial_effect" in sm_sorted.columns:
+            fig.add_trace(go.Scatter(
+                x=sm_sorted[x_col_smooth], y=sm_sorted["partial_effect"],
+                mode="lines", line=dict(color="#2980b9", width=2.5),
+                name="Partial effect",
+            ))
 
         # Observaciones
-        fit_sel = fitted[fitted["model_name"] == sel_model].copy()
-        fit_sel["port_name"] = fit_sel["local_canonical"].map(_port_name)
-        fig.add_trace(go.Scatter(
-            x=fit_sel["observed_exposure"], y=fit_sel["observed_response"],
-            mode="markers",
-            marker=dict(color=[LOCALITY_COLORS.get(l, "#888") for l in fit_sel["local_canonical"]],
-                        size=7, line=dict(width=1, color="white")),
-            name="Observed",
-            text=fit_sel["port_name"] + " " + fit_sel["year"].astype(str),
-            hovertemplate="%{text}<br>X=%{x:.2f} Y=%{y:.4f}<extra></extra>",
-        ))
+        fit_sel = fitted[fitted["model_name"] == sel_model].copy() if not fitted.empty else pd.DataFrame()
+        if not fit_sel.empty and "local_canonical" in fit_sel.columns:
+            fit_sel["port_name"] = fit_sel["local_canonical"].map(_port_name)
+            obs_x = "observed_exposure" if "observed_exposure" in fit_sel.columns else fit_sel.columns[0]
+            obs_y = "observed_response" if "observed_response" in fit_sel.columns else fit_sel.columns[1]
+            fig.add_trace(go.Scatter(
+                x=fit_sel[obs_x], y=fit_sel[obs_y],
+                mode="markers",
+                marker=dict(color=[LOCALITY_COLORS.get(l, "#888") for l in fit_sel["local_canonical"]],
+                            size=7, line=dict(width=1, color="white")),
+                name="Observed",
+                text=fit_sel["port_name"] + " " + fit_sel["year"].astype(str),
+                hovertemplate="%{text}<br>X=%{x:.2f} Y=%{y:.4f}<extra></extra>",
+            ))
 
         fig.update_layout(
             height=400, margin=dict(t=20),
@@ -279,93 +489,145 @@ def tab_gam(ad):
     # ── Observado vs Ajustado ─────────────────────────────────────────────
     with col_r:
         st.markdown("#### Observed vs Fitted + residuals")
-        fit_sel = fitted[fitted["model_name"] == sel_model].copy()
-        fit_sel["port_name"] = fit_sel["local_canonical"].map(_port_name)
+        fit_sel2 = fitted[fitted["model_name"] == sel_model].copy() if not fitted.empty else pd.DataFrame()
 
-        fig2 = px.scatter(
-            fit_sel, x="fitted", y="observed_response",
-            color="port_name",
-            color_discrete_map=LOCALITY_COLORS,
-            height=250,
-            labels={"fitted": "Fitted", "observed_response": "Observed",
-                    "port_name": "Locality"},
-            hover_data=["year"],
-        )
-        # Línea 1:1
-        vmin = min(fit_sel["fitted"].min(), fit_sel["observed_response"].min())
-        vmax = max(fit_sel["fitted"].max(), fit_sel["observed_response"].max())
-        fig2.add_shape(type="line", x0=vmin, y0=vmin, x1=vmax, y1=vmax,
-                       line=dict(dash="dash", color="#aaa", width=1))
-        fig2.update_layout(margin=dict(t=20), showlegend=False)
-        st.plotly_chart(fig2, use_container_width=True)
+        if not fit_sel2.empty and "local_canonical" in fit_sel2.columns:
+            fit_sel2["port_name"] = fit_sel2["local_canonical"].map(_port_name)
 
-        # Residuos
-        fig3 = px.scatter(
-            fit_sel, x="fitted", y="residual",
-            color="port_name",
-            color_discrete_map=LOCALITY_COLORS,
-            height=130,
-            labels={"fitted": "Fitted", "residual": "Residual"},
-        )
-        fig3.add_hline(y=0, line_dash="dash", line_color="#aaa", line_width=1)
-        fig3.update_layout(margin=dict(t=5, b=5), showlegend=False)
-        st.plotly_chart(fig3, use_container_width=True)
+            fig2 = px.scatter(
+                fit_sel2, x="fitted", y="observed_response",
+                color="port_name",
+                color_discrete_map=LOCALITY_COLORS,
+                height=250,
+                labels={"fitted": "Fitted", "observed_response": "Observed",
+                        "port_name": "Locality"},
+                hover_data=["year"],
+            )
+            vmin = min(fit_sel2["fitted"].min(), fit_sel2["observed_response"].min())
+            vmax = max(fit_sel2["fitted"].max(), fit_sel2["observed_response"].max())
+            fig2.add_shape(type="line", x0=vmin, y0=vmin, x1=vmax, y1=vmax,
+                           line=dict(dash="dash", color="#aaa", width=1))
+            fig2.update_layout(margin=dict(t=20), showlegend=False)
+            st.plotly_chart(fig2, use_container_width=True)
 
-    # ── Comparación GAM vs lineal ─────────────────────────────────────────
+            if "residual" in fit_sel2.columns:
+                fig3 = px.scatter(
+                    fit_sel2, x="fitted", y="residual",
+                    color="port_name",
+                    color_discrete_map=LOCALITY_COLORS,
+                    height=130,
+                    labels={"fitted": "Fitted", "residual": "Residual"},
+                )
+                fig3.add_hline(y=0, line_dash="dash", line_color="#aaa", line_width=1)
+                fig3.update_layout(margin=dict(t=5, b=5), showlegend=False)
+                st.plotly_chart(fig3, use_container_width=True)
+        else:
+            st.info("Fitted values not available for this model.")
+
+    # ── Comparación GAM vs lineal — grouped by predictor_family ──────────
     st.markdown("---")
-    st.markdown("#### Model comparison: GAM spline vs linear (AIC, R²)")
-    resp_options = comparison["response_variable"].unique().tolist()
-    sel_resp = st.selectbox("Response variable",
-                            options=resp_options, format_func=_rlabel, key="comp_resp")
+    st.markdown("#### Model comparison: GAM spline vs linear (AIC, R²) — by predictor family")
 
-    comp_sub = comparison[comparison["response_variable"] == sel_resp].copy()
-    comp_sub["model_label"] = comp_sub["model_name"].str.replace("gam_", "GAM: ").str.replace("lin_", "LIN: ")
-    comp_sub["model_type_label"] = comp_sub["model_type"].map(
-        {"spline_gam_like": "GAM spline", "linear": "Linear"})
+    resp_options_comp = comparison["response_variable"].unique().tolist() \
+        if "response_variable" in comparison.columns else []
+    if resp_options_comp:
+        sel_resp_comp = st.selectbox("Response variable (comparison)",
+                                     options=resp_options_comp,
+                                     format_func=_rlabel,
+                                     key="comp_resp")
+        comp_sub = comparison[comparison["response_variable"] == sel_resp_comp].copy()
+    else:
+        comp_sub = comparison.copy()
 
-    col_a, col_b = st.columns(2)
-    with col_a:
-        fig_r2 = px.bar(
-            comp_sub.sort_values("adj_r_squared", ascending=False),
-            x="adj_r_squared", y="model_label", orientation="h",
-            color="model_type_label", height=350,
-            color_discrete_map={"GAM spline": "#2980b9", "Linear": "#e74c3c"},
-            labels={"adj_r_squared": "Adj. R²", "model_label": "",
-                    "model_type_label": "Type"},
-        )
-        fig_r2.update_layout(margin=dict(t=20))
-        st.plotly_chart(fig_r2, use_container_width=True)
+    if not comp_sub.empty:
+        # Group by predictor_family if available; compute delta_AIC vs best within each family
+        if "predictor_family" in comp_sub.columns:
+            family_best_aic = (
+                comp_sub.groupby("predictor_family")["aic"]
+                .min()
+                .rename("family_best_aic")
+            )
+            comp_sub = comp_sub.merge(family_best_aic, on="predictor_family", how="left")
+            comp_sub["delta_aic_within_family"] = comp_sub["aic"] - comp_sub["family_best_aic"]
+            comp_sub["family_label"] = comp_sub["predictor_family"].map(
+                lambda x: FAMILY_LABELS.get(x, x) if pd.notna(x) else "—"
+            )
+        else:
+            comp_sub["delta_aic_within_family"] = np.nan
+            comp_sub["family_label"] = "—"
 
-    with col_b:
-        fig_aic = px.bar(
-            comp_sub.sort_values("aic"),
-            x="aic", y="model_label", orientation="h",
-            color="model_type_label", height=350,
-            color_discrete_map={"GAM spline": "#2980b9", "Linear": "#e74c3c"},
-            labels={"aic": "AIC (lower = better)", "model_label": "",
-                    "model_type_label": "Type"},
-        )
-        fig_aic.update_layout(margin=dict(t=20))
-        st.plotly_chart(fig_aic, use_container_width=True)
+        comp_sub["model_label"] = comp_sub["model_name"].str.replace("gam_", "GAM: ").str.replace("lin_", "LIN: ")
+        model_type_col = "model_type" if "model_type" in comp_sub.columns else None
+        if model_type_col:
+            comp_sub["model_type_label"] = comp_sub[model_type_col].map(
+                {"spline_gam_like": "GAM spline", "linear": "Linear"})
+        else:
+            comp_sub["model_type_label"] = "GAM spline"
+
+        col_a, col_b = st.columns(2)
+        adj_r2_col = "adj_r_squared" if "adj_r_squared" in comp_sub.columns else "r_squared"
+        with col_a:
+            fig_r2 = px.bar(
+                comp_sub.sort_values(adj_r2_col, ascending=False),
+                x=adj_r2_col, y="model_label", orientation="h",
+                color="model_type_label", height=350,
+                color_discrete_map={"GAM spline": "#2980b9", "Linear": "#e74c3c"},
+                labels={adj_r2_col: "Adj. R²", "model_label": "",
+                        "model_type_label": "Type"},
+            )
+            fig_r2.update_layout(margin=dict(t=20))
+            st.plotly_chart(fig_r2, use_container_width=True)
+
+        with col_b:
+            fig_aic = px.bar(
+                comp_sub.sort_values("aic"),
+                x="aic", y="model_label", orientation="h",
+                color="model_type_label", height=350,
+                color_discrete_map={"GAM spline": "#2980b9", "Linear": "#e74c3c"},
+                labels={"aic": "AIC (lower = better)", "model_label": "",
+                        "model_type_label": "Type"},
+            )
+            fig_aic.update_layout(margin=dict(t=20))
+            st.plotly_chart(fig_aic, use_container_width=True)
+
+        # Delta-AIC table grouped by family
+        if "predictor_family" in comp_sub.columns and comp_sub["delta_aic_within_family"].notna().any():
+            st.markdown("##### ΔAIC within predictor family (vs best in each family)")
+            delta_disp = comp_sub[[
+                "family_label", "model_label", adj_r2_col, "aic", "delta_aic_within_family",
+            ]].copy()
+            delta_disp.columns = ["Predictor family", "Model", "Adj. R²", "AIC", "ΔAIC (vs best in family)"]
+            delta_disp = delta_disp.sort_values(["Predictor family", "ΔAIC (vs best in family)"])
+            delta_disp["Adj. R²"] = delta_disp["Adj. R²"].round(4)
+            delta_disp["AIC"] = delta_disp["AIC"].round(2)
+            delta_disp["ΔAIC (vs best in family)"] = delta_disp["ΔAIC (vs best in family)"].round(2)
+            st.dataframe(
+                delta_disp.style.background_gradient(
+                    subset=["ΔAIC (vs best in family)"], cmap="YlOrRd"),
+                use_container_width=True, hide_index=True,
+            )
 
     # ── Coeficientes del modelo ───────────────────────────────────────────
     st.markdown("---")
     st.markdown("#### Model coefficients with 95% confidence intervals")
-    coef_sel = coef[coef["model_name"] == sel_model].copy()
-    coef_sel = coef_sel[~coef_sel["term"].str.startswith("bs(")].copy()  # excluir splines
-    coef_sel["sig"] = coef_sel["significant_alpha_0_05"].map({True: "✅ p<0.05", False: "—"})
-    coef_sel["color"] = coef_sel["significant_alpha_0_05"].map(
-        {True: "#27ae60", False: "#95a5a6"})
+    coef_sel = coef[coef["model_name"] == sel_model].copy() if not coef.empty else pd.DataFrame()
 
     if not coef_sel.empty:
-        # Check whether point estimates are available (not present in old outputs)
-        has_estimates = coef_sel["estimate"].notna().any()
+        if "term" in coef_sel.columns:
+            coef_sel = coef_sel[~coef_sel["term"].str.startswith("bs(")].copy()
+        coef_sel["sig"] = coef_sel.get("significant_alpha_0_05", pd.Series(dtype=bool)).map(
+            {True: "p<0.05", False: "—"})
+        coef_sel["color"] = coef_sel.get("significant_alpha_0_05", pd.Series(dtype=bool)).map(
+            {True: "#27ae60", False: "#95a5a6"})
+
+        has_estimates = "estimate" in coef_sel.columns and coef_sel["estimate"].notna().any()
 
         if has_estimates:
             fig_coef = go.Figure()
             for _, r in coef_sel.iterrows():
                 fig_coef.add_trace(go.Scatter(
-                    x=[r["conf_low"], r["conf_high"]], y=[r["term"], r["term"]],
+                    x=[r.get("conf_low", np.nan), r.get("conf_high", np.nan)],
+                    y=[r["term"], r["term"]],
                     mode="lines", line=dict(color=r["color"], width=3),
                     showlegend=False,
                 ))
@@ -373,38 +635,45 @@ def tab_gam(ad):
                     x=[r["estimate"]], y=[r["term"]],
                     mode="markers",
                     marker=dict(color=r["color"], size=10, symbol="circle"),
-                    name=r["sig"],
                     showlegend=False,
-                    hovertemplate=f"Estimate: {r['estimate']:.4f}<br>"
-                                  f"CI: [{r['conf_low']:.4f}, {r['conf_high']:.4f}]<br>"
-                                  f"p={r['p_value']:.4f}<extra>{r['term']}</extra>",
+                    hovertemplate=(
+                        f"Estimate: {r['estimate']:.4f}<br>"
+                        f"CI: [{r.get('conf_low', float('nan')):.4f}, "
+                        f"{r.get('conf_high', float('nan')):.4f}]<br>"
+                        f"p={r.get('p_value', float('nan')):.4f}"
+                        f"<extra>{r['term']}</extra>"
+                    ),
                 ))
             fig_coef.add_vline(x=0, line_dash="dash", line_color="#aaa", line_width=1)
-            fig_coef.update_layout(height=max(200, len(coef_sel) * 50),
-                                   margin=dict(t=20), xaxis_title="Estimate (95% CI)")
+            fig_coef.update_layout(
+                height=max(200, len(coef_sel) * 50),
+                margin=dict(t=20),
+                xaxis_title="Estimate (95% CI)",
+            )
             st.plotly_chart(fig_coef, use_container_width=True)
         else:
             st.info("Point estimates and confidence intervals are not available in "
-                    "the current output files (spline-term coefficients are not "
-                    "directly interpretable). Re-run script 08 with the updated "
+                    "the current output files. Re-run script 08 with the updated "
                     "version to unlock this chart.")
 
-        # Significance table — always shown
-        disp_cols = ["term", "p_value", "sig"]
-        disp_rename = {"term": "Term", "p_value": "p-value", "sig": "Sig."}
-        for extra, label in [("estimate", "Estimate"), ("std_error", "Std. error"), ("t_value", "t")]:
-            if coef_sel[extra].notna().any():
-                disp_cols.insert(-1, extra)
-                disp_rename[extra] = label
-        disp_coef = coef_sel[disp_cols].copy().rename(columns=disp_rename)
-        numeric_cols = {k: 5 for k in ("Estimate", "Std. error") if k in disp_coef.columns}
-        numeric_cols.update({k: 3 for k in ("t",) if k in disp_coef.columns})
-        numeric_cols.update({"p-value": 4})
-        st.dataframe(disp_coef.round(numeric_cols), use_container_width=True, hide_index=True)
+        disp_cols = [c for c in ["term", "estimate", "std_error", "t_value", "p_value", "sig"]
+                     if c in coef_sel.columns]
+        rename_map = {
+            "term": "Term", "estimate": "Estimate", "std_error": "Std. error",
+            "t_value": "t", "p_value": "p-value", "sig": "Sig.",
+        }
+        disp_coef = coef_sel[disp_cols].copy().rename(columns=rename_map)
+        round_map = {}
+        for c, r in [("Estimate", 5), ("Std. error", 5), ("t", 3), ("p-value", 4)]:
+            if c in disp_coef.columns:
+                round_map[c] = r
+        if round_map:
+            disp_coef = disp_coef.round(round_map)
+        st.dataframe(disp_coef, use_container_width=True, hide_index=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 3 — ROBUSTEZ DEL MODELO (módulo 09)
+# TAB 4 — ROBUSTEZ DEL MODELO (módulo 09)
 # ══════════════════════════════════════════════════════════════════════════════
 def tab_robustness(ad):
     st.markdown('<h3 class="section-title">GAM model robustness — sensitivity analysis</h3>',
@@ -480,14 +749,16 @@ def tab_robustness(ad):
         grp_s = grp.dropna(subset=[exp_col]).sort_values(exp_col)
         color = variant_colors.get(variant, "#888")
         # IC
+        if "predicted_ci_high" in grp_s.columns and "predicted_ci_low" in grp_s.columns:
+            fig.add_trace(go.Scatter(
+                x=pd.concat([grp_s[exp_col], grp_s[exp_col].iloc[::-1]]),
+                y=pd.concat([grp_s["predicted_ci_high"], grp_s["predicted_ci_low"].iloc[::-1]]),
+                fill="toself", fillcolor=_hex_to_rgba(color, 0.08),
+                line=dict(width=0), showlegend=False,
+            ))
+        y_col_rob = "predicted" if "predicted" in grp_s.columns else grp_s.columns[1]
         fig.add_trace(go.Scatter(
-            x=pd.concat([grp_s[exp_col], grp_s[exp_col].iloc[::-1]]),
-            y=pd.concat([grp_s["predicted_ci_high"], grp_s["predicted_ci_low"].iloc[::-1]]),
-            fill="toself", fillcolor=_hex_to_rgba(color, 0.08),
-            line=dict(width=0), showlegend=False,
-        ))
-        fig.add_trace(go.Scatter(
-            x=grp_s[exp_col], y=grp_s["predicted"],
+            x=grp_s[exp_col], y=grp_s[y_col_rob],
             mode="lines", name=variant,
             line=dict(color=color, width=2 if variant == "base (df=4)" else 1.5,
                       dash="solid" if variant == "base (df=4)" else "dot"),
@@ -513,8 +784,9 @@ def tab_robustness(ad):
         for locality, grp in lolo_m.groupby("group_removed"):
             grp_s = grp.dropna(subset=[exp_lolo]).sort_values(exp_lolo)
             color = LOCALITY_COLORS.get(str(locality), "#aaa")
+            y_col_lolo = "predicted" if "predicted" in grp_s.columns else grp_s.columns[1]
             fig2.add_trace(go.Scatter(
-                x=grp_s[exp_lolo], y=grp_s["predicted"],
+                x=grp_s[exp_lolo], y=grp_s[y_col_lolo],
                 mode="lines", name=_port_name(str(locality)),
                 line=dict(color=color, width=1.5, dash="dot"),
             ))
@@ -524,8 +796,9 @@ def tab_robustness(ad):
             exp_b = base_key[0].split("_vs_")[-1] if "_vs_" in base_key[0] else exp_lolo
             x_b = exp_lolo if exp_lolo in base_s.columns else base_s.columns[0]
             base_s = base_s.dropna(subset=[x_b]).sort_values(x_b)
+            y_b = "predicted" if "predicted" in base_s.columns else base_s.columns[1]
             fig2.add_trace(go.Scatter(
-                x=base_s[x_b], y=base_s["predicted"],
+                x=base_s[x_b], y=base_s[y_b],
                 mode="lines", name="Full",
                 line=dict(color="#2c3e50", width=2.5),
             ))
@@ -542,11 +815,12 @@ def tab_robustness(ad):
     # Detect whether LOYO contains real prediction curves or synthetic R² lines
     _loyo_is_r2 = (
         not loyo_m.empty and
+        "predicted_ci_low" in loyo_m.columns and
         loyo_m["predicted_ci_low"].equals(loyo_m["predicted"]) and
         loyo_m["predicted_ci_high"].equals(loyo_m["predicted"])
-    ) if not loyo_m.empty and "predicted_ci_low" in loyo_m.columns else False
+    ) if not loyo_m.empty else False
     if _loyo_is_r2:
-        st.caption("⚠️ LOYO prediction curves are not available in the current output files. "
+        st.caption("LOYO prediction curves are not available in the current output files. "
                    "Each line represents the R² of the year-removed model — a flat line "
                    "per year. Re-run script 09 with the updated version for full curves.")
 
@@ -558,8 +832,9 @@ def tab_robustness(ad):
         for i, yr in enumerate(years):
             grp = loyo_m[loyo_m["group_removed"] == yr].dropna(subset=[exp_loyo]).sort_values(exp_loyo)
             color = colorscale[int(i / len(years) * (len(colorscale) - 1))]
+            y_col_loyo = "predicted" if "predicted" in grp.columns else grp.columns[1]
             fig3.add_trace(go.Scatter(
-                x=grp[exp_loyo], y=grp["predicted"],
+                x=grp[exp_loyo], y=grp[y_col_loyo],
                 mode="lines", name=str(yr),
                 line=dict(color=color, width=1, dash="dot"),
                 opacity=0.7,
@@ -568,8 +843,9 @@ def tab_robustness(ad):
             base_s = gam_smooth[gam_smooth["model_name"] == base_key[0]].copy()
             x_b = exp_loyo if exp_loyo in base_s.columns else base_s.columns[0]
             base_s = base_s.dropna(subset=[x_b]).sort_values(x_b)
+            y_b = "predicted" if "predicted" in base_s.columns else base_s.columns[1]
             fig3.add_trace(go.Scatter(
-                x=base_s[x_b], y=base_s["predicted"],
+                x=base_s[x_b], y=base_s[y_b],
                 mode="lines", name="Full",
                 line=dict(color="#2c3e50", width=2.5),
             ))
@@ -616,12 +892,147 @@ def tab_robustness(ad):
                     ["local_canonical", "year", "cooks_d", "hat_diag",
                      "student_resid", "flag"]].copy()
                 disp_inf["local_canonical"] = disp_inf["local_canonical"].map(_port_name)
-                disp_inf.columns = ["Locality", "Year", "Cook's D", "Leverage", "Studentized residual", "Diagnostic"]
+                disp_inf.columns = ["Locality", "Year", "Cook's D", "Leverage",
+                                    "Studentized residual", "Diagnostic"]
                 st.dataframe(disp_inf.round(4), hide_index=True, use_container_width=True)
+
+    # ── 5. Model stability: primary vs comparator ─────────────────────────
+    st.markdown("---")
+    st.markdown("#### Model stability: primary vs comparator")
+    st.caption(
+        "Rows show the primary model vs each comparator within the same response variable. "
+        "Rows where |ΔAIC| < 2 are highlighted — practically equivalent models."
+    )
+
+    rob_stability = ad.get("rob_stability", pd.DataFrame())
+
+    if rob_stability.empty:
+        st.info("Dataset `rob_stability` (09_model_stability_summary) not yet available.")
+    else:
+        stab_disp = rob_stability[[
+            "response_variable",
+            "primary_model_name",
+            "primary_predictor_family",
+            "comparator_predictor",
+            "comparator_predictor_family",
+            "delta_aic_primary_minus_comparator",
+            "delta_r2_primary_minus_comparator",
+            "delta_rmse_primary_minus_comparator",
+        ]].copy()
+        stab_disp["response_variable"] = stab_disp["response_variable"].map(_rlabel)
+        stab_disp = stab_disp.sort_values("delta_aic_primary_minus_comparator",
+                                          key=abs, ascending=True)
+        stab_disp.columns = [
+            "Response", "Primary model", "Primary family",
+            "Comparator predictor", "Comparator family",
+            "ΔAIC (primary − comp.)", "ΔR²", "ΔRMSE",
+        ]
+        stab_disp["ΔAIC (primary − comp.)"] = stab_disp["ΔAIC (primary − comp.)"].round(3)
+        stab_disp["ΔR²"]   = stab_disp["ΔR²"].round(4)
+        stab_disp["ΔRMSE"] = stab_disp["ΔRMSE"].round(4)
+
+        def _highlight_equiv(row):
+            """Highlight rows where |ΔAIC| < 2 (practically equivalent)."""
+            if abs(row["ΔAIC (primary − comp.)"]) < 2:
+                return ["background-color: #d4edda;"] * len(row)
+            return [""] * len(row)
+
+        st.dataframe(
+            stab_disp.style.apply(_highlight_equiv, axis=1),
+            use_container_width=True, hide_index=True,
+        )
+
+        # Visual: scatter of ΔAIC vs ΔR²
+        fig_stab = px.scatter(
+            stab_disp,
+            x="ΔAIC (primary − comp.)", y="ΔR²",
+            color="Response",
+            hover_data=["Comparator predictor", "Comparator family"],
+            height=320,
+            labels={
+                "ΔAIC (primary − comp.)": "ΔAIC (primary − comparator)",
+                "ΔR²": "ΔR² (primary − comparator)",
+            },
+        )
+        fig_stab.add_vline(x=-2, line_dash="dash", line_color="#e74c3c",
+                           annotation_text="|ΔAIC| = 2", line_width=1)
+        fig_stab.add_vline(x=2, line_dash="dash", line_color="#e74c3c", line_width=1)
+        fig_stab.add_vline(x=0, line_dash="dot", line_color="#aaa", line_width=1)
+        fig_stab.add_hline(y=0, line_dash="dot", line_color="#aaa", line_width=1)
+        fig_stab.update_layout(margin=dict(t=20))
+        st.plotly_chart(fig_stab, use_container_width=True)
+
+    # ── 6. Partial dependence diagnostics ────────────────────────────────
+    st.markdown("---")
+    st.markdown("#### Partial dependence diagnostics")
+    st.caption(
+        "Low slope sign changes + high effect range = robust non-linear effect. "
+        "Monotonicity proxy close to ±1 indicates near-monotone response."
+    )
+
+    rob_pd_diag = ad.get("rob_pd_diag", pd.DataFrame())
+
+    if rob_pd_diag.empty:
+        st.info("Dataset `rob_pd_diag` (09_partial_dependence_diagnostics) not yet available.")
+    else:
+        pd_disp = rob_pd_diag[[
+            "model_name", "response_variable", "predictor", "predictor_family",
+            "n_points", "effect_min", "effect_max", "effect_range",
+            "slope_sign_changes", "monotonicity_proxy",
+        ]].copy()
+        pd_disp["response_variable"] = pd_disp["response_variable"].map(_rlabel)
+        pd_disp = pd_disp.sort_values("effect_range", ascending=False)
+        pd_disp.columns = [
+            "Model", "Response", "Predictor", "Family",
+            "N points", "Effect min", "Effect max", "Effect range",
+            "Slope sign changes", "Monotonicity proxy",
+        ]
+        for c in ["Effect min", "Effect max", "Effect range", "Monotonicity proxy"]:
+            pd_disp[c] = pd_disp[c].round(4)
+
+        def _highlight_robust(row):
+            """Highlight rows with low slope sign changes and high effect range."""
+            if row["Slope sign changes"] <= 1 and row["Effect range"] >= pd_disp["Effect range"].quantile(0.5):
+                return ["background-color: #cce5ff;"] * len(row)
+            return [""] * len(row)
+
+        st.dataframe(
+            pd_disp.style.apply(_highlight_robust, axis=1),
+            use_container_width=True, hide_index=True,
+        )
+
+        # Visual: bubble chart of effect_range vs slope_sign_changes
+        col_pd1, col_pd2 = st.columns(2)
+        with col_pd1:
+            fig_pd1 = px.scatter(
+                pd_disp,
+                x="Slope sign changes", y="Effect range",
+                color="Response",
+                size="Effect range",
+                hover_data=["Model", "Predictor", "Monotonicity proxy"],
+                height=320,
+                labels={
+                    "Slope sign changes": "Slope sign changes (lower = more stable)",
+                    "Effect range": "Effect range (max − min)",
+                },
+            )
+            fig_pd1.update_layout(margin=dict(t=20))
+            st.plotly_chart(fig_pd1, use_container_width=True)
+
+        with col_pd2:
+            fig_pd2 = px.bar(
+                pd_disp.sort_values("Effect range", ascending=True),
+                x="Effect range", y="Model", orientation="h",
+                color="Response", height=320,
+                labels={"Effect range": "Effect range (partial dependence)",
+                        "Model": ""},
+            )
+            fig_pd2.update_layout(margin=dict(t=20))
+            st.plotly_chart(fig_pd2, use_container_width=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 4 — ORDENACIÓN MULTIVARIANTE (módulo 10)
+# TAB 5 — ORDENACIÓN MULTIVARIANTE (módulo 10)
 # ══════════════════════════════════════════════════════════════════════════════
 def tab_ordination(ad):
     st.markdown('<h3 class="section-title">Multivariate ordination of the fishing community</h3>',
@@ -645,15 +1056,15 @@ def tab_ordination(ad):
 
     ax1_pct = scores["Axis1_explained"].iloc[0] * 100 if "Axis1_explained" in scores.columns else None
     ax2_pct = scores["Axis2_explained"].iloc[0] * 100 if "Axis2_explained" in scores.columns else None
-    ax1_label = f"Eje 1 ({ax1_pct:.1f}%)" if ax1_pct else "Eje 1"
-    ax2_label = f"Eje 2 ({ax2_pct:.1f}%)" if ax2_pct else "Eje 2"
+    ax1_label = f"Axis 1 ({ax1_pct:.1f}%)" if ax1_pct else "Axis 1"
+    ax2_label = f"Axis 2 ({ax2_pct:.1f}%)" if ax2_pct else "Axis 2"
 
     col_top = st.columns([1, 1, 1])
     perm_row = permanova[permanova["distance_basis"].str.contains("BrayCurtis")].iloc[0] \
         if "BrayCurtis" in permanova["distance_basis"].values[0] else permanova.iloc[0]
     col_top[0].metric("PERMANOVA R²", f"{perm_row['r2']:.4f}")
     col_top[1].metric("PERMANOVA p", f"{perm_row['p_value']:.3f}",
-                      "✅ sig." if perm_row["p_value"] <= 0.05 else "n.s.")
+                      "sig." if perm_row["p_value"] <= 0.05 else "n.s.")
     col_top[2].metric("pseudo-F", f"{perm_row['pseudo_F']:.2f}")
 
     st.markdown("---")
@@ -663,10 +1074,23 @@ def tab_ordination(ad):
 
     with col_l:
         st.markdown("#### Ordination biplot")
-        exp_cols_avail = [c for c in EXPOSURE_LABELS if c in scores.columns]
-        color_opt = st.selectbox("Color by",
-                                 ["Locality", "Year"] + [_elabel(c) for c in exp_cols_avail],
-                                 key="ord_color")
+
+        # Dynamically collect all available exposure_variable values from
+        # permanova/dispersion/exp_bins — do NOT hardcode them
+        ev_from_perm = permanova["exposure_variable"].dropna().unique().tolist() \
+            if "exposure_variable" in permanova.columns else []
+        ev_from_bins = exp_bins["exposure_variable"].dropna().unique().tolist() \
+            if "exposure_variable" in exp_bins.columns else []
+        ev_all = sorted(set(ev_from_perm + ev_from_bins))
+
+        # Also include exposure cols present in scores themselves
+        ev_in_scores = [c for c in ev_all if c in scores.columns]
+        # Fall back to EXPOSURE_LABELS keys if ev_in_scores is empty
+        if not ev_in_scores:
+            ev_in_scores = [c for c in EXPOSURE_LABELS if c in scores.columns]
+
+        color_options = ["Locality", "Year"] + [_elabel(c) for c in ev_in_scores]
+        color_opt = st.selectbox("Color by", color_options, key="ord_color")
 
         if color_opt == "Locality":
             fig = px.scatter(
@@ -687,8 +1111,7 @@ def tab_ordination(ad):
                 labels={"Axis1": ax1_label, "Axis2": ax2_label},
             )
         else:
-            # Color por variable de exposición
-            exp_sel = exp_cols_avail[[_elabel(c) for c in exp_cols_avail].index(color_opt)]
+            exp_sel = ev_in_scores[[_elabel(c) for c in ev_in_scores].index(color_opt)]
             fig = px.scatter(
                 scores.dropna(subset=[exp_sel]), x="Axis1", y="Axis2",
                 color=exp_sel,
@@ -791,13 +1214,14 @@ def tab_ordination(ad):
     # ── PERMANOVA completo ────────────────────────────────────────────────
     with st.expander("Full PERMANOVA table"):
         perm_disp = permanova.copy()
-        perm_disp["exposure_variable"] = perm_disp["exposure_variable"].map(_elabel)
+        if "exposure_variable" in perm_disp.columns:
+            perm_disp["exposure_variable"] = perm_disp["exposure_variable"].map(_elabel)
         perm_disp.columns = [c.replace("_", " ").title() for c in perm_disp.columns]
         st.dataframe(perm_disp.round(4), hide_index=True, use_container_width=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 5 — GRADIENTE DE COMPOSICIÓN (módulo 11)
+# TAB 6 — GRADIENTE DE COMPOSICIÓN (módulo 11)
 # ══════════════════════════════════════════════════════════════════════════════
 def tab_gradient(ad):
     st.markdown('<h3 class="section-title">Primary gradient of catch composition</h3>',
@@ -811,7 +1235,6 @@ def tab_gradient(ad):
 
     # ── KPIs del gradiente ────────────────────────────────────────────────
     row = summary.iloc[0]
-    # 'axis' en grad_summary, 'primary_axis' en grad_scores — usamos el de scores
     primary_axis_label = scores["primary_axis"].iloc[0] if "primary_axis" in scores.columns else row.get("axis", "Axis1")
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Ordination", f"{row['ordination'].replace('_',' ')}")
@@ -908,11 +1331,11 @@ def tab_gradient(ad):
         annotations=[
             dict(x=turn_plot["difference_Q3_minus_Q1"].max() * 0.7,
                  y=len(turn_plot) - 0.5,
-                 text="↑ More abundant far from platforms",
+                 text="More abundant far from platforms",
                  showarrow=False, font=dict(size=10, color="#27ae60")),
             dict(x=turn_plot["difference_Q3_minus_Q1"].min() * 0.7,
                  y=len(turn_plot) - 0.5,
-                 text="↑ More abundant near platforms",
+                 text="More abundant near platforms",
                  showarrow=False, font=dict(size=10, color="#e74c3c")),
         ],
     )
@@ -975,10 +1398,686 @@ def tab_gradient(ad):
     fig_heat.update_layout(margin=dict(t=20))
     st.plotly_chart(fig_heat, use_container_width=True)
 
+    # ══ Protected Area gradient ═══════════════════════════════════════════
+    st.markdown("---")
+    st.markdown("### Protected area (AMP) composition gradient")
+
+    pa_turnover = ad.get("pa_turnover", pd.DataFrame())
+    pa_abund    = ad.get("pa_abund", pd.DataFrame())
+
+    # ── PA species turnover ───────────────────────────────────────────────
+    st.markdown("#### Species turnover: near AMP (Q1) vs far AMP (Q3)")
+    st.caption(
+        "Top 10 species by absolute relative abundance difference between Q1 (near APA/RDS) "
+        "and Q3 (far from APA/RDS). Colored by which group the species dominates."
+    )
+
+    if pa_turnover.empty:
+        st.info("Dataset `pa_turnover` (11_pa_species_turnover_summaries) not yet available.")
+    else:
+        # Filter to AMP exposure variable rows if multiple exist
+        pa_ev_options = pa_turnover["exposure_variable"].dropna().unique().tolist() \
+            if "exposure_variable" in pa_turnover.columns else [None]
+        if len(pa_ev_options) > 1:
+            sel_pa_ev = st.selectbox(
+                "AMP exposure variable",
+                options=pa_ev_options,
+                format_func=_elabel,
+                key="pa_turnover_ev",
+            )
+            pa_turn_sub = pa_turnover[pa_turnover["exposure_variable"] == sel_pa_ev].copy()
+        else:
+            pa_turn_sub = pa_turnover.copy()
+
+        if pa_turn_sub.empty:
+            st.info("No data for the selected exposure variable.")
+        else:
+            # Top 10 species by abs_difference
+            top10 = pa_turn_sub.nlargest(10, "abs_difference").copy()
+            top10 = top10.sort_values("abs_difference", ascending=True)
+
+            dom_color_map = {
+                "Q1": "#e74c3c",
+                "Q3": "#27ae60",
+                "Q1 (near)": "#e74c3c",
+                "Q3 (far)": "#27ae60",
+                "near": "#e74c3c",
+                "far":  "#27ae60",
+            }
+            top10["bar_color"] = top10["dominant_in"].map(
+                lambda v: dom_color_map.get(str(v), "#8e44ad"))
+
+            fig_pa_turn = go.Figure(go.Bar(
+                x=top10["difference_far_minus_near"],
+                y=top10["species_name"],
+                orientation="h",
+                marker_color=top10["bar_color"],
+                text=top10["difference_far_minus_near"].apply(lambda v: f"{v:+.3f}"),
+                textposition="outside",
+                customdata=np.stack([
+                    top10["mean_rel_Q1"],
+                    top10["mean_rel_Q3"],
+                    top10["dominant_in"].astype(str),
+                    top10.get("abs_difference", top10["difference_far_minus_near"].abs()),
+                ], axis=-1),
+                hovertemplate=(
+                    "<b>%{y}</b><br>"
+                    "Far − Near: %{x:.4f}<br>"
+                    "Rel. abund. Q1 (near): %{customdata[0]:.4f}<br>"
+                    "Rel. abund. Q3 (far): %{customdata[1]:.4f}<br>"
+                    "Dominant in: %{customdata[2]}<extra></extra>"
+                ),
+            ))
+            fig_pa_turn.add_vline(x=0, line_dash="dash", line_color="#aaa", line_width=1)
+            fig_pa_turn.update_layout(
+                height=max(380, len(top10) * 36),
+                margin=dict(t=20, r=80),
+                xaxis_title="Relative abundance difference (far − near AMP)",
+                yaxis_title="",
+                annotations=[
+                    dict(x=top10["difference_far_minus_near"].max() * 0.7 if top10["difference_far_minus_near"].max() > 0 else 0.01,
+                         y=len(top10) - 0.5,
+                         text="More abundant far from AMP",
+                         showarrow=False, font=dict(size=10, color="#27ae60")),
+                    dict(x=top10["difference_far_minus_near"].min() * 0.7 if top10["difference_far_minus_near"].min() < 0 else -0.01,
+                         y=len(top10) - 0.5,
+                         text="More abundant near AMP",
+                         showarrow=False, font=dict(size=10, color="#e74c3c")),
+                ],
+            )
+            st.plotly_chart(fig_pa_turn, use_container_width=True)
+
+            # Sortable full table below the chart
+            with st.expander("Full AMP species turnover table"):
+                # Show per-APA columns if present
+                pa_cols_base = [
+                    "species_name", "mean_rel_Q1", "mean_rel_Q3",
+                    "difference_far_minus_near", "abs_difference", "dominant_in",
+                ]
+                pa_cols_extra = [c for c in [
+                    "near_group", "far_group",
+                    "mean_rel_inside_apa",
+                    "mean_rel_outside_closer_to_rds",
+                    "mean_rel_APA_DUNAS_DO_ROSADO",
+                    "mean_rel_RDS_PONTA_DO_TUBARAO",
+                ] if c in pa_turn_sub.columns]
+                pa_show_cols = [c for c in pa_cols_base + pa_cols_extra if c in pa_turn_sub.columns]
+                pa_full = pa_turn_sub[pa_show_cols].copy()
+                pa_full = pa_full.sort_values("abs_difference", ascending=False)
+                # Round numeric columns
+                for c in pa_full.select_dtypes(include="number").columns:
+                    pa_full[c] = pa_full[c].round(4)
+                st.dataframe(pa_full, use_container_width=True, hide_index=True)
+
+    # ── PA mean relative abundance by group (Q1/Q2/Q3/Q4) ─────────────────
+    st.markdown("#### Mean relative abundance by AMP exposure group")
+    st.caption(
+        "Mean relative abundance per species across Q1/Q2/Q3/Q4 quartile bins "
+        "of the AMP exposure variable."
+    )
+
+    if pa_abund.empty:
+        st.info("Dataset `pa_abund` (11_pa_mean_relative_abundance_by_group) not yet available.")
+    else:
+        # Selector for exposure_variable
+        pa_abund_ev_options = pa_abund["exposure_variable"].dropna().unique().tolist() \
+            if "exposure_variable" in pa_abund.columns else [None]
+        if len(pa_abund_ev_options) > 1:
+            sel_pa_abund_ev = st.selectbox(
+                "AMP exposure variable (abundance)",
+                options=pa_abund_ev_options,
+                format_func=_elabel,
+                key="pa_abund_ev",
+            )
+            pa_abund_sub = pa_abund[pa_abund["exposure_variable"] == sel_pa_abund_ev].copy()
+        else:
+            pa_abund_sub = pa_abund.copy()
+
+        if not pa_abund_sub.empty and "species_name" in pa_abund_sub.columns:
+            # Pivot: rows = species, columns = group_level (Q1/Q2/Q3/Q4)
+            pa_abund_pivot = pa_abund_sub.pivot_table(
+                index="species_name",
+                columns="group_level",
+                values="mean_relative_abundance",
+                aggfunc="mean",
+            ).fillna(0)
+            # Order columns logically if present
+            col_order = [c for c in ["Q1", "Q2", "Q3", "Q4"] if c in pa_abund_pivot.columns]
+            if not col_order:
+                col_order = pa_abund_pivot.columns.tolist()
+            pa_abund_pivot = pa_abund_pivot[col_order]
+            # Sort species by total abundance descending
+            pa_abund_pivot = pa_abund_pivot.loc[
+                pa_abund_pivot.sum(axis=1).sort_values(ascending=False).index
+            ]
+
+            fig_pa_heat = px.imshow(
+                pa_abund_pivot.values,
+                x=col_order,
+                y=pa_abund_pivot.index.tolist(),
+                color_continuous_scale="YlOrRd",
+                text_auto=".3f",
+                labels={"color": "Rel. abundance"},
+                height=max(450, len(pa_abund_pivot) * 22),
+                aspect="auto",
+            )
+            fig_pa_heat.update_layout(
+                margin=dict(t=20),
+                xaxis_title="AMP exposure quartile group",
+                yaxis_title="",
+                coloraxis_colorbar_title="Rel. abund.",
+            )
+            st.plotly_chart(fig_pa_heat, use_container_width=True)
+
+            # Bar charts per group (top species per quartile)
+            st.markdown("##### Top species per AMP exposure group")
+            n_groups = len(col_order)
+            grp_cols = st.columns(min(n_groups, 4))
+            grp_pal  = ["#e74c3c", "#f39c12", "#27ae60", "#2980b9"]
+            for gi, gname in enumerate(col_order):
+                grp_data = pa_abund_sub[pa_abund_sub["group_level"] == gname].copy()
+                grp_data = grp_data.sort_values("mean_relative_abundance", ascending=False).head(10)
+                grp_data = grp_data.sort_values("mean_relative_abundance", ascending=True)
+                with grp_cols[gi % len(grp_cols)]:
+                    st.markdown(f"**{gname}**")
+                    fig_g = go.Figure(go.Bar(
+                        x=grp_data["mean_relative_abundance"],
+                        y=grp_data["species_name"],
+                        orientation="h",
+                        marker_color=grp_pal[gi % len(grp_pal)],
+                        text=grp_data["mean_relative_abundance"].apply(lambda v: f"{v:.3f}"),
+                        textposition="outside",
+                    ))
+                    fig_g.update_layout(
+                        height=300,
+                        margin=dict(t=10, b=10, l=5, r=40),
+                        xaxis_title="Rel. abundance",
+                        yaxis_title="",
+                        font_size=10,
+                    )
+                    st.plotly_chart(fig_g, use_container_width=True)
+        else:
+            st.info("Abundance data not in expected format — "
+                    "expected columns: species_name, group_level, mean_relative_abundance.")
+
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 6 — METHODS & RESULTS (academic synthesis)
+# TAB 7 — METHODS & RESULTS (academic synthesis)
 # ══════════════════════════════════════════════════════════════════════════════
+
+def tab_protected_areas(ad: dict) -> None:
+    """Protected Areas analysis tab."""
+
+    st.markdown(
+        '<h3 class="section-title">Protected Areas: Proximity, Fishing Indicators &amp; Composition</h3>',
+        unsafe_allow_html=True,
+    )
+
+    # ── Guard: required datasets ──────────────────────────────────────────────
+    locality_exp  = ad.get("locality_exposure", pd.DataFrame())
+    locality_year = ad.get("locality_year_core", pd.DataFrame())
+    gam_comp      = ad.get("gam_comparison",    pd.DataFrame())
+    pa_turn       = ad.get("pa_turnover",       pd.DataFrame())
+    pa_abund      = ad.get("pa_abund",          pd.DataFrame())
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # SECTION 1 — Locality–PA proximity map
+    # ══════════════════════════════════════════════════════════════════════════
+    st.markdown("### Section 1 — Locality–PA proximity")
+    st.caption(
+        "Mean distance from each locality's landing points to each protected area, "
+        "and the dominant spatial relationship category."
+    )
+
+    if locality_exp.empty:
+        st.info("Locality exposure data not available.")
+    else:
+        le = locality_exp.copy()
+
+        # Derive dominant_relation for every locality
+        rel_cols_present = [c for c in _RELATION_COLS if c in le.columns]
+        if rel_cols_present:
+            le["dominant_relation"] = le.apply(_derive_dominant_relation, axis=1)
+        else:
+            le["dominant_relation"] = "outside_between_both"
+
+        # ── Summary table ─────────────────────────────────────────────────────
+        table_cols = {
+            "local_canonical":                              "Locality",
+            "distance_to_apa_dunas_do_rosado_km_mean":      "Mean dist. APA Dunas (km)",
+            "distance_to_rds_ponta_do_tubarao_km_mean":     "Mean dist. RDS Tubarão (km)",
+            "dominant_relation":                            "Dominant relation",
+            "share_landings_inside_apa_dunas_do_rosado":    "% landings inside APA",
+            "share_landings_inside_rds_ponta_do_tubarao":   "% landings inside RDS",
+        }
+        disp_cols = [c for c in table_cols if c in le.columns]
+        tbl = le[disp_cols].copy()
+        tbl = tbl.rename(columns={c: table_cols[c] for c in disp_cols})
+
+        # Format share columns as percentages
+        for pct_col in ["% landings inside APA", "% landings inside RDS"]:
+            if pct_col in tbl.columns:
+                tbl[pct_col] = (tbl[pct_col] * 100).round(1)
+
+        # Human-readable dominant relation
+        if "Dominant relation" in tbl.columns:
+            tbl["Dominant relation"] = tbl["Dominant relation"].map(_zone_label)
+
+        # Round numeric columns
+        for num_col in ["Mean dist. APA Dunas (km)", "Mean dist. RDS Tubarão (km)"]:
+            if num_col in tbl.columns:
+                tbl[num_col] = tbl[num_col].round(2)
+
+        tbl = tbl.sort_values("Mean dist. APA Dunas (km)") if "Mean dist. APA Dunas (km)" in tbl.columns else tbl
+        st.dataframe(tbl, hide_index=True, use_container_width=True)
+
+        # ── Bar chart: mean distance to nearest PA coloured by dominant_relation ──
+        st.markdown("#### Mean distance to nearest protected area by locality")
+        dist_col = "distance_to_nearest_protected_area_km_mean"
+        if dist_col not in le.columns:
+            # Fall back to APA distance if nearest-PA mean is absent
+            dist_col = "distance_to_apa_dunas_do_rosado_km_mean"
+
+        bar_df = le[["local_canonical", dist_col, "dominant_relation"]].dropna(subset=[dist_col]).copy()
+        bar_df = bar_df.sort_values(dist_col, ascending=True)
+        bar_df["zone_label"] = bar_df["dominant_relation"].map(_zone_label)
+        bar_df["color"]      = bar_df["dominant_relation"].map(_zone_color)
+
+        fig1 = go.Figure(go.Bar(
+            x=bar_df[dist_col],
+            y=bar_df["local_canonical"],
+            orientation="h",
+            marker_color=bar_df["color"],
+            text=bar_df[dist_col].round(2).astype(str) + " km",
+            textposition="outside",
+            customdata=bar_df["zone_label"],
+            hovertemplate=(
+                "<b>%{y}</b><br>"
+                "Mean distance to nearest PA: %{x:.2f} km<br>"
+                "Dominant zone: %{customdata}<extra></extra>"
+            ),
+        ))
+        fig1.update_layout(
+            height=max(280, len(bar_df) * 52),
+            margin=dict(t=20, b=20, r=120),
+            xaxis_title="Mean distance to nearest protected area (km)",
+            yaxis_title="",
+            font_size=12,
+        )
+
+        # Manual legend via invisible scatter traces
+        added_zones = set()
+        for _, row in bar_df.iterrows():
+            rel = row["dominant_relation"]
+            if rel not in added_zones:
+                fig1.add_trace(go.Scatter(
+                    x=[None], y=[None],
+                    mode="markers",
+                    marker=dict(size=10, color=_zone_color(rel), symbol="square"),
+                    name=_zone_label(rel),
+                    showlegend=True,
+                ))
+                added_zones.add(rel)
+        fig1.update_layout(legend=dict(orientation="h", y=-0.25, x=0, font_size=11))
+        st.plotly_chart(fig1, use_container_width=True)
+
+    st.markdown("---")
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # SECTION 2 — Fishing indicators by PA zone
+    # ══════════════════════════════════════════════════════════════════════════
+    st.markdown("### Section 2 — Fishing indicators by PA zone")
+    st.caption(
+        "Catch metrics across locality-years, grouped by each locality's dominant "
+        "protected-area relation (all years pooled)."
+    )
+
+    if locality_exp.empty or locality_year.empty:
+        st.info("Locality exposure or locality-year core data not available.")
+    else:
+        # Build dominant_relation for each locality (re-use from section 1 or recompute)
+        le2 = locality_exp.copy()
+        rel_cols_present = [c for c in _RELATION_COLS if c in le2.columns]
+        if rel_cols_present:
+            le2["dominant_relation"] = le2.apply(_derive_dominant_relation, axis=1)
+        else:
+            le2["dominant_relation"] = "outside_between_both"
+
+        zone_map = le2.set_index("local_canonical")["dominant_relation"].to_dict()
+
+        # Join locality_year_core with zone
+        ly = locality_year.copy()
+        ly["dominant_relation"] = ly["local_canonical"].map(zone_map)
+        ly = ly.dropna(subset=["dominant_relation"])
+        ly["zone_label"] = ly["dominant_relation"].map(_zone_label)
+        ly["zone_color"]  = ly["dominant_relation"].map(_zone_color)
+
+        if ly.empty:
+            st.info("No matching records after joining locality exposure zones.")
+        else:
+            # Ordered zone list
+            zones_present = [z for z in _ZONE_COLORS if z in ly["dominant_relation"].unique()]
+            zone_labels_ordered = [_zone_label(z) for z in zones_present]
+
+            # 3-column layout: one boxplot per production metric
+            metrics = [
+                ("production_per_trip_ton",   "Production per trip (t)"),
+                ("production_ton",            "Total production (t)"),
+                ("production_per_fisher_ton", "Production per fisher (t)"),
+            ]
+            cols = st.columns(3)
+            for (metric_col, metric_label), col in zip(metrics, cols):
+                if metric_col not in ly.columns:
+                    with col:
+                        st.caption(f"{metric_label} — not available")
+                    continue
+                with col:
+                    st.markdown(f"**{metric_label}**")
+                    fig_box = go.Figure()
+                    for zone_key in zones_present:
+                        grp = ly[ly["dominant_relation"] == zone_key][metric_col].dropna()
+                        if grp.empty:
+                            continue
+                        fig_box.add_trace(go.Box(
+                            y=grp,
+                            name=_zone_label(zone_key),
+                            marker_color=_zone_color(zone_key),
+                            boxmean="sd",
+                            showlegend=False,
+                        ))
+                    fig_box.update_layout(
+                        height=360,
+                        margin=dict(t=15, b=10, l=10, r=10),
+                        yaxis_title=metric_label,
+                        xaxis_title="",
+                        font_size=11,
+                        xaxis=dict(tickangle=-30),
+                    )
+                    st.plotly_chart(fig_box, use_container_width=True)
+
+            # Kruskal–Wallis significance note (from assoc_categorical if available)
+            assoc_cat = ad.get("assoc_categorical", pd.DataFrame())
+            if not assoc_cat.empty:
+                pa_assoc = assoc_cat[
+                    assoc_cat["exposure_variable"].str.contains("protected_area", na=False)
+                ].copy()
+                if not pa_assoc.empty:
+                    st.markdown("**Kruskal–Wallis tests (PA zone vs fishing metrics)**")
+                    pa_assoc_disp = pa_assoc[[
+                        "response_variable", "exposure_column", "n_complete",
+                        "kruskal_h", "kruskal_p_value", "p_value_adj_fdr", "significant_fdr_05",
+                    ]].copy()
+                    pa_assoc_disp["response_variable"] = pa_assoc_disp["response_variable"].map(
+                        lambda x: _RESP_LABELS.get(x, x)
+                    )
+                    pa_assoc_disp.columns = [
+                        "Response variable", "Predictor column", "N",
+                        "Kruskal H", "p-value", "p-adj (FDR)", "Sig. (FDR 0.05)",
+                    ]
+                    st.dataframe(pa_assoc_disp.round({"Kruskal H": 3, "p-value": 5, "p-adj (FDR)": 5}),
+                                 hide_index=True, use_container_width=True)
+
+    st.markdown("---")
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # SECTION 3 — GAM model comparison: PA vs platform predictors
+    # ══════════════════════════════════════════════════════════════════════════
+    st.markdown("### Section 3 — GAM model comparison: PA vs platform predictors")
+    st.caption(
+        "Comparison of model fit (R², AIC) for the four key response variables across "
+        "predictor families. Lower AIC indicates a better-fitting model."
+    )
+
+    if gam_comp.empty:
+        st.info("GAM model comparison data not available.")
+    else:
+        target_rvs = ["pielou_species", "shannon_species", "production_per_trip_ton", "production_ton"]
+        gc = gam_comp[gam_comp["response_variable"].isin(target_rvs)].copy()
+
+        if gc.empty:
+            st.info("No GAM comparison rows for the selected response variables.")
+        else:
+            # Compute delta-AIC vs best model per response variable
+            best_aic = gc.groupby("response_variable")["aic"].min().rename("best_aic")
+            gc = gc.join(best_aic, on="response_variable")
+            gc["delta_aic"] = gc["aic"] - gc["best_aic"]
+            gc["is_best"]   = gc["delta_aic"] < 1e-6  # flag best model(s)
+
+            # Aggregate: best (lowest AIC) per response × predictor_family
+            # Show both GAM and linear for context
+            agg = (
+                gc.sort_values("aic")
+                  .groupby(["response_variable", "predictor_family", "model_type"], as_index=False)
+                  .first()
+            )
+
+            # Display grouped table
+            st.markdown("#### Model fit summary (best per response × family × model type)")
+            disp = agg[[
+                "response_variable", "predictor_family", "model_type",
+                "r_squared", "aic", "delta_aic", "is_best",
+            ]].copy()
+            disp["response_variable"]  = disp["response_variable"].map(lambda x: _RESP_LABELS.get(x, x))
+            disp["predictor_family"]   = disp["predictor_family"].map(lambda x: _FAM_LABELS.get(x, x))
+            disp["model_type"]         = disp["model_type"].str.replace("_", " ").str.title()
+            disp.columns = [
+                "Response variable", "Predictor family", "Model type",
+                "R²", "AIC", "ΔAIC", "Best model",
+            ]
+            disp["R²"]   = disp["R²"].round(3)
+            disp["AIC"]  = disp["AIC"].round(2)
+            disp["ΔAIC"] = disp["ΔAIC"].round(2)
+            disp = disp.sort_values(["Response variable", "ΔAIC"])
+
+            # Style to highlight best model
+            def _highlight_best(row):
+                if row["Best model"]:
+                    return ["background-color: #d5f5e3"] * len(row)
+                return [""] * len(row)
+
+            st.dataframe(
+                disp.style.apply(_highlight_best, axis=1),
+                hide_index=True,
+                use_container_width=True,
+            )
+
+            st.markdown("#### R² by predictor family and response variable")
+            # Use best GAM per family (lowest AIC within gam_penalised)
+            gam_only = gc[gc["model_type"] == "gam_penalised"].copy()
+            gam_best_per_fam = (
+                gam_only.sort_values("aic")
+                         .groupby(["response_variable", "predictor_family"], as_index=False)
+                         .first()
+            )
+
+            r2_fig = go.Figure()
+            families_ordered = [
+                "categorical", "continuous",
+                "platform_inside_interaction", "tensor_interaction",
+            ]
+            fam_colors = {
+                "categorical":                 _PAL_NEUTRAL,
+                "continuous":                  _PAL_PRIMARY,
+                "platform_inside_interaction": _PAL_SECONDARY,
+                "tensor_interaction":          _PAL_ACCENT,
+            }
+
+            rv_tick_labels = [_RESP_LABELS.get(rv, rv) for rv in target_rvs]
+
+            for fam in families_ordered:
+                sub = gam_best_per_fam[gam_best_per_fam["predictor_family"] == fam].copy()
+                if sub.empty:
+                    continue
+                # Align to target_rvs order
+                sub = sub.set_index("response_variable").reindex(target_rvs).reset_index()
+                r2_fig.add_trace(go.Bar(
+                    x=rv_tick_labels,
+                    y=sub["r_squared"],
+                    name=_FAM_LABELS.get(fam, fam),
+                    marker_color=fam_colors.get(fam, _PAL_NEUTRAL),
+                ))
+            r2_fig.update_layout(
+                barmode="group",
+                height=380,
+                margin=dict(t=20, b=60),
+                yaxis_title="R² (GAM, penalised)",
+                xaxis_title="",
+                legend=dict(orientation="h", y=-0.28, font_size=11),
+                font_size=12,
+            )
+            st.plotly_chart(r2_fig, use_container_width=True)
+
+    st.markdown("---")
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # SECTION 4 — Species turnover along PA gradient
+    # ══════════════════════════════════════════════════════════════════════════
+    st.markdown("### Section 4 — Species turnover along PA gradient")
+    st.caption(
+        "Change in relative catch abundance between the nearest (Q1) and farthest (Q3) "
+        "tertile of localities by distance to the nearest protected area. "
+        "Blue bars = more abundant near protected areas (Q1); "
+        "orange bars = more abundant far from protected areas (Q3)."
+    )
+
+    if pa_turn.empty:
+        st.info("PA species turnover data not available.")
+    else:
+        # Filter to the PA distance gradient
+        turn_pa = pa_turn[
+            pa_turn["exposure_variable"] == "mean_distance_to_nearest_protected_area_km"
+        ].copy()
+
+        if turn_pa.empty:
+            st.info("No turnover data for 'mean_distance_to_nearest_protected_area_km'.")
+        else:
+            # Top 15 species by absolute difference
+            top15 = turn_pa.nlargest(15, "abs_difference").copy()
+            # Sort by difference (negative = more in Q1/near, positive = more in Q3/far)
+            top15 = top15.sort_values("difference_far_minus_near")
+
+            # Colour by dominant_in: Q1 (near PA) → primary blue, Q3 (far) → secondary orange
+            top15["bar_color"] = top15["dominant_in"].map(
+                {"Q1": _PAL_PRIMARY, "Q3": _PAL_SECONDARY}
+            ).fillna(_PAL_NEUTRAL)
+
+            top15["text_val"] = top15["difference_far_minus_near"].apply(lambda x: f"{x:+.3f}")
+
+            fig_turn = go.Figure(go.Bar(
+                x=top15["difference_far_minus_near"],
+                y=top15["species_name"],
+                orientation="h",
+                marker_color=top15["bar_color"],
+                text=top15["text_val"],
+                textposition="outside",
+                customdata=np.stack([
+                    top15["mean_rel_Q1"],
+                    top15["mean_rel_Q3"],
+                    top15["dominant_in"].fillna("—"),
+                    top15["abs_difference"],
+                ], axis=-1),
+                hovertemplate=(
+                    "<b>%{y}</b><br>"
+                    "Difference (far − near): %{x:+.4f}<br>"
+                    "Rel. abundance Q1 (near PA): %{customdata[0]:.4f}<br>"
+                    "Rel. abundance Q3 (far PA): %{customdata[1]:.4f}<br>"
+                    "Dominant in: %{customdata[2]}<br>"
+                    "Abs. difference: %{customdata[3]:.4f}<extra></extra>"
+                ),
+            ))
+            fig_turn.add_vline(x=0, line_dash="dash", line_color="#aaa", line_width=1.5)
+            fig_turn.update_layout(
+                height=max(420, len(top15) * 32),
+                margin=dict(t=20, r=100, l=10),
+                xaxis_title="Relative abundance difference (far − near)",
+                yaxis_title="",
+                font_size=12,
+                annotations=[
+                    dict(
+                        x=top15["difference_far_minus_near"].max() * 0.7 if top15["difference_far_minus_near"].max() > 0 else 0.05,
+                        y=len(top15) - 0.5,
+                        text="↑ More abundant far from PA",
+                        showarrow=False,
+                        font=dict(size=10, color=_PAL_SECONDARY),
+                    ),
+                    dict(
+                        x=top15["difference_far_minus_near"].min() * 0.7 if top15["difference_far_minus_near"].min() < 0 else -0.05,
+                        y=0.5,
+                        text="↑ More abundant near PA",
+                        showarrow=False,
+                        font=dict(size=10, color=_PAL_PRIMARY),
+                    ),
+                ],
+            )
+            st.plotly_chart(fig_turn, use_container_width=True)
+
+            # ── Companion table: PA-specific mean relative abundances ──────────
+            # These columns are non-NaN in the dominant_protected_area_relation subset,
+            # but may be NaN here; include them when at least one is non-NaN.
+            companion_cols = [
+                "mean_rel_inside_apa",
+                "mean_rel_outside_closer_to_rds",
+                "mean_rel_APA_DUNAS_DO_ROSADO",
+                "mean_rel_RDS_PONTA_DO_TUBARAO",
+            ]
+            companion_col_labels = {
+                "species_name":                    "Species",
+                "mean_rel_Q1":                     "Rel. abund. Q1 (near)",
+                "mean_rel_Q3":                     "Rel. abund. Q3 (far)",
+                "difference_far_minus_near":        "Diff. (far − near)",
+                "dominant_in":                     "Dominant in",
+                "mean_rel_inside_apa":             "Inside APA",
+                "mean_rel_outside_closer_to_rds":  "Outside, closer RDS",
+                "mean_rel_APA_DUNAS_DO_ROSADO":    "APA Dunas group",
+                "mean_rel_RDS_PONTA_DO_TUBARAO":   "RDS Tubarão group",
+            }
+            # Only include companion cols that have at least one non-NaN value
+            valid_companion = [
+                c for c in companion_cols
+                if c in top15.columns and top15[c].notna().any()
+            ]
+            base_display_cols = ["species_name", "mean_rel_Q1", "mean_rel_Q3",
+                                  "difference_far_minus_near", "dominant_in"]
+            all_display_cols = base_display_cols + valid_companion
+            all_display_cols = [c for c in all_display_cols if c in top15.columns]
+
+            comp_tbl = top15[all_display_cols].copy().sort_values(
+                "difference_far_minus_near"
+            )
+            comp_tbl = comp_tbl.rename(columns={c: companion_col_labels.get(c, c) for c in all_display_cols})
+
+            # Round numeric columns
+            numeric_tbl_cols = [c for c in comp_tbl.columns if c not in ("Species", "Dominant in")]
+            comp_tbl[numeric_tbl_cols] = comp_tbl[numeric_tbl_cols].round(4)
+
+            with st.expander("Companion table — relative abundances for top-15 species"):
+                st.dataframe(comp_tbl, hide_index=True, use_container_width=True)
+
+            # ── PA-zone abundance breakdown (from pa_abund if available) ──────
+            if not pa_abund.empty:
+                pa_rel = pa_abund[
+                    (pa_abund["exposure_variable"] == "dominant_protected_area_relation") &
+                    (pa_abund["group_level"].isin(["inside_apa", "outside_closer_to_apa",
+                                                    "outside_closer_to_rds"]))
+                ].copy()
+
+                if not pa_rel.empty:
+                    # Limit to the species in top15 for relevance
+                    top_sp = set(top15["species_name"].tolist())
+                    pa_rel_top = pa_rel[pa_rel["species_name"].isin(top_sp)].copy()
+
+                    if not pa_rel_top.empty:
+                        st.markdown("#### Mean relative abundance by PA zone for top-15 turnover species")
+                        pivot = pa_rel_top.pivot_table(
+                            index="species_name",
+                            columns="group_level",
+                            values="mean_relative_abundance",
+                            aggfunc="mean",
+                        ).round(4)
+                        pivot.index.name = "Species"
+                        pivot.columns = [_zone_label(c) for c in pivot.columns]
+                        st.dataframe(pivot, use_container_width=True)
+
 def tab_methods_results():
     """Synthesized Methods and Results in academic journal style."""
 
@@ -996,11 +2095,14 @@ def tab_methods_results():
     st.markdown("""
 Fisheries landings were compiled for **five coastal localities** along the Rio Grande
 do Norte coast, Brazil (Areia Branca, Caiçara do Norte, Guamaré, Macau, and Porto do
-Mangue), yielding **112 locality-year observations** spanning 2001–2023. The dataset
-records **59 species** across multiple fishing gears and vessel types. Offshore oil
-platform coordinates were used to compute per-locality annual exposure metrics: mean,
+Mangue), yielding **112 locality-year observations** spanning 2001–2025 (25 years). The
+dataset records **59 species** across multiple fishing gears and vessel types. Offshore
+oil platform coordinates were used to compute per-locality annual exposure metrics: mean,
 closest, and farthest distances to the nearest platform, and the number of platforms
-within 10 and 20 km radii.
+within 10 and 20 km radii. Two multi-use marine protected areas in the study region —
+**APA Dunas do Rosado** (environmental protection area, Areia Branca) and **RDS Ponta
+do Tubarão** (sustainable development reserve, Macau–Guamaré) — were also incorporated
+as spatial covariates (see *Protected area exposure* below).
 """)
 
     st.markdown("### Exposure–response screening")
@@ -1029,6 +2131,20 @@ observations were identified through Cook's D and studentized residuals approxim
 from the GCV effective degrees of freedom.
 """)
 
+    st.markdown("### Protected area exposure")
+    st.markdown("""
+Two multi-use marine protected areas (MPAs) in Rio Grande do Norte were incorporated
+as additional exposure variables: the APA Dunas do Rosado (environmental protection
+area, Areia Branca) and the RDS Ponta do Tubarão (sustainable development reserve,
+Macau–Guamaré). For each fishing locality, mean distance to the nearest protected
+area boundary (km) and a categorical zone variable (inside APA / inside RDS /
+outside closer to APA / outside closer to RDS) were derived from landing-point
+shapefiles (Module 05). Four predictor families were tested in GAMs (Module 08):
+(1) platform distance alone (continuous), (2) PA distance alone (continuous),
+(3) platform distance × inside/outside PA (interaction), and
+(4) platform distance × PA distance (tensor product interaction).
+""")
+
     st.markdown("### Community ordination")
     st.markdown("""
 Species composition was analysed using Principal Coordinates Analysis (PCoA) with
@@ -1054,7 +2170,7 @@ tertiles (Module 11).
     col1.metric("Observations", "112", "locality-years")
     col2.metric("Species recorded", "59")
     col3.metric("Mean richness", "41.7 ± 11.5 spp")
-    col4.metric("Study period", "2001–2023")
+    col4.metric("Study period", "2001–2025")
 
     st.markdown("""
 Mean Shannon diversity across the dataset was H' = 2.40 ± 0.67, with Pielou evenness
@@ -1065,7 +2181,7 @@ diversity (H' = 1.35; J' = 0.40), whereas Porto do Mangue showed the highest div
 """)
 
     # Table 1
-    st.markdown("**Table 1.** Summary statistics by fishing locality (2001–2023 means).")
+    st.markdown("**Table 1.** Summary statistics by fishing locality (2001–2025 means).")
     tbl1 = pd.DataFrame({
         "Locality":           ["Areia Branca", "Caiçara do Norte", "Guamaré", "Macau", "Porto do Mangue"],
         "Shannon H'":         [1.35, 2.62, 2.66, 2.44, 2.78],
@@ -1103,27 +2219,45 @@ evenness despite lower yields.
 
     st.markdown("### GAM model performance")
     st.markdown("""
-GAM-spline models (GCV-penalised) consistently outperformed their linear equivalents:
-ΔR² ranged from 0.343 (Shannon H') to 0.499 (Pielou J'), confirming strongly non-linear
-exposure–response relationships. The best-performing models used the closest platform
-distance as the exposure variable for diversity indices, and mean platform distance for
-production metrics (Table 3). Shannon H' and Pielou J' models explained 60.3% and 58.6%
-of variance, respectively; the CPUE model 54.5%; and the production model 59.5%. All
-four models incorporated gear-type richness, boat-type richness, and year as linear
-covariates.
+GAM-spline models (GCV-penalised) consistently outperformed their linear equivalents,
+confirming strongly non-linear exposure–response relationships. The best-performing model
+family for diversity indices (Shannon H' and Pielou J') was the **platform distance ×
+inside/outside PA interaction**, with R² = 0.611–0.612. For total production, a **tensor
+product interaction** between platform distance and PA distance yielded the best fit
+(R² = 0.614). For production per trip, the simple **platform distance alone** model was
+optimal (R² = 0.578). All models incorporated gear-type richness, boat-type richness,
+and year as linear covariates (Table 3).
 """)
 
     # Table 3
-    st.markdown("**Table 3.** Best-fit GAM models (spline, df = 4).")
+    st.markdown("**Table 3.** Best-fit GAM models per response variable.")
     tbl3 = pd.DataFrame({
-        "Response":         ["Shannon H'", "Pielou J'", "CPUE (t/trip)", "Production (t)"],
-        "Exposure":         ["Closest platform dist. (km)", "Closest platform dist. (km)",
-                             "Closest platform dist. (km)", "Mean platform dist. (km)"],
-        "R²":               [0.603, 0.586, 0.545, 0.595],
-        "Adj. R²":          ["n/a", "n/a", "n/a", "n/a"],
-        "AIC":              [163.14, -120.85, -53.24, 1691.73],
+        "Response":        ["Shannon H'", "Pielou J'", "Production per trip (t)", "Total production (t)"],
+        "Predictor family": ["platform_inside_interaction", "platform_inside_interaction",
+                             "continuous", "tensor_interaction"],
+        "Best predictor":  [
+            "platform dist. × inside/outside PA",
+            "platform dist. × inside/outside PA",
+            "Mean platform dist. (km)",
+            "platform dist. × PA dist. (tensor)",
+        ],
+        "R²":              [0.611, 0.612, 0.578, 0.614],
+        "AIC":             [178.87, -143.05, -63.12, 1849.08],
     })
     st.dataframe(tbl3, use_container_width=True, hide_index=True)
+
+    st.markdown("### Protected area effects on GAM performance")
+    st.markdown("""
+For diversity indices (Shannon H' and Pielou J'), the interaction between platform
+distance and protected area status (inside/outside any PA) was the best-performing
+model family (ΔAIC = –2.0 to –1.4 vs. platform-distance-alone), suggesting that
+proximity to oil platforms has a differential effect depending on whether fishing
+localities operate within or outside protected areas. For total production, a tensor
+product interaction between platform distance and PA distance provided the best fit
+(R² = 0.614), indicating joint spatial structuring by both infrastructure types.
+For production per trip, the simple platform distance model remained optimal
+(ΔAIC > 3 vs. any PA interaction term).
+""")
 
     st.markdown("### Non-monotonic exposure–response curves")
     st.markdown("""
@@ -1195,5 +2329,5 @@ localities (Q3) were characterised by oceanic or offshore species: Peixe Voador
         "All analyses were performed in Python (scikit-learn, scipy, statsmodels, skbio, pyGAM). "
         "PERMANOVA was run with 999 permutations. GAM models used penalised regression splines "
         "with GCV smoothing-parameter selection (pyGAM LinearGAM, cubic basis, n_splines = 10). "
-        "Data source: PMDP/IBAMA — Rio Grande do Norte, Brazil (2001–2023)."
+        "Data source: PMDP/IBAMA — Rio Grande do Norte, Brazil (2001–2025)."
     )

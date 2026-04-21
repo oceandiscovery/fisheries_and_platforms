@@ -7,6 +7,16 @@ Normalisation layer
 The parquet files in data/ were produced by the original scripts (pre-v3.6).
 The normalise_*() helpers rename columns to the schema expected by analysis_tabs.py
 so that the dashboard works without requiring the user to re-run all scripts.
+
+They are applied selectively:
+  _norm_gam_best      — 08_best_models, 08_model_comparison
+  _norm_gam_coef      — 08_gam_term_statistics
+  _norm_gam_smooth    — 08_gam_partial_dependence
+  _norm_rob_curves    — 09_flexibility_curves
+  _norm_rob_lolo      — 09_lolo_curves
+  _norm_rob_loyo      — 09_loyo_table
+  _norm_rob_influence — 09_residual_table (used as influence proxy)
+  _norm_summary_fallback — 09_lolo_summary / 09_loyo_summary (may be absent)
 """
 
 import os
@@ -171,7 +181,7 @@ def _norm_rob_loyo(df: pd.DataFrame) -> pd.DataFrame:
                 predicted_ci_low, predicted_ci_high, model_name, group_removed
 
     Since old files only contain scalar R², we synthesise a minimal
-    'curves' table so the dashboard doesn’t crash. Each year-removed model
+    'curves' table so the dashboard doesn't crash. Each year-removed model
     is represented as a horizontal line at its R² value across a [0,1]
     normalised x-axis (real exposure range not available in the scalar table).
     """
@@ -274,73 +284,96 @@ def _norm_summary_fallback(df: pd.DataFrame, group_col: str) -> pd.DataFrame:
 def load_analysis():
     """Load all analysis datasets into a dict of DataFrames."""
 
-    # ── Module 08: raw reads (old filenames) ──
-    gam_best_raw    = _read("08_best_gam_models")
-    gam_coef_raw    = _read("08_gam_term_statistics")
-    gam_fitted_raw  = _read("08_gam_fitted_values")
+    # ── Module 08: raw reads ──
+    gam_best_raw    = _read("08_best_models")
+    gam_comp_raw    = _read("08_model_comparison")
+    gam_fitted_raw  = _read("08_model_fitted_values")
     gam_smooth_raw  = _read("08_gam_partial_dependence")
-    gam_comp_raw    = _read("08_gam_linear_model_comparison")
+    gam_coef_raw    = _read("08_gam_term_statistics")
 
-    # ── Module 09: raw reads (old filenames) ──
+    # ── Module 09: raw reads ──
     rob_curves_raw  = _read("09_flexibility_curves")
     rob_comp_raw    = _read("09_flexibility_table")
     rob_lolo_raw    = _read("09_lolo_curves")
     rob_loyo_raw    = _read("09_loyo_table")
     rob_resid_raw   = _read("09_residual_table")   # used as influence proxy
 
-    # Summary tables (may not exist in old outputs → fallback)
-    rob_lolo_sum    = _read("09_gam_leave_one_locality_out_summary")
-    rob_loyo_sum    = _read("09_gam_leave_one_year_out_summary")
+    # Summary tables (may not exist → fallback)
+    rob_lolo_sum    = _read("09_lolo_summary")
+    rob_loyo_sum    = _read("09_loyo_summary")
 
     return {
+        # ── Module 04 ──
+        "locality_year_core":  _read("04_locality_year_core"),
+        "locality_exposure":   _read("04_locality_exposure_context"),
+        "landing_context":     _read("04_landing_points_context"),
+        "locality_reference":  _read("04_locality_reference_table"),
+
+        # ── Module 05 ──
+        "exposure_wide":       _read("05_landing_point_exposure_scenarios_wide"),
+        "exposure_long":       _read("05_landing_point_exposure_scenarios_long"),
+        "locality_compact":    _read("05_locality_compact_model_input"),
+
         # ── Module 06 ──
-        "div_table":        pd.read_parquet(_p("06_diversity_table")),
-        "composition_long": pd.read_parquet(_p("06_composition_long")),
-        "top_species_long": pd.read_parquet(_p("06_top_species_long")),
-        "sp_coverage":      pd.read_parquet(_p("06_species_coverage_summary")),
-        "sp_abundance_mat": pd.read_parquet(_p("06_species_abundance_matrix")),
-        "sp_relative_mat":  pd.read_parquet(_p("06_species_relative_matrix")),
+        "div_table":           _read("06_diversity_table"),
+        "composition_long":    _read("06_composition_long"),
+        "top_species_long":    _read("06_top_species_long"),
+        "sp_coverage":         _read("06_species_coverage_summary"),
+        "sp_abundance_mat":    _read("06_species_abundance_matrix"),
+        "sp_relative_mat":     _read("06_species_relative_matrix"),
 
         # ── Module 07 ──
-        "assoc_overall":    pd.read_parquet(_p("07_diversity_overall_associations")),
-        "assoc_within":     pd.read_parquet(_p("07_diversity_within_locality_associations")),
-        "assoc_screening":  pd.read_parquet(_p("07_diversity_screening_table")),
-        "div_locality":     pd.read_parquet(_p("07_diversity_locality_summary")),
-        "div_year":         pd.read_parquet(_p("07_diversity_year_summary")),
+        "assoc_overall":       _read("07_diversity_overall_associations"),
+        "assoc_overall_cont":  _read("07_diversity_overall_continuous_associations"),
+        "assoc_within":        _read("07_diversity_within_locality_associations"),
+        "assoc_screening":     _read("07_diversity_screening_table"),
+        "assoc_categorical":   _read("07_diversity_categorical_response_tests"),
+        "predictor_inventory": _read("07_candidate_predictor_inventory"),
+        "collinearity":        _read("07_candidate_predictor_collinearity"),
+        "div_locality":        _read("07_diversity_locality_summary"),
+        "div_year":            _read("07_diversity_year_summary"),
 
         # ── Module 08 (normalised) ──
-        "gam_best":       _norm_gam_best(gam_best_raw),
-        "gam_coef":       _norm_gam_coef(gam_coef_raw),
-        "gam_fitted":     gam_fitted_raw,
-        "gam_smooth":     _norm_gam_smooth(gam_smooth_raw),
-        "gam_comparison": _norm_gam_best(gam_comp_raw),   # same cols needed
+        "gam_best":            _norm_gam_best(gam_best_raw),
+        "gam_comparison":      _norm_gam_best(gam_comp_raw),
+        "gam_fitted":          gam_fitted_raw,
+        "gam_smooth":          _norm_gam_smooth(gam_smooth_raw),
+        "gam_coef":            _norm_gam_coef(gam_coef_raw),
+        "gam_specs":           _read("08_model_specifications"),
 
         # ── Module 09 (normalised) ──
-        "rob_curves":       _norm_rob_curves(rob_curves_raw),
-        "rob_comparison":   rob_comp_raw,
-        "rob_signature":    rob_comp_raw,                  # same file, alias
-        "rob_influence":    _norm_rob_influence(rob_resid_raw),
-        "rob_lolo":         _norm_rob_lolo(rob_lolo_raw),
-        "rob_loyo":         _norm_rob_loyo(rob_loyo_raw),
-        "rob_lolo_summary": _norm_summary_fallback(rob_lolo_sum, "locality_removed"),
-        "rob_loyo_summary": _norm_summary_fallback(rob_loyo_sum, "year_removed"),
+        "rob_curves":          _norm_rob_curves(rob_curves_raw),
+        "rob_comparison":      rob_comp_raw,
+        "rob_signature":       rob_comp_raw,                   # alias — same file
+        "rob_lolo":            _norm_rob_lolo(rob_lolo_raw),
+        "rob_loyo":            _norm_rob_loyo(rob_loyo_raw),
+        "rob_influence":       _norm_rob_influence(rob_resid_raw),
+        "rob_stability":       _read("09_model_stability_summary"),
+        "rob_pd_diag":         _read("09_partial_dependence_diagnostics"),
+        "rob_lolo_summary":    _norm_summary_fallback(rob_lolo_sum, "locality_removed"),
+        "rob_loyo_summary":    _norm_summary_fallback(rob_loyo_sum, "year_removed"),
 
         # ── Module 10 ──
-        "pcoa_hell":  pd.read_parquet(_p("10_refined_pcoa_hellinger_scores")),
-        "pcoa_rel":   pd.read_parquet(_p("10_refined_pcoa_relative_scores")),
-        "nmds_rel":   pd.read_parquet(_p("10_refined_nmds_relative_scores")),
-        "permanova":  pd.read_parquet(_p("10_refined_permanova_table_long")),
-        "dispersion": pd.read_parquet(_p("10_refined_dispersion_table_long")),
-        "axis_exp":   pd.read_parquet(_p("10_refined_axis_exposure_associations")),
-        "top_sp_axis":pd.read_parquet(_p("10_refined_top_species_axis_associations")),
-        "exp_bins":   pd.read_parquet(_p("10_refined_exposure_bins_long")),
+        "pcoa_hell":           _read("10_refined_pcoa_hellinger_scores"),
+        "pcoa_rel":            _read("10_refined_pcoa_relative_scores"),
+        "nmds_rel":            _read("10_refined_nmds_relative_scores"),
+        "permanova":           _read("10_refined_permanova_table_long"),
+        "dispersion":          _read("10_refined_dispersion_table_long"),
+        "axis_exp":            _read("10_refined_axis_exposure_associations"),
+        "top_sp_axis":         _read("10_refined_top_species_axis_associations"),
+        "exp_bins":            _read("10_refined_exposure_bins_long"),
+        "valid_tests":         _read("11_valid_multivariate_tests_summary"),
 
         # ── Module 11 ──
-        "grad_summary":  pd.read_parquet(_p("11_primary_gradient_summary")),
-        "grad_scores":   pd.read_parquet(_p("11_primary_composition_scores")),
-        "grad_top_sp":   pd.read_parquet(_p("11_primary_axis_top_species")),
-        "turnover_top":  pd.read_parquet(_p("11_species_turnover_primary_gradient_top")),
-        "turnover_full": pd.read_parquet(_p("11_species_turnover_primary_gradient")),
-        "top_by_bin":    pd.read_parquet(_p("11_top_species_by_primary_bin")),
-        "mean_abund_bin":pd.read_parquet(_p("11_mean_relative_abundance_by_primary_bin")),
+        "grad_summary":        _read("11_primary_gradient_summary"),
+        "grad_scores":         _read("11_primary_composition_scores"),
+        "grad_top_sp":         _read("11_primary_axis_top_species"),
+        "turnover_top":        _read("11_species_turnover_primary_gradient_top"),
+        "turnover_full":       _read("11_species_turnover_primary_gradient"),
+        "top_by_bin":          _read("11_top_species_by_primary_bin"),
+        "top_by_group":        _read("11_top_species_by_primary_group"),
+        "mean_abund_bin":      _read("11_mean_relative_abundance_by_primary_bin"),
+        "mean_abund_group":    _read("11_mean_relative_abundance_by_primary_group"),
+        "pa_turnover":         _read("11_pa_species_turnover_summaries"),
+        "pa_abund":            _read("11_pa_mean_relative_abundance_by_group"),
     }
