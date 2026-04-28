@@ -9,15 +9,26 @@ The normalise_*() helpers rename columns to the schema expected by analysis_tabs
 so that the dashboard works without requiring the user to re-run all scripts.
 
 They are applied selectively:
-  _norm_locality      — ALL datasets: fixes stale locality names (e.g. Grossos → Caicara Do Norte)
+  _norm_locality      — ALL datasets: fixes stale locality names
   _norm_gam_best      — 08_best_models, 08_model_comparison
-  _norm_gam_coef      — 08_model_term_statistics / 08_gam_term_statistics
+  _norm_gam_coef      — 08_model_term_statistics
   _norm_gam_smooth    — 08_gam_partial_dependence
-  _norm_rob_curves    — 09_flexibility_curves
-  _norm_rob_lolo      — 09_lolo_curves
-  _norm_rob_loyo      — 09_loyo_table
-  _norm_rob_influence — 09_residual_table (used as influence proxy)
-  _norm_summary_fallback — 09_lolo_summary / 09_loyo_summary (may be absent)
+  _norm_rob_curves    — 09_flexibility_curves (not produced by current script 09 → empty)
+  _norm_rob_lolo      — 09_lolo_curves (not produced by current script 09 → empty)
+  _norm_rob_loyo      — 09_loyo_table (not produced by current script 09 → empty)
+  _norm_rob_influence — 09_residual_diagnostics
+  _norm_summary_fallback — 09_lolo_summary / 09_loyo_summary (absent → minimal fallback)
+
+Script 09 (current version) produces:
+  09_diagnostic_models, 09_residual_diagnostics,
+  09_partial_dependence_diagnostics, 09_model_stability_summary
+
+Script 10 produces plain names (no "refined" prefix):
+  10_pcoa_relative_scores, 10_pcoa_hellinger_scores, 10_nmds_relative_scores,
+  10_permanova_table_long, 10_permanova_interaction_table_long,
+  10_dispersion_table_long, 10_axis_exposure_associations,
+  10_top_species_axis_associations, 10_exposure_groups_long,
+  10_interaction_exposure_groups
 """
 
 import os
@@ -418,11 +429,11 @@ def load_analysis():
     gam_predictor_inventory = _read("08_predictor_set_inventory")
 
     # ── Module 09: raw reads ──
-    rob_curves_raw  = _read("09_flexibility_curves")
-    rob_comp_raw    = _read("09_flexibility_table")
-    rob_lolo_raw    = _read("09_lolo_curves")
-    rob_loyo_raw    = _read("09_loyo_table")
-    rob_resid_raw   = _read("09_residual_table")   # used as influence proxy
+    rob_curves_raw  = _read("09_flexibility_curves")    # not produced by current script 09 → empty DF
+    rob_comp_raw    = _read("09_flexibility_table")     # not produced by current script 09 → empty DF
+    rob_lolo_raw    = _read("09_lolo_curves")           # not produced by current script 09 → empty DF
+    rob_loyo_raw    = _read("09_loyo_table")            # not produced by current script 09 → empty DF
+    rob_resid_raw   = _read("09_residual_diagnostics")  # script 09 saves this as residual_diagnostics
 
     # Summary tables (may not exist → fallback)
     rob_lolo_sum    = _read("09_lolo_summary")
@@ -452,9 +463,10 @@ def load_analysis():
         "sp_relative_mat":     _read("06_species_relative_matrix"),
 
         # ── Module 07 ──
-        "assoc_overall":       _read("07_diversity_overall_associations"),
+        # script 07 saves *_continuous_associations (not *_associations).
+        "assoc_overall":       _read("07_diversity_overall_continuous_associations"),
         "assoc_overall_cont":  _read("07_diversity_overall_continuous_associations"),
-        "assoc_within":        _read("07_diversity_within_locality_associations"),
+        "assoc_within":        _read("07_diversity_within_locality_continuous_associations"),
         "assoc_screening":     _read("07_diversity_screening_table"),
         "assoc_categorical":   _read("07_diversity_categorical_response_tests"),
         "predictor_inventory": _read("07_candidate_predictor_inventory"),
@@ -484,19 +496,22 @@ def load_analysis():
         "rob_loyo_summary":    _norm_summary_fallback(rob_loyo_sum, "year_removed"),
 
         # ── Module 10 ──
-        "pcoa_hell":           _read("10_refined_pcoa_hellinger_scores"),
-        "pcoa_rel":            _read("10_refined_pcoa_relative_scores"),
-        "nmds_rel":            _read("10_refined_nmds_relative_scores"),
-        "permanova":           _read("10_refined_permanova_table_long"),
-        "permanova_full":      _read("10_permanova_table_long"),
-        "permanova_interaction": _read("10_permanova_interaction_table_long"),
-        "dispersion":          _read("10_refined_dispersion_table_long"),
-        "axis_exp":            _read("10_refined_axis_exposure_associations"),
-        "axis_exp_full":       _read("10_axis_exposure_associations"),
-        "top_sp_axis":         _read("10_refined_top_species_axis_associations"),
-        "exp_bins":            _read("10_refined_exposure_bins_long"),
-        "interaction_groups":  _read("10_interaction_exposure_groups"),
-        "valid_tests":         _read("11_valid_multivariate_tests_summary"),
+        # script 10 writes plain names (no "refined" prefix).
+        # 10_permanova_table_long and 10_axis_exposure_associations are loaded
+        # twice so both the "refined" slot and the "full" slot are populated.
+        "pcoa_hell":              _read("10_pcoa_hellinger_scores"),
+        "pcoa_rel":               _read("10_pcoa_relative_scores"),
+        "nmds_rel":               _read("10_nmds_relative_scores"),
+        "permanova":              _read("10_permanova_table_long"),
+        "permanova_full":         _read("10_permanova_table_long"),
+        "permanova_interaction":  _read("10_permanova_interaction_table_long"),
+        "dispersion":             _read("10_dispersion_table_long"),
+        "axis_exp":               _read("10_axis_exposure_associations"),
+        "axis_exp_full":          _read("10_axis_exposure_associations"),
+        "top_sp_axis":            _read("10_top_species_axis_associations"),
+        "exp_bins":               _read("10_exposure_groups_long"),
+        "interaction_groups":     _read("10_interaction_exposure_groups"),
+        "valid_tests":            _read("11_valid_multivariate_tests_summary"),
 
         # ── Module 11 ──
         "grad_summary":        _read("11_primary_gradient_summary"),
@@ -504,9 +519,9 @@ def load_analysis():
         "grad_top_sp":         _read("11_primary_axis_top_species"),
         "turnover_top":        _read("11_species_turnover_primary_gradient_top"),
         "turnover_full":       _read("11_species_turnover_primary_gradient"),
-        "top_by_bin":          _read("11_top_species_by_primary_bin"),
+        "top_by_bin":          _read("11_top_species_by_primary_group"),    # script 11 uses 'group' not 'bin'
         "top_by_group":        _read("11_top_species_by_primary_group"),
-        "mean_abund_bin":      _read("11_mean_relative_abundance_by_primary_bin"),
+        "mean_abund_bin":      _read("11_mean_relative_abundance_by_primary_group"),  # idem
         "mean_abund_group":    _read("11_mean_relative_abundance_by_primary_group"),
         "pa_turnover":         _read("11_pa_species_turnover_summaries"),
         "pa_abund":            _read("11_pa_mean_relative_abundance_by_group"),

@@ -60,10 +60,16 @@ def compute_cpue(dfs):
         cpue=("cpue", "mean"),
     ).reset_index()
     # CPUE por arte y puerto
-    cpue_gear = merged.groupby(["local_norm", "year", "gear_type", "gear_group"]).agg(
+    # 03_gear_production_canonical.parquet expone gear_type_canonical / gear_group_canonical.
+    # Usamos el nombre canónico si existe, con fallback al nombre bruto del Excel.
+    gear_type_col  = "gear_type_canonical"  if "gear_type_canonical"  in merged.columns else "gear_type"
+    gear_group_col = "gear_group_canonical" if "gear_group_canonical" in merged.columns else "gear_group"
+    cpue_gear = merged.groupby(["local_norm", "year", gear_type_col, gear_group_col]).agg(
         production_ton=("gear_production_ton", "sum"),
         cpue=("cpue", "mean"),
     ).reset_index()
+    # Normalizar nombres para que el resto del código vea siempre gear_type / gear_group
+    cpue_gear = cpue_gear.rename(columns={gear_type_col: "gear_type", gear_group_col: "gear_group"})
     return cpue_port, cpue_gear
 
 
@@ -89,8 +95,10 @@ def compute_biodiversity(dfs):
     sp = dfs["species"].copy()
     results = []
     for (local, year), grp in sp.groupby(["local_norm", "year"]):
-        counts = grp["sp_production_ton"].values
-        S = len(grp)
+        counts = grp["sp_production_ton"].dropna().values
+        # S counts only species with valid (non-NaN, non-zero) production,
+        # consistent with how shannon_index filters its input.
+        S = int((counts > 0).sum())
         H = shannon_index(counts)
         J = H / math.log(S) if S > 1 else 0.0
         results.append({
