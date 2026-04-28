@@ -527,9 +527,10 @@ def tab_gam(ad):
             st.dataframe(show.round(4), use_container_width=True, hide_index=True)
 
         st.caption(
-            "The current best-response table is dominated by interaction models. "
-            "Partial-dependence curves are only available for simple continuous/categorical GAMs; "
-            "interaction models are shown with fitted/observed diagnostics and interaction-specific summaries."
+            "This leaderboard compares simple continuous predictors, categorical protected-area predictors, "
+            "and any interaction families available in the current parquet outputs. "
+            "The best models in the current run are not assumed to be dominated by interactions; "
+            "interpretation should follow the response-specific comparison table below."
         )
 
     # ── Selector de modelo: grouped by predictor_family ───────────────────
@@ -2457,7 +2458,7 @@ def tab_protected_areas(ad: dict) -> None:
                         st.dataframe(pivot, use_container_width=True)
 
 def tab_methods_results(ad=None):
-    """Synthesized Methods and Results in academic journal style."""
+    """Synthesized Methods and Results aligned with the current parquet outputs."""
 
     st.markdown('<h3 class="section-title">Methods & Results</h3>', unsafe_allow_html=True)
 
@@ -2468,11 +2469,18 @@ def tab_methods_results(ad=None):
     div = ad.get("div_table", pd.DataFrame()).copy()
     best = ad.get("gam_best", pd.DataFrame()).copy()
     comparison = ad.get("gam_comparison", pd.DataFrame()).copy()
-    perm_inter = ad.get("permanova_interaction", pd.DataFrame()).copy()
-    perm_full = ad.get("permanova_full", ad.get("permanova", pd.DataFrame())).copy()
-    axis_exp = ad.get("axis_exp_full", ad.get("axis_exp", pd.DataFrame())).copy()
-    mean_ab = ad.get("mean_abund_bin", pd.DataFrame()).copy()
+    permanova = ad.get("permanova_full", ad.get("permanova", pd.DataFrame())).copy()
+    permdisp = ad.get("dispersion", pd.DataFrame()).copy()
+    grad_summary = ad.get("grad_summary", pd.DataFrame()).copy()
+    mean_ab = ad.get("mean_abund_group", ad.get("mean_abund_bin", pd.DataFrame())).copy()
+    turnover = ad.get("turnover_top", pd.DataFrame()).copy()
     pa_turnover = ad.get("pa_turnover", pd.DataFrame()).copy()
+
+    def _fmt(value, digits=3, na="n/a"):
+        return na if pd.isna(value) else f"{value:.{digits}f}"
+
+    def _fmt_int(value, na="n/a"):
+        return na if pd.isna(value) else f"{int(value):,}"
 
     n_obs = int(len(div)) if not div.empty else np.nan
     n_localities = int(div["local_canonical"].nunique()) if "local_canonical" in div.columns and not div.empty else np.nan
@@ -2486,83 +2494,30 @@ def tab_methods_results(ad=None):
     pielou_mean = div["pielou_species"].mean() if "pielou_species" in div.columns else np.nan
     pielou_sd = div["pielou_species"].std() if "pielou_species" in div.columns else np.nan
 
-    def _fmt(value, digits=3, na="n/a"):
-        return na if pd.isna(value) else f"{value:.{digits}f}"
-
-    def _fmt_int(value, na="n/a"):
-        return na if pd.isna(value) else f"{int(value):,}"
-
-    def _basis_col(df):
-        if "ordination_basis" in df.columns:
-            return "ordination_basis"
-        if "distance_basis" in df.columns:
-            return "distance_basis"
-        return None
-
-    def _best_perm_row(df, basis="BrayCurtis"):
-        if df.empty:
-            return pd.Series(dtype=object)
-        out = df.copy()
-        bcol = _basis_col(out)
-        if bcol:
-            subset = out[out[bcol].astype(str).str.contains(basis, na=False)].copy()
-            if not subset.empty:
-                out = subset
-        if "r2" in out.columns:
-            out = out.sort_values("r2", ascending=False)
-        return out.iloc[0] if not out.empty else pd.Series(dtype=object)
-
     st.markdown("""
-> *Synthesis of the main analytical findings. Statistical details and interactive
-> visualizations are available in the preceding analysis tabs. Values in this section
-> are read from the current parquet outputs whenever possible.*
+> *This section summarizes the current processed outputs stored in `data_processed/`.
+> It is intended as a narrative synthesis of Modules 04–11 rather than a separate analytical layer.*
 """)
 
-    # ── METHODS ──────────────────────────────────────────────────────────────
     st.markdown("## Methods")
-
-    st.markdown("### Study area and analytical unit")
+    st.markdown("### Study design and analytical unit")
     st.markdown("""
-Fisheries landings were analysed as a locality-year panel for coastal fishing
-communities in Rio Grande do Norte, Brazil. Each observation links catch diversity,
-production, fleet and effort descriptors, offshore oil-platform exposure metrics,
-and spatial descriptors of nearby marine protected areas (MPAs). Platform exposure
-was represented primarily by mean distance to the nearest platform and by platform
-density within distance buffers. Protected-area exposure was represented by distance
-to the nearest MPA, nearest/dominant protected-area identity, and categorical
-inside/outside or edge-relation classes for APA Dunas do Rosado and RDS Ponta do
-Tubarão.
+The dashboard summarizes a locality-year panel of fisheries landings from five focal coastal localities in Rio Grande do Norte, Brazil: **Areia Branca, Caiçara do Norte, Guamaré, Macau, and Porto do Mangue**. Each observation combines production, effort, fleet structure, taxonomic composition, offshore platform exposure, and spatial descriptors linked to the two marine protected areas considered in the current workflow, APA Dunas do Rosado and RDS Ponta do Tubarão.
 """)
 
-    st.markdown("### Diversity and GAM modelling")
+    st.markdown("### Univariate models")
     st.markdown("""
-Taxonomic diversity was described using species richness, Shannon diversity and
-Pielou evenness, alongside production metrics. Generalized Additive Models (GAMs)
-were fitted to evaluate non-linear exposure-response relationships. The candidate
-set included simple continuous predictors, categorical protected-area predictors,
-platform distance x inside-MPA interactions, and tensor interactions between platform
-distance and distance to the nearest protected area. Model comparison used R2, AIC,
-RMSE and effective degrees of freedom, with linear models retained as baselines where
-available.
+Diversity and production metrics were analysed with GAM and linear baselines. The current comparison framework evaluates continuous platform predictors, continuous MPA-distance predictors, and categorical protected-area predictors. In the current pipeline, the strongest response-specific models are selected directly from Module 08 outputs, rather than inferred from a pre-defined model family hierarchy.
 """)
 
-    st.markdown("### Community composition")
+    st.markdown("### Multivariate composition")
     st.markdown("""
-Species composition was analysed using ordination and permutation tests. PERMANOVA
-contrasted compositional differences across exposure groups, including explicit
-combined groups for platform distance x protected-area relation. This provides a
-multivariate test of whether industrial infrastructure and conservation geography
-jointly structure catch composition. Species turnover was summarized from relative
-abundance differences between near and far exposure groups when Module 11 outputs
-were available.
+Community composition was analysed with Bray-Curtis and Hellinger-based ordination, PERMANOVA, PERMDISP, and species-turnover summaries. The emphasis of the current workflow is on identifying the dominant gradient of compositional change and the taxa contributing most strongly to near-versus-far contrasts.
 """)
 
     st.markdown("---")
-
-    # ── RESULTS ──────────────────────────────────────────────────────────────
     st.markdown("## Results")
 
-    st.markdown("### Fisheries overview")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Observations", _fmt_int(n_obs), "locality-years")
     col2.metric("Localities", _fmt_int(n_localities))
@@ -2570,233 +2525,79 @@ were available.
     col4.metric("Study period", f"{_fmt_int(year_min)}-{_fmt_int(year_max)}")
 
     st.markdown(f"""
-Across the current analytical table, mean Shannon diversity was
-**{_fmt(shannon_mean, 2)} ± {_fmt(shannon_sd, 2)}** and mean Pielou evenness was
-**{_fmt(pielou_mean, 2)} ± {_fmt(pielou_sd, 2)}**. The panel therefore captures
-substantial variation in both species richness and catch evenness while preserving
-the locality-year structure needed to compare platform and protected-area gradients.
+Across the analytical panel, mean Shannon diversity was **{_fmt(shannon_mean, 2)} ± {_fmt(shannon_sd, 2)}** and mean Pielou evenness was **{_fmt(pielou_mean, 2)} ± {_fmt(pielou_sd, 2)}**. These values indicate substantial locality-year variation in both richness and compositional balance.
 """)
 
-    if not div.empty and "local_canonical" in div.columns:
-        loc_cols = [
-            "local_canonical", "species_richness", "shannon_species", "pielou_species",
-            "production_ton", "production_per_trip_ton", "production_per_fisher_ton",
-            "mean_nearest_platform_distance_km", "mean_distance_to_nearest_protected_area_km",
-        ]
-        loc_cols = [c for c in loc_cols if c in div.columns]
-        loc_summary = div[loc_cols].groupby("local_canonical", dropna=False).mean(numeric_only=True).reset_index()
-        loc_summary["Locality"] = loc_summary["local_canonical"].map(_port_name)
-        rename = {
-            "species_richness": "Richness",
-            "shannon_species": "Shannon H'",
-            "pielou_species": "Pielou J'",
-            "production_ton": "Production (t)",
-            "production_per_trip_ton": "Production/trip (t)",
-            "production_per_fisher_ton": "Production/fisher (t)",
-            "mean_nearest_platform_distance_km": "Platform distance (km)",
-            "mean_distance_to_nearest_protected_area_km": "Nearest MPA distance (km)",
-        }
-        show_cols = ["Locality"] + [rename[c] for c in loc_summary.columns if c in rename]
-        loc_summary = loc_summary.rename(columns=rename)
-        st.markdown("**Table 1.** Mean locality-level diversity, production and spatial exposure.")
-        st.dataframe(loc_summary[show_cols].round(3), use_container_width=True, hide_index=True)
-
-
-    st.markdown("### GAM model performance")
-    if best.empty:
-        st.info("Best-model outputs from Module 08 are not available.")
-    else:
+    if not best.empty:
+        top_row = best.sort_values(["r_squared", "aic"], ascending=[False, True]).iloc[0]
         fam_counts = best["predictor_family"].value_counts().to_dict() if "predictor_family" in best.columns else {}
-        top_row = best.sort_values("r_squared", ascending=False).iloc[0]
-        interaction_n = int(best["predictor_family"].isin(["platform_inside_interaction", "tensor_interaction"]).sum()) \
-            if "predictor_family" in best.columns else 0
-
+        st.markdown("### Best univariate models")
         st.markdown(f"""
-The current best-model table is dominated by interaction formulations: **{interaction_n} of
-{len(best)}** best response-specific models use either a platform x inside-MPA interaction
-or a tensor interaction between platform distance and MPA distance. The strongest single
-fit was for **{_rlabel(top_row['response_variable'])}**, explained by
-**{_elabel(top_row['predictor'])}** (R2 = **{_fmt(top_row['r_squared'], 3)}**,
-AIC = **{_fmt(top_row['aic'], 2)}**).
+The strongest response-specific model in the current run was for **{_rlabel(top_row['response_variable'])}**, with predictor **{_elabel(top_row['predictor'])}** (R2 = **{_fmt(top_row['r_squared'], 3)}**, AIC = **{_fmt(top_row['aic'], 2)}**). Across responses, the current best-model table is led by **continuous predictors**, especially platform-distance and nearest-protected-area distance metrics, while categorical protected-area predictors contribute explanatory signal but do not dominate the final selection.
 """)
+        tbl = best[[c for c in ["response_variable","predictor_family","predictor","n_rows","r_squared","aic","rmse"] if c in best.columns]].copy()
+        if not tbl.empty:
+            tbl["Response"] = tbl["response_variable"].map(_rlabel)
+            tbl["Predictor family"] = tbl["predictor_family"].map(_family_label) if "predictor_family" in tbl.columns else pd.NA
+            tbl["Best predictor"] = tbl["predictor"].map(_elabel) if "predictor" in tbl.columns else pd.NA
+            keep = [c for c in ["Response","Predictor family","Best predictor","n_rows","r_squared","aic","rmse"] if c in tbl.columns]
+            show = tbl[keep].rename(columns={"n_rows":"N","r_squared":"R2","aic":"AIC","rmse":"RMSE"})
+            st.dataframe(show.round(4), use_container_width=True, hide_index=True)
+        if fam_counts:
+            fam_text = ", ".join(f"{_family_label(k)}: {v}" for k, v in fam_counts.items())
+            st.caption(f"Best-model family counts: {fam_text}.")
 
-        tbl3 = best[[
-            "response_variable", "predictor_family", "predictor", "n_rows", "r_squared", "aic", "rmse"
-        ]].copy()
-        tbl3["Response"] = tbl3["response_variable"].map(_rlabel)
-        tbl3["Predictor family"] = tbl3["predictor_family"].map(_family_label)
-        tbl3["Best predictor"] = tbl3["predictor"].map(_elabel)
-        tbl3 = tbl3[["Response", "Predictor family", "Best predictor", "n_rows", "r_squared", "aic", "rmse"]]
-        tbl3 = tbl3.rename(columns={"n_rows": "N", "r_squared": "R2", "aic": "AIC", "rmse": "RMSE"})
-        st.markdown("**Table 2.** Best GAM per response variable.")
-        st.dataframe(tbl3.sort_values("R2", ascending=False).round(4), use_container_width=True, hide_index=True)
-
-        fam_text = ", ".join(f"{_family_label(k)}: {v}" for k, v in fam_counts.items())
-        st.caption(f"Best-model family counts: {fam_text}.")
-
-    if not comparison.empty and {"model_type", "predictor_family", "r_squared"}.issubset(comparison.columns):
-        gam_only = comparison[comparison["model_type"].eq("gam_penalised")].copy()
-        if not gam_only.empty:
-            fam_summary = (
-                gam_only.groupby("predictor_family", dropna=False)
-                .agg(
-                    n_models=("model_name", "nunique"),
-                    mean_r2=("r_squared", "mean"),
-                    max_r2=("r_squared", "max"),
-                    min_aic=("aic", "min"),
-                )
-                .reset_index()
-                .sort_values("max_r2", ascending=False)
-            )
-            fam_summary["Predictor family"] = fam_summary["predictor_family"].map(_family_label)
-            fam_summary = fam_summary[["Predictor family", "n_models", "mean_r2", "max_r2", "min_aic"]]
-            fam_summary = fam_summary.rename(columns={
-                "n_models": "N models", "mean_r2": "Mean R2",
-                "max_r2": "Best R2", "min_aic": "Best AIC",
-            })
-            st.markdown("**Table 3.** GAM performance summarized by predictor family.")
-            st.dataframe(fam_summary.round(4), use_container_width=True, hide_index=True)
-
-    st.markdown("### Protected-area modulation")
-    if not best.empty and "predictor_family" in best.columns:
-        inside_best = best[best["predictor_family"].eq("platform_inside_interaction")]
-        tensor_best = best[best["predictor_family"].eq("tensor_interaction")]
-        inside_responses = ", ".join(_rlabel(v) for v in inside_best["response_variable"].tolist())
-        tensor_responses = ", ".join(_rlabel(v) for v in tensor_best["response_variable"].tolist())
+    if not grad_summary.empty:
+        row = grad_summary.iloc[0]
+        st.markdown("### Primary compositional gradient")
         st.markdown(f"""
-Protected-area covariates do not behave as peripheral controls in the current run;
-they are part of the best explanatory structure. Platform x inside-MPA interactions
-were selected for **{inside_responses or 'no response variables'}**, while tensor
-platform-distance x MPA-distance interactions were selected for
-**{tensor_responses or 'no response variables'}**. This pattern supports the core
-interpretation that MPA geography modulates the platform-catch relationship rather
-than acting only as an independent spatial covariate.
+The strongest multivariate gradient identified in the current outputs is **{_elabel(row.get('primary_exposure_variable'))}**, represented by **{row.get('primary_ordination')} {row.get('primary_axis')}**. This gradient explained **R2 = {_fmt(row.get('permanova_r2'), 3)}** in PERMANOVA with **p = {_fmt(row.get('permanova_p_value'), 3)}**, and the axis–exposure association was strong (**Spearman rho = {_fmt(row.get('axis_spearman_corr'), 3)}**).
 """)
+        if bool(row.get('dispersion_warning', False)):
+            st.warning(str(row.get('dispersion_note', 'PERMDISP indicates heterogeneous dispersion among groups.')))
 
-    st.markdown("### Community composition and interaction PERMANOVA")
-    bray_inter = _best_perm_row(perm_inter, "BrayCurtis")
-    hell_inter = _best_perm_row(perm_inter, "Euclidean")
-    bray_full = _best_perm_row(perm_full, "BrayCurtis")
-
-    if not bray_inter.empty:
-        st.markdown(f"""
-The explicit platform x protected-area grouping test detected strong community
-structure. For Bray-Curtis composition, the interaction grouping explained
-**R2 = {_fmt(bray_inter.get('r2'), 4)}** of compositional variation
-(pseudo-F = **{_fmt(bray_inter.get('pseudo_F'), 3)}**, p = **{_fmt(bray_inter.get('p_value'), 3)}**,
-N = **{_fmt_int(bray_inter.get('n_rows'))}**). The Hellinger version was consistent
-(R2 = **{_fmt(hell_inter.get('r2'), 4)}**, pseudo-F = **{_fmt(hell_inter.get('pseudo_F'), 3)}**,
-p = **{_fmt(hell_inter.get('p_value'), 3)}**) when available. These results indicate
-that the combined spatial position relative to platforms and MPAs is associated with
-marked differences in species composition.
-""")
-    elif not bray_full.empty:
-        st.markdown(f"""
-PERMANOVA detected significant compositional structure along the available spatial
-exposure gradients. For Bray-Curtis composition, the strongest available test explained
-R2 = **{_fmt(bray_full.get('r2'), 4)}** (pseudo-F = **{_fmt(bray_full.get('pseudo_F'), 3)}**,
-p = **{_fmt(bray_full.get('p_value'), 3)}**).
-""")
-    else:
-        st.info("PERMANOVA outputs are not available.")
-
-    if not perm_inter.empty:
-        tbl_perm = perm_inter[[
-            "ordination_basis", "pa_exposure", "n_rows", "n_groups", "pseudo_F", "r2", "p_value"
-        ]].copy()
-        tbl_perm["Protected-area component"] = tbl_perm["pa_exposure"].map(_elabel)
-        tbl_perm = tbl_perm.rename(columns={
-            "ordination_basis": "Ordination basis",
-            "n_rows": "N", "n_groups": "Groups",
-            "pseudo_F": "Pseudo-F", "r2": "R2", "p_value": "p-value",
-        })
-        tbl_perm = tbl_perm[["Ordination basis", "Protected-area component", "N", "Groups", "Pseudo-F", "R2", "p-value"]]
-        st.markdown("**Table 4.** PERMANOVA tests for combined platform x protected-area groups.")
-        st.dataframe(tbl_perm.round(4), use_container_width=True, hide_index=True)
-
-    if not axis_exp.empty and "abs_spearman_corr" in axis_exp.columns:
-        axis_show = axis_exp.sort_values("abs_spearman_corr", ascending=False).head(8).copy()
-        axis_show["Exposure"] = axis_show["exposure_variable"].map(_elabel)
-        axis_show = axis_show.rename(columns={
-            "ordination": "Ordination", "axis": "Axis",
-            "spearman_corr": "Spearman rho", "pearson_corr": "Pearson r",
-            "abs_spearman_corr": "|rho|",
-        })
-        st.markdown("**Table 5.** Strongest ordination-axis associations with spatial predictors.")
-        st.dataframe(
-            axis_show[["Ordination", "Axis", "Exposure", "n_complete", "Spearman rho", "Pearson r", "|rho|"]]
-            .rename(columns={"n_complete": "N"})
-            .round(4),
-            use_container_width=True,
-            hide_index=True,
-        )
-
-    st.markdown("### Species turnover")
-    if not mean_ab.empty and {"species_name", "exposure_bin", "mean_relative_abundance"}.issubset(mean_ab.columns):
-        pivot = mean_ab.pivot_table(
-            index="species_name", columns="exposure_bin",
-            values="mean_relative_abundance", aggfunc="mean"
-        ).fillna(0)
-        if {"Q1", "Q3"}.issubset(pivot.columns):
-            turnover = pivot[["Q1", "Q3"]].reset_index()
-            turnover["Delta Q3-Q1"] = turnover["Q3"] - turnover["Q1"]
-            turnover["Abs delta"] = turnover["Delta Q3-Q1"].abs()
-            turnover["Dominant group"] = np.where(turnover["Delta Q3-Q1"] >= 0, "Q3 (far)", "Q1 (near)")
-            top_turn = turnover.sort_values("Abs delta", ascending=False).head(10)
-            near_names = ", ".join(top_turn[top_turn["Dominant group"].eq("Q1 (near)")]["species_name"].head(4))
-            far_names = ", ".join(top_turn[top_turn["Dominant group"].eq("Q3 (far)")]["species_name"].head(4))
+    elif not permanova.empty:
+        valid = permanova[pd.to_numeric(permanova.get("p_value"), errors="coerce").notna()].copy()
+        if not valid.empty and "r2" in valid.columns:
+            row = valid.sort_values(["r2","p_value"], ascending=[False, True]).iloc[0]
+            exposure_var = row.get("exposure_variable", row.get("pa_exposure", "spatial exposure"))
+            st.markdown("### Primary compositional gradient")
             st.markdown(f"""
-Species turnover along the primary platform-distance bins indicates a change in the
-relative dominance of catch taxa between near and far exposure classes. The strongest
-near-platform signals include **{near_names or 'no dominant near-platform taxa among the top contrasts'}**,
-whereas far-platform bins are characterized by **{far_names or 'no dominant far-platform taxa among the top contrasts'}**.
-This turnover result complements the PERMANOVA evidence by identifying the taxa that
-contribute most to compositional separation.
+The strongest available PERMANOVA result in the current outputs was associated with **{_elabel(exposure_var)}** under **{row.get('ordination_basis', row.get('distance_basis', 'multivariate composition'))}**, with **R2 = {_fmt(row.get('r2'), 3)}** and **p = {_fmt(row.get('p_value'), 3)}**.
 """)
-            st.markdown("**Table 6.** Largest species-level relative-abundance contrasts between Q3 and Q1.")
-            st.dataframe(
-                top_turn[["species_name", "Q1", "Q3", "Delta Q3-Q1", "Dominant group"]]
-                .rename(columns={"species_name": "Species"})
-                .round(4),
-                use_container_width=True,
-                hide_index=True,
-            )
-        else:
-            st.info("Primary-bin abundance data are available, but Q1/Q3 contrasts could not be computed.")
-    else:
-        st.info("Species-turnover outputs are not available.")
+
+    if not turnover.empty:
+        st.markdown("### Species turnover along the primary gradient")
+        show_cols = [c for c in ["species_name","mean_rel_Q1","mean_rel_Q3","difference_far_minus_near","dominant_in","axis_spearman_corr"] if c in turnover.columns]
+        show = turnover[show_cols].copy()
+        show = show.rename(columns={
+            "species_name":"Species",
+            "mean_rel_Q1":"Mean rel. near",
+            "mean_rel_Q3":"Mean rel. far",
+            "difference_far_minus_near":"Delta far-near",
+            "dominant_in":"Dominant in",
+            "axis_spearman_corr":"Axis rho",
+        })
+        st.markdown("The turnover table highlights taxa contributing most strongly to the near–far compositional contrast along the dominant gradient.")
+        st.dataframe(show.round(4), use_container_width=True, hide_index=True)
 
     if not pa_turnover.empty:
-        st.markdown("### Protected-area turnover")
-        pa_top = pa_turnover.sort_values("abs_difference", ascending=False).head(10).copy()
-        st.markdown("""
-Protected-area turnover summaries further indicate that MPA distance and MPA relation
-are associated with changes in the relative contribution of individual taxa. These
-taxon-level contrasts should be interpreted as compositional signatures of the
-platform-MPA spatial system rather than as direct causal effects of protection.
-""")
-        st.dataframe(
-            pa_top[[
-                "exposure_variable", "species_name", "mean_rel_Q1", "mean_rel_Q3",
-                "difference_far_minus_near", "dominant_in"
-            ]]
-            .rename(columns={
-                "exposure_variable": "Exposure",
-                "species_name": "Species",
-                "mean_rel_Q1": "Mean rel. Q1",
-                "mean_rel_Q3": "Mean rel. Q3",
-                "difference_far_minus_near": "Delta Q3-Q1",
-                "dominant_in": "Dominant in",
+        st.markdown("### Protected-area contrasts")
+        pa_top = pa_turnover.sort_values("abs_difference", ascending=False).head(10).copy() if "abs_difference" in pa_turnover.columns else pa_turnover.head(10).copy()
+        if not pa_top.empty:
+            pa_top = pa_top.rename(columns={
+                "exposure_variable":"Exposure",
+                "species_name":"Species",
+                "mean_rel_Q1":"Mean rel. near",
+                "mean_rel_Q3":"Mean rel. far",
+                "difference_far_minus_near":"Delta far-near",
+                "dominant_in":"Dominant in",
             })
-            .assign(Exposure=lambda d: d["Exposure"].map(_elabel))
-            .round(4),
-            use_container_width=True,
-            hide_index=True,
-        )
+            if "Exposure" in pa_top.columns:
+                pa_top["Exposure"] = pa_top["Exposure"].map(_elabel)
+            st.markdown("Protected-area summaries indicate that AMP-related gradients contribute to species replacement and shifts in relative abundance, but these signals should be interpreted as part of a broader platform–space configuration rather than as stand-alone causal protection effects.")
+            keep = [c for c in ["Exposure","Species","Mean rel. near","Mean rel. far","Delta far-near","Dominant in"] if c in pa_top.columns]
+            st.dataframe(pa_top[keep].round(4), use_container_width=True, hide_index=True)
 
     st.markdown("---")
-    st.caption(
-        "Interpretation note: these outputs quantify spatial associations in an observational "
-        "fishery dataset. Interaction terms indicate modulation or joint spatial structure, "
-        "but causal attribution requires additional design assumptions or external validation."
-    )
+    st.caption("Interpretation note: the current dashboard summarizes observational spatial associations derived from the processed parquet outputs. Continuous platform-distance predictors currently provide the strongest univariate signal, protected-area variables add complementary structure, and multivariate PERMANOVA results should be interpreted together with PERMDISP when dispersion heterogeneity is detected.")
