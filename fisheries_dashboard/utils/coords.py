@@ -1,9 +1,9 @@
 """
-coords.py — Known geographic coordinates for the 5 coastal municipalities
+coords.py — Known geographic coordinates for the focal coastal municipalities
 of Rio Grande do Norte state (Brazil).
 """
 
-# Verified (lat, lon) coordinates for each canonical locality
+# Verified (lat, lon) coordinates for each canonical locality used across the dashboard.
 PORT_COORDS = {
     "AREIA BRANCA":     {"lat": -4.9529, "lon": -37.1373, "name": "Areia Branca"},
     "CAICARA DO NORTE": {"lat": -5.0697, "lon": -36.0703, "name": "Caiçara do Norte"},
@@ -15,13 +15,16 @@ PORT_COORDS = {
     "TIBAU":            {"lat": -4.8469, "lon": -37.2608, "name": "Tibau"},
 }
 
-# Additional metadata for maps
+# Additional metadata for maps and summaries.
 PORT_META = {
     "AREIA BRANCA":     {"state": "RN", "country": "Brasil", "region": "Western Coast"},
     "CAICARA DO NORTE": {"state": "RN", "country": "Brasil", "region": "Eastern Coast"},
+    "GALINHOS":         {"state": "RN", "country": "Brasil", "region": "Northern Coast"},
+    "GROSSOS":          {"state": "RN", "country": "Brasil", "region": "Western Coast"},
     "GUAMARE":          {"state": "RN", "country": "Brasil", "region": "Northern Coast"},
     "MACAU":            {"state": "RN", "country": "Brasil", "region": "Northern Coast"},
     "PORTO DO MANGUE":  {"state": "RN", "country": "Brasil", "region": "Northern Coast"},
+    "TIBAU":            {"state": "RN", "country": "Brasil", "region": "Western Coast"},
 }
 
 GEAR_LABELS = {
