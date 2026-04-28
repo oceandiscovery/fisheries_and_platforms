@@ -21,6 +21,7 @@ They are applied selectively:
 """
 
 import os
+import math
 import numpy as np
 import pandas as pd
 
@@ -321,6 +322,86 @@ def _norm_summary_fallback(df: pd.DataFrame, group_col: str) -> pd.DataFrame:
     return pd.DataFrame(columns=[group_col, "response_variable", "r_squared_mean"])
 
 
+def _patch_div_diversity(div: pd.DataFrame) -> pd.DataFrame:
+    """
+    Fill NaN diversity columns (species_richness, shannon_species, pielou_species)
+    in div_table for localities where the script 06 join failed.
+
+    Recomputes from 03_species_landings_canonical.parquet — same source used by
+    data_pipeline.py, so Overview and Methods & Results are consistent.
+    """
+    if div.empty:
+        return div
+
+    # Only patch if there are actually missing rows
+    missing_mask = div["species_richness"].isna() if "species_richness" in div.columns else pd.Series(False, index=div.index)
+    if not missing_mask.any():
+        return div
+
+    sp_path = os.path.join(DATA_DIR, "03_species_landings_canonical.parquet")
+    if not os.path.exists(sp_path):
+        return div
+
+    try:
+        sp = pd.read_parquet(sp_path)
+    except Exception:
+        return div
+
+    # Use local_norm (UPPER) to join; div uses local_canonical (Title) so build a
+    # mapping: local_canonical -> local_norm from the existing non-missing rows
+    norm_map = {}
+    if "locality_norm" in div.columns:
+        for _, r in div[["local_canonical", "locality_norm"]].drop_duplicates().dropna().iterrows():
+            norm_map[r["local_canonical"]] = r["locality_norm"]
+
+    def _shannon(counts):
+        c = counts[counts > 0]
+        if len(c) == 0:
+            return np.nan
+        p = c / c.sum()
+        return float(-np.sum(p * np.log(p)))
+
+    computed = []
+    for (loc_norm, year), grp in sp.groupby(["local_norm", "year"]):
+        counts = grp["sp_production_ton"].dropna().values
+        S = len(grp)
+        H = _shannon(counts)
+        J = H / math.log(S) if S > 1 and not np.isnan(H) else np.nan
+        computed.append({"local_norm": loc_norm, "year": year,
+                         "species_richness": S,
+                         "shannon_species": round(H, 4) if not np.isnan(H) else np.nan,
+                         "pielou_species":   round(J, 4) if not np.isnan(J) else np.nan})
+
+    if not computed:
+        return div
+
+    computed_df = pd.DataFrame(computed)
+
+    # Add local_canonical to computed_df via reverse norm_map
+    rev_map = {v: k for k, v in norm_map.items()}
+    computed_df["local_canonical"] = computed_df["local_norm"].map(rev_map)
+
+    # Patch only the missing rows
+    div = div.copy()
+    for col in ("species_richness", "shannon_species", "pielou_species"):
+        if col not in div.columns:
+            div[col] = np.nan
+
+    for _, patch in computed_df.iterrows():
+        lc = patch.get("local_canonical")
+        yr = patch["year"]
+        if lc is None:
+            continue
+        idx = div.index[(div["local_canonical"] == lc) & (div["year"] == yr)]
+        if len(idx) == 0:
+            continue
+        for col in ("species_richness", "shannon_species", "pielou_species"):
+            if pd.isna(div.loc[idx[0], col]):
+                div.loc[idx[0], col] = patch[col]
+
+    return div
+
+
 # ── Main loader ──────────────────────────────────────────────────────────────
 
 def load_analysis():
@@ -347,6 +428,9 @@ def load_analysis():
     rob_lolo_sum    = _read("09_lolo_summary")
     rob_loyo_sum    = _read("09_loyo_summary")
 
+    # ── Module 06: patch diversity NaNs for localities with missing species data ──
+    div_table = _patch_div_diversity(_read("06_diversity_table"))
+
     return {
         # ── Module 04 ──
         "locality_year_core":  _read("04_locality_year_core"),
@@ -360,7 +444,7 @@ def load_analysis():
         "locality_compact":    _read("05_locality_compact_model_input"),
 
         # ── Module 06 ──
-        "div_table":           _read("06_diversity_table"),
+        "div_table":           div_table,
         "composition_long":    _read("06_composition_long"),
         "top_species_long":    _read("06_top_species_long"),
         "sp_coverage":         _read("06_species_coverage_summary"),

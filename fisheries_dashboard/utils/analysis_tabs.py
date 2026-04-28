@@ -2595,10 +2595,7 @@ the locality-year structure needed to compare platform and protected-area gradie
         show_cols = ["Locality"] + [rename[c] for c in loc_summary.columns if c in rename]
         loc_summary = loc_summary.rename(columns=rename)
         st.markdown("**Table 1.** Mean locality-level diversity, production and spatial exposure.")
-        tbl1 = loc_summary[show_cols].round(3)
-        st.dataframe(tbl1.fillna("—"), use_container_width=True, hide_index=True)
-        if loc_summary[[c for c in show_cols if c != "Locality"]].isna().any().any():
-            st.caption("— indicates no species-composition data available for that locality.")
+        st.dataframe(loc_summary[show_cols].round(3), use_container_width=True, hide_index=True)
 
 
     st.markdown("### GAM model performance")
