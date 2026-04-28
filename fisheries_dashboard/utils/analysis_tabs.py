@@ -67,6 +67,19 @@ LOCALITY_COLORS = {
     "PORTO DO MANGUE": "#e67e22",
 }
 
+def _loc_color(x, fallback="#95a5a6"):
+    """Return locality colour regardless of case (UPPER, Title, lower)."""
+    if not isinstance(x, str):
+        return fallback
+    return LOCALITY_COLORS.get(x.upper(), fallback)
+
+# Color map keyed by display name (for color_discrete_map when column is port_name)
+_LOCALITY_COLORS_BY_NAME = {
+    PORT_COORDS[k]["name"]: v
+    for k, v in LOCALITY_COLORS.items()
+    if k in PORT_COORDS
+}
+
 _PAL_PRIMARY = "#2980b9"
 _PAL_SECONDARY = "#e67e22"
 _PAL_ACCENT = "#8e44ad"
@@ -106,8 +119,18 @@ _ZONE_COLORS = {
     "outside_unknown": "#7f8c8d",
 }
 
+# Pre-build a case-insensitive lookup: upper-case key → display name
+_PORT_NAME_UPPER = {k.upper(): v["name"] for k, v in PORT_COORDS.items()}
+
 def _port_name(x):
-    return PORT_COORDS.get(x, {}).get("name", x)
+    """Return the display name for a locality key (case-insensitive lookup)."""
+    if not isinstance(x, str):
+        return str(x)
+    # Try exact match first, then upper-case match
+    direct = PORT_COORDS.get(x)
+    if direct:
+        return direct["name"]
+    return _PORT_NAME_UPPER.get(x.upper(), x)
 
 def _elabel(col):
     return EXPOSURE_LABELS.get(col, col)
@@ -271,7 +294,7 @@ def tab_exposure(ad):
         height=420,
         labels={x_col: _elabel(x_col), y_col: _rlabel(y_col),
                 "port_name": "Locality", "year": "Year"},
-        color_discrete_map=LOCALITY_COLORS if color_by == "Locality" else None,
+        color_discrete_map=_LOCALITY_COLORS_BY_NAME if color_by == "Locality" else None,
         hover_data=["port_name", "year"],
     )
     fig2.update_layout(margin=dict(t=20), legend_title_text=color_by)
@@ -610,7 +633,7 @@ def tab_gam(ad):
                 fig.add_trace(go.Scatter(
                     x=fit_sel[obs_x], y=fit_sel[obs_y],
                     mode="markers",
-                    marker=dict(color=[LOCALITY_COLORS.get(l, "#888") for l in fit_sel["local_canonical"]],
+                    marker=dict(color=[_loc_color(l) for l in fit_sel["local_canonical"]],
                                 size=7, line=dict(width=1, color="white")),
                     name="Observed",
                     text=fit_sel["port_name"] + " " + fit_sel["year"].astype(str),
@@ -683,7 +706,7 @@ def tab_gam(ad):
             fig2 = px.scatter(
                 fit_sel2, x="fitted", y="observed_response",
                 color="port_name",
-                color_discrete_map=LOCALITY_COLORS,
+                color_discrete_map=_LOCALITY_COLORS_BY_NAME,
                 height=250,
                 labels={"fitted": "Fitted", "observed_response": "Observed",
                         "port_name": "Locality"},
@@ -700,7 +723,7 @@ def tab_gam(ad):
                 fig3 = px.scatter(
                     fit_sel2, x="fitted", y="residual",
                     color="port_name",
-                    color_discrete_map=LOCALITY_COLORS,
+                    color_discrete_map=_LOCALITY_COLORS_BY_NAME,
                     height=130,
                     labels={"fitted": "Fitted", "residual": "Residual"},
                 )
@@ -924,7 +947,7 @@ def tab_robustness(ad):
         fig.add_trace(go.Scatter(
             x=base_fit["observed_exposure"], y=base_fit["observed_response"],
             mode="markers",
-            marker=dict(color=[LOCALITY_COLORS.get(l,"#aaa") for l in base_fit["local_canonical"]],
+            marker=dict(color=[_loc_color(l) for l in base_fit["local_canonical"]],
                         size=6, opacity=0.5),
             showlegend=False, name="Observed",
             text=base_fit["port_name"] + " " + base_fit["year"].astype(str),
@@ -969,7 +992,7 @@ def tab_robustness(ad):
         exp_lolo = lolo_m.columns[0]
         for locality, grp in lolo_m.groupby("group_removed"):
             grp_s = grp.dropna(subset=[exp_lolo]).sort_values(exp_lolo)
-            color = LOCALITY_COLORS.get(str(locality), "#aaa")
+            color = _loc_color(str(locality))
             y_col_lolo = "predicted" if "predicted" in grp_s.columns else grp_s.columns[1]
             fig2.add_trace(go.Scatter(
                 x=grp_s[exp_lolo], y=grp_s[y_col_lolo],
@@ -1282,7 +1305,7 @@ def tab_ordination(ad):
             fig = px.scatter(
                 scores, x="Axis1", y="Axis2",
                 color="port_name",
-                color_discrete_map={_port_name(k): v for k, v in LOCALITY_COLORS.items()},
+                color_discrete_map=_LOCALITY_COLORS_BY_NAME,
                 hover_data=["year"],
                 height=450,
                 labels={"Axis1": ax1_label, "Axis2": ax2_label, "port_name": "Locality"},
@@ -1315,9 +1338,7 @@ def tab_ordination(ad):
                 theta = np.linspace(0, 2 * np.pi, 60)
                 ex = cx + sx * np.cos(theta)
                 ey = cy + sy * np.sin(theta)
-                color = LOCALITY_COLORS.get(
-                    next((k for k, v in {_port_name(k): k for k in LOCALITY_COLORS}.items()
-                          if v == local), ""), "#aaa")
+                color = _loc_color(local)
                 fig.add_trace(go.Scatter(
                     x=ex, y=ey, mode="lines",
                     line=dict(color=color, width=1, dash="dot"),
@@ -1594,7 +1615,7 @@ def tab_gradient(ad):
                 x=exp_var,
                 y="primary_axis_score",
                 color="port_name",
-                color_discrete_map={_port_name(k): v for k, v in LOCALITY_COLORS.items()},
+                color_discrete_map=_LOCALITY_COLORS_BY_NAME,
                 trendline="ols",
                 trendline_scope="overall",
                 trendline_color_override="#2c3e50",
@@ -1617,7 +1638,7 @@ def tab_gradient(ad):
             scores, x="year", y="primary_axis_score",
             color="port_name",
             markers=True,
-            color_discrete_map={_port_name(k): v for k, v in LOCALITY_COLORS.items()},
+            color_discrete_map=_LOCALITY_COLORS_BY_NAME,
             height=400,
             labels={"primary_axis_score": f"Score {primary_axis_label}",
                     "year": "Year", "port_name": "Locality"},

@@ -1,14 +1,15 @@
 """
 analysis_loader.py — Loads analysis datasets (modules 04–11).
-Resolves paths to /data/ which sits at the same level as fisheries_dashboard/.
+Resolves paths to /data_processed/ which sits at the same level as fisheries_dashboard/.
 
 Normalisation layer
 -------------------
-The parquet files in data/ were produced by the original scripts (pre-v3.6).
+The parquet files in data_processed/ were produced by the analysis scripts.
 The normalise_*() helpers rename columns to the schema expected by analysis_tabs.py
 so that the dashboard works without requiring the user to re-run all scripts.
 
 They are applied selectively:
+  _norm_locality      — ALL datasets: fixes stale locality names (e.g. Grossos → Caicara Do Norte)
   _norm_gam_best      — 08_best_models, 08_model_comparison
   _norm_gam_coef      — 08_model_term_statistics / 08_gam_term_statistics
   _norm_gam_smooth    — 08_gam_partial_dependence
@@ -27,6 +28,47 @@ import pandas as pd
 DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data_processed"))
 
 
+# ── Locality name corrections ───────────────────────────────────────────────
+# Maps stale locality values produced by older script runs → current canonical names.
+# Applied automatically to every loaded parquet by _read().
+_LOCALITY_REMAP = {
+    # Title-case (most columns)
+    "Grossos":       "Caicara Do Norte",
+    "Galinhos":      "Caicara Do Norte",
+    "Tibau":         "Areia Branca",
+    # Upper-case (locality_norm / municipality_context_norm columns)
+    "GROSSOS":       "CAICARA DO NORTE",
+    "GALINHOS":      "CAICARA DO NORTE",
+    "TIBAU":         "AREIA BRANCA",
+}
+
+# Columns that may carry locality names
+_LOCALITY_COLS = {
+    "local_canonical", "local_norm", "locality_removed", "group_removed",
+    "locality_name", "locality_norm", "municipality_context_norm",
+    "municipality_norm",
+}
+
+
+def _norm_locality(df: pd.DataFrame) -> pd.DataFrame:
+    """Replace stale locality names in any recognised locality column."""
+    if df.empty:
+        return df
+    for col in df.columns:
+        if col not in _LOCALITY_COLS:
+            continue
+        if df[col].dtype.kind not in ('O', 'U', 'S'):  # object / unicode / bytes
+            continue
+        try:
+            mask = df[col].isin(_LOCALITY_REMAP)
+            if mask.any():
+                df = df.copy()
+                df[col] = df[col].map(lambda v: _LOCALITY_REMAP.get(v, v))
+        except Exception:
+            pass
+    return df
+
+
 def _p(name):
     return os.path.join(DATA_DIR, f"{name}.parquet")
 
@@ -34,7 +76,7 @@ def _p(name):
 def _read(name):
     path = _p(name)
     if os.path.exists(path):
-        return pd.read_parquet(path)
+        return _norm_locality(pd.read_parquet(path))
     return pd.DataFrame()
 
 
