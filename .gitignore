@@ -25,7 +25,8 @@ fisheries_dashboard/outputs/geojson/
 data_raw/
 outputs/
 scripts/
-scripts_bk
+scripts_bk_1
+scripts_bk_2
 tmp/
 
 # OS
