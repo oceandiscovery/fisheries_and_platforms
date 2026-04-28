@@ -50,7 +50,10 @@ def species_distribution_map(dfs, year_range=None):
     if year_range:
         sp = sp[sp["year"].between(*year_range)]
 
-    sp_agg = sp.groupby(["local_norm", "species"])["sp_production_ton"].sum().reset_index()
+    # 03_species_landings_canonical.parquet exposes species_canonical (Title-case
+    # canonical name) not the raw 'species' column from the Excel sheet.
+    sp_agg = sp.groupby(["local_norm", "species_canonical"])["sp_production_ton"].sum().reset_index()
+    sp_agg = sp_agg.rename(columns={"species_canonical": "species"})  # alias for popup reuse
     sp_agg["lat"] = sp_agg["local_norm"].map(lambda x: PORT_COORDS.get(x, {}).get("lat"))
     sp_agg["lon"] = sp_agg["local_norm"].map(lambda x: PORT_COORDS.get(x, {}).get("lon"))
     sp_agg = sp_agg.dropna(subset=["lat", "lon"])

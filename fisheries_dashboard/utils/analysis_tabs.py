@@ -85,13 +85,17 @@ _PAL_SECONDARY = "#e67e22"
 _PAL_ACCENT = "#8e44ad"
 _PAL_NEUTRAL = "#95a5a6"
 
+# Script 04 creates these columns via pd.get_dummies(prefix="landing_relation").
+# Script 05's rename (share_landing_relation_ → share_landings_relation_) never
+# fires because the prefix it checks doesn't match, so the 04_ parquet columns
+# remain as landing_relation_* throughout the pipeline.
 _RELATION_COLS = [
-    "share_landings_relation_inside_apa",
-    "share_landings_relation_inside_rds",
-    "share_landings_relation_inside_both",
-    "share_landings_relation_outside_between_both",
-    "share_landings_relation_outside_closer_to_apa",
-    "share_landings_relation_outside_closer_to_rds",
+    "landing_relation_inside_apa",
+    "landing_relation_inside_rds",
+    "landing_relation_inside_both",
+    "landing_relation_outside_between_both",
+    "landing_relation_outside_closer_to_apa",
+    "landing_relation_outside_closer_to_rds",
 ]
 
 _ZONE_LABELS = {
@@ -197,7 +201,7 @@ def _derive_dominant_relation(row):
         val = pd.to_numeric(pd.Series([row[col]]), errors="coerce").iloc[0]
         if pd.notna(val) and val > best_val:
             best_val = val
-            best_key = col.replace("share_landings_relation_", "")
+            best_key = col.replace("landing_relation_", "")
     return best_key or "outside_between_both"
 
 
