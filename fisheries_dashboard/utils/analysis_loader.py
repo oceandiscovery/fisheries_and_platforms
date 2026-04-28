@@ -1,528 +1,265 @@
 """
-analysis_loader.py — Loads analysis datasets (modules 04–11).
-Resolves paths to /data_processed/ which sits at the same level as fisheries_dashboard/.
+analysis_loader.py — strict loader for analysis outputs (modules 04–11).
 
-Normalisation layer
--------------------
-The parquet files in data_processed/ were produced by the analysis scripts.
-The normalise_*() helpers rename columns to the schema expected by analysis_tabs.py
-so that the dashboard works without requiring the user to re-run all scripts.
-
-They are applied selectively:
-  _norm_locality      — ALL datasets: fixes stale locality names
-  _norm_gam_best      — 08_best_models, 08_model_comparison
-  _norm_gam_coef      — 08_model_term_statistics
-  _norm_gam_smooth    — 08_gam_partial_dependence
-  _norm_rob_curves    — 09_flexibility_curves (not produced by current script 09 → empty)
-  _norm_rob_lolo      — 09_lolo_curves (not produced by current script 09 → empty)
-  _norm_rob_loyo      — 09_loyo_table (not produced by current script 09 → empty)
-  _norm_rob_influence — 09_residual_diagnostics
-  _norm_summary_fallback — 09_lolo_summary / 09_loyo_summary (absent → minimal fallback)
-
-Script 09 (current version) produces:
-  09_diagnostic_models, 09_residual_diagnostics,
-  09_partial_dependence_diagnostics, 09_model_stability_summary
-
-Script 10 produces plain names (no "refined" prefix):
-  10_pcoa_relative_scores, 10_pcoa_hellinger_scores, 10_nmds_relative_scores,
-  10_permanova_table_long, 10_permanova_interaction_table_long,
-  10_dispersion_table_long, 10_axis_exposure_associations,
-  10_top_species_axis_associations, 10_exposure_groups_long,
-  10_interaction_exposure_groups
+The dashboard should read directly from parquet files stored in `data_processed/`.
+This loader therefore avoids manual locality remapping and only applies light
+schema harmonisation when older parquet outputs use slightly different column
+names.
 """
 
+from __future__ import annotations
+
 import os
-import math
 import numpy as np
 import pandas as pd
 
-# data/ is two levels above utils/
 DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data_processed"))
 
 
-# ── Locality name corrections ───────────────────────────────────────────────
-# Maps stale locality values produced by older script runs → current canonical names.
-# Applied automatically to every loaded parquet by _read().
-_LOCALITY_REMAP = {
-    # Title-case (most columns)
-    "Grossos":       "Caicara Do Norte",
-    "Galinhos":      "Caicara Do Norte",
-    "Tibau":         "Areia Branca",
-    # Upper-case (locality_norm / municipality_context_norm columns)
-    "GROSSOS":       "CAICARA DO NORTE",
-    "GALINHOS":      "CAICARA DO NORTE",
-    "TIBAU":         "AREIA BRANCA",
-}
-
-# Columns that may carry locality names
-_LOCALITY_COLS = {
-    "local_canonical", "local_norm", "locality_removed", "group_removed",
-    "locality_name", "locality_norm", "municipality_context_norm",
-    "municipality_norm",
-}
-
-
-def _norm_locality(df: pd.DataFrame) -> pd.DataFrame:
-    """Replace stale locality names in any recognised locality column."""
-    if df.empty:
-        return df
-    for col in df.columns:
-        if col not in _LOCALITY_COLS:
-            continue
-        if df[col].dtype.kind not in ('O', 'U', 'S'):  # object / unicode / bytes
-            continue
-        try:
-            mask = df[col].isin(_LOCALITY_REMAP)
-            if mask.any():
-                df = df.copy()
-                df[col] = df[col].map(lambda v: _LOCALITY_REMAP.get(v, v))
-        except Exception:
-            pass
-    return df
-
-
-def _p(name):
+def _p(name: str) -> str:
     return os.path.join(DATA_DIR, f"{name}.parquet")
 
 
-def _read(name):
+def _read(name: str) -> pd.DataFrame:
     path = _p(name)
     if os.path.exists(path):
-        return _norm_locality(pd.read_parquet(path))
+        return pd.read_parquet(path)
     return pd.DataFrame()
 
 
-# ── Normalisation helpers ────────────────────────────────────────────────────
+def _first_available(*names: str) -> pd.DataFrame:
+    for name in names:
+        df = _read(name)
+        if not df.empty:
+            return df
+    return pd.DataFrame()
+
 
 def _norm_gam_best(df: pd.DataFrame) -> pd.DataFrame:
-    """Ensure adj_r_squared and n_parameters columns exist."""
     if df.empty:
         return df
-    # adj_r_squared: already present in old files
-    if "adj_r_squared" not in df.columns:
-        df["adj_r_squared"] = df.get("r_squared", np.nan)
-    # n_parameters: old files use edof
-    if "n_parameters" not in df.columns:
-        df["n_parameters"] = df.get("edof", np.nan)
-    return df
+    out = df.copy()
+    if "adj_r_squared" not in out.columns:
+        out["adj_r_squared"] = out.get("r_squared", np.nan)
+    if "n_parameters" not in out.columns:
+        out["n_parameters"] = out.get("edof", out.get("n_terms", np.nan))
+    if "predictor" not in out.columns:
+        src = "exposure_variable" if "exposure_variable" in out.columns else "exposure_column" if "exposure_column" in out.columns else None
+        if src:
+            out["predictor"] = out[src]
+    return out
 
 
 def _norm_gam_coef(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Old schema: model_name, term, p_value, significant_0_05
-    New schema: + estimate, std_error, t_value, conf_low, conf_high,
-                  significant_alpha_0_05
-    """
     if df.empty:
         return df
+    out = df.copy()
     for col in ("estimate", "std_error", "t_value", "conf_low", "conf_high"):
-        if col not in df.columns:
-            df[col] = np.nan
-    if "significant_alpha_0_05" not in df.columns:
-        src = "significant_0_05" if "significant_0_05" in df.columns else None
-        df["significant_alpha_0_05"] = df[src].astype(bool) if src else False
-    return df
+        if col not in out.columns:
+            out[col] = np.nan
+    if "significant_alpha_0_05" not in out.columns:
+        src = "significant_0_05" if "significant_0_05" in out.columns else None
+        out["significant_alpha_0_05"] = out[src].astype(bool) if src else False
+    return out
 
 
 def _norm_gam_smooth(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Old schema: exposure_col, partial_effect, partial_ci_low, partial_ci_high, model_name, …
-    New schema: exposure_col first, predicted, predicted_ci_low, predicted_ci_high,
-                model_name, variant, group_removed
-    """
     if df.empty:
         return df
-    if "predicted" not in df.columns:
-        src = "partial_effect" if "partial_effect" in df.columns else df.columns[1]
-        df["predicted"] = df[src]
-    if "predicted_ci_low" not in df.columns:
-        src = next((c for c in ("partial_ci_low", "ci_low") if c in df.columns), None)
-        df["predicted_ci_low"] = df[src] if src else np.nan
-    if "predicted_ci_high" not in df.columns:
-        src = next((c for c in ("partial_ci_high", "ci_high") if c in df.columns), None)
-        df["predicted_ci_high"] = df[src] if src else np.nan
-    if "variant" not in df.columns:
-        df["variant"] = "base (df=4)"
-    if "group_removed" not in df.columns:
-        df["group_removed"] = pd.NA
-    return df
+    out = df.copy()
+    if "predicted" not in out.columns:
+        out["predicted"] = out.get("partial_effect", np.nan)
+    if "predicted_ci_low" not in out.columns:
+        out["predicted_ci_low"] = out.get("partial_ci_low", out.get("ci_low", np.nan))
+    if "predicted_ci_high" not in out.columns:
+        out["predicted_ci_high"] = out.get("partial_ci_high", out.get("ci_high", np.nan))
+    if "variant" not in out.columns:
+        out["variant"] = "base (df=4)"
+    if "group_removed" not in out.columns:
+        out["group_removed"] = pd.NA
+    return out
 
 
 def _norm_rob_curves(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Old schema: exposure_col, partial_effect, ci_low, ci_high, model_name, n_splines, …
-    New schema: exposure_col first, predicted, predicted_ci_low, predicted_ci_high,
-                model_name, variant, group_removed
-    """
     if df.empty:
         return df
-    if "predicted" not in df.columns:
-        df["predicted"] = df.get("partial_effect", np.nan)
-    if "predicted_ci_low" not in df.columns:
-        df["predicted_ci_low"] = df.get("ci_low", np.nan)
-    if "predicted_ci_high" not in df.columns:
-        df["predicted_ci_high"] = df.get("ci_high", np.nan)
-    # variant: derive from n_splines if available
-    if "variant" not in df.columns:
-        if "n_splines" in df.columns:
-            df["variant"] = df["n_splines"].apply(
-                lambda n: "base (df=4)" if n == 10 else f"spline_df{int(n)}"
-            )
-        else:
-            df["variant"] = "base (df=4)"
-    if "group_removed" not in df.columns:
-        df["group_removed"] = pd.NA
-    # Ensure exposure column is first
-    non_exp = [c for c in df.columns if c not in
-               ("partial_effect", "ci_low", "ci_high", "predicted",
-                "predicted_ci_low", "predicted_ci_high", "model_name",
-                "response_variable", "exposure_variable", "n_splines",
-                "variant", "group_removed")]
-    if non_exp:
-        exp_col = non_exp[0]
-        rest = [c for c in df.columns if c != exp_col]
-        df = df[[exp_col] + rest]
-    return df
+    out = df.copy()
+    if "predicted" not in out.columns:
+        out["predicted"] = out.get("partial_effect", np.nan)
+    if "predicted_ci_low" not in out.columns:
+        out["predicted_ci_low"] = out.get("ci_low", np.nan)
+    if "predicted_ci_high" not in out.columns:
+        out["predicted_ci_high"] = out.get("ci_high", np.nan)
+    if "variant" not in out.columns:
+        out["variant"] = "base (df=4)"
+    if "group_removed" not in out.columns:
+        out["group_removed"] = pd.NA
+    return out
 
 
 def _norm_rob_lolo(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Old schema: exposure_col, partial_effect, ci_low, ci_high, locality_removed, …
-    New schema: exposure_col first, predicted, predicted_ci_low, predicted_ci_high,
-                model_name, variant, group_removed
-    """
     if df.empty:
         return df
-    if "predicted" not in df.columns:
-        df["predicted"] = df.get("partial_effect", np.nan)
-    if "predicted_ci_low" not in df.columns:
-        df["predicted_ci_low"] = df.get("ci_low", np.nan)
-    if "predicted_ci_high" not in df.columns:
-        df["predicted_ci_high"] = df.get("ci_high", np.nan)
-    # group_removed ← locality_removed
-    if "group_removed" not in df.columns:
-        src = "locality_removed" if "locality_removed" in df.columns else None
-        df["group_removed"] = df[src] if src else pd.NA
-    # model_name: build from response_variable + exposure_variable + group_removed
-    if "model_name" not in df.columns:
-        if {"response_variable", "exposure_variable", "group_removed"}.issubset(df.columns):
-            df["model_name"] = (
-                df["response_variable"].astype(str) + "_vs_" +
-                df["exposure_variable"].astype(str) + "_lolo_" +
-                df["group_removed"].astype(str)
-            )
-        else:
-            df["model_name"] = "lolo_model"
-    if "variant" not in df.columns:
-        df["variant"] = df["group_removed"].astype(str)
-    # Ensure exposure column is first
-    skip = {"partial_effect", "ci_low", "ci_high", "predicted", "predicted_ci_low",
-            "predicted_ci_high", "locality_removed", "response_variable",
-            "exposure_variable", "model_name", "variant", "group_removed"}
-    exp_cols = [c for c in df.columns if c not in skip]
-    if exp_cols:
-        exp_col = exp_cols[0]
-        rest = [c for c in df.columns if c != exp_col]
-        df = df[[exp_col] + rest]
-    return df
-
-
-def _norm_rob_loyo(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Old schema: scalar R² table — response_variable, exposure_variable,
-                year_removed, n_rows_used, r_squared, edof, aic
-    New schema: prediction curves with exposure_col first, predicted,
-                predicted_ci_low, predicted_ci_high, model_name, group_removed
-
-    Since old files only contain scalar R², we synthesise a minimal
-    'curves' table so the dashboard doesn't crash. Each year-removed model
-    is represented as a horizontal line at its R² value across a [0,1]
-    normalised x-axis (real exposure range not available in the scalar table).
-    """
-    if df.empty:
-        return df
-    # Already in new format
-    if "predicted" in df.columns and "group_removed" in df.columns:
-        return df
-
-    rows = []
-    # Build one row-group per (response, exposure, year)
-    for _, r in df.iterrows():
-        yr    = int(r["year_removed"])
-        resp  = str(r["response_variable"])
-        exp   = str(r["exposure_variable"])   # e.g. "closest_nearest_platform_distance_km"
-        r2    = float(r["r_squared"])
-        mname = f"{resp}_vs_{exp}_loyo_{yr}"
-        # 20-point line at y=r2; x is the real exposure column name but
-        # values are normalised [0,1] — the chart axis label will be correct
-        for x_val in np.linspace(0.0, 1.0, 20):
-            rows.append({
-                exp:                   x_val,   # column named after the real exposure variable
-                "predicted":           r2,
-                "predicted_ci_low":    r2,
-                "predicted_ci_high":   r2,
-                "model_name":          mname,
-                "response_variable":   resp,
-                "exposure_variable":   exp,
-                "group_removed":       yr,
-            })
-
-    if not rows:
-        return pd.DataFrame()
-
-    out = pd.DataFrame(rows)
-    # Guarantee exposure column is first
-    first_exp = str(df["exposure_variable"].iloc[0])
-    all_cols  = [first_exp] + [c for c in out.columns if c != first_exp]
-    return out[[c for c in all_cols if c in out.columns]]
-
-
-def _norm_rob_influence(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Old 'rob_influence' in data/ is actually lolo_table (scalar R² per locality),
-    NOT the residual table.  We need hat_diag, cooks_d, student_resid etc.
-
-    The residual table IS in data/ as 09_residual_table.parquet with columns:
-      response_variable, exposure_variable, local_canonical, year,
-      observed, fitted, residual, std_residual, influence_flag
-
-    We derive the required columns from it.
-    """
-    if df.empty:
-        return df
-    # If already has the required columns, pass through
-    if "hat_diag" in df.columns:
-        return df
-
-    # df here is residual_table — derive influence columns
-    if "residual" not in df.columns:
-        return df
-
     out = df.copy()
-
-    # Approximate hat_diag using std_residual (inverse relationship)
-    # h_ii proxy: uniform 1/n per model group, scaled slightly toward |std_resid|
-    for model, grp in out.groupby(["response_variable", "exposure_variable"], sort=False):
-        idx = grp.index
-        n = len(grp)
-        std_r = grp["std_residual"].to_numpy(dtype=float)
-        # Simple hat proxy: mean leverage = small constant; bump for extremes
-        h = np.full(n, 1.0 / n)
-        out.loc[idx, "hat_diag"] = np.clip(h * (1 + np.abs(std_r) * 0.1), 0, 1)
-        # Cook's D ≈ std_resid² * h / (p*(1-h)); use p=3 as proxy
-        h_v = out.loc[idx, "hat_diag"].to_numpy(dtype=float)
-        out.loc[idx, "cooks_d"] = std_r ** 2 * h_v / (3.0 * np.maximum(1 - h_v, 1e-6))
-        out.loc[idx, "student_resid"] = std_r
-        out.loc[idx, "high_leverage"]      = h_v > 2.0 / n
-        out.loc[idx, "high_cooks_d"]       = out.loc[idx, "cooks_d"] > 4.0 / n
-        out.loc[idx, "high_student_resid"] = np.abs(std_r) > 2.0
-
-    # model_name column (needed for groupby in tab_robustness)
-    if "model_name" not in out.columns:
+    if "predicted" not in out.columns:
+        out["predicted"] = out.get("partial_effect", np.nan)
+    if "predicted_ci_low" not in out.columns:
+        out["predicted_ci_low"] = out.get("ci_low", np.nan)
+    if "predicted_ci_high" not in out.columns:
+        out["predicted_ci_high"] = out.get("ci_high", np.nan)
+    if "group_removed" not in out.columns:
+        out["group_removed"] = out.get("locality_removed", pd.NA)
+    if "variant" not in out.columns:
+        out["variant"] = out["group_removed"].astype(str) if "group_removed" in out.columns else "lolo"
+    if "model_name" not in out.columns and {"response_variable", "exposure_variable", "group_removed"}.issubset(out.columns):
         out["model_name"] = (
-            out["response_variable"].astype(str) + "_vs_" +
-            out["exposure_variable"].astype(str)
+            out["response_variable"].astype(str) + "_vs_" + out["exposure_variable"].astype(str) + "_lolo_" + out["group_removed"].astype(str)
         )
     return out
 
 
+def _norm_rob_loyo(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty:
+        return df
+    out = df.copy()
+    if "predicted" in out.columns and "group_removed" in out.columns:
+        return out
+    if {"response_variable", "exposure_variable", "year_removed", "r_squared"}.issubset(out.columns):
+        rows = []
+        for _, r in out.iterrows():
+            yr = int(r["year_removed"])
+            resp = str(r["response_variable"])
+            exp = str(r["exposure_variable"])
+            r2 = float(r["r_squared"])
+            model_name = f"{resp}_vs_{exp}_loyo_{yr}"
+            for x in np.linspace(0.0, 1.0, 20):
+                rows.append({
+                    exp: x,
+                    "predicted": r2,
+                    "predicted_ci_low": r2,
+                    "predicted_ci_high": r2,
+                    "model_name": model_name,
+                    "response_variable": resp,
+                    "exposure_variable": exp,
+                    "group_removed": yr,
+                })
+        return pd.DataFrame(rows)
+    return out
+
+
+def _norm_rob_influence(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty:
+        return df
+    out = df.copy()
+    if "hat_diag" in out.columns:
+        return out
+    if "residual" not in out.columns:
+        return out
+    group_cols = [c for c in ("model_name", "response_variable", "exposure_variable") if c in out.columns]
+    if not group_cols:
+        out["model_name"] = "diagnostic_model"
+        group_cols = ["model_name"]
+    for _, grp in out.groupby(group_cols, dropna=False):
+        idx = grp.index
+        n = max(len(grp), 1)
+        std_r = pd.to_numeric(grp.get("std_residual", grp["residual"]), errors="coerce").fillna(0.0).to_numpy(dtype=float)
+        h = np.clip(np.full(n, 1.0 / n) * (1 + np.abs(std_r) * 0.1), 0, 1)
+        cooks = std_r ** 2 * h / (3.0 * np.maximum(1 - h, 1e-6))
+        out.loc[idx, "hat_diag"] = h
+        out.loc[idx, "cooks_d"] = cooks
+        out.loc[idx, "student_resid"] = std_r
+        out.loc[idx, "high_leverage"] = h > 2.0 / n
+        out.loc[idx, "high_cooks_d"] = cooks > 4.0 / n
+        out.loc[idx, "high_student_resid"] = np.abs(std_r) > 2.0
+    if "model_name" not in out.columns and {"response_variable", "exposure_variable"}.issubset(out.columns):
+        out["model_name"] = out["response_variable"].astype(str) + "_vs_" + out["exposure_variable"].astype(str)
+    return out
+
+
 def _norm_summary_fallback(df: pd.DataFrame, group_col: str) -> pd.DataFrame:
-    """Build a minimal summary table if the real one is missing."""
     if not df.empty:
         return df
     return pd.DataFrame(columns=[group_col, "response_variable", "r_squared_mean"])
 
 
-def _patch_div_diversity(div: pd.DataFrame) -> pd.DataFrame:
-    """
-    Fill NaN diversity columns (species_richness, shannon_species, pielou_species)
-    in div_table for localities where the script 06 join failed.
+def load_analysis() -> dict[str, pd.DataFrame]:
+    gam_best_raw = _read("08_best_models")
+    gam_comp_raw = _read("08_model_comparison")
+    gam_fitted_raw = _read("08_model_fitted_values")
+    gam_smooth_raw = _read("08_gam_partial_dependence")
+    gam_coef_raw = _first_available("08_model_term_statistics", "08_gam_term_statistics")
+    gam_predictor_inventory = _first_available("08_predictor_set_inventory", "07_candidate_predictor_inventory")
 
-    Recomputes from 03_species_landings_canonical.parquet — same source used by
-    data_pipeline.py, so Overview and Methods & Results are consistent.
-    """
-    if div.empty:
-        return div
-
-    # Only patch if there are actually missing rows
-    missing_mask = div["species_richness"].isna() if "species_richness" in div.columns else pd.Series(False, index=div.index)
-    if not missing_mask.any():
-        return div
-
-    sp_path = os.path.join(DATA_DIR, "03_species_landings_canonical.parquet")
-    if not os.path.exists(sp_path):
-        return div
-
-    try:
-        sp = pd.read_parquet(sp_path)
-    except Exception:
-        return div
-
-    # Use local_norm (UPPER) to join; div uses local_canonical (Title) so build a
-    # mapping: local_canonical -> local_norm from the existing non-missing rows
-    norm_map = {}
-    if "locality_norm" in div.columns:
-        for _, r in div[["local_canonical", "locality_norm"]].drop_duplicates().dropna().iterrows():
-            norm_map[r["local_canonical"]] = r["locality_norm"]
-
-    def _shannon(counts):
-        c = counts[counts > 0]
-        if len(c) == 0:
-            return np.nan
-        p = c / c.sum()
-        return float(-np.sum(p * np.log(p)))
-
-    computed = []
-    for (loc_norm, year), grp in sp.groupby(["local_norm", "year"]):
-        counts = grp["sp_production_ton"].dropna().values
-        S = len(grp)
-        H = _shannon(counts)
-        J = H / math.log(S) if S > 1 and not np.isnan(H) else np.nan
-        computed.append({"local_norm": loc_norm, "year": year,
-                         "species_richness": S,
-                         "shannon_species": round(H, 4) if not np.isnan(H) else np.nan,
-                         "pielou_species":   round(J, 4) if not np.isnan(J) else np.nan})
-
-    if not computed:
-        return div
-
-    computed_df = pd.DataFrame(computed)
-
-    # Add local_canonical to computed_df via reverse norm_map
-    rev_map = {v: k for k, v in norm_map.items()}
-    computed_df["local_canonical"] = computed_df["local_norm"].map(rev_map)
-
-    # Patch only the missing rows
-    div = div.copy()
-    for col in ("species_richness", "shannon_species", "pielou_species"):
-        if col not in div.columns:
-            div[col] = np.nan
-
-    for _, patch in computed_df.iterrows():
-        lc = patch.get("local_canonical")
-        yr = patch["year"]
-        if lc is None:
-            continue
-        idx = div.index[(div["local_canonical"] == lc) & (div["year"] == yr)]
-        if len(idx) == 0:
-            continue
-        for col in ("species_richness", "shannon_species", "pielou_species"):
-            if pd.isna(div.loc[idx[0], col]):
-                div.loc[idx[0], col] = patch[col]
-
-    return div
-
-
-# ── Main loader ──────────────────────────────────────────────────────────────
-
-def load_analysis():
-    """Load all analysis datasets into a dict of DataFrames."""
-
-    # ── Module 08: raw reads ──
-    gam_best_raw    = _read("08_best_models")
-    gam_comp_raw    = _read("08_model_comparison")
-    gam_fitted_raw  = _read("08_model_fitted_values")
-    gam_smooth_raw  = _read("08_gam_partial_dependence")
-    gam_coef_raw    = _read("08_model_term_statistics")
-    if gam_coef_raw.empty:
-        gam_coef_raw = _read("08_gam_term_statistics")
-    gam_predictor_inventory = _read("08_predictor_set_inventory")
-
-    # ── Module 09: raw reads ──
-    rob_curves_raw  = _read("09_flexibility_curves")    # not produced by current script 09 → empty DF
-    rob_comp_raw    = _read("09_flexibility_table")     # not produced by current script 09 → empty DF
-    rob_lolo_raw    = _read("09_lolo_curves")           # not produced by current script 09 → empty DF
-    rob_loyo_raw    = _read("09_loyo_table")            # not produced by current script 09 → empty DF
-    rob_resid_raw   = _read("09_residual_diagnostics")  # script 09 saves this as residual_diagnostics
-
-    # Summary tables (may not exist → fallback)
-    rob_lolo_sum    = _read("09_lolo_summary")
-    rob_loyo_sum    = _read("09_loyo_summary")
-
-    # ── Module 06: patch diversity NaNs for localities with missing species data ──
-    div_table = _patch_div_diversity(_read("06_diversity_table"))
+    rob_curves_raw = _read("09_flexibility_curves")
+    rob_comp_raw = _read("09_flexibility_table")
+    rob_lolo_raw = _read("09_lolo_curves")
+    rob_loyo_raw = _read("09_loyo_table")
+    rob_resid_raw = _first_available("09_residual_diagnostics", "09_residual_table")
+    rob_lolo_sum = _read("09_lolo_summary")
+    rob_loyo_sum = _read("09_loyo_summary")
 
     return {
-        # ── Module 04 ──
-        "locality_year_core":  _read("04_locality_year_core"),
-        "locality_exposure":   _read("04_locality_exposure_context"),
-        "landing_context":     _read("04_landing_points_context"),
-        "locality_reference":  _read("04_locality_reference_table"),
-
-        # ── Module 05 ──
-        "exposure_wide":       _read("05_landing_point_exposure_scenarios_wide"),
-        "exposure_long":       _read("05_landing_point_exposure_scenarios_long"),
-        "locality_compact":    _read("05_locality_compact_model_input"),
-
-        # ── Module 06 ──
-        "div_table":           div_table,
-        "composition_long":    _read("06_composition_long"),
-        "top_species_long":    _read("06_top_species_long"),
-        "sp_coverage":         _read("06_species_coverage_summary"),
-        "sp_abundance_mat":    _read("06_species_abundance_matrix"),
-        "sp_relative_mat":     _read("06_species_relative_matrix"),
-
-        # ── Module 07 ──
-        # script 07 saves *_continuous_associations (not *_associations).
-        "assoc_overall":       _read("07_diversity_overall_continuous_associations"),
-        "assoc_overall_cont":  _read("07_diversity_overall_continuous_associations"),
-        "assoc_within":        _read("07_diversity_within_locality_continuous_associations"),
-        "assoc_screening":     _read("07_diversity_screening_table"),
-        "assoc_categorical":   _read("07_diversity_categorical_response_tests"),
+        "locality_year_core": _read("04_locality_year_core"),
+        "locality_exposure": _read("04_locality_exposure_context"),
+        "landing_context": _read("04_landing_points_context"),
+        "locality_reference": _read("04_locality_reference_table"),
+        "exposure_wide": _read("05_landing_point_exposure_scenarios_wide"),
+        "exposure_long": _read("05_landing_point_exposure_scenarios_long"),
+        "locality_compact": _read("05_locality_compact_model_input"),
+        "div_table": _read("06_diversity_table"),
+        "composition_long": _read("06_composition_long"),
+        "top_species_long": _read("06_top_species_long"),
+        "sp_coverage": _read("06_species_coverage_summary"),
+        "sp_abundance_mat": _read("06_species_abundance_matrix"),
+        "sp_relative_mat": _read("06_species_relative_matrix"),
+        "assoc_overall": _first_available("07_diversity_overall_continuous_associations", "07_diversity_overall_associations"),
+        "assoc_overall_cont": _read("07_diversity_overall_continuous_associations"),
+        "assoc_within": _first_available("07_diversity_within_locality_continuous_associations", "07_diversity_within_locality_associations"),
+        "assoc_screening": _read("07_diversity_screening_table"),
+        "assoc_categorical": _read("07_diversity_categorical_response_tests"),
         "predictor_inventory": _read("07_candidate_predictor_inventory"),
-        "collinearity":        _read("07_candidate_predictor_collinearity"),
-        "div_locality":        _read("07_diversity_locality_summary"),
-        "div_year":            _read("07_diversity_year_summary"),
-
-        # ── Module 08 (normalised) ──
-        "gam_best":            _norm_gam_best(gam_best_raw),
-        "gam_comparison":      _norm_gam_best(gam_comp_raw),
-        "gam_fitted":          gam_fitted_raw,
-        "gam_smooth":          _norm_gam_smooth(gam_smooth_raw),
-        "gam_coef":            _norm_gam_coef(gam_coef_raw),
-        "gam_specs":           _read("08_model_specifications"),
+        "collinearity": _read("07_candidate_predictor_collinearity"),
+        "div_locality": _read("07_diversity_locality_summary"),
+        "div_year": _read("07_diversity_year_summary"),
+        "gam_best": _norm_gam_best(gam_best_raw),
+        "gam_comparison": _norm_gam_best(gam_comp_raw),
+        "gam_fitted": gam_fitted_raw,
+        "gam_smooth": _norm_gam_smooth(gam_smooth_raw),
+        "gam_coef": _norm_gam_coef(gam_coef_raw),
+        "gam_specs": _read("08_model_specifications"),
         "gam_predictor_inventory": gam_predictor_inventory,
-
-        # ── Module 09 (normalised) ──
-        "rob_curves":          _norm_rob_curves(rob_curves_raw),
-        "rob_comparison":      rob_comp_raw,
-        "rob_signature":       rob_comp_raw,                   # alias — same file
-        "rob_lolo":            _norm_rob_lolo(rob_lolo_raw),
-        "rob_loyo":            _norm_rob_loyo(rob_loyo_raw),
-        "rob_influence":       _norm_rob_influence(rob_resid_raw),
-        "rob_stability":       _read("09_model_stability_summary"),
-        "rob_pd_diag":         _read("09_partial_dependence_diagnostics"),
-        "rob_lolo_summary":    _norm_summary_fallback(rob_lolo_sum, "locality_removed"),
-        "rob_loyo_summary":    _norm_summary_fallback(rob_loyo_sum, "year_removed"),
-
-        # ── Module 10 ──
-        # script 10 writes plain names (no "refined" prefix).
-        # 10_permanova_table_long and 10_axis_exposure_associations are loaded
-        # twice so both the "refined" slot and the "full" slot are populated.
-        "pcoa_hell":              _read("10_pcoa_hellinger_scores"),
-        "pcoa_rel":               _read("10_pcoa_relative_scores"),
-        "nmds_rel":               _read("10_nmds_relative_scores"),
-        "permanova":              _read("10_permanova_table_long"),
-        "permanova_full":         _read("10_permanova_table_long"),
-        "permanova_interaction":  _read("10_permanova_interaction_table_long"),
-        "dispersion":             _read("10_dispersion_table_long"),
-        "axis_exp":               _read("10_axis_exposure_associations"),
-        "axis_exp_full":          _read("10_axis_exposure_associations"),
-        "top_sp_axis":            _read("10_top_species_axis_associations"),
-        "exp_bins":               _read("10_exposure_groups_long"),
-        "interaction_groups":     _read("10_interaction_exposure_groups"),
-        "valid_tests":            _read("11_valid_multivariate_tests_summary"),
-
-        # ── Module 11 ──
-        "grad_summary":        _read("11_primary_gradient_summary"),
-        "grad_scores":         _read("11_primary_composition_scores"),
-        "grad_top_sp":         _read("11_primary_axis_top_species"),
-        "turnover_top":        _read("11_species_turnover_primary_gradient_top"),
-        "turnover_full":       _read("11_species_turnover_primary_gradient"),
-        "top_by_bin":          _read("11_top_species_by_primary_group"),    # script 11 uses 'group' not 'bin'
-        "top_by_group":        _read("11_top_species_by_primary_group"),
-        "mean_abund_bin":      _read("11_mean_relative_abundance_by_primary_group"),  # idem
-        "mean_abund_group":    _read("11_mean_relative_abundance_by_primary_group"),
-        "pa_turnover":         _read("11_pa_species_turnover_summaries"),
-        "pa_abund":            _read("11_pa_mean_relative_abundance_by_group"),
+        "rob_curves": _norm_rob_curves(rob_curves_raw),
+        "rob_comparison": rob_comp_raw,
+        "rob_signature": rob_comp_raw,
+        "rob_lolo": _norm_rob_lolo(rob_lolo_raw),
+        "rob_loyo": _norm_rob_loyo(rob_loyo_raw),
+        "rob_influence": _norm_rob_influence(rob_resid_raw),
+        "rob_stability": _read("09_model_stability_summary"),
+        "rob_pd_diag": _read("09_partial_dependence_diagnostics"),
+        "rob_lolo_summary": _norm_summary_fallback(rob_lolo_sum, "locality_removed"),
+        "rob_loyo_summary": _norm_summary_fallback(rob_loyo_sum, "year_removed"),
+        "pcoa_hell": _read("10_pcoa_hellinger_scores"),
+        "pcoa_rel": _read("10_pcoa_relative_scores"),
+        "nmds_rel": _read("10_nmds_relative_scores"),
+        "permanova": _read("10_permanova_table_long"),
+        "permanova_full": _read("10_permanova_table_long"),
+        "permanova_interaction": _read("10_permanova_interaction_table_long"),
+        "dispersion": _first_available("10_dispersion_table_long", "10_refined_dispersion_table_long"),
+        "axis_exp": _read("10_axis_exposure_associations"),
+        "axis_exp_full": _read("10_axis_exposure_associations"),
+        "top_sp_axis": _read("10_top_species_axis_associations"),
+        "exp_bins": _first_available("10_exposure_groups_long", "10_refined_exposure_bins_long"),
+        "interaction_groups": _read("10_interaction_exposure_groups"),
+        "valid_tests": _read("11_valid_multivariate_tests_summary"),
+        "grad_summary": _read("11_primary_gradient_summary"),
+        "grad_scores": _read("11_primary_composition_scores"),
+        "grad_top_sp": _read("11_primary_axis_top_species"),
+        "turnover_top": _read("11_species_turnover_primary_gradient_top"),
+        "turnover_full": _read("11_species_turnover_primary_gradient"),
+        "top_by_bin": _first_available("11_top_species_by_primary_group", "11_top_species_by_primary_bin"),
+        "top_by_group": _first_available("11_top_species_by_primary_group", "11_top_species_by_primary_bin"),
+        "mean_abund_bin": _first_available("11_mean_relative_abundance_by_primary_group", "11_mean_relative_abundance_by_primary_bin"),
+        "mean_abund_group": _first_available("11_mean_relative_abundance_by_primary_group", "11_mean_relative_abundance_by_primary_bin"),
+        "pa_turnover": _read("11_pa_species_turnover_summaries"),
+        "pa_abund": _read("11_pa_mean_relative_abundance_by_group"),
     }
