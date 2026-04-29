@@ -27,6 +27,7 @@ outputs/
 scripts/
 scripts_bk_1
 scripts_bk_2
+.spyproject
 tmp/
 
 # OS
