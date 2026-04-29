@@ -1,9 +1,9 @@
 """
 data_pipeline.py — Load dashboard-ready data from `data_processed/`.
 
-This module now prioritises parquet outputs produced by the analysis pipeline
-(especially scripts 04 and 06) and only derives lightweight secondary products
-needed by the general dashboard views.
+This module prioritises parquet outputs produced by the analysis pipeline
+(especially scripts 04, 05 and 06) and only derives lightweight secondary
+products needed by the dashboard views.
 """
 
 from __future__ import annotations
@@ -33,36 +33,130 @@ def _read(name: str) -> pd.DataFrame:
 
 
 def _title_to_norm(series: pd.Series) -> pd.Series:
-    return series.astype("string").str.upper().str.replace("Á", "A").str.replace("É", "E").str.replace("Í", "I").str.replace("Ó", "O").str.replace("Ú", "U").str.replace("Ç", "C")
+    return (
+        series.astype("string")
+        .str.upper()
+        .str.replace("Á", "A")
+        .str.replace("É", "E")
+        .str.replace("Í", "I")
+        .str.replace("Ó", "O")
+        .str.replace("Ú", "U")
+        .str.replace("Ç", "C")
+    )
+
+
+def _ensure_local_norm(df: pd.DataFrame) -> pd.DataFrame:
+    out = df.copy()
+    if "local_norm" not in out.columns:
+        if "municipality_context_norm" in out.columns:
+            out["local_norm"] = out["municipality_context_norm"]
+        elif "locality_norm" in out.columns:
+            out["local_norm"] = out["locality_norm"]
+        elif "municipality_norm" in out.columns:
+            out["local_norm"] = out["municipality_norm"]
+        elif "local_canonical" in out.columns:
+            out["local_norm"] = _title_to_norm(out["local_canonical"])
+    return out
+
+
+def _prepare_species(species_processed: pd.DataFrame, species_raw: pd.DataFrame) -> pd.DataFrame:
+    if not species_processed.empty:
+        out = _ensure_local_norm(species_processed)
+        if "species" not in out.columns and "species_canonical" in out.columns:
+            out["species"] = out["species_canonical"]
+        keep = [
+            c for c in [
+                "local_norm", "local_canonical", "year", "species", "species_canonical",
+                "sp_production_ton", "production_ton", "production_per_trip_ton",
+                "production_per_fisher_ton", "species_richness", "shannon_species",
+                "pielou_species",
+            ] if c in out.columns
+        ]
+        return out[keep].copy()
+
+    if species_raw.empty:
+        return pd.DataFrame()
+
+    out = _ensure_local_norm(species_raw)
+    if "species" not in out.columns and "species_canonical" in out.columns:
+        out["species"] = out["species_canonical"]
+    return out
+
+
+def _prepare_gear(gear_processed: pd.DataFrame, gear_raw: pd.DataFrame) -> pd.DataFrame:
+    if not gear_processed.empty:
+        out = _ensure_local_norm(gear_processed)
+        if "gear_type" not in out.columns and "gear_type_canonical" in out.columns:
+            out["gear_type"] = out["gear_type_canonical"]
+        if "gear_group" not in out.columns and "gear_group_canonical" in out.columns:
+            out["gear_group"] = out["gear_group_canonical"]
+        if "gear_group" in out.columns:
+            out["gear_group"] = out["gear_group"].astype("string").str.lower()
+        keep = [
+            c for c in [
+                "local_norm", "local_canonical", "year", "gear_type", "gear_group",
+                "gear_type_canonical", "gear_group_canonical", "gear_production_ton",
+            ] if c in out.columns
+        ]
+        return out[keep].copy()
+
+    if gear_raw.empty:
+        return pd.DataFrame()
+
+    out = _ensure_local_norm(gear_raw)
+    if "gear_group" in out.columns:
+        out["gear_group"] = out["gear_group"].astype("string").str.lower()
+    if "gear_type" not in out.columns and "gear_type_canonical" in out.columns:
+        out["gear_type"] = out["gear_type_canonical"]
+    return out
 
 
 def load_all() -> dict[str, pd.DataFrame]:
+    analysis = _read("04_analysis_locality_year")
+    diversity = _read("06_diversity_table")
+    species_processed = _read("06_composition_long")
+    gear_processed = _read("04_gear_locality_year")
+    species_raw = _read("03_species_landings_canonical")
+    gear_raw = _read("03_gear_production_canonical")
+    pmdp_raw = _read("03_pmdp_master_canonical")
+    prod_value = _read("03_production_value_canonical")
+    socioeco = _read("03_socioeconomic_canonical")
+    fleet_raw = _read("03_fleet_composition_canonical")
+
+    if not prod_value.empty and "municipality_norm" in prod_value.columns:
+        prod_value["local_norm"] = prod_value["municipality_norm"]
+
     dfs = {
-        "fleet": _read("03_fleet_composition_canonical"),
-        "gear": _read("03_gear_production_canonical"),
-        "pmdp": _read("03_pmdp_master_canonical"),
-        "prod_value": _read("03_production_value_canonical"),
-        "socioeco": _read("03_socioeconomic_canonical"),
-        "species": _read("03_species_landings_canonical"),
-        "analysis": _read("04_analysis_locality_year"),
-        "diversity": _read("06_diversity_table"),
+        "analysis": analysis,
+        "diversity": diversity,
+        "species": _prepare_species(species_processed, species_raw),
+        "gear": _prepare_gear(gear_processed, gear_raw),
+        "prod_value": prod_value,
+        "pmdp": pmdp_raw,
+        "socioeco": socioeco,
+        "fleet": fleet_raw,
+        "species_raw": species_raw,
+        "gear_raw": gear_raw,
+        "species_processed": species_processed,
+        "gear_processed": gear_processed,
     }
-    if not dfs["prod_value"].empty and "municipality_norm" in dfs["prod_value"].columns:
-        dfs["prod_value"]["local_norm"] = dfs["prod_value"]["municipality_norm"]
     return dfs
 
 
 def compute_cpue(dfs: dict[str, pd.DataFrame]) -> tuple[pd.DataFrame, pd.DataFrame]:
     gear = dfs["gear"].copy()
-    pmdp = dfs["pmdp"].copy()
-    if gear.empty or pmdp.empty:
+    analysis = _ensure_local_norm(dfs.get("analysis", pd.DataFrame()).copy())
+    pmdp = _ensure_local_norm(dfs.get("pmdp", pd.DataFrame()).copy())
+
+    if gear.empty:
         return pd.DataFrame(), pd.DataFrame()
 
-    gear_type_col = "gear_type_canonical" if "gear_type_canonical" in gear.columns else "gear_type"
-    gear_group_col = "gear_group_canonical" if "gear_group_canonical" in gear.columns else "gear_group"
+    trips_source = analysis if not analysis.empty else pmdp
+    if trips_source.empty or "assisted_trips" not in trips_source.columns:
+        return pd.DataFrame(), pd.DataFrame()
 
     merged = gear.merge(
-        pmdp[["local_norm", "year", "assisted_trips"]],
+        trips_source[["local_norm", "year", "assisted_trips"]],
         on=["local_norm", "year"],
         how="left",
     )
@@ -78,26 +172,23 @@ def compute_cpue(dfs: dict[str, pd.DataFrame]) -> tuple[pd.DataFrame, pd.DataFra
         .reset_index()
     )
 
+    group_col = "gear_group" if "gear_group" in merged.columns else "gear_group_canonical"
+    type_col = "gear_type" if "gear_type" in merged.columns else "gear_type_canonical"
     cpue_gear = (
-        merged.groupby(["local_norm", "year", gear_type_col, gear_group_col], dropna=False)
+        merged.groupby(["local_norm", "year", type_col, group_col], dropna=False)
         .agg(production_ton=("gear_production_ton", "sum"), cpue=("cpue", "mean"))
         .reset_index()
-        .rename(columns={gear_type_col: "gear_type", gear_group_col: "gear_group"})
+        .rename(columns={type_col: "gear_type", group_col: "gear_group"})
     )
+    if "gear_group" in cpue_gear.columns:
+        cpue_gear["gear_group"] = cpue_gear["gear_group"].astype("string").str.lower()
     return cpue_port, cpue_gear
 
 
 def compute_biodiversity(dfs: dict[str, pd.DataFrame]) -> pd.DataFrame:
     div = dfs.get("diversity", pd.DataFrame()).copy()
     if not div.empty:
-        out = div.copy()
-        if "local_norm" not in out.columns:
-            if "municipality_context_norm" in out.columns:
-                out["local_norm"] = out["municipality_context_norm"]
-            elif "locality_norm" in out.columns:
-                out["local_norm"] = out["locality_norm"]
-            elif "local_canonical" in out.columns:
-                out["local_norm"] = _title_to_norm(out["local_canonical"])
+        out = _ensure_local_norm(div)
         if "shannon_index" not in out.columns and "shannon_species" in out.columns:
             out["shannon_index"] = out["shannon_species"]
         if "pielou_index" not in out.columns and "pielou_species" in out.columns:
@@ -136,9 +227,9 @@ def compute_biodiversity(dfs: dict[str, pd.DataFrame]) -> pd.DataFrame:
 
 
 def build_master(dfs: dict[str, pd.DataFrame], cpue_port: pd.DataFrame, biodiv: pd.DataFrame) -> pd.DataFrame:
-    analysis = dfs.get("analysis", pd.DataFrame()).copy()
+    analysis = _ensure_local_norm(dfs.get("analysis", pd.DataFrame()).copy())
     if analysis.empty:
-        pmdp = dfs.get("pmdp", pd.DataFrame()).copy()
+        pmdp = _ensure_local_norm(dfs.get("pmdp", pd.DataFrame()).copy())
         if pmdp.empty:
             return pd.DataFrame()
         master = pmdp.copy()
@@ -147,29 +238,16 @@ def build_master(dfs: dict[str, pd.DataFrame], cpue_port: pd.DataFrame, biodiv: 
     else:
         master = analysis.copy()
 
-    if "local_norm" not in master.columns:
-        if "municipality_context_norm" in master.columns:
-            master["local_norm"] = master["municipality_context_norm"]
-        elif "locality_norm" in master.columns:
-            master["local_norm"] = master["locality_norm"]
-        elif "local_canonical" in master.columns:
-            master["local_norm"] = _title_to_norm(master["local_canonical"])
-
-    fleet = dfs.get("fleet", pd.DataFrame()).copy()
-    if not fleet.empty:
-        fleet_agg = (
-            fleet.groupby(["local_norm", "year"], dropna=False)
-            .agg(total_vessels=("vessels_monitored", "sum"), fleet_production_ton=("fleet_production_ton", "sum"))
-            .reset_index()
-        )
-        for col in ["total_vessels", "fleet_production_ton"]:
-            if col in master.columns:
-                master = master.drop(columns=[col])
-        master = master.merge(fleet_agg, on=["local_norm", "year"], how="left")
-
-    socio = dfs.get("socioeco", pd.DataFrame()).copy()
-    if not socio.empty and "fishermen_per_vessel" in socio.columns and "fishermen_per_vessel" not in master.columns:
-        master = master.merge(socio[["local_norm", "year", "fishermen_per_vessel"]], on=["local_norm", "year"], how="left")
+    if "total_vessels" not in master.columns and "vessels_monitored_total" in master.columns:
+        master["total_vessels"] = master["vessels_monitored_total"]
+    if "fleet_production_ton" not in master.columns and "fleet_production_ton_total" in master.columns:
+        master["fleet_production_ton"] = master["fleet_production_ton_total"]
+    if "cpue" not in master.columns and "production_per_trip_ton" in master.columns:
+        master["cpue"] = master["production_per_trip_ton"]
+    if "shannon_index" not in master.columns and "shannon_species" in master.columns:
+        master["shannon_index"] = master["shannon_species"]
+    if "pielou_index" not in master.columns and "pielou_species" in master.columns:
+        master["pielou_index"] = master["pielou_species"]
 
     if not cpue_port.empty:
         for col in ["cpue", "total_production_ton"]:
@@ -183,12 +261,11 @@ def build_master(dfs: dict[str, pd.DataFrame], cpue_port: pd.DataFrame, biodiv: 
             master = master.drop(columns=[col])
         master = master.merge(biodiv[bio_cols], on=["local_norm", "year"], how="left")
 
-    if "cpue" not in master.columns and "production_per_trip_ton" in master.columns:
-        master["cpue"] = master["production_per_trip_ton"]
-    if "shannon_index" not in master.columns and "shannon_species" in master.columns:
-        master["shannon_index"] = master["shannon_species"]
-    if "pielou_index" not in master.columns and "pielou_species" in master.columns:
-        master["pielou_index"] = master["pielou_species"]
+    if "fishermen_per_vessel" not in master.columns:
+        socio = _ensure_local_norm(dfs.get("socioeco", pd.DataFrame()).copy())
+        if not socio.empty and "fishermen_per_vessel" in socio.columns:
+            master = master.merge(socio[["local_norm", "year", "fishermen_per_vessel"]], on=["local_norm", "year"], how="left")
+
     if "port_name" not in master.columns:
         master["port_name"] = master["local_norm"].map(lambda x: PORT_COORDS.get(x, {}).get("name", x))
     master["lat"] = master["local_norm"].map(lambda x: PORT_COORDS.get(x, {}).get("lat"))
