@@ -2456,7 +2456,7 @@ def tab_protected_areas(ad: dict) -> None:
                         pivot.columns = [_zone_label(c) for c in pivot.columns]
                         st.dataframe(pivot, use_container_width=True)
 
-def tab_methods_results(ad=None):
+def tab_methods_results(ad=None, artefacts=None):
     """Synthesized Methods and Results aligned with current parquet outputs."""
 
     st.markdown('<h3 class="section-title">Methods & Results</h3>', unsafe_allow_html=True)
@@ -2464,8 +2464,15 @@ def tab_methods_results(ad=None):
     if ad is None:
         from utils.analysis_loader import load_analysis
         ad = load_analysis()
+    if artefacts is None:
+        try:
+            from utils.data_pipeline import build_all
+            artefacts = build_all(export=False)
+        except Exception:
+            artefacts = {}
 
     div = ad.get("div_table", pd.DataFrame()).copy()
+    master = artefacts.get("master", pd.DataFrame()).copy() if isinstance(artefacts, dict) else pd.DataFrame()
     best = ad.get("gam_best", pd.DataFrame()).copy()
     comparison = ad.get("gam_comparison", pd.DataFrame()).copy()
     perm_full = ad.get("permanova_full", ad.get("permanova", pd.DataFrame())).copy()
@@ -2475,17 +2482,22 @@ def tab_methods_results(ad=None):
     grad_summary = ad.get("grad_summary", pd.DataFrame()).copy()
     valid_tests = ad.get("valid_tests", pd.DataFrame()).copy()
 
-    n_obs = int(len(div)) if not div.empty else np.nan
-    n_localities = int(div["local_canonical"].nunique()) if "local_canonical" in div.columns and not div.empty else np.nan
-    year_min = int(div["year"].min()) if "year" in div.columns and div["year"].notna().any() else np.nan
-    year_max = int(div["year"].max()) if "year" in div.columns and div["year"].notna().any() else np.nan
+    summary_df = master.copy() if not master.empty else div.copy()
+    locality_col = "local_norm" if "local_norm" in summary_df.columns else "local_canonical" if "local_canonical" in summary_df.columns else None
+    shannon_col = "shannon_index" if "shannon_index" in summary_df.columns else "shannon_species" if "shannon_species" in summary_df.columns else None
+    pielou_col = "pielou_index" if "pielou_index" in summary_df.columns else "pielou_species" if "pielou_species" in summary_df.columns else None
 
-    richness_mean = div["species_richness"].mean() if "species_richness" in div.columns else np.nan
-    richness_sd = div["species_richness"].std() if "species_richness" in div.columns else np.nan
-    shannon_mean = div["shannon_species"].mean() if "shannon_species" in div.columns else np.nan
-    shannon_sd = div["shannon_species"].std() if "shannon_species" in div.columns else np.nan
-    pielou_mean = div["pielou_species"].mean() if "pielou_species" in div.columns else np.nan
-    pielou_sd = div["pielou_species"].std() if "pielou_species" in div.columns else np.nan
+    n_obs = int(len(summary_df)) if not summary_df.empty else np.nan
+    n_localities = int(summary_df[locality_col].nunique()) if locality_col and not summary_df.empty else np.nan
+    year_min = int(summary_df["year"].min()) if "year" in summary_df.columns and summary_df["year"].notna().any() else np.nan
+    year_max = int(summary_df["year"].max()) if "year" in summary_df.columns and summary_df["year"].notna().any() else np.nan
+
+    richness_mean = summary_df["species_richness"].mean() if "species_richness" in summary_df.columns else np.nan
+    richness_sd = summary_df["species_richness"].std() if "species_richness" in summary_df.columns else np.nan
+    shannon_mean = summary_df[shannon_col].mean() if shannon_col else np.nan
+    shannon_sd = summary_df[shannon_col].std() if shannon_col else np.nan
+    pielou_mean = summary_df[pielou_col].mean() if pielou_col else np.nan
+    pielou_sd = summary_df[pielou_col].std() if pielou_col else np.nan
 
     def _fmt(value, digits=3, na="n/a"):
         return na if pd.isna(value) else f"{value:.{digits}f}"
@@ -2572,19 +2584,21 @@ and mean Pielou evenness was **{_fmt(pielou_mean, 2)} ± {_fmt(pielou_sd, 2)}**.
 a consistent locality-year structure for comparing production, diversity and spatial context.
 """)
 
-    if not div.empty and "local_canonical" in div.columns:
+    if not summary_df.empty and locality_col:
         loc_cols = [
-            "local_canonical", "species_richness", "shannon_species", "pielou_species",
+            locality_col, "species_richness",
+            shannon_col, pielou_col,
             "production_ton", "production_per_trip_ton", "production_per_fisher_ton",
             "mean_nearest_platform_distance_km", "mean_distance_to_nearest_protected_area_km",
         ]
-        loc_cols = [c for c in loc_cols if c in div.columns]
-        loc_summary = div[loc_cols].groupby("local_canonical", dropna=False).mean(numeric_only=True).reset_index()
-        loc_summary["Locality"] = loc_summary["local_canonical"].map(_port_name)
+        loc_cols = [c for c in loc_cols if c]
+        loc_cols = [c for c in loc_cols if c in summary_df.columns]
+        loc_summary = summary_df[loc_cols].groupby(locality_col, dropna=False).mean(numeric_only=True).reset_index()
+        loc_summary["Locality"] = loc_summary[locality_col].map(_port_name)
         rename = {
             "species_richness": "Richness",
-            "shannon_species": "Shannon H'",
-            "pielou_species": "Pielou J'",
+            shannon_col: "Shannon H'",
+            pielou_col: "Pielou J'",
             "production_ton": "Production (t)",
             "production_per_trip_ton": "Production/trip (t)",
             "production_per_fisher_ton": "Production/fisher (t)",

@@ -828,7 +828,7 @@ def main():
     with tabs_analysis[6]:
         tab_protected_areas(ad)
     with tabs_analysis[7]:
-        tab_methods_results(ad)
+        tab_methods_results(ad, artefacts)
 
     # Footer
     st.markdown("---")
