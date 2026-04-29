@@ -2528,6 +2528,9 @@ def tab_methods_results(ad=None, artefacts=None):
     primary_grad = grad_summary.iloc[0] if not grad_summary.empty else pd.Series(dtype=object)
     bray_full = _best_perm_row(perm_full, "BrayCurtis")
     axis_top = axis_exp.sort_values("abs_spearman_corr", ascending=False).iloc[0] if (not axis_exp.empty and "abs_spearman_corr" in axis_exp.columns) else pd.Series(dtype=object)
+    primary_exposure = primary_grad.get("exposure_variable", primary_grad.get("primary_exposure_variable", pd.NA))
+    primary_ordination = primary_grad.get("ordination", primary_grad.get("primary_ordination", "the primary ordination"))
+    primary_axis = primary_grad.get("axis", primary_grad.get("primary_axis", "the leading axis"))
 
     st.markdown("""
 > *This section summarizes the current analytical outputs read from the parquet files in*
@@ -2538,34 +2541,38 @@ def tab_methods_results(ad=None, artefacts=None):
     st.markdown("## Methods")
 
     st.markdown("### Study design and analytical unit")
-    st.markdown("""
-The analysis uses a locality-year panel for five focal fishing localities in Rio Grande
-do Norte, Brazil: Areia Branca, Caiçara do Norte, Guamaré, Macau and Porto do Mangue.
-Each observation combines catch composition, diversity metrics, production and effort
-descriptors, platform-exposure metrics, and protected-area context. Offshore exposure
-is represented mainly by distance-based summaries to oil platforms and counts within
-distance buffers. Marine protected areas are represented by continuous distance metrics,
-inside-share metrics and categorical relations to APA Dunas do Rosado and RDS Ponta do
-Tubarão.
+    st.markdown(f"""
+The analysis uses a locality-year panel assembled from the current parquet outputs in
+`data_processed/`. In this run it contains **{_fmt_int(n_obs)} locality-year observations**
+from **{_fmt_int(n_localities)} focal fishing localities** over **{_fmt_int(year_min)}-{_fmt_int(year_max)}**:
+Areia Branca, Caiçara do Norte, Guamaré, Macau and Porto do Mangue. Each observation
+combines catch composition, diversity metrics, production and effort descriptors,
+oil-platform exposure, and protected-area context. Offshore exposure is represented by
+landing-point scenarios, distance-to-platform summaries, and platform counts within
+distance buffers. Marine protected areas are represented by distance metrics, shares of
+landing points inside APA Dunas do Rosado or RDS Ponta do Tubarão, and categorical
+relations to those areas.
 """)
 
     st.markdown("### Univariate modelling")
     st.markdown("""
 Species richness, Shannon diversity, Pielou evenness and production metrics were analysed
-with Generalized Additive Models (GAMs) and compared against linear baselines. The final
-candidate set includes continuous spatial predictors, categorical protected-area predictors,
-and linear controls such as year-centred trend and fleet/gear richness where available.
-Model comparison relies on R², AIC and RMSE, with the final summaries taken directly from
-the current Module 08 parquet outputs.
+with penalized Generalized Additive Models (GAMs) and compared against linear baselines.
+The candidate set includes continuous spatial predictors, categorical protected-area
+predictors, platform × protected-area interaction terms, and linear controls such as
+year-centred trend plus fleet/gear richness where available. Model comparison relies on
+R², AIC/AICc and RMSE, with all response-wise winners, fitted values and partial
+dependence summaries read from the Module 08 parquet outputs.
 """)
 
     st.markdown("### Community composition")
     st.markdown("""
-Community composition was analysed using ordination and permutation-based tests. The current
-workflow emphasizes PCoA and NMDS summaries derived from Bray-Curtis and Hellinger-transformed
-composition, together with PERMANOVA, PERMDISP, axis–exposure associations and species-turnover
-summaries from Modules 10 and 11. These multivariate results are interpreted as spatial
-associations in observed catch composition, not as direct causal effects.
+Community composition was analysed using ordination and permutation-based tests. The
+current workflow uses PCoA and NMDS scores derived from Bray-Curtis relative composition
+and Hellinger-transformed composition, then links ordination axes to spatial predictors
+with PERMANOVA, PERMDISP, axis-exposure correlations and species-turnover summaries from
+Modules 10 and 11. These multivariate results are interpreted as spatial associations in
+observed catch composition, not as direct causal effects.
 """)
 
     st.markdown("---")
@@ -2619,13 +2626,15 @@ a consistent locality-year structure for comparing production, diversity and spa
         continuous_n = int(best["predictor_family"].eq("continuous").sum()) if "predictor_family" in best.columns else np.nan
         categorical_n = int(best["predictor_family"].eq("categorical").sum()) if "predictor_family" in best.columns else np.nan
 
+        interaction_n = int(best["predictor_family"].astype(str).str.contains("interaction", na=False).sum()) if "predictor_family" in best.columns else np.nan
         st.markdown(f"""
-The current best-model table is led mainly by **continuous spatial predictors**, not by interaction
-models. The strongest single fit was for **{_rlabel(top_row['response_variable'])}**, explained by
-**{_elabel(top_row['predictor'])}** (R² = **{_fmt(top_row['r_squared'], 3)}**, AIC = **{_fmt(top_row['aic'], 2)}**).
-Categorical protected-area predictors remain informative in the candidate set, but they do not dominate
-the final response-wise winners. In the current best-model table, continuous winners = **{_fmt_int(continuous_n)}**
-and categorical winners = **{_fmt_int(categorical_n)}**.
+The current response-wise best-model table is led by **platform × protected-area interaction
+models**, especially the interaction between mean platform distance and whether a locality is
+inside any protected area. The strongest single fit was for **{_rlabel(top_row['response_variable'])}**,
+explained by **{_elabel(top_row['predictor'])}** (R² = **{_fmt(top_row['r_squared'], 3)}**,
+AIC = **{_fmt(top_row['aic'], 2)}**). In the current best-model table, interaction winners =
+**{_fmt_int(interaction_n)}**, continuous-only winners = **{_fmt_int(continuous_n)}**, and
+categorical-only winners = **{_fmt_int(categorical_n)}**.
 """)
 
         tbl = best[[
@@ -2667,19 +2676,19 @@ and categorical winners = **{_fmt_int(categorical_n)}**.
 
     st.markdown("### Role of marine protected areas")
     st.markdown("""
-Protected-area variables contribute meaningful structure to the analysis, but in the current final
-pipeline they should be interpreted as **complementary spatial descriptors** rather than as the dominant
-predictors. Continuous platform-distance metrics provide the clearest univariate signal, whereas MPA
-distance and categorical MPA relation variables refine the interpretation of spatial context and help
-identify whether the same compositional or production patterns persist across protected-area settings.
+Protected-area variables are not just background descriptors in the current model outputs. They
+enter the strongest univariate models primarily through interaction terms, indicating that the
+association between platform distance and diversity or production differs with protected-area
+context. Standalone MPA distance and categorical relation variables remain useful for describing
+spatial gradients, while the interaction models provide the clearest response-wise GAM signal.
 """)
 
     st.markdown("### Community composition")
     if not primary_grad.empty:
         st.markdown(f"""
-The primary multivariate gradient identified in the current outputs is **{_elabel(primary_grad.get('primary_exposure_variable'))}**,
-expressed most clearly in **{primary_grad.get('primary_ordination', 'the primary ordination')}**
-along **{primary_grad.get('primary_axis', 'the leading axis')}**. The associated PERMANOVA explained
+The primary multivariate gradient identified in the current outputs is **{_elabel(primary_exposure)}**,
+expressed most clearly in **{primary_ordination}**
+along **{primary_axis}**. The associated PERMANOVA explained
 **R² = {_fmt(primary_grad.get('permanova_r2'), 4)}** with **p = {_fmt(primary_grad.get('permanova_p_value'), 3)}**.
 The corresponding axis–exposure association was strong (**Spearman rho = {_fmt(primary_grad.get('axis_spearman_corr'), 3)}**).
 """)
@@ -2696,6 +2705,8 @@ For the strongest available Bray-Curtis-based test, compositional variation expl
 
     if not valid_tests.empty:
         tbl_perm = valid_tests.copy()
+        if "is_valid" in tbl_perm.columns:
+            tbl_perm = tbl_perm[tbl_perm["is_valid"].astype(bool)].copy()
         keep = [c for c in ["distance_basis", "exposure_variable", "n_rows", "n_groups", "pseudo_F", "r2", "p_value", "dispersion_warning"] if c in tbl_perm.columns]
         tbl_perm = tbl_perm[keep].copy()
         ren = {
@@ -2731,9 +2742,10 @@ For the strongest available Bray-Curtis-based test, compositional variation expl
         )
 
     st.markdown("### Species turnover")
-    if not mean_ab.empty and {"species_name", "exposure_bin", "mean_relative_abundance"}.issubset(mean_ab.columns):
+    group_col = "exposure_bin" if "exposure_bin" in mean_ab.columns else "group_level" if "group_level" in mean_ab.columns else None
+    if not mean_ab.empty and group_col and {"species_name", "mean_relative_abundance"}.issubset(mean_ab.columns):
         pivot = mean_ab.pivot_table(
-            index="species_name", columns="exposure_bin",
+            index="species_name", columns=group_col,
             values="mean_relative_abundance", aggfunc="mean"
         ).fillna(0)
         if {"Q1", "Q3"}.issubset(pivot.columns):
@@ -2790,6 +2802,7 @@ as secondary compositional signatures that add context to the dominant platform-
     st.markdown("---")
     st.caption(
         "Interpretation note: all summaries above describe spatial associations in an observational fishery dataset. "
-        "The current final results support stronger evidence for continuous platform-distance gradients than for a dominant "
-        "interaction-driven or categorical-MPA-only structure."
+        "The current outputs support a strong platform-distance composition gradient and response-wise GAM evidence "
+        "for platform-distance effects that vary with protected-area context. PERMANOVA results with dispersion warnings "
+        "should be read as evidence of compositional structure, not as a clean separation of centroid shifts alone."
     )
