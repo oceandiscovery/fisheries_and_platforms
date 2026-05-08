@@ -1,0 +1,99 @@
+======================================================================
+FISH × PLATFORMS BRAZIL — STATISTICAL MODELS SUMMARY
+Generated: 2026-05-08 12:06
+Note: n=8 locals (2 platform classes; 4 MPA classes). Statistical
+      power is low; interpret p-values with caution.
+======================================================================
+
+A. MANN-KENDALL TRENDS (aggregated by exposure class)
+──────────────────────────────────────────────────────────────────────
+  0-20 km                        cpue                   τ=+0.087  p=0.572 ns  → no significant trend
+  0-20 km                        production_ton         τ=+0.355  p=0.015 *  → increasing
+  0-20 km                        assisted_trips         τ=+0.522  p=0.000 ***  → increasing
+  20-50 km                       cpue                   τ=+0.710  p=0.000 ***  → increasing
+  20-50 km                       production_ton         τ=+0.746  p=0.000 ***  → increasing
+  20-50 km                       assisted_trips         τ=+0.384  p=0.008 **  → increasing
+  0-10 km                        cpue                   τ=+0.087  p=0.572 ns  → no significant trend
+  0-10 km                        production_ton         τ=+0.355  p=0.015 *  → increasing
+  0-10 km                        assisted_trips         τ=+0.522  p=0.000 ***  → increasing
+  10-25 km                       cpue                   τ=+0.009  p=0.976 ns  → no significant trend
+  10-25 km                       production_ton         τ=+0.171  p=0.294 ns  → no significant trend
+  10-25 km                       assisted_trips         τ=+0.314  p=0.049 *  → increasing
+  25-50 km                       cpue                   τ=+0.457  p=0.001 **  → increasing
+  25-50 km                       production_ton         τ=+0.384  p=0.008 **  → increasing
+  25-50 km                       assisted_trips         τ=+0.362  p=0.013 *  → increasing
+  inside                         cpue                   τ=+0.812  p=0.000 ***  → increasing
+  inside                         production_ton         τ=+0.812  p=0.000 ***  → increasing
+  inside                         assisted_trips         τ=+0.333  p=0.023 *  → increasing
+  0-20 km × 0-10 km              cpue                   τ=+0.087  p=0.572 ns  → no significant trend
+  0-20 km × 0-10 km              production_ton         τ=+0.355  p=0.015 *  → increasing
+  20-50 km × 10-25 km            cpue                   τ=+0.009  p=0.976 ns  → no significant trend
+  20-50 km × 10-25 km            production_ton         τ=+0.171  p=0.294 ns  → no significant trend
+  20-50 km × 25-50 km            cpue                   τ=+0.457  p=0.001 **  → increasing
+  20-50 km × 25-50 km            production_ton         τ=+0.384  p=0.008 **  → increasing
+  20-50 km × inside              cpue                   τ=+0.812  p=0.000 ***  → increasing
+  20-50 km × inside              production_ton         τ=+0.812  p=0.000 ***  → increasing
+
+B. MANN-KENDALL PER LOCAL (CPUE)
+──────────────────────────────────────────────────────────────────────
+  GUAMARE              [0-20 km, 0-10 km]  τ=+0.268  p=0.070 .  slope=+0.0008 t/trip/yr  → increasing (marginal)
+  MACAU                [0-20 km, 0-10 km]  τ=-0.072  p=0.641 ns  slope=-0.0001 t/trip/yr  → no significant trend
+  AREIA BRANCA         [20-50 km, inside]  τ=+0.571  p=0.000 ***  slope=+0.0411 t/trip/yr  → increasing
+  CAICARA DO NORTE     [20-50 km, 25-50 km]  τ=+0.464  p=0.001 **  slope=+0.0034 t/trip/yr  → increasing
+  GALINHOS             [20-50 km, 10-25 km]  τ=+0.190  p=0.260 ns  slope=+0.0005 t/trip/yr  → no significant trend
+  GROSSOS              [20-50 km, 10-25 km]  τ=-0.100  p=0.626 ns  slope=-0.0001 t/trip/yr  → no significant trend
+  PORTO DO MANGUE      [20-50 km, inside]  τ=+0.551  p=0.000 ***  slope=+0.0024 t/trip/yr  → increasing
+  TIBAU                [20-50 km, 25-50 km]  τ=-0.250  p=0.195 ns  slope=-0.0013 t/trip/yr  → no significant trend
+
+C. KRUSKAL-WALLIS + MANN-WHITNEY (group differences)
+──────────────────────────────────────────────────────────────────────
+  KW [platform_exposure_class | cpue_ton_per_trip]: H=0.583  p=0.445 ns
+  KW [platform_exposure_class | production_ton]: H=6.483  p=0.011 *
+  KW [platform_exposure_class | richness]: H=7.998  p=0.005 **
+  KW [platform_exposure_class | shannon_h]: H=6.311  p=0.012 *
+  KW [mpa_exposure_class | cpue_ton_per_trip]: H=28.309  p=0.000 ***
+  KW [mpa_exposure_class | production_ton]: H=37.579  p=0.000 ***
+  KW [mpa_exposure_class | richness]: H=19.925  p=0.000 ***
+  KW [mpa_exposure_class | shannon_h]: H=7.093  p=0.069 .
+
+  Significant pairwise contrasts (Holm-corrected):
+    production_ton: 0-20 km vs 20-50 km  median 367.048 vs 207.233  p_holm=0.011 *
+    richness: 0-20 km vs 20-50 km  median 39.000 vs 35.000  p_holm=0.005 **
+    shannon_h: 0-20 km vs 20-50 km  median 2.618 vs 2.430  p_holm=0.012 *
+    cpue_ton_per_trip: 0-10 km vs 10-25 km  median 0.072 vs 0.045  p_holm=0.000 ***
+    cpue_ton_per_trip: 10-25 km vs 25-50 km  median 0.045 vs 0.072  p_holm=0.001 **
+    cpue_ton_per_trip: 10-25 km vs inside  median 0.045 vs 0.092  p_holm=0.000 ***
+    production_ton: 0-10 km vs 10-25 km  median 367.048 vs 89.200  p_holm=0.000 ***
+    production_ton: 10-25 km vs 25-50 km  median 89.200 vs 335.300  p_holm=0.048 *
+    production_ton: 10-25 km vs inside  median 89.200 vs 529.000  p_holm=0.000 ***
+    production_ton: 25-50 km vs inside  median 335.300 vs 529.000  p_holm=0.082 .
+    richness: 0-10 km vs 10-25 km  median 39.000 vs 31.000  p_holm=0.001 ***
+    richness: 0-10 km vs 25-50 km  median 39.000 vs 33.000  p_holm=0.035 *
+    richness: 10-25 km vs inside  median 31.000 vs 38.000  p_holm=0.004 **
+    shannon_h: 0-10 km vs 10-25 km  median 2.618 vs 2.409  p_holm=0.019 *
+
+D. SPEARMAN ρ (distance vs productivity/diversity)
+──────────────────────────────────────────────────────────────────────
+  platform_dist_km_mean     vs cpue_mean              ρ=-0.309  p=0.456 ns  (n=8)
+  platform_dist_km_mean     vs production_median      ρ=-0.452  p=0.260 ns  (n=8)
+  platform_dist_km_mean     vs richness_mean          ρ=-0.659  p=0.076 .  (n=8)
+  platform_dist_km_mean     vs shannon_mean           ρ=-0.429  p=0.289 ns  (n=8)
+  platform_dist_km_mean     vs pielou_mean            ρ=-0.309  p=0.456 ns  (n=8)
+  mpa_dist_km_mean          vs cpue_mean              ρ=-0.286  p=0.493 ns  (n=8)
+  mpa_dist_km_mean          vs production_median      ρ=-0.452  p=0.260 ns  (n=8)
+  mpa_dist_km_mean          vs richness_mean          ρ=-0.180  p=0.670 ns  (n=8)
+  mpa_dist_km_mean          vs shannon_mean           ρ=-0.071  p=0.867 ns  (n=8)
+  mpa_dist_km_mean          vs pielou_mean            ρ=-0.071  p=0.867 ns  (n=8)
+
+E. PERMANOVA (Bray-Curtis species composition)
+──────────────────────────────────────────────────────────────────────
+  [platform_exposure_class        | all years   ] n=173  F=19.924  p=0.001 **
+  [mpa_exposure_class             | all years   ] n=173  F=19.719  p=0.001 **
+  [combined_exposure_class        | all years   ] n=173  F=19.719  p=0.001 **
+  [platform_exposure_class        | early       ] n=45  F=10.570  p=0.001 **
+  [platform_exposure_class        | middle      ] n=56  F=7.507  p=0.001 **
+  [platform_exposure_class        | recent      ] n=72  F=8.431  p=0.001 **
+  [mpa_exposure_class             | early       ] n=45  F=8.802  p=0.001 **
+  [mpa_exposure_class             | middle      ] n=56  F=8.840  p=0.001 **
+  [mpa_exposure_class             | recent      ] n=72  F=12.659  p=0.001 **
+  [period                         | all groups  ] n=173  F=5.374  p=0.001 **

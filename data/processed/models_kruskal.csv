@@ -1,0 +1,9 @@
+group_col,variable,n_groups,kw_statistic,kw_pvalue,sig
+platform_exposure_class,cpue_ton_per_trip,2,0.5829,0.4452,ns
+platform_exposure_class,production_ton,2,6.4828,0.0109,*
+platform_exposure_class,richness,2,7.998,0.0047,**
+platform_exposure_class,shannon_h,2,6.3113,0.012,*
+mpa_exposure_class,cpue_ton_per_trip,4,28.3091,0.0,***
+mpa_exposure_class,production_ton,4,37.5792,0.0,***
+mpa_exposure_class,richness,4,19.9248,0.0002,***
+mpa_exposure_class,shannon_h,4,7.093,0.069,.

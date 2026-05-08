@@ -1,0 +1,61 @@
+PIPELINE DIAGNOSTICS REPORT
+============================================================
+
+[PASS]  no_negative_production_ton_master
+        0 negative values in production_ton
+
+[PASS]  cpue_range
+        0 CPUE values outside [0, 50] ton/trip
+
+[PASS]  temporal_range_master
+        Years: 2001–2024
+
+[PASS]  no_negative_gear_production_ton_production
+        0 negative values in gear_production_ton
+
+[PASS]  no_negative_sp_production_ton_landings
+        0 negative values in sp_production_ton
+
+[PASS]  exposure_coverage
+        All rows have exposure class assignments
+
+[PASS]  temporal_range_productivity_local_year
+        Years: 2001–2024
+
+[PASS]  platform_zero_dist
+        0 locals with platform distance = 0 (check geometry)
+
+[PASS]  share_sum_species_local_year
+        0/173 groups deviate from sum=1 by >0.01
+
+[PASS]  share_sum_gear_local_year
+        0/173 groups deviate from sum=1 by >0.01
+
+
+PRODUCTION RECONCILIATION
+------------------------------------------------------------
+ year  master_ton  gear_ton  species_ton  pct_diff_sp
+ 2001    566.4300  566.4600     566.4300 2.007077e-14
+ 2002    697.5300  697.5400     697.4800 7.168150e-03
+ 2003    843.6500  843.6600     843.6600 1.185326e-03
+ 2004   1368.5400 1368.5200    1368.5200 1.461411e-03
+ 2005   1095.1300 1095.1000    1095.2300 9.131336e-03
+ 2006    753.2600  753.2700     753.2600 0.000000e+00
+ 2007   1053.2700 1053.2800    1053.2500 1.898848e-03
+ 2008   2741.5200 2741.1000    2741.5000 7.295223e-04
+ 2009   6059.1010 6058.9447    6059.0066 1.557987e-03
+ 2010   5342.8270 5342.8460    5342.7570 1.310168e-03
+ 2011   5027.8070 5028.4520    5027.8500 8.552436e-04
+ 2012   4615.4000 4616.2000    4613.9000 3.249989e-02
+ 2013   5752.6000 5753.9000    5752.3000 5.215033e-03
+ 2014   3731.2200 3731.2000    3730.9000 8.576283e-03
+ 2015   4121.4000 4119.8000    4121.6000 4.852720e-03
+ 2016   7277.3000 7280.5000    7280.4000 4.259822e-02
+ 2017   7359.0000 7359.9000    7360.3000 1.766544e-02
+ 2018   3693.6700 3693.5000    3691.3000 6.416383e-02
+ 2019   7817.4680 7817.4000    7817.5000 4.093397e-04
+ 2020   6618.8500 6618.9000    6619.0000 2.266255e-03
+ 2021   7434.7032 7434.8000    7434.5900 1.522589e-03
+ 2022   7287.5400 7287.0000    7287.5000 5.488821e-04
+ 2023   7344.8700 7351.6000    7344.9100 5.445978e-04
+ 2024   5500.4000 5499.5000    5500.9900 1.072649e-02

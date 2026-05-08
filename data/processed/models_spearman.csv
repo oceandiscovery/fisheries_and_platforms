@@ -1,0 +1,11 @@
+distance_var,metric_var,n,rho,pvalue,sig
+platform_dist_km_mean,cpue_mean,8,-0.3095,0.4556,ns
+platform_dist_km_mean,production_median,8,-0.4524,0.2604,ns
+platform_dist_km_mean,richness_mean,8,-0.6587,0.0757,.
+platform_dist_km_mean,shannon_mean,8,-0.4286,0.2894,ns
+platform_dist_km_mean,pielou_mean,8,-0.3095,0.4556,ns
+mpa_dist_km_mean,cpue_mean,8,-0.2857,0.4927,ns
+mpa_dist_km_mean,production_median,8,-0.4524,0.2604,ns
+mpa_dist_km_mean,richness_mean,8,-0.1796,0.6703,ns
+mpa_dist_km_mean,shannon_mean,8,-0.0714,0.8665,ns
+mpa_dist_km_mean,pielou_mean,8,-0.0714,0.8665,ns

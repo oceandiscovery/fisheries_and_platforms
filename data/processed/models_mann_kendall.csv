@@ -1,0 +1,27 @@
+platform_exposure_class,variable,n,tau,pvalue,sens_slope,slope_pct_yr,trend,mpa_exposure_class,combined_exposure_class
+0-20 km,cpue,24,0.087,0.5722,0.000313,0.433,no significant trend,,
+0-20 km,production_ton,24,0.3551,0.0149,49.2775,3.647,increasing,,
+0-20 km,assisted_trips,24,0.5217,0.0002,693.5,4.821,increasing,,
+20-50 km,cpue,24,0.7101,0.0,0.00859,7.458,increasing,,
+20-50 km,production_ton,24,0.7464,0.0,264.776316,8.54,increasing,,
+20-50 km,assisted_trips,24,0.3841,0.0082,814.482143,3.904,increasing,,
+,cpue,24,0.087,0.5722,0.000313,0.433,no significant trend,0-10 km,
+,production_ton,24,0.3551,0.0149,49.2775,3.647,increasing,0-10 km,
+,assisted_trips,24,0.5217,0.0002,693.5,4.821,increasing,0-10 km,
+,cpue,21,0.0095,0.9762,4.5e-05,0.112,no significant trend,10-25 km,
+,production_ton,21,0.1714,0.2945,8.085,3.548,no significant trend,10-25 km,
+,assisted_trips,21,0.3143,0.0487,236.03268,4.936,increasing,10-25 km,
+,cpue,24,0.4565,0.0014,0.002953,2.913,increasing,25-50 km,
+,production_ton,24,0.3841,0.0082,34.496893,3.571,increasing,25-50 km,
+,assisted_trips,24,0.3623,0.0129,166.034091,2.39,increasing,25-50 km,
+,cpue,24,0.8116,0.0,0.01836,13.507,increasing,inside,
+,production_ton,24,0.8116,0.0,212.632731,13.589,increasing,inside,
+,assisted_trips,24,0.3333,0.0228,321.136752,3.657,increasing,inside,
+,cpue,24,0.087,0.5722,0.000313,0.433,no significant trend,,0-20 km × 0-10 km
+,production_ton,24,0.3551,0.0149,49.2775,3.647,increasing,,0-20 km × 0-10 km
+,cpue,21,0.0095,0.9762,4.5e-05,0.112,no significant trend,,20-50 km × 10-25 km
+,production_ton,21,0.1714,0.2945,8.085,3.548,no significant trend,,20-50 km × 10-25 km
+,cpue,24,0.4565,0.0014,0.002953,2.913,increasing,,20-50 km × 25-50 km
+,production_ton,24,0.3841,0.0082,34.496893,3.571,increasing,,20-50 km × 25-50 km
+,cpue,24,0.8116,0.0,0.01836,13.507,increasing,,20-50 km × inside
+,production_ton,24,0.8116,0.0,212.632731,13.589,increasing,,20-50 km × inside

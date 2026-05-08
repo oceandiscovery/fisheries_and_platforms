@@ -1,0 +1,41 @@
+local,platform_exposure_class,mpa_exposure_class,platform_dist_km,mpa_dist_km,variable,n,tau,pvalue,sens_slope,slope_pct_yr,trend
+AREIA BRANCA,20-50 km,inside,31.18,3.31,cpue_ton_per_trip,21,0.5714,0.0002,0.041066,7.083,increasing
+AREIA BRANCA,20-50 km,inside,31.18,3.31,production_ton,21,0.8,0.0,216.584667,14.89,increasing
+AREIA BRANCA,20-50 km,inside,31.18,3.31,richness,21,0.6151,0.0001,1.190909,3.134,increasing
+AREIA BRANCA,20-50 km,inside,31.18,3.31,shannon_h,21,-0.4476,0.004,-0.07889,-9.01,decreasing
+AREIA BRANCA,20-50 km,inside,31.18,3.31,pielou_j,20,-0.6632,0.0,-0.031495,-12.641,decreasing
+CAICARA DO NORTE,20-50 km,25-50 km,31.72,38.04,cpue_ton_per_trip,24,0.4638,0.0012,0.003387,3.188,increasing
+CAICARA DO NORTE,20-50 km,25-50 km,31.72,38.04,production_ton,24,0.3768,0.0095,33.452455,3.525,increasing
+CAICARA DO NORTE,20-50 km,25-50 km,31.72,38.04,richness,24,0.7172,0.0,0.925824,2.469,increasing
+CAICARA DO NORTE,20-50 km,25-50 km,31.72,38.04,shannon_h,24,0.5145,0.0003,0.026636,1.008,increasing
+CAICARA DO NORTE,20-50 km,25-50 km,31.72,38.04,pielou_j,24,0.2101,0.159,0.002978,0.415,no significant trend
+GALINHOS,20-50 km,10-25 km,21.76,21.77,cpue_ton_per_trip,20,0.1895,0.2598,0.000547,1.077,no significant trend
+GALINHOS,20-50 km,10-25 km,21.76,21.77,production_ton,20,0.1368,0.4223,3.372079,1.722,no significant trend
+GALINHOS,20-50 km,10-25 km,21.76,21.77,richness,20,0.4947,0.0027,0.75,2.113,increasing
+GALINHOS,20-50 km,10-25 km,21.76,21.77,shannon_h,20,0.0632,0.7246,0.005794,0.237,no significant trend
+GALINHOS,20-50 km,10-25 km,21.76,21.77,pielou_j,20,-0.1579,0.3514,-0.002092,-0.3,no significant trend
+GROSSOS,20-50 km,10-25 km,44.7,20.14,cpue_ton_per_trip,16,-0.1,0.6259,-0.000105,-0.454,no significant trend
+GROSSOS,20-50 km,10-25 km,44.7,20.14,production_ton,19,-0.0704,0.6744,-0.604286,-1.746,no significant trend
+GROSSOS,20-50 km,10-25 km,44.7,20.14,richness,19,0.2627,0.122,0.8,3.077,no significant trend
+GROSSOS,20-50 km,10-25 km,44.7,20.14,shannon_h,19,0.177,0.2928,0.017988,0.784,no significant trend
+GROSSOS,20-50 km,10-25 km,44.7,20.14,pielou_j,16,-0.1,0.6259,-0.00198,-0.278,no significant trend
+GUAMARE,0-20 km,0-10 km,15.52,5.1,cpue_ton_per_trip,24,0.2681,0.0698,0.000816,1.617,increasing (marginal)
+GUAMARE,0-20 km,0-10 km,15.52,5.1,production_ton,24,0.3478,0.0173,7.560355,3.94,increasing
+GUAMARE,0-20 km,0-10 km,15.52,5.1,richness,24,0.6863,0.0,1.0,2.597,increasing
+GUAMARE,0-20 km,0-10 km,15.52,5.1,shannon_h,24,0.1377,0.3627,0.007186,0.271,no significant trend
+GUAMARE,0-20 km,0-10 km,15.52,5.1,pielou_j,24,-0.4565,0.0014,-0.004035,-0.536,decreasing
+MACAU,0-20 km,0-10 km,8.7,4.52,cpue_ton_per_trip,24,-0.0725,0.641,-0.000146,-0.193,no significant trend
+MACAU,0-20 km,0-10 km,8.7,4.52,production_ton,24,0.3116,0.0339,42.116875,4.043,increasing
+MACAU,0-20 km,0-10 km,8.7,4.52,richness,24,0.7648,0.0,1.166667,2.917,increasing
+MACAU,0-20 km,0-10 km,8.7,4.52,shannon_h,24,0.6449,0.0,0.037674,1.46,increasing
+MACAU,0-20 km,0-10 km,8.7,4.52,pielou_j,24,0.3986,0.0059,0.006356,0.931,increasing
+PORTO DO MANGUE,20-50 km,inside,24.8,0.75,cpue_ton_per_trip,24,0.5507,0.0001,0.002449,4.721,increasing
+PORTO DO MANGUE,20-50 km,inside,24.8,0.75,production_ton,24,0.3768,0.0095,16.478369,4.667,increasing
+PORTO DO MANGUE,20-50 km,inside,24.8,0.75,richness,24,0.7276,0.0,1.333333,3.376,increasing
+PORTO DO MANGUE,20-50 km,inside,24.8,0.75,shannon_h,24,0.3623,0.0129,0.021525,0.737,increasing
+PORTO DO MANGUE,20-50 km,inside,24.8,0.75,pielou_j,24,-0.2319,0.1189,-0.003343,-0.419,no significant trend
+TIBAU,20-50 km,25-50 km,56.56,36.3,cpue_ton_per_trip,16,-0.25,0.1949,-0.001303,-3.549,no significant trend
+TIBAU,20-50 km,25-50 km,56.56,36.3,production_ton,17,-0.3088,0.0914,-0.93425,-2.831,decreasing (marginal)
+TIBAU,20-50 km,25-50 km,56.56,36.3,richness,17,-0.0296,0.8689,-0.081169,-0.301,no significant trend
+TIBAU,20-50 km,25-50 km,56.56,36.3,shannon_h,17,0.1765,0.3488,0.030923,1.516,no significant trend
+TIBAU,20-50 km,25-50 km,56.56,36.3,pielou_j,17,0.3088,0.0914,0.010809,1.706,increasing (marginal)

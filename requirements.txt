@@ -1,0 +1,11 @@
+# Fisheries × Platforms Brazil — webapp dependencies
+# Run: streamlit run app_explorer.py
+
+streamlit>=1.32.0
+plotly>=5.20.0
+pandas>=2.1.0
+numpy>=1.26.0
+geopandas>=0.14.0
+folium>=0.15.0
+streamlit-folium>=0.18.0
+pyarrow>=14.0.0

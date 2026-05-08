@@ -1,0 +1,11 @@
+grouping_variable,period_filter,n_obs,n_groups,groups,group_sizes,pseudo_F,pvalue,sig,n_permutations
+platform_exposure_class,all years,173,2,0-20 km | 20-50 km,"0-20 km:48, 20-50 km:125",19.9241,0.001,**,999
+mpa_exposure_class,all years,173,4,0-10 km | 10-25 km | 25-50 km | inside,"0-10 km:48, 10-25 km:39, 25-50 km:41, inside:45",19.7186,0.001,**,999
+combined_exposure_class,all years,173,4,0-20 km × 0-10 km | 20-50 km × 10-25 km | 20-50 km × 25-50 km | 20-50 km × inside,"0-20 km × 0-10 km:48, 20-50 km × 10-25 km:39, 20-50 km × 25-50 km:41, 20-50 km × inside:45",19.7186,0.001,**,999
+platform_exposure_class,early,45,2,0-20 km | 20-50 km,"0-20 km:16, 20-50 km:29",10.5698,0.001,**,999
+platform_exposure_class,middle,56,2,0-20 km | 20-50 km,"0-20 km:14, 20-50 km:42",7.5068,0.001,**,999
+platform_exposure_class,recent,72,2,0-20 km | 20-50 km,"0-20 km:18, 20-50 km:54",8.4311,0.001,**,999
+mpa_exposure_class,early,45,4,0-10 km | 10-25 km | 25-50 km | inside,"0-10 km:16, 10-25 km:7, 25-50 km:9, inside:13",8.8019,0.001,**,999
+mpa_exposure_class,middle,56,4,0-10 km | 10-25 km | 25-50 km | inside,"0-10 km:14, 10-25 km:14, 25-50 km:14, inside:14",8.8396,0.001,**,999
+mpa_exposure_class,recent,72,4,0-10 km | 10-25 km | 25-50 km | inside,"0-10 km:18, 10-25 km:18, 25-50 km:18, inside:18",12.6586,0.001,**,999
+period,all groups,173,3,early | middle | recent,"early:45, middle:56, recent:72",5.3739,0.001,**,999
