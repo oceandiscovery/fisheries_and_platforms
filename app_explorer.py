@@ -839,7 +839,7 @@ def main() -> None:
     st.title("🎣  Fish catches × Oil platforms — Rio Grande do Norte, Brazil")
     st.caption(
         "Small-scale fisheries | Offshore platforms | Marine Protected Areas "
-        "| 22 localities | 2001–2024"
+        "| 8 localities | 2001–2024"
     )
 
     with st.spinner("Loading data and spatial layers…"):
