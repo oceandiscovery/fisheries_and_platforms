@@ -1,0 +1,22 @@
+group_col,variable,group_a,group_b,n_obs_a,n_obs_b,median_a,median_b,U_statistic,pvalue_raw,pvalue_holm,sig_holm
+platform_exposure_class,pct_passive,0-20 km,20-50 km,48,125,0.4887,0.6329,2099.0,0.0023,0.0023,**
+platform_exposure_class,pct_active,0-20 km,20-50 km,48,119,0.3659,0.1283,3716.0,0.0024,0.0024,**
+platform_exposure_class,pct_mixed,0-20 km,20-50 km,40,111,0.093,0.0158,2763.0,0.0208,0.0208,*
+mpa_exposure_class,pct_passive,0-10 km,10-25 km,48,39,0.4887,0.5357,913.0,0.8477,1.0,ns
+mpa_exposure_class,pct_passive,0-10 km,25-50 km,48,41,0.4887,0.6745,585.0,0.001,0.0051,**
+mpa_exposure_class,pct_passive,0-10 km,inside,48,45,0.4887,0.7826,601.0,0.0002,0.0014,**
+mpa_exposure_class,pct_passive,10-25 km,25-50 km,39,41,0.5357,0.6745,547.0,0.0151,0.0452,*
+mpa_exposure_class,pct_passive,10-25 km,inside,39,45,0.5357,0.7826,529.5,0.0018,0.0073,**
+mpa_exposure_class,pct_passive,25-50 km,inside,41,45,0.6745,0.7826,961.0,0.7422,1.0,ns
+mpa_exposure_class,pct_active,0-10 km,10-25 km,48,36,0.3659,0.4326,706.0,0.1546,0.1546,ns
+mpa_exposure_class,pct_active,0-10 km,25-50 km,48,40,0.3659,0.0513,1727.0,0.0,0.0,***
+mpa_exposure_class,pct_active,0-10 km,inside,48,43,0.3659,0.1886,1283.0,0.0464,0.0929,.
+mpa_exposure_class,pct_active,10-25 km,25-50 km,36,40,0.4326,0.0513,1379.0,0.0,0.0,***
+mpa_exposure_class,pct_active,10-25 km,inside,36,43,0.4326,0.1886,1057.0,0.0054,0.0163,*
+mpa_exposure_class,pct_active,25-50 km,inside,40,43,0.0513,0.1886,422.0,0.0001,0.0003,***
+mpa_exposure_class,pct_mixed,0-10 km,10-25 km,40,33,0.093,0.0212,798.0,0.1267,0.3326,ns
+mpa_exposure_class,pct_mixed,0-10 km,25-50 km,40,38,0.093,0.2651,665.0,0.3423,0.3423,ns
+mpa_exposure_class,pct_mixed,0-10 km,inside,40,40,0.093,0.0055,1300.0,0.0,0.0,***
+mpa_exposure_class,pct_mixed,10-25 km,25-50 km,33,38,0.0212,0.2651,490.0,0.1109,0.3326,ns
+mpa_exposure_class,pct_mixed,10-25 km,inside,33,40,0.0212,0.0055,899.0,0.0071,0.0284,*
+mpa_exposure_class,pct_mixed,25-50 km,inside,38,40,0.2651,0.0055,1032.0,0.0053,0.0266,*

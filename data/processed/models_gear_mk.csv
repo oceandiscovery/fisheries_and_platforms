@@ -1,0 +1,19 @@
+platform_exposure_class,variable,n,tau,pvalue,sens_slope,slope_pct_yr,trend,mpa_exposure_class
+0-20 km,pct_passive,24,-0.6014,0.0,-0.024392,-5.065,decreasing,
+0-20 km,pct_active,24,0.5145,0.0003,0.019362,5.848,increasing,
+0-20 km,pct_mixed,23,0.103,0.4921,0.001444,1.306,no significant trend,
+20-50 km,pct_passive,24,-0.0362,0.8253,-0.001059,-0.16,no significant trend,
+20-50 km,pct_active,24,0.2754,0.0623,0.005164,2.223,increasing (marginal),
+20-50 km,pct_mixed,23,-0.5336,0.0002,-0.008562,-6.903,decreasing,
+,pct_passive,24,-0.6014,0.0,-0.024392,-5.065,decreasing,0-10 km
+,pct_active,24,0.5145,0.0003,0.019362,5.848,increasing,0-10 km
+,pct_mixed,23,0.103,0.4921,0.001444,1.306,no significant trend,0-10 km
+,pct_passive,21,-0.419,0.0074,-0.017034,-3.152,decreasing,10-25 km
+,pct_active,20,0.3053,0.0638,0.020142,5.221,increasing (marginal),10-25 km
+,pct_mixed,19,-0.3099,0.0684,-0.004915,-7.154,decreasing (marginal),10-25 km
+,pct_passive,24,0.3116,0.0339,0.009263,1.304,increasing,25-50 km
+,pct_active,24,-0.2899,0.0493,-0.00149,-4.139,decreasing,25-50 km
+,pct_mixed,23,-0.336,0.0253,-0.011038,-4.401,decreasing,25-50 km
+,pct_passive,24,0.2536,0.087,0.006954,0.95,increasing (marginal),inside
+,pct_active,24,-0.1594,0.2896,-0.004496,-1.795,no significant trend,inside
+,pct_mixed,21,-0.665,0.0001,-0.002673,-22.081,decreasing,inside

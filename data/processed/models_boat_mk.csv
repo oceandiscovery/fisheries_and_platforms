@@ -1,0 +1,25 @@
+platform_exposure_class,variable,n,tau,pvalue,sens_slope,slope_pct_yr,trend,mpa_exposure_class
+0-20 km,pct_motor,24,0.8696,0.0,0.030905,3.824,increasing,
+0-20 km,pct_sail,24,-0.8913,0.0,-0.031455,-26.181,decreasing,
+0-20 km,pct_oar,15,0.1278,0.5294,0.0,0.0,no significant trend,
+0-20 km,pct_shore,24,0.2681,0.0698,0.000808,1.703,increasing (marginal),
+20-50 km,pct_motor,24,0.7536,0.0,0.018834,2.782,increasing,
+20-50 km,pct_sail,24,-0.8768,0.0,-0.024086,-8.453,decreasing,
+20-50 km,pct_oar,15,-0.5168,0.0075,-0.000743,-5.129,decreasing,
+20-50 km,pct_shore,22,0.5758,0.0001,0.003098,6.047,increasing,
+,pct_motor,24,0.8696,0.0,0.030905,3.824,increasing,0-10 km
+,pct_sail,24,-0.8913,0.0,-0.031455,-26.181,decreasing,0-10 km
+,pct_oar,15,0.1278,0.5294,0.0,0.0,no significant trend,0-10 km
+,pct_shore,24,0.2681,0.0698,0.000808,1.703,increasing (marginal),0-10 km
+,pct_motor,21,0.5298,0.0008,0.019743,2.772,increasing,10-25 km
+,pct_sail,20,-0.9474,0.0,-0.03307,-18.893,decreasing,10-25 km
+,pct_oar,15,0.0193,0.9208,0.0,0.0,no significant trend,10-25 km
+,pct_shore,19,0.462,0.0052,0.005806,7.408,increasing,10-25 km
+,pct_motor,24,0.6957,0.0,0.018189,2.618,increasing,25-50 km
+,pct_sail,24,-0.7681,0.0,-0.017549,-5.291,decreasing,25-50 km
+,pct_oar,15,0.0188,0.9326,0.0,,no significant trend,25-50 km
+,pct_shore,20,-0.4643,0.0112,0.0,,decreasing,25-50 km
+,pct_motor,24,0.7319,0.0,0.018116,2.759,increasing,inside
+,pct_sail,24,-0.8696,0.0,-0.023276,-8.549,decreasing,inside
+,pct_oar,15,-0.7879,0.0001,-0.001344,-36.022,decreasing,inside
+,pct_shore,16,0.3,0.116,0.002883,2.773,no significant trend,inside

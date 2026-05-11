@@ -110,6 +110,15 @@ def load_all() -> dict:
         "lp_exposure":        ("landing_points_exposure.csv",         "interim"),
         "socioeconomic":      ("socioeconomic_clean.csv",             "interim"),
         "reconciliation":     ("production_reconciliation.csv",       "processed"),
+        "gear_exp":           ("gear_shares_exposure.csv",            "processed"),
+        "boat_exp":           ("boat_shares_exposure.csv",            "processed"),
+        "gear_mk":            ("models_gear_mk.csv",                  "processed"),
+        "gear_kw":            ("models_gear_kruskal.csv",             "processed"),
+        "gear_mw":            ("models_gear_mann_whitney.csv",        "processed"),
+        "gear_perm":          ("models_gear_permanova.csv",           "processed"),
+        "boat_mk":            ("models_boat_mk.csv",                  "processed"),
+        "boat_kw":            ("models_boat_kruskal.csv",             "processed"),
+        "boat_mw":            ("models_boat_mann_whitney.csv",        "processed"),
     }
     return {k: _load(f, s) for k, (f, s) in spec.items()}
 
@@ -338,9 +347,249 @@ def tab_cpue(d: dict) -> None:
             st.plotly_chart(fig5, use_container_width=True, key="pc_338")
 
 
+# ─── Helpers: gear & boat × exposure views ────────────────────────────────────
+
+def _mk_table(mk_df: pd.DataFrame, grp_col: str, variable: str) -> pd.DataFrame:
+    """Filter and format MK results for display."""
+    sub = mk_df.dropna(subset=[grp_col])
+    sub = sub[sub["variable"] == variable].copy()
+    sub["sig"] = sub["pvalue"].apply(
+        lambda p: "***" if p < 0.001 else "**" if p < 0.01 else "*" if p < 0.05 else "." if p < 0.10 else "ns"
+    )
+    return sub[[grp_col, "tau", "pvalue", "sig", "trend"]].rename(
+        columns={grp_col: "Class", "tau": "τ", "pvalue": "p-value", "sig": "Sig.", "trend": "Trend"}
+    ).reset_index(drop=True)
+
+
+def _kw_table(kw_df: pd.DataFrame, grp_col: str, variable: str) -> pd.DataFrame:
+    """Filter and format KW results for display."""
+    sub = kw_df[(kw_df["group_col"] == grp_col) & (kw_df["variable"] == variable)].copy()
+    return sub[["group_col", "kw_statistic", "kw_pvalue", "sig"]].rename(
+        columns={"group_col": "Grouping", "kw_statistic": "H", "kw_pvalue": "p-value", "sig": "Sig."}
+    ).reset_index(drop=True)
+
+
+def _mw_table(mw_df: pd.DataFrame, grp_col: str, variable: str) -> pd.DataFrame:
+    """Filter significant pairwise MW results for display."""
+    sub = mw_df[(mw_df["group_col"] == grp_col) & (mw_df["variable"] == variable)].copy()
+    sub = sub[sub["sig_holm"].isin(["*", "**", "***", "."])]
+    if sub.empty:
+        return pd.DataFrame({"Note": ["No significant pairwise contrasts"]})
+    return sub[["group_a", "group_b", "median_a", "median_b", "pvalue_holm", "sig_holm"]].rename(
+        columns={"group_a": "Class A", "group_b": "Class B",
+                 "median_a": "Median A", "median_b": "Median B",
+                 "pvalue_holm": "p (Holm)", "sig_holm": "Sig."}
+    ).reset_index(drop=True)
+
+
+def _gear_exposure_view(d: dict) -> None:
+    gear = d.get("gear_exp")
+    gear_mk = d.get("gear_mk")
+    gear_kw = d.get("gear_kw")
+    gear_mw = d.get("gear_mw")
+    gear_perm = d.get("gear_perm")
+
+    if gear is None:
+        st.warning("gear_shares_exposure.csv not found — run 11_models.py first."); return
+
+    view = st.radio("Exposure variable:", ["Distance to platform", "Distance to MPA"],
+                    horizontal=True, key="ge_view")
+    col = "platform_exposure_class" if view == "Distance to platform" else "mpa_exposure_class"
+    pal, order = (PALETTE_PLATFORM, PLATFORM_ORDER) if col == "platform_exposure_class" else (PALETTE_MPA, MPA_ORDER)
+
+    gear_v = _cat(gear.dropna(subset=[col]), col, order)
+    cats   = [c for c in order if c in gear_v[col].cat.categories]
+
+    pct_labels = {"pct_passive": "Passive", "pct_active": "Active", "pct_mixed": "Mixed"}
+    pct_col    = st.selectbox("Gear group:", list(pct_labels.keys()),
+                              format_func=lambda x: pct_labels[x], key="ge_pct")
+
+    # ── Row 1: composition bar + trend time series ────────────────────────────
+    col1, col2 = st.columns(2)
+
+    with col1:
+        means = (gear_v.groupby(col)[list(pct_labels.keys())].mean()
+                 .reset_index()
+                 .melt(id_vars=col, var_name="gear_group", value_name="share"))
+        means["gear_group"] = means["gear_group"].map(pct_labels)
+        means = _cat(means, col, order)
+        fig_bar = px.bar(
+            means.sort_values(col),
+            x="share", y=col, color="gear_group",
+            barmode="stack", orientation="h",
+            category_orders={col: cats},
+            color_discrete_map={"Passive": "#2ca25f", "Active": "#de2d26", "Mixed": "#fd8d3c"},
+            labels={"share": "Mean share", col: "Exposure class", "gear_group": "Gear group"},
+            title=f"Mean gear composition by {col.replace('_', ' ')}",
+        )
+        fig_bar.update_layout(legend_title="Gear group")
+        st.plotly_chart(fig_bar, use_container_width=True, key=f"ge_bar_{col}")
+
+    with col2:
+        ts = gear_v.groupby([col, "year"])[pct_col].mean().reset_index()
+        ts = _cat(ts, col, order)
+        fig_ts = px.line(
+            ts.sort_values(["year", col]),
+            x="year", y=pct_col, color=col,
+            color_discrete_map=pal,
+            category_orders={col: cats},
+            markers=True,
+            labels={pct_col: f"Mean share ({pct_labels[pct_col]})",
+                    "year": "Year", col: "Class"},
+            title=f"Trend: {pct_labels[pct_col]} gear share by class",
+        )
+        _period_bands(fig_ts)
+        st.plotly_chart(fig_ts, use_container_width=True, key=f"ge_ts_{col}_{pct_col}")
+
+    # ── Row 2: box plot ───────────────────────────────────────────────────────
+    fig_box = px.box(
+        gear_v.sort_values(col),
+        x=col, y=pct_col, color=col,
+        color_discrete_map=pal,
+        category_orders={col: cats},
+        points="all",
+        labels={pct_col: f"Share ({pct_labels[pct_col]})", col: "Exposure class"},
+        title=f"{pct_labels[pct_col]} gear share distribution by class (locality × year)",
+    )
+    fig_box.update_layout(showlegend=False)
+    st.plotly_chart(fig_box, use_container_width=True, key=f"ge_box_{col}_{pct_col}")
+
+    # ── Row 3: statistical tables ─────────────────────────────────────────────
+    st.subheader("Statistical results")
+    tc1, tc2, tc3 = st.columns(3)
+
+    with tc1:
+        st.markdown("**Mann-Kendall trends**")
+        if gear_mk is not None:
+            st.dataframe(_mk_table(gear_mk, col, pct_col), use_container_width=True, hide_index=True)
+
+    with tc2:
+        st.markdown("**Kruskal-Wallis**")
+        if gear_kw is not None:
+            st.dataframe(_kw_table(gear_kw, col, pct_col), use_container_width=True, hide_index=True)
+        if gear_perm is not None:
+            perm_row = gear_perm[gear_perm["grouping_variable"] == col]
+            if not perm_row.empty:
+                r = perm_row.iloc[0]
+                st.markdown(
+                    f"**PERMANOVA** (gear matrix): F={r['pseudo_F']:.3f}, "
+                    f"p={r['pvalue']:.3f} {r['sig']}, n={r['n_obs']}"
+                )
+
+    with tc3:
+        st.markdown("**Significant pairwise contrasts** (Holm)")
+        if gear_mw is not None:
+            st.dataframe(_mw_table(gear_mw, col, pct_col), use_container_width=True, hide_index=True)
+
+
+def _boat_exposure_view(d: dict) -> None:
+    boat    = d.get("boat_exp")
+    boat_mk = d.get("boat_mk")
+    boat_kw = d.get("boat_kw")
+    boat_mw = d.get("boat_mw")
+
+    if boat is None:
+        st.warning("boat_shares_exposure.csv not found — run 11_models.py first."); return
+
+    view = st.radio("Exposure variable:", ["Distance to platform", "Distance to MPA"],
+                    horizontal=True, key="be_view")
+    col = "platform_exposure_class" if view == "Distance to platform" else "mpa_exposure_class"
+    pal, order = (PALETTE_PLATFORM, PLATFORM_ORDER) if col == "platform_exposure_class" else (PALETTE_MPA, MPA_ORDER)
+
+    boat_v = _cat(boat.dropna(subset=[col]), col, order)
+    cats   = [c for c in order if c in boat_v[col].cat.categories]
+
+    pct_labels = {"pct_motor": "Motorized", "pct_sail": "Sail",
+                  "pct_oar": "Oar/paddle", "pct_shore": "Shore (PED)"}
+    pct_col = st.selectbox("Propulsion group:", list(pct_labels.keys()),
+                           format_func=lambda x: pct_labels[x], key="be_pct")
+
+    # ── Row 1: composition bar + trend time series ────────────────────────────
+    col1, col2 = st.columns(2)
+
+    with col1:
+        prop_cols = [c for c in pct_labels if c in boat_v.columns]
+        means = (boat_v.groupby(col)[prop_cols].mean()
+                 .reset_index()
+                 .melt(id_vars=col, var_name="prop_group", value_name="share"))
+        means["prop_group"] = means["prop_group"].map(pct_labels)
+        means = _cat(means, col, order)
+        prop_pal = {"Motorized": "#2171b5", "Sail": "#74c476",
+                    "Oar/paddle": "#fd8d3c", "Shore (PED)": "#9e9ac8"}
+        fig_bar = px.bar(
+            means.sort_values(col),
+            x="share", y=col, color="prop_group",
+            barmode="stack", orientation="h",
+            category_orders={col: cats},
+            color_discrete_map=prop_pal,
+            labels={"share": "Mean share", col: "Exposure class", "prop_group": "Propulsion"},
+            title=f"Mean fleet composition by {col.replace('_', ' ')}",
+        )
+        fig_bar.update_layout(legend_title="Propulsion")
+        st.plotly_chart(fig_bar, use_container_width=True, key=f"be_bar_{col}")
+
+    with col2:
+        ts = boat_v.groupby([col, "year"])[pct_col].mean().reset_index()
+        ts = _cat(ts, col, order)
+        fig_ts = px.line(
+            ts.sort_values(["year", col]),
+            x="year", y=pct_col, color=col,
+            color_discrete_map=pal,
+            category_orders={col: cats},
+            markers=True,
+            labels={pct_col: f"Mean share ({pct_labels[pct_col]})",
+                    "year": "Year", col: "Class"},
+            title=f"Trend: {pct_labels[pct_col]} fleet share by class",
+        )
+        _period_bands(fig_ts)
+        st.plotly_chart(fig_ts, use_container_width=True, key=f"be_ts_{col}_{pct_col}")
+
+    # ── Row 2: box plot ───────────────────────────────────────────────────────
+    fig_box = px.box(
+        boat_v.sort_values(col),
+        x=col, y=pct_col, color=col,
+        color_discrete_map=pal,
+        category_orders={col: cats},
+        points="all",
+        labels={pct_col: f"Share ({pct_labels[pct_col]})", col: "Exposure class"},
+        title=f"{pct_labels[pct_col]} fleet share distribution by class (locality × year)",
+    )
+    fig_box.update_layout(showlegend=False)
+    st.plotly_chart(fig_box, use_container_width=True, key=f"be_box_{col}_{pct_col}")
+
+    # ── Row 3: statistical tables ─────────────────────────────────────────────
+    st.subheader("Statistical results")
+    tc1, tc2, tc3 = st.columns(3)
+
+    with tc1:
+        st.markdown("**Mann-Kendall trends**")
+        if boat_mk is not None:
+            st.dataframe(_mk_table(boat_mk, col, pct_col), use_container_width=True, hide_index=True)
+
+    with tc2:
+        st.markdown("**Kruskal-Wallis**")
+        if boat_kw is not None:
+            st.dataframe(_kw_table(boat_kw, col, pct_col), use_container_width=True, hide_index=True)
+
+    with tc3:
+        st.markdown("**Significant pairwise contrasts** (Holm)")
+        if boat_mw is not None:
+            st.dataframe(_mw_table(boat_mw, col, pct_col), use_container_width=True, hide_index=True)
+
+
 # ─── Tab: Effort ──────────────────────────────────────────────────────────────
 def tab_esfuerzo(d: dict) -> None:
-    sub_tab = st.radio("View:", ["Fishing gear", "Vessels"], horizontal=True)
+    sub_tab = st.radio("View:", ["Fishing gear", "Vessels",
+                                 "Gear × exposure class", "Fleet × exposure class"],
+                       horizontal=True)
+
+    if sub_tab == "Gear × exposure class":
+        _gear_exposure_view(d)
+        return
+
+    if sub_tab == "Fleet × exposure class":
+        _boat_exposure_view(d)
+        return
 
     if sub_tab == "Fishing gear":
         gear = d["ts_gear"]

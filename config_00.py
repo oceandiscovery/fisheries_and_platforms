@@ -72,6 +72,33 @@ PERIOD_BREAKS = {
     "recent": (2016, 2025),
 }
 
+# ─── Boat-type lookup tables ─────────────────────────────────────────────────
+BOAT_NAMES = {
+    "BMG": "Barco motorizado grande",
+    "BMM": "Barco motorizado médio",
+    "BMP": "Barco motorizado pequeno",
+    "BOM": "Bote a motor",
+    "BOV": "Bote a vela",
+    "CAM": "Canoa motorizada",
+    "CAR": "Canoa a remo",
+    "CAV": "Canoa a vela",
+    "JAM": "Jangada motorizada",
+    "JAV": "Jangada a vela",
+    "PED": "Pesca desembarcada",
+    "PQM": "Paquete motorizado",
+    "PQR": "Paquete a remo",
+    "PQV": "Paquete a vela",
+}
+
+# Propulsion group: motor | sail | oar | shore
+BOAT_PROPULSION = {
+    "BMG": "motor", "BMM": "motor", "BMP": "motor", "BOM": "motor",
+    "CAM": "motor", "JAM": "motor", "PQM": "motor",
+    "BOV": "sail",  "CAV": "sail",  "JAV": "sail",  "PQV": "sail",
+    "CAR": "oar",   "PQR": "oar",
+    "PED": "shore",
+}
+
 # ─── Colour palettes (used by figures script) ────────────────────────────────
 PALETTE_PLATFORM = {
     "0-20 km":    "#d73027",

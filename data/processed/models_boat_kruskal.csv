@@ -1,0 +1,9 @@
+group_col,variable,n_groups,kw_statistic,kw_pvalue,sig
+platform_exposure_class,pct_motor,2,2.2304,0.1353,ns
+platform_exposure_class,pct_sail,2,1.8819,0.1701,ns
+platform_exposure_class,pct_oar,2,1.6134,0.204,ns
+platform_exposure_class,pct_shore,2,1.2725,0.2593,ns
+mpa_exposure_class,pct_motor,4,5.0682,0.1669,ns
+mpa_exposure_class,pct_sail,4,8.6061,0.035,*
+mpa_exposure_class,pct_oar,4,20.8927,0.0001,***
+mpa_exposure_class,pct_shore,4,76.7084,0.0,***

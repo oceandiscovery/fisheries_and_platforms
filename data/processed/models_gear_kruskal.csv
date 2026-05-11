@@ -1,0 +1,7 @@
+group_col,variable,n_groups,kw_statistic,kw_pvalue,sig
+platform_exposure_class,pct_passive,2,9.336,0.0022,**
+platform_exposure_class,pct_active,2,9.2513,0.0024,**
+platform_exposure_class,pct_mixed,2,5.3497,0.0207,*
+mpa_exposure_class,pct_passive,4,20.2987,0.0001,***
+mpa_exposure_class,pct_active,4,58.2271,0.0,***
+mpa_exposure_class,pct_mixed,4,21.1525,0.0001,***

@@ -1,0 +1,29 @@
+group_col,variable,group_a,group_b,n_obs_a,n_obs_b,median_a,median_b,U_statistic,pvalue_raw,pvalue_holm,sig_holm
+platform_exposure_class,pct_motor,0-20 km,20-50 km,48,125,0.812,0.6828,3440.5,0.1358,0.1358,ns
+platform_exposure_class,pct_sail,0-20 km,20-50 km,48,121,0.1192,0.2381,2510.5,0.1707,0.1707,ns
+platform_exposure_class,pct_oar,0-20 km,20-50 km,30,90,0.0,0.0,1171.5,0.2053,0.2053,ns
+platform_exposure_class,pct_shore,0-20 km,20-50 km,47,102,0.0476,0.0351,2671.5,0.2602,0.2602,ns
+mpa_exposure_class,pct_motor,0-10 km,10-25 km,48,39,0.812,0.76,1024.5,0.4526,1.0,ns
+mpa_exposure_class,pct_motor,0-10 km,25-50 km,48,41,0.812,0.6429,1057.0,0.5507,1.0,ns
+mpa_exposure_class,pct_motor,0-10 km,inside,48,45,0.812,0.6768,1359.0,0.0323,0.1936,ns
+mpa_exposure_class,pct_motor,10-25 km,25-50 km,39,41,0.76,0.6429,901.5,0.3285,1.0,ns
+mpa_exposure_class,pct_motor,10-25 km,inside,39,45,0.76,0.6768,1100.0,0.0465,0.2323,ns
+mpa_exposure_class,pct_motor,25-50 km,inside,41,45,0.6429,0.6768,978.0,0.6344,1.0,ns
+mpa_exposure_class,pct_sail,0-10 km,10-25 km,48,36,0.1192,0.1786,887.0,0.8388,0.8388,ns
+mpa_exposure_class,pct_sail,0-10 km,25-50 km,48,40,0.1192,0.3604,772.0,0.1161,0.3483,ns
+mpa_exposure_class,pct_sail,0-10 km,inside,48,45,0.1192,0.2039,851.5,0.0796,0.3185,ns
+mpa_exposure_class,pct_sail,10-25 km,25-50 km,36,40,0.1786,0.3604,456.5,0.0062,0.0373,*
+mpa_exposure_class,pct_sail,10-25 km,inside,36,45,0.1786,0.2039,606.5,0.0537,0.2684,ns
+mpa_exposure_class,pct_sail,25-50 km,inside,40,45,0.3604,0.2039,1044.0,0.2064,0.4128,ns
+mpa_exposure_class,pct_oar,0-10 km,10-25 km,30,30,0.0,0.0445,254.5,0.0014,0.0072,**
+mpa_exposure_class,pct_oar,0-10 km,25-50 km,30,30,0.0,0.0,536.5,0.0688,0.1375,ns
+mpa_exposure_class,pct_oar,0-10 km,inside,30,30,0.0,0.0,380.5,0.2376,0.2376,ns
+mpa_exposure_class,pct_oar,10-25 km,25-50 km,30,30,0.0445,0.0,672.0,0.0001,0.0006,***
+mpa_exposure_class,pct_oar,10-25 km,inside,30,30,0.0445,0.0,578.5,0.0431,0.1292,ns
+mpa_exposure_class,pct_oar,25-50 km,inside,30,30,0.0,0.0,298.5,0.0041,0.0165,*
+mpa_exposure_class,pct_shore,0-10 km,10-25 km,47,35,0.0476,0.0645,633.0,0.0764,0.1128,ns
+mpa_exposure_class,pct_shore,0-10 km,25-50 km,47,36,0.0476,0.0,1627.0,0.0,0.0,***
+mpa_exposure_class,pct_shore,0-10 km,inside,47,31,0.0476,0.07,411.5,0.0012,0.0037,**
+mpa_exposure_class,pct_shore,10-25 km,25-50 km,35,36,0.0645,0.0,1175.5,0.0,0.0,***
+mpa_exposure_class,pct_shore,10-25 km,inside,35,31,0.0645,0.07,393.5,0.0564,0.1128,ns
+mpa_exposure_class,pct_shore,25-50 km,inside,36,31,0.0,0.07,16.0,0.0,0.0,***

@@ -98,6 +98,70 @@ def _sig(p: float) -> str:
     return "ns"
 
 
+# ─── Gear & boat composition helpers ─────────────────────────────────────────
+
+def compute_gear_shares(prod: pd.DataFrame) -> pd.DataFrame:
+    """
+    Share of total gear production by gear_group (active/passive/mixed)
+    per local×year. Returns wide format: pct_active, pct_passive, pct_mixed.
+    """
+    agg = (
+        prod.groupby(["local", "year", "gear_group"])["gear_production_ton"]
+            .sum().reset_index()
+    )
+    totals = (
+        prod.groupby(["local", "year"])["gear_production_ton"]
+            .sum().reset_index()
+            .rename(columns={"gear_production_ton": "total_ton"})
+    )
+    agg = agg.merge(totals, on=["local", "year"])
+    agg["pct"] = agg["gear_production_ton"] / agg["total_ton"].replace(0, np.nan)
+    wide = (
+        agg.pivot_table(index=["local", "year"], columns="gear_group", values="pct")
+           .reset_index()
+    )
+    wide.columns.name = None
+    for g in ["active", "passive", "mixed"]:
+        if g in wide.columns:
+            wide.rename(columns={g: f"pct_{g}"}, inplace=True)
+        else:
+            wide[f"pct_{g}"] = np.nan
+    keep = ["local", "year", "pct_active", "pct_passive", "pct_mixed"]
+    return wide[[c for c in keep if c in wide.columns]]
+
+
+def compute_boat_shares(comp: pd.DataFrame) -> pd.DataFrame:
+    """
+    Share of vessels_monitored by propulsion group (motor/sail/oar/shore)
+    per local×year.
+    """
+    comp = comp.copy()
+    comp["propulsion"] = comp["boat_type"].map(cfg.BOAT_PROPULSION)
+    agg = (
+        comp.groupby(["local", "year", "propulsion"])["vessels_monitored"]
+            .sum().reset_index()
+    )
+    totals = (
+        comp.groupby(["local", "year"])["vessels_monitored"]
+            .sum().reset_index()
+            .rename(columns={"vessels_monitored": "total_vessels"})
+    )
+    agg = agg.merge(totals, on=["local", "year"])
+    agg["pct"] = agg["vessels_monitored"] / agg["total_vessels"].replace(0, np.nan)
+    wide = (
+        agg.pivot_table(index=["local", "year"], columns="propulsion", values="pct")
+           .reset_index()
+    )
+    wide.columns.name = None
+    for p in ["motor", "sail", "oar", "shore"]:
+        if p in wide.columns:
+            wide.rename(columns={p: f"pct_{p}"}, inplace=True)
+        else:
+            wide[f"pct_{p}"] = np.nan
+    keep = ["local", "year", "pct_motor", "pct_sail", "pct_oar", "pct_shore"]
+    return wide[[c for c in keep if c in wide.columns]]
+
+
 # ─── A. Mann-Kendall trend test ───────────────────────────────────────────────
 
 def mann_kendall(values: np.ndarray) -> dict:
@@ -378,6 +442,79 @@ def run_permanova_suite(wide: pd.DataFrame, exposure: pd.DataFrame) -> pd.DataFr
     return pd.DataFrame(records)
 
 
+# ─── F. Gear composition as outcome ──────────────────────────────────────────
+
+def run_gear_analysis(prod: pd.DataFrame, exposure: pd.DataFrame) -> tuple:
+    """
+    Gear composition (active/passive/mixed shares) treated as outcomes.
+    Returns: (gear_wide, mk_df, kw_overall_df, kw_pairs_df, perm_df)
+    """
+    gear = compute_gear_shares(prod)
+    gear = gear.merge(
+        exposure[["local", "platform_exposure_class", "mpa_exposure_class"]],
+        on="local", how="left",
+    )
+    pct_cols = [c for c in ["pct_passive", "pct_active", "pct_mixed"] if c in gear.columns]
+
+    mk_rows = []
+    for grp_col in ["platform_exposure_class", "mpa_exposure_class"]:
+        ts = gear.groupby([grp_col, "year"])[pct_cols].mean().reset_index()
+        mk_rows.append(mk_on_timeseries(ts, grp_col, pct_cols))
+    mk_df = pd.concat(mk_rows, ignore_index=True)
+
+    kw_rows, pw_rows = [], []
+    for grp_col in ["platform_exposure_class", "mpa_exposure_class"]:
+        for col in pct_cols:
+            overall, pairs = kruskal_pairwise(gear, grp_col, col)
+            kw_rows.append(overall)
+            pw_rows.append(pairs)
+    kw_overall = pd.DataFrame(kw_rows)
+    kw_pairs   = pd.concat(pw_rows, ignore_index=True)
+
+    perm_rows = []
+    for grp_col in ["platform_exposure_class", "mpa_exposure_class"]:
+        sub    = gear.dropna(subset=[grp_col] + pct_cols)
+        comm   = sub[pct_cols].fillna(0).values.astype(float)
+        groups = sub[grp_col].astype(str).values
+        res    = permanova(comm, groups)
+        perm_rows.append({"grouping_variable": grp_col, "matrix": "gear_composition", **res})
+    perm_df = pd.DataFrame(perm_rows)
+
+    return gear, mk_df, kw_overall, kw_pairs, perm_df
+
+
+# ─── G. Boat composition as outcome ──────────────────────────────────────────
+
+def run_boat_analysis(comp: pd.DataFrame, exposure: pd.DataFrame) -> tuple:
+    """
+    Boat propulsion composition (motor/sail/oar/shore shares) as outcomes.
+    Returns: (boat_wide, mk_df, kw_overall_df, kw_pairs_df)
+    """
+    boat = compute_boat_shares(comp)
+    boat = boat.merge(
+        exposure[["local", "platform_exposure_class", "mpa_exposure_class"]],
+        on="local", how="left",
+    )
+    pct_cols = [c for c in ["pct_motor", "pct_sail", "pct_oar", "pct_shore"] if c in boat.columns]
+
+    mk_rows = []
+    for grp_col in ["platform_exposure_class", "mpa_exposure_class"]:
+        ts = boat.groupby([grp_col, "year"])[pct_cols].mean().reset_index()
+        mk_rows.append(mk_on_timeseries(ts, grp_col, pct_cols))
+    mk_df = pd.concat(mk_rows, ignore_index=True)
+
+    kw_rows, pw_rows = [], []
+    for grp_col in ["platform_exposure_class", "mpa_exposure_class"]:
+        for col in pct_cols:
+            overall, pairs = kruskal_pairwise(boat, grp_col, col)
+            kw_rows.append(overall)
+            pw_rows.append(pairs)
+    kw_overall = pd.DataFrame(kw_rows)
+    kw_pairs   = pd.concat(pw_rows, ignore_index=True)
+
+    return boat, mk_df, kw_overall, kw_pairs
+
+
 # ─── E. Summary text ──────────────────────────────────────────────────────────
 
 def write_summary(
@@ -387,6 +524,13 @@ def write_summary(
     kw_pairs: pd.DataFrame,
     sp_df: pd.DataFrame,
     perm_df: pd.DataFrame,
+    gear_mk: pd.DataFrame,
+    gear_kw: pd.DataFrame,
+    gear_kw_pairs: pd.DataFrame,
+    gear_perm: pd.DataFrame,
+    boat_mk: pd.DataFrame,
+    boat_kw: pd.DataFrame,
+    boat_kw_pairs: pd.DataFrame,
 ) -> str:
     lines = []
     HR = "─" * 70
@@ -460,6 +604,73 @@ def write_summary(
             f"n={r['n_obs']}  F={r['pseudo_F']:.3f}  p={r['pvalue']:.3f} {r['sig']}"
         )
 
+    # F. Gear composition as outcome
+    lines += ["", "F. GEAR COMPOSITION AS OUTCOME (active / passive / mixed shares)", HR]
+    lines.append("  F1. Mann-Kendall trends on gear-group share by exposure class:")
+    for _, r in gear_mk.iterrows():
+        grp_col = next(
+            (c for c in ["platform_exposure_class", "mpa_exposure_class"]
+             if c in r.index and not pd.isna(r.get(c))), None
+        )
+        grp_val = str(r[grp_col]) if grp_col else "?"
+        lines.append(
+            f"    {grp_val:<30} {r['variable']:<18} "
+            f"τ={r['tau']:+.3f}  p={r['pvalue']:.3f} {_sig(r['pvalue'])}  → {r['trend']}"
+        )
+    lines.append("")
+    lines.append("  F2. Kruskal-Wallis on gear-group share across exposure classes:")
+    for _, r in gear_kw.iterrows():
+        lines.append(
+            f"    KW [{r['group_col']} | {r['variable']}]: "
+            f"H={r['kw_statistic']:.3f}  p={r['kw_pvalue']:.3f} {r['sig']}"
+        )
+    sig_gear = gear_kw_pairs[gear_kw_pairs["sig_holm"].isin(["*", "**", "***", "."])]
+    if not sig_gear.empty:
+        lines.append("  Significant pairwise contrasts (Holm-corrected):")
+        for _, r in sig_gear.iterrows():
+            lines.append(
+                f"    {r['variable']}: {r['group_a']} vs {r['group_b']}  "
+                f"median {r['median_a']:.3f} vs {r['median_b']:.3f}  "
+                f"p_holm={r['pvalue_holm']:.3f} {r['sig_holm']}"
+            )
+    lines.append("")
+    lines.append("  F3. PERMANOVA on gear composition matrix:")
+    for _, r in gear_perm.iterrows():
+        lines.append(
+            f"    [{r['grouping_variable']:<30}] "
+            f"n={r['n_obs']}  F={r['pseudo_F']:.3f}  p={r['pvalue']:.3f} {r['sig']}"
+        )
+
+    # G. Boat composition as outcome
+    lines += ["", "G. BOAT COMPOSITION AS OUTCOME (motor / sail / oar / shore shares)", HR]
+    lines.append("  G1. Mann-Kendall trends on propulsion share by exposure class:")
+    for _, r in boat_mk.iterrows():
+        grp_col = next(
+            (c for c in ["platform_exposure_class", "mpa_exposure_class"]
+             if c in r.index and not pd.isna(r.get(c))), None
+        )
+        grp_val = str(r[grp_col]) if grp_col else "?"
+        lines.append(
+            f"    {grp_val:<30} {r['variable']:<18} "
+            f"τ={r['tau']:+.3f}  p={r['pvalue']:.3f} {_sig(r['pvalue'])}  → {r['trend']}"
+        )
+    lines.append("")
+    lines.append("  G2. Kruskal-Wallis on propulsion share across exposure classes:")
+    for _, r in boat_kw.iterrows():
+        lines.append(
+            f"    KW [{r['group_col']} | {r['variable']}]: "
+            f"H={r['kw_statistic']:.3f}  p={r['kw_pvalue']:.3f} {r['sig']}"
+        )
+    sig_boat = boat_kw_pairs[boat_kw_pairs["sig_holm"].isin(["*", "**", "***", "."])]
+    if not sig_boat.empty:
+        lines.append("  Significant pairwise contrasts (Holm-corrected):")
+        for _, r in sig_boat.iterrows():
+            lines.append(
+                f"    {r['variable']}: {r['group_a']} vs {r['group_b']}  "
+                f"median {r['median_a']:.3f} vs {r['median_b']:.3f}  "
+                f"p_holm={r['pvalue_holm']:.3f} {r['sig_holm']}"
+            )
+
     lines.append("")
     return "\n".join(lines)
 
@@ -478,13 +689,17 @@ def main() -> None:
     ]:
         _check(cfg.DATA_PROCESSED / f)
     _check(cfg.DATA_INTERIM / "local_exposure.csv")
+    _check(cfg.DATA_INTERIM / "production_clean.csv")
+    _check(cfg.DATA_INTERIM / "composition_clean.csv")
 
-    ts_plat  = _load("timeseries_platform.csv")
-    ts_mpa   = _load("timeseries_mpa.csv")
-    ts_comb  = _load("timeseries_combined.csv")
-    master   = _load("productivity_local_year.csv")
-    wide     = _load("species_catch_wide_local_year.csv")
-    exposure = _load("local_exposure.csv")
+    ts_plat    = _load("timeseries_platform.csv")
+    ts_mpa     = _load("timeseries_mpa.csv")
+    ts_comb    = _load("timeseries_combined.csv")
+    master     = _load("productivity_local_year.csv")
+    wide       = _load("species_catch_wide_local_year.csv")
+    exposure   = _load("local_exposure.csv")
+    prod_clean = _load("production_clean.csv")
+    comp_clean = _load("composition_clean.csv")
 
     # ── A. Mann-Kendall on aggregated class time series ───────────────────────
     log.info("A. Mann-Kendall on aggregated time series")
@@ -546,12 +761,39 @@ def main() -> None:
         pielou_mean=("pielou_j", "mean"),
     ).reset_index()
 
+    # Join local-mean gear and boat composition shares as covariates
+    gear_local = (compute_gear_shares(prod_clean)
+                  .groupby("local")[["pct_passive", "pct_active", "pct_mixed"]]
+                  .mean().reset_index())
+    gear_local.columns = ["local"] + [f"{c}_mean" for c in gear_local.columns[1:]]
+
+    boat_local = (compute_boat_shares(comp_clean)
+                  .groupby("local")[["pct_motor", "pct_sail", "pct_oar", "pct_shore"]]
+                  .mean().reset_index())
+    boat_local.columns = ["local"] + [f"{c}_mean" for c in boat_local.columns[1:]]
+
+    local_means = local_means.merge(gear_local, on="local", how="left")
+    local_means = local_means.merge(boat_local, on="local", how="left")
+
+    # Spearman: platform/MPA distance vs productivity + gear/boat composition
+    extra_metrics = [c for c in ["pct_passive_mean", "pct_motor_mean"] if c in local_means.columns]
     sp_df = spearman_distance_metrics(
         local_means,
         dist_cols=["platform_dist_km_mean", "mpa_dist_km_mean"],
         metric_cols=["cpue_mean", "production_median", "richness_mean",
-                     "shannon_mean", "pielou_mean"],
+                     "shannon_mean", "pielou_mean"] + extra_metrics,
     )
+
+    # Spearman: gear/boat composition (as covariates) vs productivity
+    covar_dist_cols = [c for c in ["pct_passive_mean", "pct_motor_mean"] if c in local_means.columns]
+    if covar_dist_cols:
+        sp_covar = spearman_distance_metrics(
+            local_means,
+            dist_cols=covar_dist_cols,
+            metric_cols=["cpue_mean", "production_median", "richness_mean", "shannon_mean"],
+        )
+        sp_df = pd.concat([sp_df, sp_covar], ignore_index=True)
+
     _save(sp_df, "models_spearman.csv")
 
     # ── E. PERMANOVA ──────────────────────────────────────────────────────────
@@ -560,8 +802,35 @@ def main() -> None:
     perm_df = run_permanova_suite(wide.copy(), exposure)
     _save(perm_df, "models_permanova.csv")
 
+    # ── F. Gear composition as outcome ────────────────────────────────────────
+    log.info("F. Gear composition as outcome")
+
+    gear_exp, gear_mk, gear_kw_overall, gear_kw_pairs, gear_perm = run_gear_analysis(
+        prod_clean, exposure
+    )
+    _save(gear_exp,        "gear_shares_exposure.csv")
+    _save(gear_mk,         "models_gear_mk.csv")
+    _save(gear_kw_overall, "models_gear_kruskal.csv")
+    _save(gear_kw_pairs,   "models_gear_mann_whitney.csv")
+    _save(gear_perm,       "models_gear_permanova.csv")
+
+    # ── G. Boat composition as outcome ────────────────────────────────────────
+    log.info("G. Boat composition as outcome")
+
+    boat_exp, boat_mk, boat_kw_overall, boat_kw_pairs = run_boat_analysis(
+        comp_clean, exposure
+    )
+    _save(boat_exp,        "boat_shares_exposure.csv")
+    _save(boat_mk,         "models_boat_mk.csv")
+    _save(boat_kw_overall, "models_boat_kruskal.csv")
+    _save(boat_kw_pairs,   "models_boat_mann_whitney.csv")
+
     # ── Summary text ──────────────────────────────────────────────────────────
-    summary = write_summary(mk_agg, mk_loc, kw_overall, kw_pairs, sp_df, perm_df)
+    summary = write_summary(
+        mk_agg, mk_loc, kw_overall, kw_pairs, sp_df, perm_df,
+        gear_mk, gear_kw_overall, gear_kw_pairs, gear_perm,
+        boat_mk, boat_kw_overall, boat_kw_pairs,
+    )
     out_txt = cfg.OUTPUTS / "models_summary.txt"
     out_txt.write_text(summary, encoding="utf-8")
     log.info("Saved %s", out_txt.name)
