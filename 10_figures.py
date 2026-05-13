@@ -235,15 +235,33 @@ def fig_cpue_platform_boxplot() -> None:
     if df is None or "platform_exposure_class" not in df.columns:
         return
     classes = [c for c in PLATFORM_ORDER if c in df["platform_exposure_class"].values]
-    data    = [df.loc[df["platform_exposure_class"] == c, "cpue_ton_per_trip"].dropna()
-               for c in classes]
-    fig, ax = plt.subplots(figsize=FIGSIZE)
-    bp = ax.boxplot(data, labels=classes, patch_artist=True)
-    for patch, cls in zip(bp["boxes"], classes):
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+
+    data_trip = [df.loc[df["platform_exposure_class"] == c, "cpue_ton_per_trip"].dropna()
+                 for c in classes]
+    bp1 = ax1.boxplot(data_trip, labels=classes, patch_artist=True)
+    for patch, cls in zip(bp1["boxes"], classes):
         patch.set_facecolor(cfg.PALETTE_PLATFORM.get(cls, "grey"))
-    ax.set_xlabel("Platform exposure class"); ax.set_ylabel("CPUE (ton/trip)")
-    ax.set_title("CPUE distribution by platform exposure class")
-    plt.xticks(rotation=20)
+    ax1.set_xlabel("Platform exposure class"); ax1.set_ylabel("CPUE (ton/trip)")
+    ax1.set_title("CPUE (ton/trip) by platform class")
+    plt.setp(ax1.get_xticklabels(), rotation=20, ha="right")
+
+    if "cpue_per_fisherman" in df.columns:
+        data_fish = [df.loc[df["platform_exposure_class"] == c, "cpue_per_fisherman"].dropna()
+                     for c in classes]
+        bp2 = ax2.boxplot(data_fish, labels=classes, patch_artist=True)
+        for patch, cls in zip(bp2["boxes"], classes):
+            patch.set_facecolor(cfg.PALETTE_PLATFORM.get(cls, "grey"))
+        ax2.set_ylabel("CPUE (ton/fisherman)")
+        ax2.set_title("CPUE (ton/fisherman) by platform class")
+        plt.setp(ax2.get_xticklabels(), rotation=20, ha="right")
+    else:
+        ax2.set_visible(False)
+
+    ax2.set_xlabel("Platform exposure class")
+    fig.suptitle("CPUE distribution by platform exposure class", y=1.01)
+    plt.tight_layout()
     _save_fig(fig, "F06_cpue_platform_boxplot.png")
 
 
@@ -386,30 +404,39 @@ def fig_cpue_multipanel() -> None:
     if any(df is None for df in [regional, platform, mpa]):
         return
 
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharey=True)
+    has_fish = ("cpue_fisherman_regional" in regional.columns
+                and "cpue_fisherman" in platform.columns)
+    nrows = 2 if has_fish else 1
+    fig, axes = plt.subplots(nrows, 3, figsize=(15, 5 * nrows), sharey="row")
+    if nrows == 1:
+        axes = axes[np.newaxis, :]
 
-    # Panel 1: regional
-    ax = axes[0]
-    ax.plot(regional["year"], regional["cpue_regional"], color="black", linewidth=1.5)
-    ax.set_title("Regional CPUE"); ax.set_xlabel("Year"); ax.set_ylabel("CPUE (ton/trip)")
+    for row, (cpue_reg_col, cpue_col, ylabel) in enumerate([
+        ("cpue_regional",          "cpue",           "CPUE (ton/trip)"),
+        ("cpue_fisherman_regional", "cpue_fisherman", "CPUE (ton/fisherman)"),
+    ]):
+        if row == 1 and not has_fish:
+            break
 
-    # Panel 2: platform
-    ax = axes[1]
-    for cls in PLATFORM_ORDER:
-        sub = platform[platform["platform_exposure_class"] == cls].sort_values("year")
-        ax.plot(sub["year"], sub["cpue"], label=cls,
-                color=cfg.PALETTE_PLATFORM.get(cls, "grey"), linewidth=1)
-    ax.set_title("CPUE by platform class"); ax.set_xlabel("Year")
-    ax.legend(fontsize=7, title="Platform dist.")
+        ax = axes[row, 0]
+        ax.plot(regional["year"], regional[cpue_reg_col], color="black", linewidth=1.5)
+        ax.set_title(f"Regional — {ylabel}"); ax.set_xlabel("Year"); ax.set_ylabel(ylabel)
 
-    # Panel 3: MPA
-    ax = axes[2]
-    for cls in MPA_ORDER:
-        sub = mpa[mpa["mpa_exposure_class"] == cls].sort_values("year")
-        ax.plot(sub["year"], sub["cpue"], label=cls,
-                color=cfg.PALETTE_MPA.get(cls, "grey"), linewidth=1)
-    ax.set_title("CPUE by MPA class"); ax.set_xlabel("Year")
-    ax.legend(fontsize=7, title="MPA exposure")
+        ax = axes[row, 1]
+        for cls in PLATFORM_ORDER:
+            sub = platform[platform["platform_exposure_class"] == cls].sort_values("year")
+            ax.plot(sub["year"], sub[cpue_col], label=cls,
+                    color=cfg.PALETTE_PLATFORM.get(cls, "grey"), linewidth=1)
+        ax.set_title(f"Platform class — {ylabel}"); ax.set_xlabel("Year")
+        ax.legend(fontsize=7, title="Platform dist.")
+
+        ax = axes[row, 2]
+        for cls in MPA_ORDER:
+            sub = mpa[mpa["mpa_exposure_class"] == cls].sort_values("year")
+            ax.plot(sub["year"], sub[cpue_col], label=cls,
+                    color=cfg.PALETTE_MPA.get(cls, "grey"), linewidth=1)
+        ax.set_title(f"MPA class — {ylabel}"); ax.set_xlabel("Year")
+        ax.legend(fontsize=7, title="MPA exposure")
 
     fig.suptitle("CPUE time series: regional vs spatial exposure contexts", y=1.01)
     plt.tight_layout()

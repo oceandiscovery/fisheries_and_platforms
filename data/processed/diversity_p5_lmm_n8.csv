@@ -1,0 +1,16 @@
+metric,term,coef,p,ci_lo,ci_hi,sig
+richness,Intercept,32.7951,0.0,27.0713,38.519,***
+richness,year_c,0.8623,0.0,0.668,1.0565,***
+richness,inside_mpa,7.2948,0.1256,-2.0403,16.6299,
+richness,year_c:inside_mpa,0.4524,0.0027,0.1564,0.7483,**
+richness,Group Var,1.0132,0.1054,-0.2132,2.2396,
+shannon_h,Intercept,2.3436,0.0,1.8601,2.8271,***
+shannon_h,year_c,0.0283,0.0003,0.0129,0.0438,***
+shannon_h,inside_mpa,-0.151,0.7075,-0.9396,0.6376,
+shannon_h,year_c:inside_mpa,-0.0221,0.0656,-0.0456,0.0014,.
+shannon_h,Group Var,1.1494,0.1025,-0.2302,2.5291,
+pielou_j,Intercept,0.6925,0.0,0.5866,0.7984,***
+pielou_j,year_c,-0.0003,0.8467,-0.0038,0.0031,
+pielou_j,inside_mpa,-0.0865,0.3263,-0.2591,0.0862,
+pielou_j,year_c:inside_mpa,-0.0058,0.0291,-0.011,-0.0006,*
+pielou_j,Group Var,1.1915,0.1023,-0.238,2.6209,

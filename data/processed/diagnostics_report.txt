@@ -22,6 +22,9 @@ PIPELINE DIAGNOSTICS REPORT
 [PASS]  temporal_range_productivity_local_year
         Years: 2001–2024
 
+[WARN]  cpue_range
+        6 CPUE values outside [0, 10] ton/trip
+
 [PASS]  platform_zero_dist
         0 locals with platform distance = 0 (check geometry)
 

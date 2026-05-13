@@ -1,0 +1,8 @@
+local,tau,p,sens_slope,n,combined_class,inside_mpa,sig
+CAICARA DO NORTE,0.529,0.0002,0.07314,24,20-50 km × 25-50 km,False,***
+GALINHOS,0.621,0.0001,0.066025,20,20-50 km × 10-25 km,False,***
+GROSSOS,0.111,0.534,0.011486,19,20-50 km × 10-25 km,False,
+GUAMARE,0.457,0.0014,0.063609,24,0-20 km × 0-10 km,False,**
+MACAU,0.304,0.0385,0.071152,24,0-20 km × 0-10 km,True,*
+PORTO DO MANGUE,0.442,0.0021,0.061086,24,20-50 km × inside,True,**
+TIBAU,0.088,0.6553,0.005555,17,20-50 km × 25-50 km,False,

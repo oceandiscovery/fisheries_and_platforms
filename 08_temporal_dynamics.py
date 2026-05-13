@@ -62,19 +62,26 @@ def regional_timeseries(master: pd.DataFrame) -> pd.DataFrame:
     """
     grp = master.groupby("year", dropna=False)
     ts = grp.agg(
-        production_ton_sum      =("production_ton",       "sum"),
-        production_ton_mean     =("production_ton",       "mean"),
-        assisted_trips_sum      =("assisted_trips",        "sum"),
-        fleet_monitored_sum     =("fleet_monitored",       "sum"),
-        estimated_fishermen_sum =("estimated_fishermen",   "sum"),
-        cpue_mean               =("cpue_ton_per_trip",     "mean"),
-        cpue_median             =("cpue_ton_per_trip",     "median"),
-        n_locals                =("local",                 "nunique"),
+        production_ton_sum        =("production_ton",       "sum"),
+        production_ton_mean       =("production_ton",       "mean"),
+        assisted_trips_sum        =("assisted_trips",        "sum"),
+        fleet_monitored_sum       =("fleet_monitored",       "sum"),
+        estimated_fishermen_sum   =("estimated_fishermen",   "sum"),
+        cpue_mean                 =("cpue_ton_per_trip",     "mean"),
+        cpue_median               =("cpue_ton_per_trip",     "median"),
+        cpue_fisherman_mean       =("cpue_per_fisherman",    "mean"),
+        cpue_fisherman_median     =("cpue_per_fisherman",    "median"),
+        n_locals                  =("local",                 "nunique"),
     ).reset_index()
 
     ts["cpue_regional"] = np.where(
         ts["assisted_trips_sum"] > 0,
         ts["production_ton_sum"] / ts["assisted_trips_sum"],
+        np.nan,
+    )
+    ts["cpue_fisherman_regional"] = np.where(
+        ts["estimated_fishermen_sum"] > 0,
+        ts["production_ton_sum"] / ts["estimated_fishermen_sum"],
         np.nan,
     )
     return ts
@@ -86,16 +93,22 @@ def exposure_timeseries(master: pd.DataFrame, group_col: str) -> pd.DataFrame:
     """
     grp = master.groupby([group_col, "year"], dropna=False)
     ts = grp.agg(
-        production_ton      =("production_ton",       "sum"),
-        assisted_trips      =("assisted_trips",        "sum"),
-        fleet_monitored     =("fleet_monitored",       "sum"),
-        estimated_fishermen =("estimated_fishermen",   "sum"),
-        cpue_mean           =("cpue_ton_per_trip",     "mean"),
-        n_locals            =("local",                 "nunique"),
+        production_ton        =("production_ton",       "sum"),
+        assisted_trips        =("assisted_trips",        "sum"),
+        fleet_monitored       =("fleet_monitored",       "sum"),
+        estimated_fishermen   =("estimated_fishermen",   "sum"),
+        cpue_mean             =("cpue_ton_per_trip",     "mean"),
+        cpue_fisherman_mean   =("cpue_per_fisherman",    "mean"),
+        n_locals              =("local",                 "nunique"),
     ).reset_index()
     ts["cpue"] = np.where(
         ts["assisted_trips"] > 0,
         ts["production_ton"] / ts["assisted_trips"],
+        np.nan,
+    )
+    ts["cpue_fisherman"] = np.where(
+        ts["estimated_fishermen"] > 0,
+        ts["production_ton"] / ts["estimated_fishermen"],
         np.nan,
     )
     return ts
@@ -165,7 +178,10 @@ def period_comparison(master: pd.DataFrame) -> pd.DataFrame:
                                         if len(sub) > 0 and len(sub["mpa_exposure_class"].mode()) > 0 else pd.NA,
             "production_ton":           sub["production_ton"].sum(),
             "assisted_trips":           sub["assisted_trips"].sum(),
+            "estimated_fishermen":      sub["estimated_fishermen"].sum(),
             "cpue_mean":                sub["cpue_ton_per_trip"].mean(),
+            "cpue_fisherman_mean":      sub["cpue_per_fisherman"].mean()
+                                        if "cpue_per_fisherman" in sub.columns else np.nan,
             "n_locals":                 sub["local"].nunique(),
         })
 
@@ -173,6 +189,11 @@ def period_comparison(master: pd.DataFrame) -> pd.DataFrame:
     period_df["cpue_agg"] = np.where(
         period_df["assisted_trips"] > 0,
         period_df["production_ton"] / period_df["assisted_trips"],
+        np.nan,
+    )
+    period_df["cpue_fisherman_agg"] = np.where(
+        period_df["estimated_fishermen"] > 0,
+        period_df["production_ton"] / period_df["estimated_fishermen"],
         np.nan,
     )
     return period_df.sort_values(["period", "platform_exposure_class"])

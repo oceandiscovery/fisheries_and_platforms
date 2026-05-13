@@ -170,12 +170,14 @@ def tab_resumen(d: dict) -> None:
     if reg is None:
         st.warning("timeseries_regional.csv not found."); return
 
-    c1, c2, c3, c4, c5 = st.columns(5)
-    c1.metric("Total production (t)",    f"{reg['production_ton_sum'].sum():,.0f}")
-    c2.metric("Years covered",           f"{int(reg['year'].min())}–{int(reg['year'].max())}")
-    c3.metric("Max. localities/year",    f"{int(reg['n_locals'].max())}")
-    c4.metric("Total trips",             f"{reg['assisted_trips_sum'].sum():,.0f}")
-    c5.metric("Mean CPUE (t/trip)",      f"{reg['cpue_regional'].mean():.4f}")
+    c1, c2, c3, c4, c5, c6 = st.columns(6)
+    c1.metric("Total production (t)",       f"{reg['production_ton_sum'].sum():,.0f}")
+    c2.metric("Years covered",              f"{int(reg['year'].min())}–{int(reg['year'].max())}")
+    c3.metric("Max. localities/year",       f"{int(reg['n_locals'].max())}")
+    c4.metric("Total trips",                f"{reg['assisted_trips_sum'].sum():,.0f}")
+    c5.metric("Mean CPUE (t/trip)",         f"{reg['cpue_regional'].mean():.4f}")
+    if "cpue_fisherman_regional" in reg.columns:
+        c6.metric("Mean CPUE (t/fisherman)", f"{reg['cpue_fisherman_regional'].mean():.4f}")
 
     st.divider()
     col1, col2 = st.columns(2)
@@ -190,9 +192,14 @@ def tab_resumen(d: dict) -> None:
         st.plotly_chart(fig, use_container_width=True, key="pc_181")
 
     with col2:
-        fig2 = px.line(reg, x="year", y="cpue_regional", markers=True,
-                       labels={"cpue_regional": "CPUE (t/trip)", "year": "Year"},
-                       title="Regional CPUE",
+        cpue_cols = {"cpue_regional": "CPUE (t/trip)"}
+        if "cpue_fisherman_regional" in reg.columns:
+            cpue_cols["cpue_fisherman_regional"] = "CPUE (t/fisherman)"
+        cpue_sel = st.selectbox("CPUE measure:", list(cpue_cols.keys()),
+                                format_func=lambda x: cpue_cols[x], key="reg_cpue_sel")
+        fig2 = px.line(reg, x="year", y=cpue_sel, markers=True,
+                       labels={cpue_sel: cpue_cols[cpue_sel], "year": "Year"},
+                       title=f"Regional {cpue_cols[cpue_sel]}",
                        color_discrete_sequence=["#e6550d"])
         _period_bands(fig2)
         fig2.update_layout(hovermode="x unified")
@@ -225,17 +232,26 @@ def tab_resumen(d: dict) -> None:
         st.subheader("Comparison by period and exposure class")
         pc = pc.copy()
         pc["Period"] = pc["period"].map(PERIOD_LABEL).fillna(pc["period"])
+        rename_map = {
+            "platform_exposure_class": "Platform class",
+            "mpa_exposure_class":      "MPA class",
+            "production_ton":          "Production (t)",
+            "assisted_trips":          "Trips",
+            "cpue_mean":               "Mean CPUE (t/trip)",
+            "cpue_agg":                "Agg. CPUE (t/trip)",
+            "cpue_fisherman_mean":     "Mean CPUE (t/fisherman)",
+            "cpue_fisherman_agg":      "Agg. CPUE (t/fisherman)",
+            "n_locals":                "N localities",
+        }
+        base_cols = ["Period", "Platform class", "MPA class",
+                     "Production (t)", "Trips",
+                     "Mean CPUE (t/trip)", "Agg. CPUE (t/trip)"]
+        if "cpue_fisherman_mean" in pc.columns:
+            base_cols += ["Mean CPUE (t/fisherman)", "Agg. CPUE (t/fisherman)"]
+        base_cols += ["N localities"]
+        pc_r = pc.rename(columns=rename_map)
         st.dataframe(
-            pc.rename(columns={
-                "platform_exposure_class": "Platform class",
-                "mpa_exposure_class":      "MPA class",
-                "production_ton":          "Production (t)",
-                "assisted_trips":          "Trips",
-                "cpue_mean":               "Mean CPUE",
-                "cpue_agg":                "Aggregated CPUE",
-                "n_locals":                "N localities",
-            })[["Period", "Platform class", "MPA class",
-                "Production (t)", "Trips", "Mean CPUE", "Aggregated CPUE", "N localities"]],
+            pc_r[[c for c in base_cols if c in pc_r.columns]],
             use_container_width=True, hide_index=True,
         )
 
@@ -250,8 +266,12 @@ def tab_resumen(d: dict) -> None:
 
 # ─── Tab: CPUE & Productivity ─────────────────────────────────────────────────
 def tab_cpue(d: dict) -> None:
-    view = st.radio("Group by:", ["Distance to platform", "Distance to MPA"],
-                    horizontal=True)
+    ctrl1, ctrl2 = st.columns(2)
+    with ctrl1:
+        view = st.radio("Group by:", ["Distance to platform", "Distance to MPA"],
+                        horizontal=True)
+    with ctrl2:
+        metric = st.radio("CPUE measure:", ["t/trip", "t/fisherman"], horizontal=True)
 
     if view == "Distance to platform":
         df, col, pal, order = d["ts_platform"], "platform_exposure_class", PALETTE_PLATFORM, PLATFORM_ORDER
@@ -263,6 +283,15 @@ def tab_cpue(d: dict) -> None:
     if df is None:
         st.warning("Data not available."); return
 
+    cpue_ts_col  = "cpue_fisherman"  if metric == "t/fisherman" else "cpue"
+    cpue_loc_col = "cpue_per_fisherman" if metric == "t/fisherman" else "cpue_ton_per_trip"
+    cpue_label   = f"CPUE ({metric})"
+
+    # Fall back to t/trip if fisherman column absent
+    if cpue_ts_col not in df.columns:
+        cpue_ts_col = "cpue"
+        cpue_label  = "CPUE (t/trip)"
+
     df   = _cat(df, col, order)
     cats = [c for c in order if c in df[col].cat.categories]
 
@@ -271,15 +300,15 @@ def tab_cpue(d: dict) -> None:
     for cls in cats:
         sub = df[df[col] == cls].sort_values("year")
         fig.add_trace(go.Scatter(
-            x=sub["year"], y=sub["cpue"],
+            x=sub["year"], y=sub[cpue_ts_col],
             mode="lines+markers", name=cls,
             line=dict(color=pal.get(cls, "#888"), width=2),
             marker=dict(size=5),
         ))
     _period_bands(fig)
     fig.update_layout(
-        title=f"CPUE by {col.replace('_', ' ')}",
-        xaxis_title="Year", yaxis_title="CPUE (t/trip)",
+        title=f"{cpue_label} by {col.replace('_', ' ')}",
+        xaxis_title="Year", yaxis_title=cpue_label,
         hovermode="x unified", legend_title="Class",
     )
     st.plotly_chart(fig, use_container_width=True, key="pc_276")
@@ -301,16 +330,16 @@ def tab_cpue(d: dict) -> None:
     with col2:
         # CPUE boxplot from local×year
         ly = d["prod_local_year"]
-        if ly is not None and col in ly.columns:
-            ly_f = _cat(ly.dropna(subset=[col, "cpue_ton_per_trip"]), col, order)
+        if ly is not None and col in ly.columns and cpue_loc_col in ly.columns:
+            ly_f = _cat(ly.dropna(subset=[col, cpue_loc_col]), col, order)
             fig3 = px.box(
                 ly_f.sort_values(col),
-                x=col, y="cpue_ton_per_trip",
+                x=col, y=cpue_loc_col,
                 color=col, color_discrete_map=pal,
                 category_orders={col: cats},
                 points="outliers",
-                labels={"cpue_ton_per_trip": "CPUE (t/trip)", col: "Class"},
-                title="CPUE distribution by class (locality × year)",
+                labels={cpue_loc_col: cpue_label, col: "Class"},
+                title=f"{cpue_label} distribution by class (locality × year)",
             )
             fig3.update_layout(showlegend=False)
             st.plotly_chart(fig3, use_container_width=True, key="pc_307")
@@ -319,16 +348,21 @@ def tab_cpue(d: dict) -> None:
     pc = d["period_cmp"]
     if pc is not None:
         st.subheader("CPUE heatmap: period × platform class")
+        hmap_metric_opts = {"cpue_agg": "Agg. CPUE (t/trip)"}
+        if "cpue_fisherman_agg" in pc.columns:
+            hmap_metric_opts["cpue_fisherman_agg"] = "Agg. CPUE (t/fisherman)"
+        hmap_sel = st.selectbox("Metric:", list(hmap_metric_opts.keys()),
+                                format_func=lambda x: hmap_metric_opts[x], key="hmap_metric")
         pc_v = pc.dropna(subset=["platform_exposure_class", "period"])
         piv  = pc_v.pivot_table(index="platform_exposure_class",
-                                 columns="period", values="cpue_agg", aggfunc="mean")
+                                 columns="period", values=hmap_sel, aggfunc="mean")
         piv  = piv.reindex([c for c in PLATFORM_ORDER if c in piv.index])
         piv  = piv[[p for p in PERIOD_ORDER if p in piv.columns]]
         piv.columns = [PERIOD_LABEL.get(c, c) for c in piv.columns]
         fig4 = px.imshow(piv, text_auto=".4f",
                          color_continuous_scale="RdYlGn",
-                         labels={"color": "CPUE (t/trip)"},
-                         title="Aggregated CPUE: platform × period",
+                         labels={"color": hmap_metric_opts[hmap_sel]},
+                         title=f"{hmap_metric_opts[hmap_sel]}: platform × period",
                          aspect="auto")
         st.plotly_chart(fig4, use_container_width=True, key="pc_324")
 
@@ -848,7 +882,7 @@ def tab_localidades(d: dict) -> None:
 
     ly_l = ploy[ploy["local"] == sel].sort_values("year")
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         fig = px.bar(ly_l, x="year", y="production_ton",
                      labels={"production_ton": "Production (t)", "year": "Year"},
@@ -859,10 +893,18 @@ def tab_localidades(d: dict) -> None:
     with col2:
         fig2 = px.line(ly_l, x="year", y="cpue_ton_per_trip", markers=True,
                        labels={"cpue_ton_per_trip": "CPUE (t/trip)", "year": "Year"},
-                       title=f"CPUE — {sel}",
+                       title=f"CPUE (t/trip) — {sel}",
                        color_discrete_sequence=["#e6550d"])
         _period_bands(fig2)
         st.plotly_chart(fig2, use_container_width=True, key="pc_614")
+    with col3:
+        if "cpue_per_fisherman" in ly_l.columns:
+            fig2b = px.line(ly_l, x="year", y="cpue_per_fisherman", markers=True,
+                            labels={"cpue_per_fisherman": "CPUE (t/fisherman)", "year": "Year"},
+                            title=f"CPUE (t/fisherman) — {sel}",
+                            color_discrete_sequence=["#756bb1"])
+            _period_bands(fig2b)
+            st.plotly_chart(fig2b, use_container_width=True, key="pc_614b")
 
     # Top species for this local
     if ssl is not None:
@@ -924,10 +966,13 @@ def tab_mapa(d: dict, spatial: dict) -> None:
     if exp is not None:
         coords = coords.merge(exp, on="local", how="left")
     if ploy is not None:
-        totals = ploy.groupby("local", as_index=False).agg(
-            total_prod=("production_ton", "sum"),
-            mean_cpue=("cpue_ton_per_trip", "mean"),
-        )
+        agg_spec = {
+            "total_prod": ("production_ton", "sum"),
+            "mean_cpue":  ("cpue_ton_per_trip", "mean"),
+        }
+        if "cpue_per_fisherman" in ploy.columns:
+            agg_spec["mean_cpue_fisherman"] = ("cpue_per_fisherman", "mean")
+        totals = ploy.groupby("local", as_index=False).agg(**agg_spec)
         coords = coords.merge(totals, on="local", how="left")
 
     # Top-3 species per local
@@ -1008,9 +1053,13 @@ def tab_mapa(d: dict, spatial: dict) -> None:
         color  = pal.get(str(cls), "#888888") if cls and str(cls) != "nan" else "#888888"
         prod   = float(row.get("total_prod", 0) or 0)
         radius = 6 + 18 * (prod / max_p) if max_p > 0 else 8
-        cpue   = row.get("mean_cpue", float("nan"))
-        src    = row.get("coord_source", "exact")
-        top3s  = top3.get(row["local"], "–")
+        cpue      = row.get("mean_cpue", float("nan"))
+        cpue_fish = row.get("mean_cpue_fisherman", float("nan"))
+        src       = row.get("coord_source", "exact")
+        top3s     = top3.get(row["local"], "–")
+
+        cpue_str      = f"{cpue:.4f}" if not (isinstance(cpue, float) and np.isnan(cpue)) else "–"
+        cpue_fish_str = f"{cpue_fish:.4f}" if not (isinstance(cpue_fish, float) and np.isnan(cpue_fish)) else "–"
 
         popup_html = f"""
         <div style="font-family:sans-serif;font-size:13px;min-width:210px">
@@ -1019,7 +1068,8 @@ def tab_mapa(d: dict, spatial: dict) -> None:
           <b>MPA class:</b> {row.get('mpa_exposure_class','–')}<br>
           <b>Inside MPA:</b> {'✔' if row.get('inside_any_mpa_any') else '✗'}<br>
           <b>Total production:</b> {prod:,.0f} t<br>
-          <b>Mean CPUE:</b> {cpue:.4f} t/trip<br>
+          <b>Mean CPUE (t/trip):</b> {cpue_str}<br>
+          <b>Mean CPUE (t/fisherman):</b> {cpue_fish_str}<br>
           <b>Top 3 species:</b> {top3s}<br>
           <small style="color:#999">Coord: {src}</small>
         </div>

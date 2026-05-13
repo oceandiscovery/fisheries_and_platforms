@@ -238,6 +238,11 @@ def build_municipality_year(locality_year: pd.DataFrame) -> pd.DataFrame:
         agg["production_ton"] / agg["assisted_trips"],
         np.nan,
     )
+    agg["cpue_per_fisherman"] = np.where(
+        agg["estimated_fishermen"] > 0,
+        agg["production_ton"] / agg["estimated_fishermen"],
+        np.nan,
+    )
     return agg.sort_values(["municipality", "year"]).reset_index(drop=True)
 
 

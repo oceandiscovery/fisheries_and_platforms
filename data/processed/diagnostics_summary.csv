@@ -6,6 +6,7 @@ no_negative_gear_production_ton_production,PASS,0 negative values in gear_produc
 no_negative_sp_production_ton_landings,PASS,0 negative values in sp_production_ton
 exposure_coverage,PASS,All rows have exposure class assignments
 temporal_range_productivity_local_year,PASS,Years: 2001–2024
+cpue_range,WARN,"6 CPUE values outside [0, 10] ton/trip"
 platform_zero_dist,PASS,0 locals with platform distance = 0 (check geometry)
 share_sum_species_local_year,PASS,0/173 groups deviate from sum=1 by >0.01
 share_sum_gear_local_year,PASS,0/173 groups deviate from sum=1 by >0.01

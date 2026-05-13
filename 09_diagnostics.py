@@ -202,6 +202,7 @@ def main() -> None:
     if prod_ly is not None:
         results.append(check_exposure_coverage(prod_ly))
         results.append(check_temporal_range(prod_ly, "productivity_local_year"))
+        results.append(check_cpue_range(prod_ly, "cpue_per_fisherman", lo=0, hi=10))
 
     if exposure is not None:
         results.append(check_platform_zero(exposure))

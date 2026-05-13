@@ -1,0 +1,22 @@
+local,metric,label,tau,p,sens_slope,n,combined_class,inside_mpa,sig
+CAICARA DO NORTE,richness,Species richness (S),0.717,0.0,0.925824,24,20-50 km × 25-50 km,False,***
+CAICARA DO NORTE,shannon_h,Shannon H′,0.514,0.0003,0.026636,24,20-50 km × 25-50 km,False,***
+CAICARA DO NORTE,pielou_j,Pielou J′,0.21,0.159,0.002978,24,20-50 km × 25-50 km,False,
+GALINHOS,richness,Species richness (S),0.495,0.0027,0.714286,20,20-50 km × 10-25 km,False,**
+GALINHOS,shannon_h,Shannon H′,0.063,0.7246,0.005794,20,20-50 km × 10-25 km,False,
+GALINHOS,pielou_j,Pielou J′,-0.158,0.3514,-0.002092,20,20-50 km × 10-25 km,False,
+GROSSOS,richness,Species richness (S),0.263,0.122,0.8,19,20-50 km × 10-25 km,False,
+GROSSOS,shannon_h,Shannon H′,0.177,0.2928,0.017988,19,20-50 km × 10-25 km,False,
+GROSSOS,pielou_j,Pielou J′,-0.1,0.6259,-0.00198,16,20-50 km × 10-25 km,False,
+GUAMARE,richness,Species richness (S),0.686,0.0,1.0,24,0-20 km × 0-10 km,False,***
+GUAMARE,shannon_h,Shannon H′,0.138,0.3627,0.007186,24,0-20 km × 0-10 km,False,
+GUAMARE,pielou_j,Pielou J′,-0.457,0.0014,-0.004035,24,0-20 km × 0-10 km,False,**
+MACAU,richness,Species richness (S),0.765,0.0,1.166667,24,0-20 km × 0-10 km,True,***
+MACAU,shannon_h,Shannon H′,0.645,0.0,0.037674,24,0-20 km × 0-10 km,True,***
+MACAU,pielou_j,Pielou J′,0.399,0.0059,0.006356,24,0-20 km × 0-10 km,True,**
+PORTO DO MANGUE,richness,Species richness (S),0.728,0.0,1.333333,24,20-50 km × inside,True,***
+PORTO DO MANGUE,shannon_h,Shannon H′,0.362,0.0129,0.021525,24,20-50 km × inside,True,*
+PORTO DO MANGUE,pielou_j,Pielou J′,-0.232,0.1189,-0.003343,24,20-50 km × inside,True,
+TIBAU,richness,Species richness (S),-0.03,0.8689,-0.081169,17,20-50 km × 25-50 km,False,
+TIBAU,shannon_h,Shannon H′,0.176,0.3488,0.030923,17,20-50 km × 25-50 km,False,
+TIBAU,pielou_j,Pielou J′,0.309,0.0914,0.010809,17,20-50 km × 25-50 km,False,.

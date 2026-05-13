@@ -133,6 +133,11 @@ def cpue_from_master(master: pd.DataFrame) -> pd.DataFrame:
         df["production_ton"] / df["assisted_trips"],
         np.nan,
     )
+    df["cpue_per_fisherman"] = np.where(
+        df["estimated_fishermen"] > 0,
+        df["production_ton"] / df["estimated_fishermen"],
+        np.nan,
+    )
     return df
 
 
@@ -160,6 +165,11 @@ def agg_productivity(
     agg_m["cpue_ton_per_trip"] = np.where(
         agg_m["assisted_trips"] >= cfg.MIN_TRIPS_CPUE,
         agg_m["production_ton"] / agg_m["assisted_trips"],
+        np.nan,
+    )
+    agg_m["cpue_per_fisherman"] = np.where(
+        agg_m["estimated_fishermen"] > 0,
+        agg_m["production_ton"] / agg_m["estimated_fishermen"],
         np.nan,
     )
 

@@ -1,0 +1,57 @@
+species,mean_a,mean_b,contribution_pct,cumulative_pct,rank,contrast_type,group_a,group_b
+Albacora,0.54914,0.02621,32.94,32.94,1,ab_vs_system,AB,system
+Lagosta,0.15887,0.11787,12.257,45.197,2,ab_vs_system,AB,system
+Tainha,0.00196,0.11258,6.853,52.051,3,ab_vs_system,AB,system
+Peixe Voador,0.00042,0.06537,4.012,56.063,4,ab_vs_system,AB,system
+Caico,0.01133,0.0658,3.566,59.629,5,ab_vs_system,AB,system
+Sardinha,0.00036,0.05799,3.55,63.179,6,ab_vs_system,AB,system
+Outros,0.02585,0.0507,3.075,66.253,7,ab_vs_system,AB,system
+Agulha,0.02737,0.02771,2.718,68.971,8,ab_vs_system,AB,system
+Camarao,0.02293,0.02457,2.544,71.515,9,ab_vs_system,AB,system
+Ariaco,0.02645,0.03373,2.091,73.605,10,ab_vs_system,AB,system
+Buzios,1e-05,0.02688,1.65,75.255,11,ab_vs_system,AB,system
+Serra,0.01379,0.03211,1.605,76.86,12,ab_vs_system,AB,system
+Guaiuba,0.00918,0.03041,1.562,78.422,13,ab_vs_system,AB,system
+Dourado,0.00666,0.02613,1.468,79.89,14,ab_vs_system,AB,system
+Caranguejo,1e-05,0.0227,1.393,81.283,15,ab_vs_system,AB,system
+Cioba,0.02299,0.01369,1.277,82.561,16,ab_vs_system,AB,system
+Bonito,0.02343,0.01017,1.268,83.829,17,ab_vs_system,AB,system
+Marisco,0.0,0.01876,1.151,84.98,18,ab_vs_system,AB,system
+Carapeba,0.00132,0.0192,1.151,86.131,19,ab_vs_system,AB,system
+Garajuba,0.01682,0.01856,1.118,87.249,20,ab_vs_system,AB,system
+Bagre,0.0031,0.01792,0.975,88.224,21,ab_vs_system,AB,system
+Pescada,0.00426,0.01819,0.959,89.183,22,ab_vs_system,AB,system
+Cururuca,0.00848,0.01385,0.917,90.1,23,ab_vs_system,AB,system
+Ova Voador,5e-05,0.01489,0.915,91.015,24,ab_vs_system,AB,system
+Arraia,0.00602,0.01495,0.828,91.843,25,ab_vs_system,AB,system
+Biquara,0.00455,0.01372,0.77,92.613,26,ab_vs_system,AB,system
+Sirigado,0.01023,0.00734,0.765,93.378,27,ab_vs_system,AB,system
+Espada,0.00083,0.01052,0.655,94.033,28,ab_vs_system,AB,system
+Cavala,0.00907,0.01151,0.647,94.68,29,ab_vs_system,AB,system
+Camurim,0.0017,0.01085,0.626,95.307,30,ab_vs_system,AB,system
+Caçao,0.00827,0.00932,0.603,95.91,31,ab_vs_system,AB,system
+Xareu,0.00209,0.00717,0.457,96.367,32,ab_vs_system,AB,system
+Salema,0.00291,0.00668,0.43,96.797,33,ab_vs_system,AB,system
+Dentao,0.00515,0.00379,0.406,97.203,34,ab_vs_system,AB,system
+Garoupa,0.0038,0.00095,0.268,97.471,35,ab_vs_system,AB,system
+Pargo,0.00142,0.00388,0.257,97.728,36,ab_vs_system,AB,system
+Paru,0.00121,0.0035,0.234,97.962,37,ab_vs_system,AB,system
+Camurupim,0.00113,0.00333,0.211,98.172,38,ab_vs_system,AB,system
+Arabaiana,0.00281,0.00224,0.209,98.381,39,ab_vs_system,AB,system
+Polvo,2e-05,0.00334,0.205,98.586,40,ab_vs_system,AB,system
+Agulhao,0.0013,0.00261,0.192,98.778,41,ab_vs_system,AB,system
+Garabebeu,1e-05,0.0029,0.178,98.956,42,ab_vs_system,AB,system
+Budiao,0.00059,0.00237,0.172,99.127,43,ab_vs_system,AB,system
+Pampo,0.00014,0.00274,0.172,99.299,44,ab_vs_system,AB,system
+Ubarana,2e-05,0.00208,0.128,99.427,45,ab_vs_system,AB,system
+Tilapia,0.0,0.00204,0.125,99.552,46,ab_vs_system,AB,system
+Siri,3e-05,0.00197,0.122,99.673,47,ab_vs_system,AB,system
+Bicuda,0.00034,0.0018,0.117,99.79,48,ab_vs_system,AB,system
+Peixe Galo,0.00061,0.00083,0.065,99.856,49,ab_vs_system,AB,system
+Carauna,0.00012,0.00065,0.046,99.902,50,ab_vs_system,AB,system
+Beijupira,0.00024,0.00044,0.037,99.938,51,ab_vs_system,AB,system
+Albacorinha,0.00018,0.00023,0.024,99.963,52,ab_vs_system,AB,system
+Cangulo,0.00034,6e-05,0.023,99.986,53,ab_vs_system,AB,system
+Galo Do Alto,5e-05,6e-05,0.006,99.992,54,ab_vs_system,AB,system
+Pirauna,1e-05,7e-05,0.005,99.997,55,ab_vs_system,AB,system
+Saramunete,2e-05,3e-05,0.003,100.0,56,ab_vs_system,AB,system

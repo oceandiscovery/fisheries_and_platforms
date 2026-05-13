@@ -1,0 +1,11 @@
+metric,metric_label,predictor,predictor_label,n,rho,p,sig
+cpue_median,CPUE (t/fisherman),platform_dist,Platform dist. (km),7,-0.75,0.0522,.
+cpue_median,CPUE (t/fisherman),mpa_dist,MPA dist. (km),7,-0.071,0.879,
+richness_mean,Richness,platform_dist,Platform dist. (km),7,-0.714,0.0713,.
+richness_mean,Richness,mpa_dist,MPA dist. (km),7,-0.214,0.6445,
+shannon_mean,Shannon H′,platform_dist,Platform dist. (km),7,-0.429,0.3374,
+shannon_mean,Shannon H′,mpa_dist,MPA dist. (km),7,-0.357,0.4316,
+pielou_mean,Pielou J′,platform_dist,Platform dist. (km),7,-0.286,0.5345,
+pielou_mean,Pielou J′,mpa_dist,MPA dist. (km),7,-0.357,0.4316,
+cpue_median,CPUE (t/fisherman),inside_mpa,Inside MPA (binary),7,0.316,0.4896,
+shannon_mean,Shannon H′,inside_mpa,Inside MPA (binary),7,0.316,0.4896,

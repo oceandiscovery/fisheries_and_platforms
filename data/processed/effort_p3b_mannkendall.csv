@@ -1,0 +1,22 @@
+local,share,label,tau,p,sens_slope,n,combined_class,inside_mpa,sig
+CAICARA DO NORTE,active,Share active gear,-0.087,0.5722,-0.0004,24,20-50 km × 25-50 km,False,
+CAICARA DO NORTE,passive,Share passive gear,-0.08,0.6062,-0.002192,24,20-50 km × 25-50 km,False,
+CAICARA DO NORTE,motorised,Share motorised vessels,0.435,0.0025,0.012545,24,20-50 km × 25-50 km,False,**
+GALINHOS,active,Share active gear,0.411,0.0111,0.017703,20,20-50 km × 10-25 km,False,*
+GALINHOS,passive,Share passive gear,-0.326,0.0468,-0.013534,20,20-50 km × 10-25 km,False,*
+GALINHOS,motorised,Share motorised vessels,0.776,0.0,0.02938,20,20-50 km × 10-25 km,False,***
+GROSSOS,active,Share active gear,0.26,0.1229,0.0192,19,20-50 km × 10-25 km,False,
+GROSSOS,passive,Share passive gear,-0.283,0.0924,-0.019306,19,20-50 km × 10-25 km,False,.
+GROSSOS,motorised,Share motorised vessels,0.189,0.2618,0.015024,19,20-50 km × 10-25 km,False,
+GUAMARE,active,Share active gear,0.543,0.0001,0.020695,24,0-20 km × 0-10 km,False,***
+GUAMARE,passive,Share passive gear,-0.58,0.0,-0.022401,24,0-20 km × 0-10 km,False,***
+GUAMARE,motorised,Share motorised vessels,0.831,0.0,0.029869,24,0-20 km × 0-10 km,False,***
+MACAU,active,Share active gear,0.507,0.0003,0.017244,24,0-20 km × 0-10 km,True,***
+MACAU,passive,Share passive gear,-0.536,0.0001,-0.02541,24,0-20 km × 0-10 km,True,***
+MACAU,motorised,Share motorised vessels,0.855,0.0,0.018305,24,0-20 km × 0-10 km,True,***
+PORTO DO MANGUE,active,Share active gear,0.058,0.7128,0.003583,24,20-50 km × inside,True,
+PORTO DO MANGUE,passive,Share passive gear,-0.043,0.7873,-0.001239,24,20-50 km × inside,True,
+PORTO DO MANGUE,motorised,Share motorised vessels,0.819,0.0,0.023503,24,20-50 km × inside,True,***
+TIBAU,active,Share active gear,-0.307,0.1222,0.0,17,20-50 km × 25-50 km,False,
+TIBAU,passive,Share passive gear,0.407,0.0286,8e-06,17,20-50 km × 25-50 km,False,*
+TIBAU,motorised,Share motorised vessels,0.052,0.7729,0.003364,17,20-50 km × 25-50 km,False,

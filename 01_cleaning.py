@@ -100,10 +100,15 @@ def load_master(xl: pd.ExcelFile) -> pd.DataFrame:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # Derived field: CPUE at master level
+    # Derived fields: CPUE at master level
     df["cpue_ton_per_trip"] = np.where(
         df["assisted_trips"] >= cfg.MIN_TRIPS_CPUE,
         df["production_ton"] / df["assisted_trips"],
+        np.nan,
+    )
+    df["cpue_per_fisherman"] = np.where(
+        df["estimated_fishermen"] > 0,
+        df["production_ton"] / df["estimated_fishermen"],
         np.nan,
     )
 

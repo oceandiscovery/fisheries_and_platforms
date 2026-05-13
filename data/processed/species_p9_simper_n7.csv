@@ -1,0 +1,449 @@
+species,mean_a,mean_b,contribution_pct,cumulative_pct,rank,contrast_type,group_a,group_b
+Lagosta,0.0038,0.17052,12.488,12.488,1,platform,0-20 km,20-50 km
+Sardinha,0.15336,0.01397,11.167,23.655,2,platform,0-20 km,20-50 km
+Tainha,0.15397,0.09348,9.288,32.943,3,platform,0-20 km,20-50 km
+Peixe Voador,0.04855,0.07313,6.873,39.816,4,platform,0-20 km,20-50 km
+Outros,0.06196,0.0455,4.362,44.179,5,platform,0-20 km,20-50 km
+Buzios,0.04456,0.01872,4.002,48.18,6,platform,0-20 km,20-50 km
+Marisco,0.04765,0.00543,3.758,51.939,7,platform,0-20 km,20-50 km
+Caranguejo,0.05,0.0101,3.73,55.669,8,platform,0-20 km,20-50 km
+Caico,0.0585,0.06917,3.55,59.219,9,platform,0-20 km,20-50 km
+Agulha,0.04041,0.02184,2.927,62.145,10,platform,0-20 km,20-50 km
+Albacora,0.01507,0.03135,2.878,65.024,11,platform,0-20 km,20-50 km
+Ariaco,0.01173,0.04388,2.732,67.756,12,platform,0-20 km,20-50 km
+Camarao,0.01211,0.03032,2.625,70.38,13,platform,0-20 km,20-50 km
+Guaiuba,0.03579,0.02793,2.276,72.657,14,platform,0-20 km,20-50 km
+Dourado,0.01952,0.02917,2.264,74.921,15,platform,0-20 km,20-50 km
+Ova Voador,0.01443,0.01511,1.859,76.78,16,platform,0-20 km,20-50 km
+Serra,0.03424,0.03113,1.847,78.627,17,platform,0-20 km,20-50 km
+Carapeba,0.01411,0.02155,1.728,80.355,18,platform,0-20 km,20-50 km
+Pescada,0.01082,0.02159,1.254,81.609,19,platform,0-20 km,20-50 km
+Garajuba,0.01221,0.0215,1.242,82.851,20,platform,0-20 km,20-50 km
+Biquara,0.01463,0.0133,1.196,84.047,21,platform,0-20 km,20-50 km
+Arraia,0.0084,0.01798,1.186,85.233,22,platform,0-20 km,20-50 km
+Bagre,0.01872,0.01756,1.147,86.381,23,platform,0-20 km,20-50 km
+Espada,0.00792,0.01172,1.132,87.513,24,platform,0-20 km,20-50 km
+Cururuca,0.0113,0.01503,1.109,88.622,25,platform,0-20 km,20-50 km
+Xareu,0.01324,0.00437,1.03,89.652,26,platform,0-20 km,20-50 km
+Camurim,0.00448,0.01379,0.938,90.59,27,platform,0-20 km,20-50 km
+Cioba,0.00887,0.01592,0.885,91.475,28,platform,0-20 km,20-50 km
+Bonito,0.01129,0.00965,0.83,92.305,29,platform,0-20 km,20-50 km
+Cavala,0.01146,0.01154,0.803,93.109,30,platform,0-20 km,20-50 km
+Sirigado,0.00292,0.00938,0.673,93.782,31,platform,0-20 km,20-50 km
+Salema,0.00819,0.00598,0.672,94.454,32,platform,0-20 km,20-50 km
+Caçao,0.00619,0.01076,0.636,95.09,33,platform,0-20 km,20-50 km
+Budiao,0.00633,0.00054,0.497,95.588,34,platform,0-20 km,20-50 km
+Dentao,0.00516,0.00316,0.453,96.04,35,platform,0-20 km,20-50 km
+Pargo,0.00357,0.00403,0.426,96.466,36,platform,0-20 km,20-50 km
+Paru,0.00262,0.00391,0.361,96.827,37,platform,0-20 km,20-50 km
+Polvo,0.00023,0.00477,0.359,97.186,38,platform,0-20 km,20-50 km
+Garabebeu,0.00125,0.00366,0.336,97.522,39,platform,0-20 km,20-50 km
+Camurupim,0.00052,0.00463,0.333,97.856,40,platform,0-20 km,20-50 km
+Pampo,0.00107,0.00352,0.303,98.159,41,platform,0-20 km,20-50 km
+Agulhao,0.0007,0.0035,0.27,98.429,42,platform,0-20 km,20-50 km
+Siri,0.00118,0.00233,0.237,98.666,43,platform,0-20 km,20-50 km
+Ubarana,0.00037,0.00287,0.226,98.891,44,platform,0-20 km,20-50 km
+Tilapia,0.0001,0.00293,0.223,99.114,45,platform,0-20 km,20-50 km
+Arabaiana,0.00142,0.00262,0.222,99.336,46,platform,0-20 km,20-50 km
+Bicuda,0.00087,0.00222,0.192,99.528,47,platform,0-20 km,20-50 km
+Garoupa,0.00168,0.00061,0.147,99.675,48,platform,0-20 km,20-50 km
+Carauna,0.00122,0.0004,0.116,99.791,49,platform,0-20 km,20-50 km
+Peixe Galo,0.00055,0.00096,0.092,99.883,50,platform,0-20 km,20-50 km
+Beijupira,0.00017,0.00056,0.047,99.93,51,platform,0-20 km,20-50 km
+Albacorinha,0.00027,0.00021,0.034,99.964,52,platform,0-20 km,20-50 km
+Pirauna,0.00017,3e-05,0.014,99.978,53,platform,0-20 km,20-50 km
+Cangulo,5e-05,7e-05,0.008,99.986,54,platform,0-20 km,20-50 km
+Saramunete,9e-05,1e-05,0.007,99.994,55,platform,0-20 km,20-50 km
+Galo Do Alto,1e-05,8e-05,0.006,100.0,56,platform,0-20 km,20-50 km
+Lagosta,0.05204,0.14826,11.413,11.413,1,mpa_status,inside,outside
+Sardinha,0.1505,0.01529,11.275,22.689,2,mpa_status,inside,outside
+Tainha,0.08375,0.12589,8.69,31.378,3,mpa_status,inside,outside
+Peixe Voador,0.04324,0.07558,6.873,38.251,4,mpa_status,inside,outside
+Camarao,0.06069,0.0079,4.579,42.83,5,mpa_status,inside,outside
+Outros,0.05003,0.05101,4.092,46.922,6,mpa_status,inside,outside
+Buzios,0.04401,0.01898,4.035,50.957,7,mpa_status,inside,outside
+Caico,0.0474,0.0743,3.586,54.543,8,mpa_status,inside,outside
+Ariaco,0.05068,0.02591,3.47,58.013,9,mpa_status,inside,outside
+Albacora,0.02627,0.02618,3.405,61.418,10,mpa_status,inside,outside
+Caranguejo,0.0163,0.02566,2.504,63.922,11,mpa_status,inside,outside
+Agulha,0.01578,0.03321,2.493,66.415,12,mpa_status,inside,outside
+Guaiuba,0.0363,0.0277,2.319,68.735,13,mpa_status,inside,outside
+Dourado,0.0206,0.02868,2.307,71.042,14,mpa_status,inside,outside
+Marisco,0.00358,0.02577,2.12,73.162,15,mpa_status,inside,outside
+Carapeba,0.0255,0.0163,2.067,75.229,16,mpa_status,inside,outside
+Serra,0.03676,0.02997,2.002,77.232,17,mpa_status,inside,outside
+Ova Voador,0.01114,0.01662,1.803,79.035,18,mpa_status,inside,outside
+Arraia,0.02217,0.01162,1.5,80.534,19,mpa_status,inside,outside
+Garajuba,0.01825,0.01871,1.328,81.863,20,mpa_status,inside,outside
+Pescada,0.01625,0.01909,1.305,83.168,21,mpa_status,inside,outside
+Espada,0.01066,0.01046,1.261,84.429,22,mpa_status,inside,outside
+Camurim,0.01717,0.00794,1.238,85.667,23,mpa_status,inside,outside
+Bagre,0.01698,0.01836,1.188,86.855,24,mpa_status,inside,outside
+Biquara,0.01102,0.01497,1.168,88.023,25,mpa_status,inside,outside
+Cururuca,0.01322,0.01415,1.097,89.119,26,mpa_status,inside,outside
+Cioba,0.01727,0.01204,1.032,90.152,27,mpa_status,inside,outside
+Cavala,0.01586,0.00951,1.021,91.173,28,mpa_status,inside,outside
+Bonito,0.00606,0.01206,0.782,91.955,29,mpa_status,inside,outside
+Xareu,0.00611,0.00767,0.771,92.726,30,mpa_status,inside,outside
+Sirigado,0.00467,0.00857,0.703,93.429,31,mpa_status,inside,outside
+Salema,0.00629,0.00686,0.632,94.061,32,mpa_status,inside,outside
+Caçao,0.0052,0.01122,0.632,94.694,33,mpa_status,inside,outside
+Polvo,0.00483,0.00265,0.487,95.181,34,mpa_status,inside,outside
+Tilapia,0.00628,7e-05,0.477,95.658,35,mpa_status,inside,outside
+Paru,0.00514,0.00275,0.458,96.116,36,mpa_status,inside,outside
+Dentao,0.00307,0.00412,0.411,96.528,37,mpa_status,inside,outside
+Pargo,0.00084,0.00529,0.401,96.929,38,mpa_status,inside,outside
+Siri,0.00482,0.00065,0.39,97.319,39,mpa_status,inside,outside
+Camurupim,0.00287,0.00355,0.36,97.679,40,mpa_status,inside,outside
+Garabebeu,0.0006,0.00396,0.324,98.003,41,mpa_status,inside,outside
+Pampo,0.00169,0.00323,0.324,98.327,42,mpa_status,inside,outside
+Agulhao,0.00112,0.0033,0.283,98.609,43,mpa_status,inside,outside
+Budiao,0.00067,0.00315,0.278,98.887,44,mpa_status,inside,outside
+Ubarana,0.00038,0.00286,0.23,99.117,45,mpa_status,inside,outside
+Arabaiana,0.00083,0.00289,0.221,99.338,46,mpa_status,inside,outside
+Bicuda,0.00188,0.00176,0.221,99.56,47,mpa_status,inside,outside
+Peixe Galo,0.00156,0.00049,0.128,99.687,48,mpa_status,inside,outside
+Garoupa,0.00076,0.00104,0.119,99.807,49,mpa_status,inside,outside
+Carauna,0.00037,0.00079,0.084,99.89,50,mpa_status,inside,outside
+Beijupira,0.00037,0.00047,0.053,99.943,51,mpa_status,inside,outside
+Albacorinha,2e-05,0.00032,0.026,99.969,52,mpa_status,inside,outside
+Galo Do Alto,0.0001,4e-05,0.01,99.979,53,mpa_status,inside,outside
+Pirauna,5e-05,8e-05,0.009,99.988,54,mpa_status,inside,outside
+Cangulo,4e-05,7e-05,0.008,99.996,55,mpa_status,inside,outside
+Saramunete,0.0,5e-05,0.004,100.0,56,mpa_status,inside,outside
+Lagosta,0.0038,0.15756,12.493,12.493,1,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Sardinha,0.15336,0.02434,11.847,24.341,2,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Tainha,0.15397,0.20865,9.209,33.55,3,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Buzios,0.04456,0.04011,5.229,38.779,4,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Outros,0.06196,0.05008,5.111,43.89,5,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Peixe Voador,0.04855,0.03015,4.645,48.535,6,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Marisco,0.04765,0.01405,4.415,52.95,7,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Caico,0.0585,0.08229,4.291,57.242,8,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Caranguejo,0.05,0.00898,3.911,61.153,9,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Albacora,0.01507,0.03812,3.763,64.916,10,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Guaiuba,0.03579,0.03405,3.134,68.05,11,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Agulha,0.04041,0.00533,2.92,70.97,12,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Carapeba,0.01411,0.03276,2.339,73.309,13,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Serra,0.03424,0.02498,2.192,75.5,14,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Dourado,0.01952,0.02101,1.895,77.395,15,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Ova Voador,0.01443,0.01242,1.726,79.121,16,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Espada,0.00792,0.0152,1.429,80.55,17,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Bagre,0.01872,0.01623,1.299,81.849,18,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Xareu,0.01324,0.00863,1.282,83.131,19,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Cururuca,0.0113,0.01426,1.23,84.362,20,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Biquara,0.01463,0.01035,1.215,85.576,21,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Ariaco,0.01173,0.01823,1.185,86.761,22,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Camarao,0.01211,0.00446,1.086,87.848,23,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Pescada,0.01082,0.01755,1.034,88.881,24,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Garajuba,0.01221,0.01225,0.915,89.796,25,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Bonito,0.01129,0.00922,0.908,90.704,26,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Arraia,0.0084,0.01122,0.878,91.582,27,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Camurim,0.00448,0.0121,0.853,92.435,28,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Salema,0.00819,0.00829,0.81,93.246,29,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Garabebeu,0.00125,0.0094,0.784,94.03,30,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Cavala,0.01146,0.00372,0.662,94.692,31,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Cioba,0.00887,0.00849,0.563,95.255,32,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Budiao,0.00633,0.00063,0.538,95.794,33,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Pampo,0.00107,0.0058,0.51,96.304,34,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Camurupim,0.00052,0.00616,0.475,96.779,35,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Caçao,0.00619,0.00571,0.43,97.209,36,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Ubarana,0.00037,0.00515,0.426,97.635,37,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Dentao,0.00516,0.00103,0.4,98.036,38,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Paru,0.00262,0.00248,0.297,98.333,39,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Pargo,0.00357,7e-05,0.282,98.614,40,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Bicuda,0.00087,0.00276,0.255,98.869,41,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Sirigado,0.00292,0.00087,0.209,99.078,42,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Siri,0.00118,0.00135,0.188,99.266,43,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Carauna,0.00122,0.0008,0.153,99.419,44,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Agulhao,0.0007,0.00166,0.146,99.566,45,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Garoupa,0.00168,4e-05,0.134,99.699,46,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Arabaiana,0.00142,7e-05,0.11,99.81,47,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Peixe Galo,0.00055,0.00019,0.051,99.861,48,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Beijupira,0.00017,0.00046,0.044,99.905,49,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Albacorinha,0.00027,0.00012,0.03,99.935,50,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Polvo,0.00023,3e-05,0.02,99.955,51,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Tilapia,0.0001,0.00013,0.017,99.972,52,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Pirauna,0.00017,0.0,0.014,99.986,53,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Saramunete,9e-05,1e-05,0.008,99.994,54,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Cangulo,5e-05,1e-05,0.005,99.999,55,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Galo Do Alto,1e-05,1e-05,0.001,100.0,56,combined,0-20 km × 0-10 km,20-50 km × 10-25 km
+Lagosta,0.0038,0.22453,15.331,15.331,1,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Tainha,0.15397,0.00182,10.549,25.88,2,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Peixe Voador,0.04855,0.15673,10.455,36.334,3,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Sardinha,0.15336,0.00598,10.422,46.756,4,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Outros,0.06196,0.04002,4.133,50.888,5,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Caranguejo,0.05,2e-05,3.465,54.353,6,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Caico,0.0585,0.06471,3.415,57.768,7,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Marisco,0.04765,1e-05,3.303,61.071,8,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Buzios,0.04456,4e-05,3.089,64.16,9,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Dourado,0.01952,0.04869,3.047,67.207,10,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Agulha,0.04041,0.04791,2.994,70.201,11,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Ova Voador,0.01443,0.02643,2.384,72.585,12,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Ariaco,0.01173,0.04232,2.375,74.96,13,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Guaiuba,0.03579,0.01914,1.852,76.811,14,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Albacora,0.01507,0.01782,1.591,78.403,15,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Serra,0.03424,0.03879,1.454,79.857,16,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Garajuba,0.01221,0.02855,1.443,81.3,17,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Pescada,0.01082,0.0245,1.418,82.717,18,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Sirigado,0.00292,0.0186,1.162,83.879,19,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Biquara,0.01463,0.01605,1.131,85.01,20,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Cururuca,0.0113,0.01504,1.037,86.046,21,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Bagre,0.01872,0.01632,0.969,87.015,22,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Caçao,0.00619,0.01842,0.966,87.981,23,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Cioba,0.00887,0.01871,0.955,88.935,24,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Carapeba,0.01411,0.00257,0.928,89.863,25,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Camarao,0.01211,0.00411,0.896,90.76,26,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Arraia,0.0084,0.01367,0.893,91.653,27,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Xareu,0.01324,0.00127,0.878,92.531,28,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Bonito,0.01129,0.01216,0.832,93.363,29,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Espada,0.00792,0.00666,0.742,94.105,30,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Pargo,0.00357,0.00954,0.632,94.737,31,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Cavala,0.01146,0.01249,0.589,95.326,32,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Salema,0.00819,0.00318,0.578,95.904,33,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Budiao,0.00633,0.00066,0.47,96.373,34,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Agulhao,0.0007,0.00657,0.453,96.826,35,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Polvo,0.00023,0.0065,0.45,97.276,36,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Dentao,0.00516,0.00384,0.425,97.701,37,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Camurim,0.00448,0.0056,0.395,98.095,38,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Arabaiana,0.00142,0.0059,0.37,98.465,39,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Paru,0.00262,0.00188,0.223,98.688,40,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Camurupim,0.00052,0.00287,0.2,98.888,41,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Pampo,0.00107,0.00219,0.196,99.084,42,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Ubarana,0.00037,0.00217,0.158,99.243,43,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Garoupa,0.00168,0.00101,0.148,99.391,44,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Bicuda,0.00087,0.00153,0.133,99.524,45,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Garabebeu,0.00125,0.00026,0.094,99.618,46,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Carauna,0.00122,3e-05,0.086,99.704,47,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Siri,0.00118,7e-05,0.083,99.786,48,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Peixe Galo,0.00055,0.00083,0.075,99.861,49,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Beijupira,0.00017,0.00062,0.048,99.909,50,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Albacorinha,0.00027,0.00039,0.044,99.953,51,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Pirauna,0.00017,5e-05,0.014,99.967,52,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Cangulo,5e-05,0.00012,0.011,99.978,53,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Tilapia,0.0001,4e-05,0.009,99.987,54,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Saramunete,9e-05,1e-05,0.007,99.994,55,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Galo Do Alto,1e-05,8e-05,0.006,100.0,56,combined,0-20 km × 0-10 km,20-50 km × 25-50 km
+Sardinha,0.15336,0.01076,11.507,11.507,1,combined,0-20 km × 0-10 km,20-50 km × inside
+Camarao,0.01211,0.11713,8.196,19.703,2,combined,0-20 km × 0-10 km,20-50 km × inside
+Lagosta,0.0038,0.09933,7.203,26.906,3,combined,0-20 km × 0-10 km,20-50 km × inside
+Tainha,0.15397,0.06292,7.069,33.975,4,combined,0-20 km × 0-10 km,20-50 km × inside
+Ariaco,0.01173,0.08824,5.772,39.747,5,combined,0-20 km × 0-10 km,20-50 km × inside
+Caranguejo,0.05,0.02914,3.943,43.69,6,combined,0-20 km × 0-10 km,20-50 km × inside
+Albacora,0.01507,0.04346,3.908,47.599,7,combined,0-20 km × 0-10 km,20-50 km × inside
+Buzios,0.04456,0.01589,3.809,51.408,8,combined,0-20 km × 0-10 km,20-50 km × inside
+Peixe Voador,0.04855,0.00013,3.651,55.059,9,combined,0-20 km × 0-10 km,20-50 km × inside
+Outros,0.06196,0.04744,3.639,58.697,10,combined,0-20 km × 0-10 km,20-50 km × inside
+Marisco,0.04765,0.00069,3.594,62.291,11,combined,0-20 km × 0-10 km,20-50 km × inside
+Agulha,0.04041,0.00414,2.812,65.103,12,combined,0-20 km × 0-10 km,20-50 km × inside
+Caico,0.0585,0.05547,2.661,67.764,13,combined,0-20 km × 0-10 km,20-50 km × inside
+Carapeba,0.01411,0.03576,2.272,70.036,14,combined,0-20 km × 0-10 km,20-50 km × inside
+Arraia,0.0084,0.03631,2.203,72.239,15,combined,0-20 km × 0-10 km,20-50 km × inside
+Camurim,0.00448,0.03055,2.076,74.315,16,combined,0-20 km × 0-10 km,20-50 km × inside
+Serra,0.03424,0.02805,2.048,76.363,17,combined,0-20 km × 0-10 km,20-50 km × inside
+Guaiuba,0.03579,0.03302,1.747,78.11,18,combined,0-20 km × 0-10 km,20-50 km × inside
+Cavala,0.01146,0.02262,1.42,79.531,19,combined,0-20 km × 0-10 km,20-50 km × inside
+Espada,0.00792,0.01473,1.4,80.931,20,combined,0-20 km × 0-10 km,20-50 km × inside
+Dourado,0.01952,0.0091,1.377,82.308,21,combined,0-20 km × 0-10 km,20-50 km × inside
+Garajuba,0.01221,0.02449,1.375,83.683,22,combined,0-20 km × 0-10 km,20-50 km × inside
+Pescada,0.01082,0.02319,1.29,84.973,23,combined,0-20 km × 0-10 km,20-50 km × inside
+Biquara,0.01463,0.0134,1.289,86.261,24,combined,0-20 km × 0-10 km,20-50 km × inside
+Cioba,0.00887,0.0232,1.251,87.513,25,combined,0-20 km × 0-10 km,20-50 km × inside
+Bagre,0.01872,0.02182,1.245,88.758,26,combined,0-20 km × 0-10 km,20-50 km × inside
+Ova Voador,0.01443,0.00014,1.089,89.847,27,combined,0-20 km × 0-10 km,20-50 km × inside
+Cururuca,0.0113,0.01629,1.057,90.904,28,combined,0-20 km × 0-10 km,20-50 km × inside
+Tilapia,0.0001,0.01241,0.936,91.84,29,combined,0-20 km × 0-10 km,20-50 km × inside
+Xareu,0.01324,0.00275,0.927,92.767,30,combined,0-20 km × 0-10 km,20-50 km × inside
+Paru,0.00262,0.00973,0.715,93.482,31,combined,0-20 km × 0-10 km,20-50 km × inside
+Polvo,0.00023,0.00954,0.712,94.194,32,combined,0-20 km × 0-10 km,20-50 km × inside
+Bonito,0.01129,0.00608,0.705,94.899,33,combined,0-20 km × 0-10 km,20-50 km × inside
+Salema,0.00819,0.00703,0.634,95.533,34,combined,0-20 km × 0-10 km,20-50 km × inside
+Siri,0.00118,0.00778,0.598,96.131,35,combined,0-20 km × 0-10 km,20-50 km × inside
+Dentao,0.00516,0.00546,0.585,96.716,36,combined,0-20 km × 0-10 km,20-50 km × inside
+Budiao,0.00633,0.0002,0.485,97.201,37,combined,0-20 km × 0-10 km,20-50 km × inside
+Sirigado,0.00292,0.00745,0.478,97.68,38,combined,0-20 km × 0-10 km,20-50 km × inside
+Camurupim,0.00052,0.00515,0.362,98.042,39,combined,0-20 km × 0-10 km,20-50 km × inside
+Caçao,0.00619,0.00588,0.342,98.384,40,combined,0-20 km × 0-10 km,20-50 km × inside
+Pargo,0.00357,0.00105,0.264,98.648,41,combined,0-20 km × 0-10 km,20-50 km × inside
+Bicuda,0.00087,0.00252,0.207,98.855,42,combined,0-20 km × 0-10 km,20-50 km × inside
+Peixe Galo,0.00055,0.00242,0.186,99.04,43,combined,0-20 km × 0-10 km,20-50 km × inside
+Pampo,0.00107,0.00207,0.183,99.223,44,combined,0-20 km × 0-10 km,20-50 km × inside
+Garoupa,0.00168,0.00087,0.164,99.387,45,combined,0-20 km × 0-10 km,20-50 km × inside
+Agulhao,0.0007,0.00124,0.122,99.51,46,combined,0-20 km × 0-10 km,20-50 km × inside
+Arabaiana,0.00142,0.00116,0.118,99.628,47,combined,0-20 km × 0-10 km,20-50 km × inside
+Carauna,0.00122,0.00037,0.115,99.743,48,combined,0-20 km × 0-10 km,20-50 km × inside
+Garabebeu,0.00125,0.00016,0.097,99.84,49,combined,0-20 km × 0-10 km,20-50 km × inside
+Beijupira,0.00017,0.00062,0.05,99.891,50,combined,0-20 km × 0-10 km,20-50 km × inside
+Ubarana,0.00037,0.00035,0.043,99.934,51,combined,0-20 km × 0-10 km,20-50 km × inside
+Albacorinha,0.00027,3e-05,0.022,99.956,52,combined,0-20 km × 0-10 km,20-50 km × inside
+Pirauna,0.00017,3e-05,0.015,99.97,53,combined,0-20 km × 0-10 km,20-50 km × inside
+Galo Do Alto,1e-05,0.00018,0.014,99.985,54,combined,0-20 km × 0-10 km,20-50 km × inside
+Cangulo,5e-05,7e-05,0.009,99.993,55,combined,0-20 km × 0-10 km,20-50 km × inside
+Saramunete,9e-05,0.0,0.007,100.0,56,combined,0-20 km × 0-10 km,20-50 km × inside
+Lagosta,0.15756,0.22453,17.858,17.858,1,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Tainha,0.20865,0.00182,14.321,32.178,2,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Peixe Voador,0.03015,0.15673,10.678,42.856,3,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Caico,0.08229,0.06471,4.449,47.305,4,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Outros,0.05008,0.04002,4.126,51.43,5,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Albacora,0.03812,0.01782,3.424,54.854,6,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Agulha,0.00533,0.04791,3.24,58.094,7,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Dourado,0.02101,0.04869,3.096,61.19,8,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Buzios,0.04011,4e-05,2.772,63.962,9,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Ariaco,0.01823,0.04232,2.472,66.433,10,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Guaiuba,0.03405,0.01914,2.439,68.872,11,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Ova Voador,0.01242,0.02643,2.303,71.175,12,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Carapeba,0.03276,0.00257,2.178,73.353,13,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Serra,0.02498,0.03879,2.026,75.379,14,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Sardinha,0.02434,0.00598,1.734,77.112,15,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Garajuba,0.01225,0.02855,1.635,78.748,16,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Pescada,0.01755,0.0245,1.51,80.258,17,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Sirigado,0.00087,0.0186,1.243,81.501,18,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Espada,0.0152,0.00666,1.206,82.707,19,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Cururuca,0.01426,0.01504,1.175,83.881,20,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Bagre,0.01623,0.01632,1.162,85.043,21,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Arraia,0.01122,0.01367,1.063,86.107,22,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Biquara,0.01035,0.01605,1.031,87.137,23,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Cioba,0.00849,0.01871,1.007,88.144,24,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Caçao,0.00571,0.01842,0.975,89.119,25,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Marisco,0.01405,1e-05,0.971,90.09,26,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Bonito,0.00922,0.01216,0.842,90.932,27,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Camurim,0.0121,0.0056,0.783,91.715,28,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Cavala,0.00372,0.01249,0.68,92.395,29,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Pargo,7e-05,0.00954,0.657,93.053,30,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Garabebeu,0.0094,0.00026,0.653,93.706,31,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Caranguejo,0.00898,2e-05,0.621,94.327,32,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Salema,0.00829,0.00318,0.616,94.942,33,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Xareu,0.00863,0.00127,0.594,95.536,34,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Pampo,0.0058,0.00219,0.503,96.038,35,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Camurupim,0.00616,0.00287,0.503,96.541,36,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Camarao,0.00446,0.00411,0.49,97.031,37,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Agulhao,0.00166,0.00657,0.459,97.491,38,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Ubarana,0.00515,0.00217,0.453,97.944,39,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Polvo,3e-05,0.0065,0.449,98.392,40,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Arabaiana,7e-05,0.0059,0.405,98.797,41,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Bicuda,0.00276,0.00153,0.251,99.048,42,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Dentao,0.00103,0.00384,0.243,99.291,43,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Paru,0.00248,0.00188,0.212,99.504,44,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Siri,0.00135,7e-05,0.097,99.601,45,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Budiao,0.00063,0.00066,0.082,99.683,46,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Garoupa,4e-05,0.00101,0.07,99.753,47,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Beijupira,0.00046,0.00062,0.064,99.817,48,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Peixe Galo,0.00019,0.00083,0.061,99.878,49,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Carauna,0.0008,3e-05,0.056,99.934,50,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Albacorinha,0.00012,0.00039,0.034,99.969,51,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Tilapia,0.00013,4e-05,0.012,99.98,52,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Cangulo,1e-05,0.00012,0.009,99.989,53,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Galo Do Alto,1e-05,8e-05,0.006,99.995,54,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Pirauna,0.0,5e-05,0.003,99.999,55,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Saramunete,1e-05,1e-05,0.001,100.0,56,combined,20-50 km × 10-25 km,20-50 km × 25-50 km
+Lagosta,0.15756,0.09933,12.421,12.421,1,combined,20-50 km × 10-25 km,20-50 km × inside
+Tainha,0.20865,0.06292,12.109,24.53,2,combined,20-50 km × 10-25 km,20-50 km × inside
+Camarao,0.00446,0.11713,8.66,33.189,3,combined,20-50 km × 10-25 km,20-50 km × inside
+Albacora,0.03812,0.04346,5.583,38.773,4,combined,20-50 km × 10-25 km,20-50 km × inside
+Ariaco,0.01823,0.08824,5.432,44.205,5,combined,20-50 km × 10-25 km,20-50 km × inside
+Outros,0.05008,0.04744,4.156,48.361,6,combined,20-50 km × 10-25 km,20-50 km × inside
+Caico,0.08229,0.05547,3.979,52.34,7,combined,20-50 km × 10-25 km,20-50 km × inside
+Buzios,0.04011,0.01589,3.409,55.748,8,combined,20-50 km × 10-25 km,20-50 km × inside
+Carapeba,0.03276,0.03576,2.89,58.638,9,combined,20-50 km × 10-25 km,20-50 km × inside
+Guaiuba,0.03405,0.03302,2.783,61.421,10,combined,20-50 km × 10-25 km,20-50 km × inside
+Sardinha,0.02434,0.01076,2.356,63.777,11,combined,20-50 km × 10-25 km,20-50 km × inside
+Peixe Voador,0.03015,0.00013,2.294,66.071,12,combined,20-50 km × 10-25 km,20-50 km × inside
+Arraia,0.01122,0.03631,2.21,68.281,13,combined,20-50 km × 10-25 km,20-50 km × inside
+Serra,0.02498,0.02805,2.182,70.464,14,combined,20-50 km × 10-25 km,20-50 km × inside
+Caranguejo,0.00898,0.02914,2.172,72.636,15,combined,20-50 km × 10-25 km,20-50 km × inside
+Camurim,0.0121,0.03055,1.827,74.462,16,combined,20-50 km × 10-25 km,20-50 km × inside
+Espada,0.0152,0.01473,1.823,76.286,17,combined,20-50 km × 10-25 km,20-50 km × inside
+Dourado,0.02101,0.0091,1.652,77.938,18,combined,20-50 km × 10-25 km,20-50 km × inside
+Garajuba,0.01225,0.02449,1.577,79.515,19,combined,20-50 km × 10-25 km,20-50 km × inside
+Cavala,0.00372,0.02262,1.503,81.018,20,combined,20-50 km × 10-25 km,20-50 km × inside
+Bagre,0.01623,0.02182,1.482,82.499,21,combined,20-50 km × 10-25 km,20-50 km × inside
+Cioba,0.00849,0.0232,1.36,83.859,22,combined,20-50 km × 10-25 km,20-50 km × inside
+Pescada,0.01755,0.02319,1.356,85.216,23,combined,20-50 km × 10-25 km,20-50 km × inside
+Cururuca,0.01426,0.01629,1.193,86.408,24,combined,20-50 km × 10-25 km,20-50 km × inside
+Biquara,0.01035,0.0134,1.154,87.563,25,combined,20-50 km × 10-25 km,20-50 km × inside
+Marisco,0.01405,0.00069,1.089,88.651,26,combined,20-50 km × 10-25 km,20-50 km × inside
+Ova Voador,0.01242,0.00014,0.949,89.6,27,combined,20-50 km × 10-25 km,20-50 km × inside
+Tilapia,0.00013,0.01241,0.948,90.548,28,combined,20-50 km × 10-25 km,20-50 km × inside
+Salema,0.00829,0.00703,0.747,91.295,29,combined,20-50 km × 10-25 km,20-50 km × inside
+Polvo,3e-05,0.00954,0.723,92.018,30,combined,20-50 km × 10-25 km,20-50 km × inside
+Paru,0.00248,0.00973,0.718,92.735,31,combined,20-50 km × 10-25 km,20-50 km × inside
+Garabebeu,0.0094,0.00016,0.716,93.452,32,combined,20-50 km × 10-25 km,20-50 km × inside
+Xareu,0.00863,0.00275,0.683,94.135,33,combined,20-50 km × 10-25 km,20-50 km × inside
+Bonito,0.00922,0.00608,0.675,94.809,34,combined,20-50 km × 10-25 km,20-50 km × inside
+Siri,0.00135,0.00778,0.653,95.462,35,combined,20-50 km × 10-25 km,20-50 km × inside
+Agulha,0.00533,0.00414,0.596,96.057,36,combined,20-50 km × 10-25 km,20-50 km × inside
+Camurupim,0.00616,0.00515,0.538,96.595,37,combined,20-50 km × 10-25 km,20-50 km × inside
+Pampo,0.0058,0.00207,0.535,97.13,38,combined,20-50 km × 10-25 km,20-50 km × inside
+Sirigado,0.00087,0.00745,0.529,97.659,39,combined,20-50 km × 10-25 km,20-50 km × inside
+Ubarana,0.00515,0.00035,0.406,98.065,40,combined,20-50 km × 10-25 km,20-50 km × inside
+Dentao,0.00103,0.00546,0.405,98.47,41,combined,20-50 km × 10-25 km,20-50 km × inside
+Caçao,0.00571,0.00588,0.357,98.827,42,combined,20-50 km × 10-25 km,20-50 km × inside
+Bicuda,0.00276,0.00252,0.322,99.149,43,combined,20-50 km × 10-25 km,20-50 km × inside
+Agulhao,0.00166,0.00124,0.192,99.341,44,combined,20-50 km × 10-25 km,20-50 km × inside
+Peixe Galo,0.00019,0.00242,0.184,99.525,45,combined,20-50 km × 10-25 km,20-50 km × inside
+Arabaiana,7e-05,0.00116,0.086,99.611,46,combined,20-50 km × 10-25 km,20-50 km × inside
+Carauna,0.0008,0.00037,0.084,99.694,47,combined,20-50 km × 10-25 km,20-50 km × inside
+Pargo,7e-05,0.00105,0.078,99.773,48,combined,20-50 km × 10-25 km,20-50 km × inside
+Garoupa,4e-05,0.00087,0.067,99.84,49,combined,20-50 km × 10-25 km,20-50 km × inside
+Beijupira,0.00046,0.00062,0.066,99.906,50,combined,20-50 km × 10-25 km,20-50 km × inside
+Budiao,0.00063,0.0002,0.059,99.965,51,combined,20-50 km × 10-25 km,20-50 km × inside
+Galo Do Alto,1e-05,0.00018,0.015,99.98,52,combined,20-50 km × 10-25 km,20-50 km × inside
+Albacorinha,0.00012,3e-05,0.011,99.991,53,combined,20-50 km × 10-25 km,20-50 km × inside
+Cangulo,1e-05,7e-05,0.006,99.997,54,combined,20-50 km × 10-25 km,20-50 km × inside
+Pirauna,0.0,3e-05,0.002,99.999,55,combined,20-50 km × 10-25 km,20-50 km × inside
+Saramunete,1e-05,0.0,0.001,100.0,56,combined,20-50 km × 10-25 km,20-50 km × inside
+Lagosta,0.22453,0.09933,13.471,13.471,1,combined,20-50 km × 25-50 km,20-50 km × inside
+Peixe Voador,0.15673,0.00013,11.622,25.092,2,combined,20-50 km × 25-50 km,20-50 km × inside
+Camarao,0.00411,0.11713,8.464,33.556,3,combined,20-50 km × 25-50 km,20-50 km × inside
+Ariaco,0.04232,0.08824,4.985,38.542,4,combined,20-50 km × 25-50 km,20-50 km × inside
+Tainha,0.00182,0.06292,4.578,43.12,5,combined,20-50 km × 25-50 km,20-50 km × inside
+Albacora,0.01782,0.04346,3.959,47.079,6,combined,20-50 km × 25-50 km,20-50 km × inside
+Outros,0.04002,0.04744,3.647,50.726,7,combined,20-50 km × 25-50 km,20-50 km × inside
+Caico,0.06471,0.05547,3.598,54.325,8,combined,20-50 km × 25-50 km,20-50 km × inside
+Agulha,0.04791,0.00414,3.489,57.814,9,combined,20-50 km × 25-50 km,20-50 km × inside
+Dourado,0.04869,0.0091,3.415,61.229,10,combined,20-50 km × 25-50 km,20-50 km × inside
+Carapeba,0.00257,0.03576,2.563,63.792,11,combined,20-50 km × 25-50 km,20-50 km × inside
+Arraia,0.01367,0.03631,2.177,65.969,12,combined,20-50 km × 25-50 km,20-50 km × inside
+Caranguejo,2e-05,0.02914,2.16,68.129,13,combined,20-50 km × 25-50 km,20-50 km × inside
+Serra,0.03879,0.02805,2.119,70.248,14,combined,20-50 km × 25-50 km,20-50 km × inside
+Camurim,0.0056,0.03055,1.991,72.239,15,combined,20-50 km × 25-50 km,20-50 km × inside
+Ova Voador,0.02643,0.00014,1.965,74.204,16,combined,20-50 km × 25-50 km,20-50 km × inside
+Guaiuba,0.01914,0.03302,1.763,75.966,17,combined,20-50 km × 25-50 km,20-50 km × inside
+Garajuba,0.02855,0.02449,1.743,77.709,18,combined,20-50 km × 25-50 km,20-50 km × inside
+Pescada,0.0245,0.02319,1.735,79.444,19,combined,20-50 km × 25-50 km,20-50 km × inside
+Cavala,0.01249,0.02262,1.453,80.897,20,combined,20-50 km × 25-50 km,20-50 km × inside
+Cioba,0.01871,0.0232,1.348,82.244,21,combined,20-50 km × 25-50 km,20-50 km × inside
+Espada,0.00666,0.01473,1.332,83.576,22,combined,20-50 km × 25-50 km,20-50 km × inside
+Bagre,0.01632,0.02182,1.315,84.892,23,combined,20-50 km × 25-50 km,20-50 km × inside
+Biquara,0.01605,0.0134,1.248,86.14,24,combined,20-50 km × 25-50 km,20-50 km × inside
+Sirigado,0.0186,0.00745,1.208,87.349,25,combined,20-50 km × 25-50 km,20-50 km × inside
+Buzios,4e-05,0.01589,1.178,88.526,26,combined,20-50 km × 25-50 km,20-50 km × inside
+Sardinha,0.00598,0.01076,1.106,89.632,27,combined,20-50 km × 25-50 km,20-50 km × inside
+Cururuca,0.01504,0.01629,1.064,90.697,28,combined,20-50 km × 25-50 km,20-50 km × inside
+Caçao,0.01842,0.00588,0.988,91.684,29,combined,20-50 km × 25-50 km,20-50 km × inside
+Tilapia,4e-05,0.01241,0.921,92.605,30,combined,20-50 km × 25-50 km,20-50 km × inside
+Polvo,0.0065,0.00954,0.838,93.443,31,combined,20-50 km × 25-50 km,20-50 km × inside
+Bonito,0.01216,0.00608,0.779,94.222,32,combined,20-50 km × 25-50 km,20-50 km × inside
+Paru,0.00188,0.00973,0.699,94.921,33,combined,20-50 km × 25-50 km,20-50 km × inside
+Pargo,0.00954,0.00105,0.677,95.598,34,combined,20-50 km × 25-50 km,20-50 km × inside
+Siri,7e-05,0.00778,0.576,96.174,35,combined,20-50 km × 25-50 km,20-50 km × inside
+Salema,0.00318,0.00703,0.555,96.728,36,combined,20-50 km × 25-50 km,20-50 km × inside
+Agulhao,0.00657,0.00124,0.515,97.243,37,combined,20-50 km × 25-50 km,20-50 km × inside
+Dentao,0.00384,0.00546,0.486,97.728,38,combined,20-50 km × 25-50 km,20-50 km × inside
+Camurupim,0.00287,0.00515,0.43,98.158,39,combined,20-50 km × 25-50 km,20-50 km × inside
+Arabaiana,0.0059,0.00116,0.39,98.548,40,combined,20-50 km × 25-50 km,20-50 km × inside
+Pampo,0.00219,0.00207,0.262,98.809,41,combined,20-50 km × 25-50 km,20-50 km × inside
+Bicuda,0.00153,0.00252,0.232,99.041,42,combined,20-50 km × 25-50 km,20-50 km × inside
+Peixe Galo,0.00083,0.00242,0.183,99.224,43,combined,20-50 km × 25-50 km,20-50 km × inside
+Xareu,0.00127,0.00275,0.182,99.406,44,combined,20-50 km × 25-50 km,20-50 km × inside
+Ubarana,0.00217,0.00035,0.169,99.576,45,combined,20-50 km × 25-50 km,20-50 km × inside
+Garoupa,0.00101,0.00087,0.117,99.693,46,combined,20-50 km × 25-50 km,20-50 km × inside
+Beijupira,0.00062,0.00062,0.074,99.767,47,combined,20-50 km × 25-50 km,20-50 km × inside
+Budiao,0.00066,0.0002,0.058,99.825,48,combined,20-50 km × 25-50 km,20-50 km × inside
+Marisco,1e-05,0.00069,0.052,99.877,49,combined,20-50 km × 25-50 km,20-50 km × inside
+Albacorinha,0.00039,3e-05,0.031,99.908,50,combined,20-50 km × 25-50 km,20-50 km × inside
+Carauna,3e-05,0.00037,0.029,99.936,51,combined,20-50 km × 25-50 km,20-50 km × inside
+Garabebeu,0.00026,0.00016,0.025,99.962,52,combined,20-50 km × 25-50 km,20-50 km × inside
+Galo Do Alto,8e-05,0.00018,0.019,99.981,53,combined,20-50 km × 25-50 km,20-50 km × inside
+Cangulo,0.00012,7e-05,0.013,99.994,54,combined,20-50 km × 25-50 km,20-50 km × inside
+Pirauna,5e-05,3e-05,0.005,99.999,55,combined,20-50 km × 25-50 km,20-50 km × inside
+Saramunete,1e-05,0.0,0.001,100.0,56,combined,20-50 km × 25-50 km,20-50 km × inside

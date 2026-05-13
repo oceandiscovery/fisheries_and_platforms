@@ -1,0 +1,4 @@
+metric,label,rho,p,sig
+richness,Species richness (S),0.599,0.0,***
+shannon_h,Shannon H′,0.19,0.0193,*
+pielou_j,Pielou J′,-0.176,0.0316,*
