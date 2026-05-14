@@ -1,0 +1,15 @@
+boat_type,boat_description,propulsion
+BMG,Motor boat — large,motorised
+BMM,Motor boat — medium,motorised
+BMP,Motor boat — small,motorised
+BOM,Rowing/other boat — medium,other
+BOV,Sailing boat,sail/row
+CAM,Canoe — motorised,motorised
+CAR,Canoe — rowing,other
+CAV,Canoe — sailing,sail/row
+JAM,Jangada — motorised,motorised
+JAV,Jangada — sailing,sail/row
+PED,Wooden boat,other
+PQM,Small motor vessel,motorised
+PQR,Small rowing vessel,other
+PQV,Small sailing vessel,sail/row

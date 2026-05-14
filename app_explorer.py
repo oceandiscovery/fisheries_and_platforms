@@ -32,9 +32,9 @@ import streamlit as st
 from streamlit_folium import st_folium
 
 ROOT           = Path(__file__).resolve().parent
-DATA_PROCESSED = ROOT / "data" / "processed"
-DATA_INTERIM   = ROOT / "data" / "interim"
-DATA_RAW       = ROOT / "data" / "raw"
+DATA_PROCESSED = ROOT / "py_data" / "processed"
+DATA_INTERIM   = ROOT / "py_data" / "interim"
+DATA_RAW       = ROOT / "data_raw"
 
 # ─── Palettes & ordering (mirrors config_00.py) ───────────────────────────────
 PALETTE_PLATFORM = {
@@ -108,6 +108,7 @@ def load_all() -> dict:
         "turnover":           ("species_turnover_period.csv",         "processed"),
         "exposure":           ("local_exposure.csv",                  "interim"),
         "lp_exposure":        ("landing_points_exposure.csv",         "interim"),
+        "lp_clean":           ("landing_points_clean.csv",            "interim"),
         "socioeconomic":      ("socioeconomic_clean.csv",             "interim"),
         "reconciliation":     ("production_reconciliation.csv",       "processed"),
         "gear_exp":           ("gear_shares_exposure.csv",            "processed"),
@@ -957,9 +958,11 @@ def tab_mapa(d: dict, spatial: dict) -> None:
     if lp_exp is None:
         st.warning("landing_points_exposure.csv not found."); return
 
-    # Build local-level coordinate table
+    # Build local-level coordinate table (lat/lon come from landing_points_clean)
+    lp_clean = d.get("lp_clean")
+    coord_src = lp_clean if (lp_clean is not None and "latitude" in lp_clean.columns) else lp_exp
     coords = (
-        lp_exp.dropna(subset=["latitude", "longitude"])
+        coord_src.dropna(subset=["latitude", "longitude"])
         .groupby("local", as_index=False)
         .agg(lat=("latitude", "mean"), lon=("longitude", "mean"))
     )

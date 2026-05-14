@@ -1,0 +1,31 @@
+gear_cod,gear_type,gear_group,gear_group_broad
+APA,arrasto de praia,active,unknown
+APO,arrasto de porta,active,unknown
+CCM,coleta de camarão,active,unknown
+CMN,coleta manual,active,unknown
+CMP,compressor,active,unknown
+COQ,coqueiro,active,unknown
+CPL,covo peixe e lagosta,passive,unknown
+CUR,curral,passive,unknown
+CVL,covo lagosta,passive,unknown
+CVP,covo peixe,passive,unknown
+ESP,espinhel,passive,unknown
+JER,jereré,active,unknown
+LCL,linha e covo lagosta,mixed,unknown
+LCP,linha e covo peixe,mixed,unknown
+LES,linha e espinhel,passive,unknown
+LIJ,linha e jereré,passive,unknown
+LIN,linha,passive,unknown
+LML,linha e mergulho livre,mixed,unknown
+LRE,linha e rede de espera,passive,unknown
+MEL,mergulho livre,active,unknown
+PUC,puçá/mangote,active,unknown
+RAG,rede agulha,passive,unknown
+RCA,rede caçoeira,passive,unknown
+REC,rede caçoeira,passive,unknown
+RES,rede de espera,passive,unknown
+RTP,rede de tapagem,passive,unknown
+SRD,sardinheira,active,unknown
+TNR,tainheira,active,unknown
+TRF,tarrafa,active,unknown
+TRM,tresmalho,passive,unknown

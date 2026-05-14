@@ -1,0 +1,3553 @@
+local,year,gear_cod,gear_type,gear_group,gear_production_ton
+AREIA BRANCA,2003,CVL,covo lagosta,passive,18.8
+AREIA BRANCA,2005,APO,arrasto de porta,active,0.39
+AREIA BRANCA,2005,CPL,covo peixe e lagosta,passive,1.37
+AREIA BRANCA,2005,CVL,covo lagosta,passive,62.89
+AREIA BRANCA,2005,CVP,covo peixe,passive,4.68
+AREIA BRANCA,2005,LCL,linha e covo lagosta,mixed,24.8
+AREIA BRANCA,2005,LIN,linha,passive,12.49
+AREIA BRANCA,2005,MEL,mergulho livre,active,0.1
+AREIA BRANCA,2005,RES,rede de espera,passive,10.26
+AREIA BRANCA,2005,TRF,tarrafa,active,0.18
+AREIA BRANCA,2006,APA,arrasto de praia,active,5.33
+AREIA BRANCA,2006,APO,arrasto de porta,active,1.84
+AREIA BRANCA,2006,CVL,covo lagosta,passive,4.25
+AREIA BRANCA,2006,CVP,covo peixe,passive,0.67
+AREIA BRANCA,2006,LCL,linha e covo lagosta,mixed,6.81
+AREIA BRANCA,2006,LIN,linha,passive,15.89
+AREIA BRANCA,2006,RAG,rede agulha,passive,0.97
+AREIA BRANCA,2006,RES,rede de espera,passive,2.25
+AREIA BRANCA,2007,CVL,covo lagosta,passive,9.540000000000001
+AREIA BRANCA,2007,CVP,covo peixe,passive,0.67
+AREIA BRANCA,2007,LCL,linha e covo lagosta,mixed,8.7
+AREIA BRANCA,2007,LIN,linha,passive,12.39
+AREIA BRANCA,2007,RAG,rede agulha,passive,18.62
+AREIA BRANCA,2007,RES,rede de espera,passive,5.98
+AREIA BRANCA,2008,APA,arrasto de praia,active,11.8
+AREIA BRANCA,2008,APO,arrasto de porta,active,77.34
+AREIA BRANCA,2008,CPL,covo peixe e lagosta,passive,0.06
+AREIA BRANCA,2008,CVL,covo lagosta,passive,109.22
+AREIA BRANCA,2008,CVP,covo peixe,passive,4.39
+AREIA BRANCA,2008,LCL,linha e covo lagosta,mixed,9.87
+AREIA BRANCA,2008,LIN,linha,passive,60.28
+AREIA BRANCA,2008,MEL,mergulho livre,active,1.04
+AREIA BRANCA,2008,RAG,rede agulha,passive,53.29
+AREIA BRANCA,2008,RES,rede de espera,passive,49.82
+AREIA BRANCA,2009,APA,arrasto de praia,active,8.9008
+AREIA BRANCA,2009,APO,arrasto de porta,active,111.069
+AREIA BRANCA,2009,CMN,coleta manual,active,1.337
+AREIA BRANCA,2009,CMP,compressor,active,3.9054
+AREIA BRANCA,2009,CUR,curral,passive,0.0
+AREIA BRANCA,2009,CVL,covo lagosta,passive,0.07
+AREIA BRANCA,2009,CVP,covo peixe,passive,9.2729
+AREIA BRANCA,2009,ESP,espinhel,passive,4.8903
+AREIA BRANCA,2009,LCP,linha e covo peixe,mixed,0.0
+AREIA BRANCA,2009,LIJ,linha e jereré,passive,0.0
+AREIA BRANCA,2009,LIN,linha,passive,408.7905
+AREIA BRANCA,2009,MEL,mergulho livre,active,12.761
+AREIA BRANCA,2009,PUC,puçá/mangote,active,0.0
+AREIA BRANCA,2009,RAG,rede agulha,passive,0.816
+AREIA BRANCA,2009,RCA,rede caçoeira,passive,66.6776
+AREIA BRANCA,2009,RES,rede de espera,passive,193.9499
+AREIA BRANCA,2009,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2009,SRD,sardinheira,active,0.0
+AREIA BRANCA,2009,TNR,tainheira,active,8.3726
+AREIA BRANCA,2009,TRF,tarrafa,active,10.9879
+AREIA BRANCA,2009,TRM,tresmalho,passive,0.0
+AREIA BRANCA,2010,APA,arrasto de praia,active,30.451
+AREIA BRANCA,2010,APO,arrasto de porta,active,10.87
+AREIA BRANCA,2010,CMN,coleta manual,active,1.83
+AREIA BRANCA,2010,CMP,compressor,active,6.513
+AREIA BRANCA,2010,CUR,curral,passive,0.0
+AREIA BRANCA,2010,CVL,covo lagosta,passive,0.544
+AREIA BRANCA,2010,CVP,covo peixe,passive,14.516
+AREIA BRANCA,2010,ESP,espinhel,passive,8.556
+AREIA BRANCA,2010,LCP,linha e covo peixe,passive,0.0
+AREIA BRANCA,2010,LES,linha e espinhel,passive,0.0
+AREIA BRANCA,2010,LIJ,linha e jereré,passive,0.0
+AREIA BRANCA,2010,LIN,linha,passive,352.763
+AREIA BRANCA,2010,LRE,linha e rede de espera,passive,0.0
+AREIA BRANCA,2010,MEL,mergulho livre,active,3.372
+AREIA BRANCA,2010,PUC,puçá,active,0.277
+AREIA BRANCA,2010,RAG,rede de agulha,passive,5.514
+AREIA BRANCA,2010,RCA,rede caçoeira,passive,78.134
+AREIA BRANCA,2010,RES,rede de espera,passive,178.638
+AREIA BRANCA,2010,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2010,SRD,sardinheira,active,0.0
+AREIA BRANCA,2010,TNR,tainheira,active,7.159
+AREIA BRANCA,2010,TRF,tarrafa,active,5.094
+AREIA BRANCA,2010,TRM,tresmalho,passive,0.0
+AREIA BRANCA,2011,APA,arrasto de praia,active,0.013
+AREIA BRANCA,2011,APO,arrasto de porta,active,6.348
+AREIA BRANCA,2011,CMN,coleta manual,active,0.152
+AREIA BRANCA,2011,CMP,compressor,active,17.592
+AREIA BRANCA,2011,CPL,covo peixe e lagosta,passive,4.292
+AREIA BRANCA,2011,CVL,covo lagosta,passive,7.66
+AREIA BRANCA,2011,CVP,covo peixe,passive,58.776
+AREIA BRANCA,2011,JER,jereré,active,0.018
+AREIA BRANCA,2011,LCL,linha e covo lagosta,mixed,13.046
+AREIA BRANCA,2011,LCP,linha e covo peixe,mixed,4.195
+AREIA BRANCA,2011,LES,linha e espinhel,mixed,9.22
+AREIA BRANCA,2011,LIJ,linha e jereré,mixed,0.019
+AREIA BRANCA,2011,LIN,linha,passive,316.684
+AREIA BRANCA,2011,LML,linha e mergulho livre,mixed,0.161
+AREIA BRANCA,2011,LRE,linha e rede de espera,mixed,14.147
+AREIA BRANCA,2011,MEL,mergulho livre,active,4.337
+AREIA BRANCA,2011,PUC,puçá,active,0.131
+AREIA BRANCA,2011,RAG,rede agulha,passive,9.645
+AREIA BRANCA,2011,RCA,rede caçoeira,passive,69.21000000000001
+AREIA BRANCA,2011,RES,rede de espera,passive,153.615
+AREIA BRANCA,2011,TNR,traineira,active,9.024000000000001
+AREIA BRANCA,2011,TRF,tarrafa,active,1.593
+AREIA BRANCA,2011,TRM,tremalho,passive,8.45
+AREIA BRANCA,2012,APA,arrasto de praia,active,1.5
+AREIA BRANCA,2012,APO,arrasto de porta,active,0.7
+AREIA BRANCA,2012,CMN,coleta manual,active,0.6
+AREIA BRANCA,2012,CMP,compressor,active,34.0
+AREIA BRANCA,2012,CPL,covo peixe e lagosta,passive,9.3
+AREIA BRANCA,2012,CUR,curral,passive,0.0
+AREIA BRANCA,2012,CVL,covo lagosta,passive,31.9
+AREIA BRANCA,2012,CVP,covo peixe,passive,91.80000000000001
+AREIA BRANCA,2012,JER,jereré,active,0.0
+AREIA BRANCA,2012,LCL,linha e covo lagosta,mixed,32.4
+AREIA BRANCA,2012,LCP,linha e covo peixe,mixed,12.7
+AREIA BRANCA,2012,LES,linha e espinhel,mixed,1.4
+AREIA BRANCA,2012,LIJ,linha e jereré,mixed,0.3
+AREIA BRANCA,2012,LIN,linha,passive,550.8
+AREIA BRANCA,2012,LML,linha e mergulho livre,mixed,0.6
+AREIA BRANCA,2012,LRE,linha e rede de espera,mixed,10.5
+AREIA BRANCA,2012,MEL,mergulho livre,active,9.0
+AREIA BRANCA,2012,PUC,puçá,active,0.1
+AREIA BRANCA,2012,RAG,rede agulha,passive,9.3
+AREIA BRANCA,2012,RCA,rede caçoeira,passive,61.2
+AREIA BRANCA,2012,RES,rede de espera,passive,104.8
+AREIA BRANCA,2012,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2012,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2012,TNR,traineira,active,6.800000000000001
+AREIA BRANCA,2012,TRF,tarrafa,active,0.7
+AREIA BRANCA,2012,TRM,tremalho,passive,14.0
+AREIA BRANCA,2013,APA,arrasto de praia,active,0.3
+AREIA BRANCA,2013,APO,arrasto de porta,active,1.0
+AREIA BRANCA,2013,CMN,coleta manual,active,0.5
+AREIA BRANCA,2013,CMP,compressor,active,17.6
+AREIA BRANCA,2013,CPL,covo peixe e lagosta,passive,4.8
+AREIA BRANCA,2013,CUR,curral,passive,0.0
+AREIA BRANCA,2013,CVL,covo lagosta,passive,56.8
+AREIA BRANCA,2013,CVP,covo peixe,passive,75.8
+AREIA BRANCA,2013,ESP,espinhel,passive,7.7
+AREIA BRANCA,2013,JER,jereré,active,0.0
+AREIA BRANCA,2013,LCL,linha e covo lagosta,passive,15.6
+AREIA BRANCA,2013,LCP,linha e covo peixe,passive,18.4
+AREIA BRANCA,2013,LES,linha e espinhel,passive,9.0
+AREIA BRANCA,2013,LIJ,linha e jereré,passive,0.0
+AREIA BRANCA,2013,LIN,linha,passive,1071.5
+AREIA BRANCA,2013,LML,linha e mergulho livre,mixed,1.1
+AREIA BRANCA,2013,LRE,linha e rede de espera,passive,5.8
+AREIA BRANCA,2013,MEL,mergulho livre,active,5.7
+AREIA BRANCA,2013,PUC,puçá,active,0.0
+AREIA BRANCA,2013,RAG,rede agulha,passive,2.3
+AREIA BRANCA,2013,RCA,rede caçoeira,passive,14.8
+AREIA BRANCA,2013,RES,rede de espera,passive,129.5
+AREIA BRANCA,2013,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2013,SRD,sardinheira,active,0.0
+AREIA BRANCA,2013,TNR,tainheira,active,2.9
+AREIA BRANCA,2013,TRF,tarrafa,active,1.2
+AREIA BRANCA,2013,TRM,tresmalho,passive,12.9
+AREIA BRANCA,2014,APA,arrasto de praia,active,0.7
+AREIA BRANCA,2014,APO,arrasto de porta,active,0.1
+AREIA BRANCA,2014,CMN,coleta manual,active,0.4
+AREIA BRANCA,2014,CMP,compressor,active,4.1
+AREIA BRANCA,2014,CPL,covo peixe e lagosta,passive,1.3
+AREIA BRANCA,2014,CUR,curral,passive,0.0
+AREIA BRANCA,2014,CVL,covo lagosta,passive,3.7
+AREIA BRANCA,2014,CVP,covo peixe,passive,31.3
+AREIA BRANCA,2014,JER,jereré,active,0.0
+AREIA BRANCA,2014,LCP,linha e covo peixe,mixed,1.8
+AREIA BRANCA,2014,LES,linha e espinhel,mixed,0.0
+AREIA BRANCA,2014,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2014,LIN,linha,passive,1186.7
+AREIA BRANCA,2014,LML,linha e mergulho livre,mixed,1.2
+AREIA BRANCA,2014,LRE,linha e rede de espera,mixed,1.8
+AREIA BRANCA,2014,MEL,mergulho livre,active,4.5
+AREIA BRANCA,2014,PUC,puçá,active,0.1
+AREIA BRANCA,2014,RAG,rede agulha,passive,2.7
+AREIA BRANCA,2014,RCA,rede caçoeira,passive,10.8
+AREIA BRANCA,2014,RES,rede de espera,passive,75.8
+AREIA BRANCA,2014,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2014,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2014,TNR,traineira,active,0.9
+AREIA BRANCA,2014,TRF,tarrafa,active,0.5
+AREIA BRANCA,2014,TRM,tremalho,passive,0.3
+AREIA BRANCA,2015,APA,arrasto de praia,active,0.0
+AREIA BRANCA,2015,APO,arrasto de porta,active,0.0
+AREIA BRANCA,2015,CMN,coleta manual,active,0.3
+AREIA BRANCA,2015,CMP,compressor,active,11.5
+AREIA BRANCA,2015,COQ,coqueiro,active,0.0
+AREIA BRANCA,2015,CPL,covo peixe e lagosta,passive,3.8
+AREIA BRANCA,2015,CUR,curral,passive,0.0
+AREIA BRANCA,2015,CVL,covo lagosta,passive,13.2
+AREIA BRANCA,2015,CVP,covo peixe,passive,19.7
+AREIA BRANCA,2015,JER,jereré,active,0.0
+AREIA BRANCA,2015,LCL,linha e covo lagosta,mixed,0.0
+AREIA BRANCA,2015,LCP,linha e covo peixe,mixed,1.6
+AREIA BRANCA,2015,LES,linha e espinhel,mixed,0.8
+AREIA BRANCA,2015,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2015,LIN,linha,passive,1998.6
+AREIA BRANCA,2015,LRE,linha e rede de espera,mixed,0.0
+AREIA BRANCA,2015,MEL,mergulho livre,active,8.6
+AREIA BRANCA,2015,PUC,puçá,active,0.0
+AREIA BRANCA,2015,RAG,rede agulha,passive,12.1
+AREIA BRANCA,2015,RCA,rede caçoeira,passive,7.4
+AREIA BRANCA,2015,RES,rede de espera,passive,49.4
+AREIA BRANCA,2015,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2015,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2015,TNR,traineira,active,1.3
+AREIA BRANCA,2015,TRF,tarrafa,active,2.6
+AREIA BRANCA,2015,TRM,tremalho,passive,0.0
+AREIA BRANCA,2016,APA,arrasto de praia,active,0.5
+AREIA BRANCA,2016,APO,arrasto de porta,active,0.3
+AREIA BRANCA,2016,CMN,coleta manual,active,0.4
+AREIA BRANCA,2016,CMP,compressor,active,22.8
+AREIA BRANCA,2016,COQ,coqueiro,active,0.0
+AREIA BRANCA,2016,CPL,covo peixe e lagosta,passive,5.9
+AREIA BRANCA,2016,CUR,curral,passive,0.0
+AREIA BRANCA,2016,CVL,covo lagosta,passive,27.4
+AREIA BRANCA,2016,CVP,covo peixe,passive,58.8
+AREIA BRANCA,2016,JER,jereré,active,0.0
+AREIA BRANCA,2016,LCL,linha e covo lagosta,mixed,12.0
+AREIA BRANCA,2016,LCP,linha e covo peixe,mixed,3.8
+AREIA BRANCA,2016,LES,linha e espinhel,mixed,2.0
+AREIA BRANCA,2016,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2016,LIN,linha,passive,2761.8
+AREIA BRANCA,2016,LML,linha e mergulho livre,mixed,1.0
+AREIA BRANCA,2016,LRE,linha e rede de espera,mixed,2.2
+AREIA BRANCA,2016,MEL,mergulho livre,active,8.7
+AREIA BRANCA,2016,PUC,puçá,active,0.0
+AREIA BRANCA,2016,RAG,rede agulha,passive,7.3
+AREIA BRANCA,2016,RCA,rede caçoeira,passive,27.9
+AREIA BRANCA,2016,RES,rede de espera,passive,120.1
+AREIA BRANCA,2016,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2016,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2016,TNR,traineira,active,3.1
+AREIA BRANCA,2016,TRF,tarrafa,active,1.5
+AREIA BRANCA,2016,TRM,tremalho,passive,2.7
+AREIA BRANCA,2017,APA,arrasto de praia,active,0.3
+AREIA BRANCA,2017,APO,arrasto de porta,active,0.4
+AREIA BRANCA,2017,CMN,coleta manual,active,0.4
+AREIA BRANCA,2017,CMP,compressor,active,20.2
+AREIA BRANCA,2017,COQ,coqueiro,active,0.0
+AREIA BRANCA,2017,CPL,covo peixe e lagosta,passive,6.5
+AREIA BRANCA,2017,CUR,curral,passive,0.0
+AREIA BRANCA,2017,CVL,covo lagosta,passive,25.9
+AREIA BRANCA,2017,CVP,covo peixe,passive,60.6
+AREIA BRANCA,2017,JER,jereré,active,0.0
+AREIA BRANCA,2017,LCL,linha e covo lagosta,mixed,5.2
+AREIA BRANCA,2017,LCP,linha e covo peixe,mixed,8.6
+AREIA BRANCA,2017,LES,linha e espinhel,mixed,3.9
+AREIA BRANCA,2017,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2017,LIN,linha,passive,2706.6
+AREIA BRANCA,2017,LML,linha e mergulho livre,mixed,1.9
+AREIA BRANCA,2017,LRE,linha e rede de espera,mixed,3.2
+AREIA BRANCA,2017,MEL,mergulho livre,active,9.4
+AREIA BRANCA,2017,PUC,puçá,active,0.0
+AREIA BRANCA,2017,RAG,rede agulha,passive,7.9
+AREIA BRANCA,2017,RCA,rede caçoeira,passive,16.3
+AREIA BRANCA,2017,RES,rede de espera,passive,118.8
+AREIA BRANCA,2017,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2017,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2017,TNR,traineira,active,2.7
+AREIA BRANCA,2017,TRF,tarrafa,active,1.8
+AREIA BRANCA,2017,TRM,tremalho,passive,4.7
+AREIA BRANCA,2018,APA,arrasto de praia,active,0.0
+AREIA BRANCA,2018,APO,arrasto de porta,active,0.0
+AREIA BRANCA,2018,CMN,coleta manual,active,0.0
+AREIA BRANCA,2018,CMP,compressor,active,2.9
+AREIA BRANCA,2018,COQ,coqueiro,active,0.0
+AREIA BRANCA,2018,CPL,covo peixe e lagosta,passive,0.0
+AREIA BRANCA,2018,CUR,curral,passive,0.0
+AREIA BRANCA,2018,CVL,covo lagosta,passive,11.7
+AREIA BRANCA,2018,CVP,covo peixe,passive,9.8
+AREIA BRANCA,2018,JER,jereré,active,0.0
+AREIA BRANCA,2018,LES,linha e espinhel,mixed,0.0
+AREIA BRANCA,2018,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2018,LIN,linha,passive,2223.7
+AREIA BRANCA,2018,LRE,linha e rede de espera,mixed,0.0
+AREIA BRANCA,2018,MEL,mergulho livre,active,4.0
+AREIA BRANCA,2018,PUC,puçá,active,0.0
+AREIA BRANCA,2018,RAG,rede agulha,passive,0.3
+AREIA BRANCA,2018,RCA,rede caçoeira,passive,0.5
+AREIA BRANCA,2018,RES,rede de espera,passive,30.4
+AREIA BRANCA,2018,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2018,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2018,TNR,traineira,active,0.6
+AREIA BRANCA,2018,TRF,tarrafa,active,0.0
+AREIA BRANCA,2018,TRM,tremalho,passive,0.0
+AREIA BRANCA,2019,APA,arrasto de praia,active,0.0
+AREIA BRANCA,2019,APO,arrasto de porta,active,0.0
+AREIA BRANCA,2019,CMN,coleta manual,active,0.1
+AREIA BRANCA,2019,CMP,compressor,active,9.1
+AREIA BRANCA,2019,COQ,coqueiro,active,0.0
+AREIA BRANCA,2019,CPL,covo peixe e lagosta,passive,0.0
+AREIA BRANCA,2019,CUR,curral,passive,0.0
+AREIA BRANCA,2019,CVL,covo lagosta,passive,3.3
+AREIA BRANCA,2019,CVP,covo peixe,passive,42.3
+AREIA BRANCA,2019,JER,jereré,active,0.0
+AREIA BRANCA,2019,LCL,linha e covo lagosta,mixed,0.0
+AREIA BRANCA,2019,LCP,linha e covo peixe,mixed,0.0
+AREIA BRANCA,2019,LES,linha e espinhel,mixed,0.0
+AREIA BRANCA,2019,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2019,LIN,linha,passive,3902.5
+AREIA BRANCA,2019,LML,linha e mergulho livre,mixed,0.0
+AREIA BRANCA,2019,LRE,linha e rede de espera,mixed,0.0
+AREIA BRANCA,2019,MEL,mergulho livre,active,15.7
+AREIA BRANCA,2019,PUC,puçá,active,0.0
+AREIA BRANCA,2019,RAG,rede agulha,passive,10.7
+AREIA BRANCA,2019,RCA,rede caçoeira,passive,2.5
+AREIA BRANCA,2019,RES,rede de espera,passive,67.7
+AREIA BRANCA,2019,RTP,rede de tapagem,passive,0.6
+AREIA BRANCA,2019,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2019,TNR,traineira,active,1.3
+AREIA BRANCA,2019,TRF,tarrafa,active,0.5
+AREIA BRANCA,2019,TRM,tremalho,passive,9.0
+AREIA BRANCA,2020,APA,arrasto de praia,active,0.0
+AREIA BRANCA,2020,APO,arrasto de porta,active,0.0
+AREIA BRANCA,2020,CMN,coleta manual,active,0.1
+AREIA BRANCA,2020,CMP,compressor,active,11.7
+AREIA BRANCA,2020,COQ,coqueiro,active,0.0
+AREIA BRANCA,2020,CPL,covo peixe e lagosta,passive,0.0
+AREIA BRANCA,2020,CUR,curral,passive,0.0
+AREIA BRANCA,2020,CVL,covo lagosta,passive,2.3
+AREIA BRANCA,2020,CVP,covo peixe,passive,38.8
+AREIA BRANCA,2020,JER,jereré,active,0.0
+AREIA BRANCA,2020,LCL,linha e covo lagosta,mixed,0.0
+AREIA BRANCA,2020,LCP,linha e covo peixe,mixed,0.0
+AREIA BRANCA,2020,LES,linha e espinhel,mixed,0.0
+AREIA BRANCA,2020,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2020,LIN,linha,passive,3227.8
+AREIA BRANCA,2020,LML,linha e mergulho livre,mixed,0.0
+AREIA BRANCA,2020,LRE,linha e rede de espera,mixed,0.0
+AREIA BRANCA,2020,MEL,mergulho livre,active,22.8
+AREIA BRANCA,2020,PUC,puçá,active,0.0
+AREIA BRANCA,2020,RAG,rede agulha,passive,12.8
+AREIA BRANCA,2020,RCA,rede caçoeira,passive,0.1
+AREIA BRANCA,2020,RES,rede de espera,passive,46.5
+AREIA BRANCA,2020,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2020,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2020,TNR,traineira,active,0.8
+AREIA BRANCA,2020,TRF,tarrafa,active,0.0
+AREIA BRANCA,2020,TRM,tremalho,passive,1.3
+AREIA BRANCA,2021,APA,arrasto de praia,active,0.0
+AREIA BRANCA,2021,APO,arrasto de porta,active,0.0
+AREIA BRANCA,2021,CMN,coleta manual,active,0.0
+AREIA BRANCA,2021,CMP,compressor,active,15.9
+AREIA BRANCA,2021,COQ,coqueiro,active,0.0
+AREIA BRANCA,2021,CPL,covo peixe e lagosta,passive,0.0
+AREIA BRANCA,2021,CUR,curral,passive,0.0
+AREIA BRANCA,2021,CVL,covo lagosta,passive,0.4
+AREIA BRANCA,2021,CVP,covo peixe,passive,78.9
+AREIA BRANCA,2021,JER,jereré,active,0.0
+AREIA BRANCA,2021,LCL,linha e covo lagosta,mixed,0.0
+AREIA BRANCA,2021,LCP,linha e covo peixe,mixed,0.0
+AREIA BRANCA,2021,LES,linha e espinhel,mixed,0.0
+AREIA BRANCA,2021,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2021,LIN,linha,passive,3925.2
+AREIA BRANCA,2021,LML,linha e mergulho livre,mixed,0.0
+AREIA BRANCA,2021,LRE,linha e rede de espera,mixed,0.0
+AREIA BRANCA,2021,MEL,mergulho livre,active,12.5
+AREIA BRANCA,2021,PUC,puçá,active,0.0
+AREIA BRANCA,2021,RAG,rede agulha,passive,7.0
+AREIA BRANCA,2021,RCA,rede caçoeira,passive,0.4
+AREIA BRANCA,2021,RES,rede de espera,passive,38.4
+AREIA BRANCA,2021,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2021,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2021,TNR,traineira,active,1.6
+AREIA BRANCA,2021,TRF,tarrafa,active,0.1
+AREIA BRANCA,2021,TRM,tremalho,passive,1.4
+AREIA BRANCA,2022,APO,arrasto de porta,active,0.0
+AREIA BRANCA,2022,CMN,coleta manual,active,0.1
+AREIA BRANCA,2022,CMP,compressor,active,8.8
+AREIA BRANCA,2022,COQ,coqueiro,active,0.0
+AREIA BRANCA,2022,CPL,covo peixe e lagosta,passive,0.0
+AREIA BRANCA,2022,CUR,curral,passive,0.0
+AREIA BRANCA,2022,CVL,covo lagosta,passive,0.3
+AREIA BRANCA,2022,CVP,covo peixe,passive,86.1
+AREIA BRANCA,2022,LES,linha e espinhel,mixed,0.0
+AREIA BRANCA,2022,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2022,LIN,linha,passive,3640.0
+AREIA BRANCA,2022,LML,linha e mergulho livre,mixed,0.0
+AREIA BRANCA,2022,LRE,linha e rede de espera,mixed,0.0
+AREIA BRANCA,2022,MEL,mergulho livre,active,8.6
+AREIA BRANCA,2022,PUC,puçá,active,0.0
+AREIA BRANCA,2022,RAG,rede agulha,passive,7.5
+AREIA BRANCA,2022,RCA,rede caçoeira,passive,0.1
+AREIA BRANCA,2022,RES,rede de espera,passive,39.7
+AREIA BRANCA,2022,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2022,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2022,TNR,traineira,active,1.0
+AREIA BRANCA,2022,TRF,tarrafa,active,0.0
+AREIA BRANCA,2022,TRM,tremalho,passive,2.6
+AREIA BRANCA,2023,APO,arrasto de porta,active,0.0
+AREIA BRANCA,2023,CMN,coleta manual,active,2.1
+AREIA BRANCA,2023,CMP,compressor,active,9.7
+AREIA BRANCA,2023,COQ,coqueiro,active,0.0
+AREIA BRANCA,2023,CPL,covo peixe e lagosta,passive,1.5
+AREIA BRANCA,2023,CUR,curral,passive,0.0
+AREIA BRANCA,2023,CVL,covo lagosta,passive,1.4
+AREIA BRANCA,2023,CVP,covo peixe,passive,23.0
+AREIA BRANCA,2023,JER,jereré,active,0.0
+AREIA BRANCA,2023,LES,linha e espinhel,mixed,0.0
+AREIA BRANCA,2023,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2023,LIN,linha,passive,3654.9
+AREIA BRANCA,2023,LML,linha e mergulho livre,mixed,0.0
+AREIA BRANCA,2023,LRE,linha e rede de espera,mixed,0.0
+AREIA BRANCA,2023,MEL,mergulho livre,active,7.7
+AREIA BRANCA,2023,PUC,puçá,active,0.0
+AREIA BRANCA,2023,RAG,rede agulha,passive,8.9
+AREIA BRANCA,2023,RCA,rede caçoeira,passive,0.0
+AREIA BRANCA,2023,RES,rede de espera,passive,38.2
+AREIA BRANCA,2023,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2023,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2023,TNR,traineira,active,0.8
+AREIA BRANCA,2023,TRF,tarrafa,active,0.2
+AREIA BRANCA,2023,TRM,tremalho,passive,0.2
+AREIA BRANCA,2024,APO,arrasto de porta,active,0.0
+AREIA BRANCA,2024,CMN,coleta manual,active,0.0
+AREIA BRANCA,2024,CMP,compressor,active,4.3
+AREIA BRANCA,2024,COQ,palha de coqueiro,passive,0.0
+AREIA BRANCA,2024,CUR,curral,passive,0.0
+AREIA BRANCA,2024,CVL,covo lagosta,passive,0.0
+AREIA BRANCA,2024,CVP,covo peixe,passive,14.6
+AREIA BRANCA,2024,ESP,espinhel,passive,0.0
+AREIA BRANCA,2024,LES,linha e espinhel,mixed,0.0
+AREIA BRANCA,2024,LIJ,linha e jereré,mixed,0.0
+AREIA BRANCA,2024,LIN,linha,passive,2827.3
+AREIA BRANCA,2024,LML,linha e mergulho livre,mixed,0.0
+AREIA BRANCA,2024,LRE,linha e rede de espera,mixed,0.0
+AREIA BRANCA,2024,MEL,mergulho livre,active,6.7
+AREIA BRANCA,2024,PUC,puçá,active,0.0
+AREIA BRANCA,2024,RAG,rede agulha,passive,8.5
+AREIA BRANCA,2024,REC,rede caçoeira,passive,0.0
+AREIA BRANCA,2024,RES,rede de espera,passive,35.5
+AREIA BRANCA,2024,RTP,rede de tapagem,passive,0.0
+AREIA BRANCA,2024,SRD,sardinheira,passive,0.0
+AREIA BRANCA,2024,TRF,tarrafa,active,0.0
+AREIA BRANCA,2024,TRM,tremalho,passive,0.0
+CAICARA DO NORTE,2001,APA,arrasto de praia,active,17.76
+CAICARA DO NORTE,2001,APO,arrasto de porta,active,0.21
+CAICARA DO NORTE,2001,CPL,covo peixe e lagosta,passive,29.66
+CAICARA DO NORTE,2001,CVL,covo lagosta,passive,0.35
+CAICARA DO NORTE,2001,ESP,espinhel,passive,0.91
+CAICARA DO NORTE,2001,LIJ,linha e jereré,mixed,48.01
+CAICARA DO NORTE,2001,LIN,linha,passive,36.76
+CAICARA DO NORTE,2001,RAG,rede agulha,passive,28.59
+CAICARA DO NORTE,2001,RES,rede de espera,passive,40.46
+CAICARA DO NORTE,2002,APA,arrasto de praia,active,16.03
+CAICARA DO NORTE,2002,APO,arrasto de porta,active,0.72
+CAICARA DO NORTE,2002,COQ,coqueiro,active,2.96
+CAICARA DO NORTE,2002,CPL,covo peixe e lagosta,passive,33.73
+CAICARA DO NORTE,2002,CVL,covo lagosta,passive,0.35
+CAICARA DO NORTE,2002,LIJ,linha e jereré,mixed,136.77
+CAICARA DO NORTE,2002,LIN,linha,passive,48.45
+CAICARA DO NORTE,2002,RAG,rede agulha,passive,25.16
+CAICARA DO NORTE,2002,RES,rede de espera,passive,41.47
+CAICARA DO NORTE,2003,APA,arrasto de praia,active,10.05
+CAICARA DO NORTE,2003,APO,arrasto de porta,active,1.25
+CAICARA DO NORTE,2003,COQ,coqueiro,active,9.38
+CAICARA DO NORTE,2003,CPL,covo peixe e lagosta,passive,32.09
+CAICARA DO NORTE,2003,CVL,covo lagosta,passive,0.54
+CAICARA DO NORTE,2003,ESP,espinhel,passive,2.57
+CAICARA DO NORTE,2003,LIJ,linha e jereré,mixed,143.73
+CAICARA DO NORTE,2003,LIN,linha,passive,55.78
+CAICARA DO NORTE,2003,RAG,rede agulha,passive,21.06
+CAICARA DO NORTE,2003,RES,rede de espera,passive,56.14
+CAICARA DO NORTE,2004,APA,arrasto de praia,active,14.37
+CAICARA DO NORTE,2004,APO,arrasto de porta,active,0.46
+CAICARA DO NORTE,2004,CPL,covo peixe e lagosta,passive,36.85
+CAICARA DO NORTE,2004,CVL,covo lagosta,passive,2.63
+CAICARA DO NORTE,2004,ESP,espinhel,passive,2.79
+CAICARA DO NORTE,2004,LIJ,linha e jereré,mixed,230.99
+CAICARA DO NORTE,2004,LIN,linha,passive,55.05
+CAICARA DO NORTE,2004,RAG,rede agulha,passive,38.46
+CAICARA DO NORTE,2004,RES,rede de espera,passive,38.89
+CAICARA DO NORTE,2004,TRM,tremalho,passive,0.75
+CAICARA DO NORTE,2005,APA,arrasto de praia,active,15.47
+CAICARA DO NORTE,2005,APO,arrasto de porta,active,0.92
+CAICARA DO NORTE,2005,COQ,coqueiro,active,2.16
+CAICARA DO NORTE,2005,CPL,covo peixe e lagosta,passive,48.06
+CAICARA DO NORTE,2005,CVL,covo lagosta,passive,2.11
+CAICARA DO NORTE,2005,ESP,espinhel,passive,4.09
+CAICARA DO NORTE,2005,LIJ,linha e jereré,mixed,98.38
+CAICARA DO NORTE,2005,LIN,linha,passive,45.89
+CAICARA DO NORTE,2005,RAG,rede agulha,passive,73.42
+CAICARA DO NORTE,2005,RES,rede de espera,passive,44.79
+CAICARA DO NORTE,2006,APA,arrasto de praia,active,29.7
+CAICARA DO NORTE,2006,APO,arrasto de porta,active,0.49
+CAICARA DO NORTE,2006,COQ,coqueiro,active,1.82
+CAICARA DO NORTE,2006,CPL,covo peixe e lagosta,passive,33.37
+CAICARA DO NORTE,2006,CVL,covo lagosta,passive,2.2
+CAICARA DO NORTE,2006,ESP,espinhel,passive,4.89
+CAICARA DO NORTE,2006,LIJ,linha e jereré,mixed,168.3
+CAICARA DO NORTE,2006,LIN,linha,passive,38.84
+CAICARA DO NORTE,2006,RAG,rede agulha,passive,54.28
+CAICARA DO NORTE,2006,RES,rede de espera,passive,30.62
+CAICARA DO NORTE,2007,APA,arrasto de praia,active,8.64
+CAICARA DO NORTE,2007,APO,arrasto de porta,active,0.82
+CAICARA DO NORTE,2007,CPL,covo peixe e lagosta,passive,47.89
+CAICARA DO NORTE,2007,CVL,covo lagosta,passive,3.14
+CAICARA DO NORTE,2007,ESP,espinhel,passive,4.28
+CAICARA DO NORTE,2007,LIJ,linha e jereré,mixed,302.27
+CAICARA DO NORTE,2007,LIN,linha,passive,45.68
+CAICARA DO NORTE,2007,RAG,rede agulha,passive,33.06
+CAICARA DO NORTE,2007,RES,rede de espera,passive,63.56
+CAICARA DO NORTE,2008,APA,arrasto de praia,active,6.75
+CAICARA DO NORTE,2008,APO,arrasto de porta,active,0.68
+CAICARA DO NORTE,2008,CPL,covo peixe e lagosta,passive,37.18
+CAICARA DO NORTE,2008,CVL,covo lagosta,passive,1.51
+CAICARA DO NORTE,2008,ESP,espinhel,passive,14.54
+CAICARA DO NORTE,2008,LIJ,linha e jereré,mixed,190.98
+CAICARA DO NORTE,2008,LIN,linha,passive,75.54
+CAICARA DO NORTE,2008,RAG,rede agulha,passive,28.95
+CAICARA DO NORTE,2008,RES,rede de espera,passive,73.25999999999999
+CAICARA DO NORTE,2009,APA,arrasto de praia,active,8.681
+CAICARA DO NORTE,2009,APO,arrasto de porta,active,9.0529
+CAICARA DO NORTE,2009,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2009,CMP,compressor,active,57.4433
+CAICARA DO NORTE,2009,CUR,curral,passive,0.0
+CAICARA DO NORTE,2009,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2009,CVP,covo peixe,passive,0.0
+CAICARA DO NORTE,2009,ESP,espinhel,passive,10.464
+CAICARA DO NORTE,2009,LCP,linha e covo peixe,mixed,0.0
+CAICARA DO NORTE,2009,LIJ,linha e jereré,passive,744.752
+CAICARA DO NORTE,2009,LIN,linha,passive,264.0742
+CAICARA DO NORTE,2009,MEL,mergulho livre,active,0.0
+CAICARA DO NORTE,2009,PUC,puçá/mangote,active,0.0
+CAICARA DO NORTE,2009,RAG,rede agulha,passive,34.2688
+CAICARA DO NORTE,2009,RCA,rede caçoeira,passive,7.944
+CAICARA DO NORTE,2009,RES,rede de espera,passive,289.1065
+CAICARA DO NORTE,2009,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2009,SRD,sardinheira,active,0.0
+CAICARA DO NORTE,2009,TNR,tainheira,active,60.145
+CAICARA DO NORTE,2009,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2009,TRM,tresmalho,passive,0.0
+CAICARA DO NORTE,2010,APA,arrasto de praia,active,21.956
+CAICARA DO NORTE,2010,APO,arrasto de porta,active,5.313
+CAICARA DO NORTE,2010,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2010,CMP,compressor,active,169.968
+CAICARA DO NORTE,2010,CUR,curral,passive,0.0
+CAICARA DO NORTE,2010,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2010,CVP,covo peixe,passive,0.0
+CAICARA DO NORTE,2010,ESP,espinhel,passive,20.34
+CAICARA DO NORTE,2010,LCP,linha e covo peixe,passive,0.0
+CAICARA DO NORTE,2010,LES,linha e espinhel,passive,0.0
+CAICARA DO NORTE,2010,LIJ,linha e jereré,passive,528.268
+CAICARA DO NORTE,2010,LIN,linha,passive,177.034
+CAICARA DO NORTE,2010,LRE,linha e rede de espera,passive,0.0
+CAICARA DO NORTE,2010,MEL,mergulho livre,active,0.25
+CAICARA DO NORTE,2010,PUC,puçá,active,0.0
+CAICARA DO NORTE,2010,RAG,rede de agulha,passive,69.771
+CAICARA DO NORTE,2010,RCA,rede caçoeira,passive,4.103
+CAICARA DO NORTE,2010,RES,rede de espera,passive,300.952
+CAICARA DO NORTE,2010,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2010,SRD,sardinheira,active,0.0
+CAICARA DO NORTE,2010,TNR,tainheira,active,48.469
+CAICARA DO NORTE,2010,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2010,TRM,tresmalho,passive,0.0
+CAICARA DO NORTE,2011,APO,arrasto de porta,active,13.247
+CAICARA DO NORTE,2011,CMP,compressor,active,122.261
+CAICARA DO NORTE,2011,CPL,covo peixe e lagosta,passive,18.882
+CAICARA DO NORTE,2011,CVL,covo lagosta,passive,0.126
+CAICARA DO NORTE,2011,CVP,covo peixe,passive,0.069
+CAICARA DO NORTE,2011,JER,jereré,active,31.732
+CAICARA DO NORTE,2011,LES,linha e espinhel,mixed,7.504
+CAICARA DO NORTE,2011,LIJ,linha e jereré,mixed,480.472
+CAICARA DO NORTE,2011,LIN,linha,passive,169.416
+CAICARA DO NORTE,2011,LML,linha e mergulho livre,mixed,0.026
+CAICARA DO NORTE,2011,LRE,linha e rede de espera,mixed,8.502
+CAICARA DO NORTE,2011,MEL,mergulho livre,active,0.127
+CAICARA DO NORTE,2011,RAG,rede agulha,passive,63.086
+CAICARA DO NORTE,2011,RCA,rede caçoeira,passive,9.217
+CAICARA DO NORTE,2011,RES,rede de espera,passive,271.442
+CAICARA DO NORTE,2011,TNR,traineira,active,17.843
+CAICARA DO NORTE,2011,TRM,tremalho,passive,43.738
+CAICARA DO NORTE,2012,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2012,APO,arrasto de porta,active,12.2
+CAICARA DO NORTE,2012,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2012,CMP,compressor,active,87.30000000000001
+CAICARA DO NORTE,2012,CPL,covo peixe e lagosta,passive,5.199999999999999
+CAICARA DO NORTE,2012,CUR,curral,passive,0.0
+CAICARA DO NORTE,2012,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2012,CVP,covo peixe,passive,1.8
+CAICARA DO NORTE,2012,JER,jereré,active,1.7
+CAICARA DO NORTE,2012,LCL,linha e covo lagosta,mixed,0.0
+CAICARA DO NORTE,2012,LCP,linha e covo peixe,mixed,0.0
+CAICARA DO NORTE,2012,LES,linha e espinhel,mixed,9.600000000000001
+CAICARA DO NORTE,2012,LIJ,linha e jereré,mixed,656.1
+CAICARA DO NORTE,2012,LIN,linha,passive,141.8
+CAICARA DO NORTE,2012,LML,linha e mergulho livre,mixed,0.3
+CAICARA DO NORTE,2012,LRE,linha e rede de espera,mixed,74.9
+CAICARA DO NORTE,2012,MEL,mergulho livre,active,0.8
+CAICARA DO NORTE,2012,PUC,puçá,active,0.0
+CAICARA DO NORTE,2012,RAG,rede agulha,passive,105.2
+CAICARA DO NORTE,2012,RCA,rede caçoeira,passive,7.7
+CAICARA DO NORTE,2012,RES,rede de espera,passive,327.8
+CAICARA DO NORTE,2012,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2012,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2012,TNR,traineira,active,0.0
+CAICARA DO NORTE,2012,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2012,TRM,tremalho,passive,17.7
+CAICARA DO NORTE,2013,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2013,APO,arrasto de porta,active,7.7
+CAICARA DO NORTE,2013,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2013,CMP,compressor,active,104.0
+CAICARA DO NORTE,2013,CPL,covo peixe e lagosta,passive,0.0
+CAICARA DO NORTE,2013,CUR,curral,passive,0.0
+CAICARA DO NORTE,2013,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2013,CVP,covo peixe,passive,0.5
+CAICARA DO NORTE,2013,ESP,espinhel,passive,9.7
+CAICARA DO NORTE,2013,JER,jereré,active,0.0
+CAICARA DO NORTE,2013,LCL,linha e covo lagosta,passive,0.0
+CAICARA DO NORTE,2013,LCP,linha e covo peixe,passive,0.0
+CAICARA DO NORTE,2013,LES,linha e espinhel,passive,14.6
+CAICARA DO NORTE,2013,LIJ,linha e jereré,passive,743.0
+CAICARA DO NORTE,2013,LIN,linha,passive,168.6
+CAICARA DO NORTE,2013,LML,linha e mergulho livre,mixed,0.1
+CAICARA DO NORTE,2013,LRE,linha e rede de espera,passive,0.0
+CAICARA DO NORTE,2013,MEL,mergulho livre,active,0.6
+CAICARA DO NORTE,2013,PUC,puçá,active,0.0
+CAICARA DO NORTE,2013,RAG,rede agulha,passive,120.3
+CAICARA DO NORTE,2013,RCA,rede caçoeira,passive,4.3
+CAICARA DO NORTE,2013,RES,rede de espera,passive,452.2
+CAICARA DO NORTE,2013,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2013,SRD,sardinheira,active,0.0
+CAICARA DO NORTE,2013,TNR,tainheira,active,0.0
+CAICARA DO NORTE,2013,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2013,TRM,tresmalho,passive,8.6
+CAICARA DO NORTE,2014,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2014,APO,arrasto de porta,active,2.3
+CAICARA DO NORTE,2014,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2014,CMP,compressor,active,44.7
+CAICARA DO NORTE,2014,CPL,covo peixe e lagosta,passive,2.2
+CAICARA DO NORTE,2014,CUR,curral,passive,0.0
+CAICARA DO NORTE,2014,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2014,CVP,covo peixe,passive,0.0
+CAICARA DO NORTE,2014,JER,jereré,active,0.0
+CAICARA DO NORTE,2014,LCP,linha e covo peixe,mixed,0.0
+CAICARA DO NORTE,2014,LES,linha e espinhel,mixed,2.7
+CAICARA DO NORTE,2014,LIJ,linha e jereré,mixed,693.1
+CAICARA DO NORTE,2014,LIN,linha,passive,75.1
+CAICARA DO NORTE,2014,LML,linha e mergulho livre,mixed,0.0
+CAICARA DO NORTE,2014,LRE,linha e rede de espera,mixed,0.0
+CAICARA DO NORTE,2014,MEL,mergulho livre,active,0.7
+CAICARA DO NORTE,2014,PUC,puçá,active,0.0
+CAICARA DO NORTE,2014,RAG,rede agulha,passive,42.2
+CAICARA DO NORTE,2014,RCA,rede caçoeira,passive,0.3
+CAICARA DO NORTE,2014,RES,rede de espera,passive,203.1
+CAICARA DO NORTE,2014,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2014,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2014,TNR,traineira,active,0.0
+CAICARA DO NORTE,2014,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2014,TRM,tremalho,passive,14.8
+CAICARA DO NORTE,2015,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2015,APO,arrasto de porta,active,0.6
+CAICARA DO NORTE,2015,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2015,CMP,compressor,active,57.4
+CAICARA DO NORTE,2015,COQ,coqueiro,active,1.2
+CAICARA DO NORTE,2015,CPL,covo peixe e lagosta,passive,3.6
+CAICARA DO NORTE,2015,CUR,curral,passive,0.0
+CAICARA DO NORTE,2015,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2015,CVP,covo peixe,passive,0.8
+CAICARA DO NORTE,2015,JER,jereré,active,0.0
+CAICARA DO NORTE,2015,LCL,linha e covo lagosta,mixed,0.0
+CAICARA DO NORTE,2015,LCP,linha e covo peixe,mixed,0.2
+CAICARA DO NORTE,2015,LES,linha e espinhel,mixed,5.0
+CAICARA DO NORTE,2015,LIJ,linha e jereré,mixed,260.4
+CAICARA DO NORTE,2015,LIN,linha,passive,97.8
+CAICARA DO NORTE,2015,LRE,linha e rede de espera,mixed,4.1
+CAICARA DO NORTE,2015,MEL,mergulho livre,active,0.2
+CAICARA DO NORTE,2015,PUC,puçá,active,0.0
+CAICARA DO NORTE,2015,RAG,rede agulha,passive,60.2
+CAICARA DO NORTE,2015,RCA,rede caçoeira,passive,10.2
+CAICARA DO NORTE,2015,RES,rede de espera,passive,254.1
+CAICARA DO NORTE,2015,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2015,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2015,TNR,traineira,active,0.0
+CAICARA DO NORTE,2015,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2015,TRM,tremalho,passive,5.2
+CAICARA DO NORTE,2016,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2016,APO,arrasto de porta,active,5.4
+CAICARA DO NORTE,2016,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2016,CMP,compressor,active,90.3
+CAICARA DO NORTE,2016,COQ,coqueiro,active,0.4
+CAICARA DO NORTE,2016,CPL,covo peixe e lagosta,passive,5.3
+CAICARA DO NORTE,2016,CUR,curral,passive,0.0
+CAICARA DO NORTE,2016,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2016,CVP,covo peixe,passive,1.9
+CAICARA DO NORTE,2016,JER,jereré,active,0.0
+CAICARA DO NORTE,2016,LCL,linha e covo lagosta,mixed,0.0
+CAICARA DO NORTE,2016,LCP,linha e covo peixe,mixed,0.2
+CAICARA DO NORTE,2016,LES,linha e espinhel,mixed,7.6
+CAICARA DO NORTE,2016,LIJ,linha e jereré,mixed,761.3
+CAICARA DO NORTE,2016,LIN,linha,passive,132.0
+CAICARA DO NORTE,2016,LML,linha e mergulho livre,mixed,0.1
+CAICARA DO NORTE,2016,LRE,linha e rede de espera,mixed,1.0
+CAICARA DO NORTE,2016,MEL,mergulho livre,active,1.7
+CAICARA DO NORTE,2016,PUC,puçá,active,0.0
+CAICARA DO NORTE,2016,RAG,rede agulha,passive,140.9
+CAICARA DO NORTE,2016,RCA,rede caçoeira,passive,7.2
+CAICARA DO NORTE,2016,RES,rede de espera,passive,506.5
+CAICARA DO NORTE,2016,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2016,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2016,TNR,traineira,active,0.0
+CAICARA DO NORTE,2016,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2016,TRM,tremalho,passive,11.4
+CAICARA DO NORTE,2017,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2017,APO,arrasto de porta,active,4.4
+CAICARA DO NORTE,2017,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2017,CMP,compressor,active,103.6
+CAICARA DO NORTE,2017,COQ,coqueiro,active,0.4
+CAICARA DO NORTE,2017,CPL,covo peixe e lagosta,passive,6.3
+CAICARA DO NORTE,2017,CUR,curral,passive,0.0
+CAICARA DO NORTE,2017,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2017,CVP,covo peixe,passive,0.5
+CAICARA DO NORTE,2017,JER,jereré,active,0.0
+CAICARA DO NORTE,2017,LCL,linha e covo lagosta,mixed,0.0
+CAICARA DO NORTE,2017,LCP,linha e covo peixe,mixed,0.2
+CAICARA DO NORTE,2017,LES,linha e espinhel,mixed,9.9
+CAICARA DO NORTE,2017,LIJ,linha e jereré,mixed,866.1
+CAICARA DO NORTE,2017,LIN,linha,passive,164.2
+CAICARA DO NORTE,2017,LML,linha e mergulho livre,mixed,0.4
+CAICARA DO NORTE,2017,LRE,linha e rede de espera,mixed,1.5
+CAICARA DO NORTE,2017,MEL,mergulho livre,active,0.7
+CAICARA DO NORTE,2017,PUC,puçá,active,0.0
+CAICARA DO NORTE,2017,RAG,rede agulha,passive,107.5
+CAICARA DO NORTE,2017,RCA,rede caçoeira,passive,6.8
+CAICARA DO NORTE,2017,RES,rede de espera,passive,461.9
+CAICARA DO NORTE,2017,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2017,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2017,TNR,traineira,active,0.0
+CAICARA DO NORTE,2017,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2017,TRM,tremalho,passive,16.2
+CAICARA DO NORTE,2018,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2018,APO,arrasto de porta,active,1.4
+CAICARA DO NORTE,2018,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2018,CMP,compressor,active,28.2
+CAICARA DO NORTE,2018,COQ,coqueiro,active,109.3
+CAICARA DO NORTE,2018,CPL,covo peixe e lagosta,passive,2.5
+CAICARA DO NORTE,2018,CUR,curral,passive,0.0
+CAICARA DO NORTE,2018,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2018,CVP,covo peixe,passive,0.0
+CAICARA DO NORTE,2018,JER,jereré,active,0.0
+CAICARA DO NORTE,2018,LES,linha e espinhel,mixed,0.6
+CAICARA DO NORTE,2018,LIJ,linha e jereré,mixed,14.2
+CAICARA DO NORTE,2018,LIN,linha,passive,58.3
+CAICARA DO NORTE,2018,LRE,linha e rede de espera,mixed,26.7
+CAICARA DO NORTE,2018,MEL,mergulho livre,active,0.0
+CAICARA DO NORTE,2018,PUC,puçá,active,0.0
+CAICARA DO NORTE,2018,RAG,rede agulha,passive,40.6
+CAICARA DO NORTE,2018,RCA,rede caçoeira,passive,4.5
+CAICARA DO NORTE,2018,RES,rede de espera,passive,137.3
+CAICARA DO NORTE,2018,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2018,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2018,TNR,traineira,active,0.0
+CAICARA DO NORTE,2018,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2018,TRM,tremalho,passive,0.8
+CAICARA DO NORTE,2019,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2019,APO,arrasto de porta,active,2.6
+CAICARA DO NORTE,2019,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2019,CMP,compressor,active,58.2
+CAICARA DO NORTE,2019,COQ,coqueiro,active,0.1
+CAICARA DO NORTE,2019,CPL,covo peixe e lagosta,passive,1.0
+CAICARA DO NORTE,2019,CUR,curral,passive,0.0
+CAICARA DO NORTE,2019,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2019,CVP,covo peixe,passive,0.1
+CAICARA DO NORTE,2019,JER,jereré,active,0.0
+CAICARA DO NORTE,2019,LCL,linha e covo lagosta,mixed,0.0
+CAICARA DO NORTE,2019,LCP,linha e covo peixe,mixed,0.0
+CAICARA DO NORTE,2019,LES,linha e espinhel,mixed,7.7
+CAICARA DO NORTE,2019,LIJ,linha e jereré,mixed,523.2
+CAICARA DO NORTE,2019,LIN,linha,passive,164.0
+CAICARA DO NORTE,2019,LML,linha e mergulho livre,mixed,0.0
+CAICARA DO NORTE,2019,LRE,linha e rede de espera,mixed,15.5
+CAICARA DO NORTE,2019,MEL,mergulho livre,active,0.8
+CAICARA DO NORTE,2019,PUC,puçá,active,0.0
+CAICARA DO NORTE,2019,RAG,rede agulha,passive,80.8
+CAICARA DO NORTE,2019,RCA,rede caçoeira,passive,11.9
+CAICARA DO NORTE,2019,RES,rede de espera,passive,256.4
+CAICARA DO NORTE,2019,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2019,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2019,TNR,traineira,active,0.0
+CAICARA DO NORTE,2019,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2019,TRM,tremalho,passive,0.3
+CAICARA DO NORTE,2020,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2020,APO,arrasto de porta,active,1.9
+CAICARA DO NORTE,2020,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2020,CMP,compressor,active,64.2
+CAICARA DO NORTE,2020,COQ,coqueiro,active,0.0
+CAICARA DO NORTE,2020,CPL,covo peixe e lagosta,passive,5.2
+CAICARA DO NORTE,2020,CUR,curral,passive,0.0
+CAICARA DO NORTE,2020,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2020,CVP,covo peixe,passive,0.3
+CAICARA DO NORTE,2020,JER,jereré,active,0.0
+CAICARA DO NORTE,2020,LCL,linha e covo lagosta,mixed,0.0
+CAICARA DO NORTE,2020,LCP,linha e covo peixe,mixed,0.0
+CAICARA DO NORTE,2020,LES,linha e espinhel,mixed,6.4
+CAICARA DO NORTE,2020,LIJ,linha e jereré,mixed,506.5
+CAICARA DO NORTE,2020,LIN,linha,passive,93.5
+CAICARA DO NORTE,2020,LML,linha e mergulho livre,mixed,0.0
+CAICARA DO NORTE,2020,LRE,linha e rede de espera,mixed,52.9
+CAICARA DO NORTE,2020,MEL,mergulho livre,active,1.8
+CAICARA DO NORTE,2020,PUC,puçá,active,0.0
+CAICARA DO NORTE,2020,RAG,rede agulha,passive,58.7
+CAICARA DO NORTE,2020,RCA,rede caçoeira,passive,11.9
+CAICARA DO NORTE,2020,RES,rede de espera,passive,194.5
+CAICARA DO NORTE,2020,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2020,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2020,TNR,traineira,active,0.0
+CAICARA DO NORTE,2020,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2020,TRM,tremalho,passive,1.4
+CAICARA DO NORTE,2021,APA,arrasto de praia,active,0.0
+CAICARA DO NORTE,2021,APO,arrasto de porta,active,2.3
+CAICARA DO NORTE,2021,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2021,CMP,compressor,active,70.6
+CAICARA DO NORTE,2021,COQ,coqueiro,active,0.0
+CAICARA DO NORTE,2021,CPL,covo peixe e lagosta,passive,2.8
+CAICARA DO NORTE,2021,CUR,curral,passive,0.0
+CAICARA DO NORTE,2021,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2021,CVP,covo peixe,passive,0.0
+CAICARA DO NORTE,2021,JER,jereré,active,0.0
+CAICARA DO NORTE,2021,LCL,linha e covo lagosta,mixed,0.0
+CAICARA DO NORTE,2021,LCP,linha e covo peixe,mixed,0.0
+CAICARA DO NORTE,2021,LES,linha e espinhel,mixed,1.7
+CAICARA DO NORTE,2021,LIJ,linha e jereré,mixed,665.8
+CAICARA DO NORTE,2021,LIN,linha,passive,124.1
+CAICARA DO NORTE,2021,LML,linha e mergulho livre,mixed,0.0
+CAICARA DO NORTE,2021,LRE,linha e rede de espera,mixed,34.3
+CAICARA DO NORTE,2021,MEL,mergulho livre,active,0.5
+CAICARA DO NORTE,2021,PUC,puçá,active,0.0
+CAICARA DO NORTE,2021,RAG,rede agulha,passive,100.3
+CAICARA DO NORTE,2021,RCA,rede caçoeira,passive,18.0
+CAICARA DO NORTE,2021,RES,rede de espera,passive,228.3
+CAICARA DO NORTE,2021,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2021,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2021,TNR,traineira,active,0.0
+CAICARA DO NORTE,2021,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2021,TRM,tremalho,passive,2.0
+CAICARA DO NORTE,2022,APO,arrasto de porta,active,0.9
+CAICARA DO NORTE,2022,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2022,CMP,compressor,active,35.7
+CAICARA DO NORTE,2022,COQ,coqueiro,active,0.0
+CAICARA DO NORTE,2022,CPL,covo peixe e lagosta,passive,2.6
+CAICARA DO NORTE,2022,CUR,curral,passive,0.0
+CAICARA DO NORTE,2022,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2022,CVP,covo peixe,passive,0.4
+CAICARA DO NORTE,2022,LES,linha e espinhel,mixed,1.0
+CAICARA DO NORTE,2022,LIJ,linha e jereré,mixed,321.0
+CAICARA DO NORTE,2022,LIN,linha,passive,158.3
+CAICARA DO NORTE,2022,LML,linha e mergulho livre,mixed,0.2
+CAICARA DO NORTE,2022,LRE,linha e rede de espera,mixed,80.7
+CAICARA DO NORTE,2022,MEL,mergulho livre,active,0.4
+CAICARA DO NORTE,2022,PUC,puçá,active,0.0
+CAICARA DO NORTE,2022,RAG,rede agulha,passive,4.0
+CAICARA DO NORTE,2022,RCA,rede caçoeira,passive,12.6
+CAICARA DO NORTE,2022,RES,rede de espera,passive,279.7
+CAICARA DO NORTE,2022,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2022,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2022,TNR,traineira,active,0.0
+CAICARA DO NORTE,2022,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2022,TRM,tremalho,passive,1.3
+CAICARA DO NORTE,2023,APO,arrasto de porta,active,1.4
+CAICARA DO NORTE,2023,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2023,CMP,compressor,active,51.5
+CAICARA DO NORTE,2023,COQ,coqueiro,active,0.0
+CAICARA DO NORTE,2023,CPL,covo peixe e lagosta,passive,3.2
+CAICARA DO NORTE,2023,CUR,curral,passive,0.0
+CAICARA DO NORTE,2023,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2023,CVP,covo peixe,passive,3.9
+CAICARA DO NORTE,2023,JER,jereré,active,0.0
+CAICARA DO NORTE,2023,LES,linha e espinhel,mixed,7.5
+CAICARA DO NORTE,2023,LIJ,linha e jereré,mixed,349.0
+CAICARA DO NORTE,2023,LIN,linha,passive,134.4
+CAICARA DO NORTE,2023,LML,linha e mergulho livre,mixed,0.2
+CAICARA DO NORTE,2023,LRE,linha e rede de espera,mixed,86.1
+CAICARA DO NORTE,2023,MEL,mergulho livre,active,0.7
+CAICARA DO NORTE,2023,PUC,puçá,active,0.0
+CAICARA DO NORTE,2023,RAG,rede agulha,passive,71.3
+CAICARA DO NORTE,2023,RCA,rede caçoeira,passive,29.9
+CAICARA DO NORTE,2023,RES,rede de espera,passive,259.4
+CAICARA DO NORTE,2023,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2023,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2023,TNR,traineira,active,0.0
+CAICARA DO NORTE,2023,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2023,TRM,tremalho,passive,2.6
+CAICARA DO NORTE,2024,APO,arrasto de porta,active,0.4
+CAICARA DO NORTE,2024,CMN,coleta manual,active,0.0
+CAICARA DO NORTE,2024,CMP,compressor,active,50.4
+CAICARA DO NORTE,2024,COQ,palha de coqueiro,passive,0.0
+CAICARA DO NORTE,2024,CUR,curral,passive,0.0
+CAICARA DO NORTE,2024,CVL,covo lagosta,passive,0.0
+CAICARA DO NORTE,2024,CVP,covo peixe,passive,7.5
+CAICARA DO NORTE,2024,ESP,espinhel,passive,6.2
+CAICARA DO NORTE,2024,LES,linha e espinhel,mixed,4.1
+CAICARA DO NORTE,2024,LIJ,linha e jereré,mixed,174.5
+CAICARA DO NORTE,2024,LIN,linha,passive,174.5
+CAICARA DO NORTE,2024,LML,linha e mergulho livre,mixed,0.0
+CAICARA DO NORTE,2024,LRE,linha e rede de espera,mixed,58.4
+CAICARA DO NORTE,2024,MEL,mergulho livre,active,0.1
+CAICARA DO NORTE,2024,PUC,puçá,active,0.0
+CAICARA DO NORTE,2024,RAG,rede agulha,passive,53.0
+CAICARA DO NORTE,2024,REC,rede caçoeira,passive,7.4
+CAICARA DO NORTE,2024,RES,rede de espera,passive,247.0
+CAICARA DO NORTE,2024,RTP,rede de tapagem,passive,0.0
+CAICARA DO NORTE,2024,SRD,sardinheira,passive,0.0
+CAICARA DO NORTE,2024,TRF,tarrafa,active,0.0
+CAICARA DO NORTE,2024,TRM,tremalho,passive,0.7
+GALINHOS,2004,APA,arrasto de praia,active,1.71
+GALINHOS,2004,CPL,covo peixe e lagosta,passive,0.06
+GALINHOS,2004,LIJ,linha e jereré,mixed,14.4
+GALINHOS,2004,LIN,linha,passive,7.64
+GALINHOS,2004,MEL,mergulho livre,active,0.64
+GALINHOS,2004,RES,rede de espera,passive,7.09
+GALINHOS,2004,SRD,sardinheira,passive,8.76
+GALINHOS,2005,CMN,coleta manual,active,0.24
+GALINHOS,2005,LIJ,linha e jereré,mixed,9.72
+GALINHOS,2005,LIN,linha,passive,4.23
+GALINHOS,2005,MEL,mergulho livre,active,0.57
+GALINHOS,2005,RES,rede de espera,passive,10.28
+GALINHOS,2005,SRD,sardinheira,passive,0.9
+GALINHOS,2005,TRM,tremalho,passive,1.36
+GALINHOS,2007,APO,arrasto de porta,active,0.28
+GALINHOS,2007,CMN,coleta manual,active,0.79
+GALINHOS,2007,LIJ,linha e jereré,mixed,1.02
+GALINHOS,2007,LIN,linha,passive,5.54
+GALINHOS,2007,MEL,mergulho livre,active,0.8
+GALINHOS,2007,RES,rede de espera,passive,9.17
+GALINHOS,2007,TRM,tremalho,passive,2.69
+GALINHOS,2008,APA,arrasto de praia,active,14.21
+GALINHOS,2008,APO,arrasto de porta,active,0.96
+GALINHOS,2008,CMN,coleta manual,active,1.14
+GALINHOS,2008,CVL,covo lagosta,passive,0.01
+GALINHOS,2008,LIJ,linha e jereré,mixed,29.29
+GALINHOS,2008,LIN,linha,passive,26.33
+GALINHOS,2008,MEL,mergulho livre,active,2.6
+GALINHOS,2008,PUC,puçá,active,0.07
+GALINHOS,2008,RES,rede de espera,passive,55.74
+GALINHOS,2008,RTP,rede de tapagem,passive,0.01
+GALINHOS,2008,SRD,sardinheira,passive,3.62
+GALINHOS,2008,TRM,tremalho,passive,13.97
+GALINHOS,2009,APA,arrasto de praia,active,32.999
+GALINHOS,2009,APO,arrasto de porta,active,4.222
+GALINHOS,2009,CMN,coleta manual,active,15.4391
+GALINHOS,2009,CMP,compressor,active,0.0
+GALINHOS,2009,CUR,curral,passive,0.0
+GALINHOS,2009,CVL,covo lagosta,passive,0.0
+GALINHOS,2009,CVP,covo peixe,passive,0.0
+GALINHOS,2009,ESP,espinhel,passive,0.0
+GALINHOS,2009,LCP,linha e covo peixe,mixed,0.0
+GALINHOS,2009,LIJ,linha e jereré,passive,30.213
+GALINHOS,2009,LIN,linha,passive,19.4126
+GALINHOS,2009,MEL,mergulho livre,active,4.577
+GALINHOS,2009,PUC,puçá/mangote,active,0.0
+GALINHOS,2009,RAG,rede agulha,passive,4.243
+GALINHOS,2009,RCA,rede caçoeira,passive,0.0
+GALINHOS,2009,RES,rede de espera,passive,7.2794
+GALINHOS,2009,RTP,rede de tapagem,passive,0.0
+GALINHOS,2009,SRD,sardinheira,active,10.6031
+GALINHOS,2009,TNR,tainheira,active,59.6603
+GALINHOS,2009,TRF,tarrafa,active,0.19
+GALINHOS,2009,TRM,tresmalho,passive,18.1647
+GALINHOS,2010,APA,arrasto de praia,active,10.797
+GALINHOS,2010,APO,arrasto de porta,active,0.942
+GALINHOS,2010,CMN,coleta manual,active,51.294
+GALINHOS,2010,CMP,compressor,active,0.0
+GALINHOS,2010,CUR,curral,passive,0.0
+GALINHOS,2010,CVL,covo lagosta,passive,0.0
+GALINHOS,2010,CVP,covo peixe,passive,0.0
+GALINHOS,2010,ESP,espinhel,passive,0.0
+GALINHOS,2010,LCP,linha e covo peixe,passive,0.0
+GALINHOS,2010,LES,linha e espinhel,passive,0.0
+GALINHOS,2010,LIJ,linha e jereré,passive,34.103
+GALINHOS,2010,LIN,linha,passive,23.426
+GALINHOS,2010,LRE,linha e rede de espera,passive,0.0
+GALINHOS,2010,MEL,mergulho livre,active,3.643
+GALINHOS,2010,PUC,puçá,active,0.007
+GALINHOS,2010,RAG,rede de agulha,passive,3.501
+GALINHOS,2010,RCA,rede caçoeira,passive,0.0
+GALINHOS,2010,RES,rede de espera,passive,20.708
+GALINHOS,2010,RTP,rede de tapagem,passive,0.0
+GALINHOS,2010,SRD,sardinheira,active,13.355
+GALINHOS,2010,TNR,tainheira,active,50.441
+GALINHOS,2010,TRF,tarrafa,active,0.006
+GALINHOS,2010,TRM,tresmalho,passive,34.41
+GALINHOS,2011,APA,arrasto de praia,active,0.453
+GALINHOS,2011,APO,arrasto de porta,active,0.652
+GALINHOS,2011,CMN,coleta manual,active,29.496
+GALINHOS,2011,CMP,compressor,active,0.21
+GALINHOS,2011,CPL,covo peixe e lagosta,passive,0.236
+GALINHOS,2011,LIJ,linha e jereré,mixed,25.936
+GALINHOS,2011,LIN,linha,passive,27.723
+GALINHOS,2011,LML,linha e mergulho livre,mixed,0.62
+GALINHOS,2011,LRE,linha e rede de espera,mixed,0.233
+GALINHOS,2011,MEL,mergulho livre,active,8.463
+GALINHOS,2011,PUC,puçá,active,0.78
+GALINHOS,2011,RCA,rede caçoeira,passive,0.071
+GALINHOS,2011,RES,rede de espera,passive,26.594
+GALINHOS,2011,SRD,sardinheira,passive,18.782
+GALINHOS,2011,TNR,traineira,active,43.224
+GALINHOS,2011,TRF,tarrafa,active,0.336
+GALINHOS,2011,TRM,tremalho,passive,53.995
+GALINHOS,2012,APA,arrasto de praia,active,0.1
+GALINHOS,2012,APO,arrasto de porta,active,0.0
+GALINHOS,2012,CMN,coleta manual,active,13.1
+GALINHOS,2012,CMP,compressor,active,0.5
+GALINHOS,2012,CPL,covo peixe e lagosta,passive,0.6000000000000001
+GALINHOS,2012,CUR,curral,passive,0.0
+GALINHOS,2012,CVL,covo lagosta,passive,0.0
+GALINHOS,2012,CVP,covo peixe,passive,0.0
+GALINHOS,2012,JER,jereré,active,0.0
+GALINHOS,2012,LCL,linha e covo lagosta,mixed,0.0
+GALINHOS,2012,LCP,linha e covo peixe,mixed,0.0
+GALINHOS,2012,LES,linha e espinhel,mixed,0.0
+GALINHOS,2012,LIJ,linha e jereré,mixed,34.7
+GALINHOS,2012,LIN,linha,passive,27.9
+GALINHOS,2012,LML,linha e mergulho livre,mixed,1.2
+GALINHOS,2012,LRE,linha e rede de espera,mixed,0.2
+GALINHOS,2012,MEL,mergulho livre,active,0.9
+GALINHOS,2012,PUC,puçá,active,0.0
+GALINHOS,2012,RAG,rede agulha,passive,0.0
+GALINHOS,2012,RCA,rede caçoeira,passive,0.0
+GALINHOS,2012,RES,rede de espera,passive,31.2
+GALINHOS,2012,RTP,rede de tapagem,passive,0.0
+GALINHOS,2012,SRD,sardinheira,passive,0.0
+GALINHOS,2012,TNR,traineira,active,38.8
+GALINHOS,2012,TRF,tarrafa,active,0.1
+GALINHOS,2012,TRM,tremalho,passive,70.4
+GALINHOS,2013,APA,arrasto de praia,active,3.4
+GALINHOS,2013,APO,arrasto de porta,active,0.2
+GALINHOS,2013,CMN,coleta manual,active,3.2
+GALINHOS,2013,CMP,compressor,active,1.9
+GALINHOS,2013,CPL,covo peixe e lagosta,passive,0.0
+GALINHOS,2013,CUR,curral,passive,0.0
+GALINHOS,2013,CVL,covo lagosta,passive,1.1
+GALINHOS,2013,CVP,covo peixe,passive,0.0
+GALINHOS,2013,ESP,espinhel,passive,0.5
+GALINHOS,2013,JER,jereré,active,0.0
+GALINHOS,2013,LCL,linha e covo lagosta,passive,0.0
+GALINHOS,2013,LCP,linha e covo peixe,passive,0.0
+GALINHOS,2013,LES,linha e espinhel,passive,0.0
+GALINHOS,2013,LIJ,linha e jereré,passive,33.3
+GALINHOS,2013,LIN,linha,passive,20.0
+GALINHOS,2013,LML,linha e mergulho livre,mixed,2.4
+GALINHOS,2013,LRE,linha e rede de espera,passive,0.0
+GALINHOS,2013,MEL,mergulho livre,active,0.7
+GALINHOS,2013,PUC,puçá,active,0.7
+GALINHOS,2013,RAG,rede agulha,passive,0.0
+GALINHOS,2013,RCA,rede caçoeira,passive,1.7
+GALINHOS,2013,RES,rede de espera,passive,47.0
+GALINHOS,2013,RTP,rede de tapagem,passive,0.0
+GALINHOS,2013,SRD,sardinheira,active,1.8
+GALINHOS,2013,TNR,tainheira,active,34.0
+GALINHOS,2013,TRF,tarrafa,active,0.0
+GALINHOS,2013,TRM,tresmalho,passive,63.7
+GALINHOS,2014,APA,arrasto de praia,active,0.0
+GALINHOS,2014,APO,arrasto de porta,active,0.0
+GALINHOS,2014,CMN,coleta manual,active,0.9
+GALINHOS,2014,CMP,compressor,active,0.5
+GALINHOS,2014,CPL,covo peixe e lagosta,passive,0.1
+GALINHOS,2014,CUR,curral,passive,0.0
+GALINHOS,2014,CVL,covo lagosta,passive,0.0
+GALINHOS,2014,CVP,covo peixe,passive,0.0
+GALINHOS,2014,JER,jereré,active,0.0
+GALINHOS,2014,LCP,linha e covo peixe,mixed,0.0
+GALINHOS,2014,LES,linha e espinhel,mixed,0.0
+GALINHOS,2014,LIJ,linha e jereré,mixed,31.7
+GALINHOS,2014,LIN,linha,passive,4.4
+GALINHOS,2014,LML,linha e mergulho livre,mixed,0.6
+GALINHOS,2014,LRE,linha e rede de espera,mixed,0.6
+GALINHOS,2014,MEL,mergulho livre,active,0.4
+GALINHOS,2014,PUC,puçá,active,0.0
+GALINHOS,2014,RAG,rede agulha,passive,0.0
+GALINHOS,2014,RCA,rede caçoeira,passive,0.0
+GALINHOS,2014,RES,rede de espera,passive,23.1
+GALINHOS,2014,RTP,rede de tapagem,passive,0.0
+GALINHOS,2014,SRD,sardinheira,passive,0.2
+GALINHOS,2014,TNR,traineira,active,16.2
+GALINHOS,2014,TRF,tarrafa,active,0.0
+GALINHOS,2014,TRM,tremalho,passive,15.6
+GALINHOS,2015,APA,arrasto de praia,active,0.4
+GALINHOS,2015,APO,arrasto de porta,active,0.0
+GALINHOS,2015,CMN,coleta manual,active,1.9
+GALINHOS,2015,CMP,compressor,active,0.0
+GALINHOS,2015,COQ,coqueiro,active,0.0
+GALINHOS,2015,CPL,covo peixe e lagosta,passive,0.0
+GALINHOS,2015,CUR,curral,passive,0.0
+GALINHOS,2015,CVL,covo lagosta,passive,0.0
+GALINHOS,2015,CVP,covo peixe,passive,0.0
+GALINHOS,2015,JER,jereré,active,0.0
+GALINHOS,2015,LCL,linha e covo lagosta,mixed,0.0
+GALINHOS,2015,LCP,linha e covo peixe,mixed,0.0
+GALINHOS,2015,LES,linha e espinhel,mixed,0.0
+GALINHOS,2015,LIJ,linha e jereré,mixed,6.7
+GALINHOS,2015,LIN,linha,passive,9.1
+GALINHOS,2015,LRE,linha e rede de espera,mixed,0.0
+GALINHOS,2015,MEL,mergulho livre,active,0.9
+GALINHOS,2015,PUC,puçá,active,0.0
+GALINHOS,2015,RAG,rede agulha,passive,0.0
+GALINHOS,2015,RCA,rede caçoeira,passive,0.0
+GALINHOS,2015,RES,rede de espera,passive,31.8
+GALINHOS,2015,RTP,rede de tapagem,passive,0.0
+GALINHOS,2015,SRD,sardinheira,passive,4.4
+GALINHOS,2015,TNR,traineira,active,16.4
+GALINHOS,2015,TRF,tarrafa,active,0.0
+GALINHOS,2015,TRM,tremalho,passive,17.1
+GALINHOS,2016,APA,arrasto de praia,active,1.3
+GALINHOS,2016,APO,arrasto de porta,active,0.0
+GALINHOS,2016,CMN,coleta manual,active,4.9
+GALINHOS,2016,CMP,compressor,active,1.0
+GALINHOS,2016,COQ,coqueiro,active,0.0
+GALINHOS,2016,CPL,covo peixe e lagosta,passive,0.2
+GALINHOS,2016,CUR,curral,passive,0.0
+GALINHOS,2016,CVL,covo lagosta,passive,0.3
+GALINHOS,2016,CVP,covo peixe,passive,0.0
+GALINHOS,2016,JER,jereré,active,0.0
+GALINHOS,2016,LCL,linha e covo lagosta,mixed,0.0
+GALINHOS,2016,LCP,linha e covo peixe,mixed,0.0
+GALINHOS,2016,LES,linha e espinhel,mixed,0.0
+GALINHOS,2016,LIJ,linha e jereré,mixed,28.8
+GALINHOS,2016,LIN,linha,passive,14.6
+GALINHOS,2016,LML,linha e mergulho livre,mixed,1.4
+GALINHOS,2016,LRE,linha e rede de espera,mixed,0.2
+GALINHOS,2016,MEL,mergulho livre,active,1.1
+GALINHOS,2016,PUC,puçá,active,0.0
+GALINHOS,2016,RAG,rede agulha,passive,0.0
+GALINHOS,2016,RCA,rede caçoeira,passive,0.4
+GALINHOS,2016,RES,rede de espera,passive,60.1
+GALINHOS,2016,RTP,rede de tapagem,passive,0.0
+GALINHOS,2016,SRD,sardinheira,passive,3.2
+GALINHOS,2016,TNR,traineira,active,32.7
+GALINHOS,2016,TRF,tarrafa,active,0.0
+GALINHOS,2016,TRM,tremalho,passive,52.6
+GALINHOS,2017,APA,arrasto de praia,active,2.4
+GALINHOS,2017,APO,arrasto de porta,active,0.1
+GALINHOS,2017,CMN,coleta manual,active,2.3
+GALINHOS,2017,CMP,compressor,active,1.1
+GALINHOS,2017,COQ,coqueiro,active,0.0
+GALINHOS,2017,CPL,covo peixe e lagosta,passive,0.2
+GALINHOS,2017,CUR,curral,passive,0.0
+GALINHOS,2017,CVL,covo lagosta,passive,0.4
+GALINHOS,2017,CVP,covo peixe,passive,0.0
+GALINHOS,2017,JER,jereré,active,0.0
+GALINHOS,2017,LCL,linha e covo lagosta,mixed,0.0
+GALINHOS,2017,LCP,linha e covo peixe,mixed,0.0
+GALINHOS,2017,LES,linha e espinhel,mixed,0.0
+GALINHOS,2017,LIJ,linha e jereré,mixed,39.5
+GALINHOS,2017,LIN,linha,passive,15.9
+GALINHOS,2017,LML,linha e mergulho livre,mixed,1.8
+GALINHOS,2017,LRE,linha e rede de espera,mixed,0.5
+GALINHOS,2017,MEL,mergulho livre,active,1.0
+GALINHOS,2017,PUC,puçá,active,0.0
+GALINHOS,2017,RAG,rede agulha,passive,0.0
+GALINHOS,2017,RCA,rede caçoeira,passive,1.2
+GALINHOS,2017,RES,rede de espera,passive,53.5
+GALINHOS,2017,RTP,rede de tapagem,passive,0.0
+GALINHOS,2017,SRD,sardinheira,passive,3.9
+GALINHOS,2017,TNR,traineira,active,34.3
+GALINHOS,2017,TRF,tarrafa,active,0.0
+GALINHOS,2017,TRM,tremalho,passive,45.8
+GALINHOS,2018,APA,arrasto de praia,active,0.0
+GALINHOS,2018,APO,arrasto de porta,active,0.0
+GALINHOS,2018,CMN,coleta manual,active,15.6
+GALINHOS,2018,CMP,compressor,active,0.0
+GALINHOS,2018,COQ,coqueiro,active,2.7
+GALINHOS,2018,CPL,covo peixe e lagosta,passive,0.0
+GALINHOS,2018,CUR,curral,passive,0.0
+GALINHOS,2018,CVL,covo lagosta,passive,0.0
+GALINHOS,2018,CVP,covo peixe,passive,0.0
+GALINHOS,2018,JER,jereré,active,0.0
+GALINHOS,2018,LES,linha e espinhel,mixed,0.0
+GALINHOS,2018,LIJ,linha e jereré,mixed,0.4
+GALINHOS,2018,LIN,linha,passive,1.3
+GALINHOS,2018,LRE,linha e rede de espera,mixed,0.8
+GALINHOS,2018,MEL,mergulho livre,active,0.1
+GALINHOS,2018,PUC,puçá,active,0.0
+GALINHOS,2018,RAG,rede agulha,passive,0.0
+GALINHOS,2018,RCA,rede caçoeira,passive,0.0
+GALINHOS,2018,RES,rede de espera,passive,19.2
+GALINHOS,2018,RTP,rede de tapagem,passive,0.0
+GALINHOS,2018,SRD,sardinheira,passive,1.8
+GALINHOS,2018,TNR,traineira,active,15.3
+GALINHOS,2018,TRF,tarrafa,active,0.0
+GALINHOS,2018,TRM,tremalho,passive,18.7
+GALINHOS,2019,APA,arrasto de praia,active,0.0
+GALINHOS,2019,APO,arrasto de porta,active,0.0
+GALINHOS,2019,CMN,coleta manual,active,46.4
+GALINHOS,2019,CMP,compressor,active,0.0
+GALINHOS,2019,COQ,coqueiro,active,0.0
+GALINHOS,2019,CPL,covo peixe e lagosta,passive,0.0
+GALINHOS,2019,CUR,curral,passive,0.0
+GALINHOS,2019,CVL,covo lagosta,passive,0.0
+GALINHOS,2019,CVP,covo peixe,passive,0.0
+GALINHOS,2019,JER,jereré,active,0.0
+GALINHOS,2019,LCL,linha e covo lagosta,mixed,0.0
+GALINHOS,2019,LCP,linha e covo peixe,mixed,0.0
+GALINHOS,2019,LES,linha e espinhel,mixed,0.0
+GALINHOS,2019,LIJ,linha e jereré,mixed,26.0
+GALINHOS,2019,LIN,linha,passive,3.7
+GALINHOS,2019,LML,linha e mergulho livre,mixed,1.0
+GALINHOS,2019,LRE,linha e rede de espera,mixed,0.3
+GALINHOS,2019,MEL,mergulho livre,active,2.1
+GALINHOS,2019,PUC,puçá,active,0.0
+GALINHOS,2019,RAG,rede agulha,passive,0.0
+GALINHOS,2019,RCA,rede caçoeira,passive,0.0
+GALINHOS,2019,RES,rede de espera,passive,30.8
+GALINHOS,2019,RTP,rede de tapagem,passive,0.0
+GALINHOS,2019,SRD,sardinheira,passive,1.3
+GALINHOS,2019,TNR,traineira,active,27.6
+GALINHOS,2019,TRF,tarrafa,active,0.0
+GALINHOS,2019,TRM,tremalho,passive,83.2
+GALINHOS,2020,APA,arrasto de praia,active,0.6
+GALINHOS,2020,APO,arrasto de porta,active,0.0
+GALINHOS,2020,CMN,coleta manual,active,46.6
+GALINHOS,2020,CMP,compressor,active,0.0
+GALINHOS,2020,COQ,coqueiro,active,0.0
+GALINHOS,2020,CPL,covo peixe e lagosta,passive,0.0
+GALINHOS,2020,CUR,curral,passive,0.0
+GALINHOS,2020,CVL,covo lagosta,passive,0.0
+GALINHOS,2020,CVP,covo peixe,passive,0.0
+GALINHOS,2020,JER,jereré,active,0.0
+GALINHOS,2020,LCL,linha e covo lagosta,mixed,0.0
+GALINHOS,2020,LCP,linha e covo peixe,mixed,0.0
+GALINHOS,2020,LES,linha e espinhel,mixed,0.0
+GALINHOS,2020,LIJ,linha e jereré,mixed,19.1
+GALINHOS,2020,LIN,linha,passive,3.9
+GALINHOS,2020,LML,linha e mergulho livre,mixed,2.1
+GALINHOS,2020,LRE,linha e rede de espera,mixed,0.0
+GALINHOS,2020,MEL,mergulho livre,active,0.0
+GALINHOS,2020,PUC,puçá,active,0.0
+GALINHOS,2020,RAG,rede agulha,passive,0.0
+GALINHOS,2020,RCA,rede caçoeira,passive,0.0
+GALINHOS,2020,RES,rede de espera,passive,17.9
+GALINHOS,2020,RTP,rede de tapagem,passive,0.0
+GALINHOS,2020,SRD,sardinheira,passive,0.4
+GALINHOS,2020,TNR,traineira,active,43.3
+GALINHOS,2020,TRF,tarrafa,active,0.0
+GALINHOS,2020,TRM,tremalho,passive,45.7
+GALINHOS,2021,APA,arrasto de praia,active,0.0
+GALINHOS,2021,APO,arrasto de porta,active,0.0
+GALINHOS,2021,CMN,coleta manual,active,35.8
+GALINHOS,2021,CMP,compressor,active,0.0
+GALINHOS,2021,COQ,coqueiro,active,0.0
+GALINHOS,2021,CPL,covo peixe e lagosta,passive,0.0
+GALINHOS,2021,CUR,curral,passive,0.0
+GALINHOS,2021,CVL,covo lagosta,passive,0.0
+GALINHOS,2021,CVP,covo peixe,passive,0.0
+GALINHOS,2021,JER,jereré,active,0.0
+GALINHOS,2021,LCL,linha e covo lagosta,mixed,0.0
+GALINHOS,2021,LCP,linha e covo peixe,mixed,0.0
+GALINHOS,2021,LES,linha e espinhel,mixed,0.0
+GALINHOS,2021,LIJ,linha e jereré,mixed,32.8
+GALINHOS,2021,LIN,linha,passive,10.7
+GALINHOS,2021,LML,linha e mergulho livre,mixed,3.6
+GALINHOS,2021,LRE,linha e rede de espera,mixed,0.5
+GALINHOS,2021,MEL,mergulho livre,active,0.8
+GALINHOS,2021,PUC,puçá,active,0.0
+GALINHOS,2021,RAG,rede agulha,passive,0.0
+GALINHOS,2021,RCA,rede caçoeira,passive,0.0
+GALINHOS,2021,RES,rede de espera,passive,18.1
+GALINHOS,2021,RTP,rede de tapagem,passive,0.0
+GALINHOS,2021,SRD,sardinheira,passive,0.2
+GALINHOS,2021,TNR,traineira,active,58.1
+GALINHOS,2021,TRF,tarrafa,active,0.0
+GALINHOS,2021,TRM,tremalho,passive,33.6
+GALINHOS,2022,APO,arrasto de porta,active,0.0
+GALINHOS,2022,CMN,coleta manual,active,49.6
+GALINHOS,2022,CMP,compressor,active,0.0
+GALINHOS,2022,COQ,coqueiro,active,0.0
+GALINHOS,2022,CPL,covo peixe e lagosta,passive,0.0
+GALINHOS,2022,CUR,curral,passive,0.0
+GALINHOS,2022,CVL,covo lagosta,passive,0.0
+GALINHOS,2022,CVP,covo peixe,passive,0.0
+GALINHOS,2022,LES,linha e espinhel,mixed,0.0
+GALINHOS,2022,LIJ,linha e jereré,mixed,18.5
+GALINHOS,2022,LIN,linha,passive,12.9
+GALINHOS,2022,LML,linha e mergulho livre,mixed,4.2
+GALINHOS,2022,LRE,linha e rede de espera,mixed,0.6
+GALINHOS,2022,MEL,mergulho livre,active,0.2
+GALINHOS,2022,PUC,puçá,active,0.0
+GALINHOS,2022,RAG,rede agulha,passive,0.0
+GALINHOS,2022,RCA,rede caçoeira,passive,0.0
+GALINHOS,2022,RES,rede de espera,passive,17.5
+GALINHOS,2022,RTP,rede de tapagem,passive,0.0
+GALINHOS,2022,SRD,sardinheira,passive,0.0
+GALINHOS,2022,TNR,traineira,active,55.8
+GALINHOS,2022,TRF,tarrafa,active,0.0
+GALINHOS,2022,TRM,tremalho,passive,38.2
+GALINHOS,2023,APO,arrasto de porta,active,0.0
+GALINHOS,2023,CMN,coleta manual,active,85.8
+GALINHOS,2023,CMP,compressor,active,0.0
+GALINHOS,2023,COQ,coqueiro,active,0.0
+GALINHOS,2023,CPL,covo peixe e lagosta,passive,0.0
+GALINHOS,2023,CUR,curral,passive,0.0
+GALINHOS,2023,CVL,covo lagosta,passive,0.0
+GALINHOS,2023,CVP,covo peixe,passive,0.0
+GALINHOS,2023,JER,jereré,active,0.0
+GALINHOS,2023,LES,linha e espinhel,mixed,0.0
+GALINHOS,2023,LIJ,linha e jereré,mixed,20.7
+GALINHOS,2023,LIN,linha,passive,13.6
+GALINHOS,2023,LML,linha e mergulho livre,mixed,4.9
+GALINHOS,2023,LRE,linha e rede de espera,mixed,1.4
+GALINHOS,2023,MEL,mergulho livre,active,0.7
+GALINHOS,2023,PUC,puçá,active,0.0
+GALINHOS,2023,RAG,rede agulha,passive,0.0
+GALINHOS,2023,RCA,rede caçoeira,passive,0.0
+GALINHOS,2023,RES,rede de espera,passive,25.3
+GALINHOS,2023,RTP,rede de tapagem,passive,0.0
+GALINHOS,2023,SRD,sardinheira,passive,0.6
+GALINHOS,2023,TNR,traineira,active,51.2
+GALINHOS,2023,TRF,tarrafa,active,0.0
+GALINHOS,2023,TRM,tremalho,passive,29.3
+GALINHOS,2024,APO,arrasto de porta,active,0.0
+GALINHOS,2024,CMN,coleta manual,active,41.9
+GALINHOS,2024,CMP,compressor,active,0.3
+GALINHOS,2024,COQ,palha de coqueiro,passive,0.0
+GALINHOS,2024,CUR,curral,passive,0.0
+GALINHOS,2024,CVL,covo lagosta,passive,0.0
+GALINHOS,2024,CVP,covo peixe,passive,0.0
+GALINHOS,2024,ESP,espinhel,passive,0.0
+GALINHOS,2024,LES,linha e espinhel,mixed,0.0
+GALINHOS,2024,LIJ,linha e jereré,mixed,12.6
+GALINHOS,2024,LIN,linha,passive,18.4
+GALINHOS,2024,LML,linha e mergulho livre,mixed,4.8
+GALINHOS,2024,LRE,linha e rede de espera,mixed,0.1
+GALINHOS,2024,MEL,mergulho livre,active,0.3
+GALINHOS,2024,PUC,puçá,active,0.0
+GALINHOS,2024,RAG,rede agulha,passive,0.0
+GALINHOS,2024,REC,rede caçoeira,passive,0.0
+GALINHOS,2024,RES,rede de espera,passive,74.4
+GALINHOS,2024,RTP,rede de tapagem,passive,0.0
+GALINHOS,2024,SRD,sardinheira,passive,0.0
+GALINHOS,2024,TRF,tarrafa,active,0.0
+GALINHOS,2024,TRM,tremalho,passive,25.2
+GROSSOS,2003,CVL,covo lagosta,passive,0.82
+GROSSOS,2005,CVL,covo lagosta,passive,2.77
+GROSSOS,2007,CVL,covo lagosta,passive,1.3
+GROSSOS,2009,APA,arrasto de praia,active,0.0
+GROSSOS,2009,APO,arrasto de porta,active,1.1144
+GROSSOS,2009,CMN,coleta manual,active,2.7163
+GROSSOS,2009,CMP,compressor,active,0.0
+GROSSOS,2009,CUR,curral,passive,0.0
+GROSSOS,2009,CVL,covo lagosta,passive,0.2772
+GROSSOS,2009,CVP,covo peixe,passive,0.0
+GROSSOS,2009,ESP,espinhel,passive,0.0
+GROSSOS,2009,LCP,linha e covo peixe,mixed,0.0
+GROSSOS,2009,LIJ,linha e jereré,passive,0.0
+GROSSOS,2009,LIN,linha,passive,2.1103
+GROSSOS,2009,MEL,mergulho livre,active,0.0
+GROSSOS,2009,PUC,puçá/mangote,active,0.0355
+GROSSOS,2009,RAG,rede agulha,passive,0.0
+GROSSOS,2009,RCA,rede caçoeira,passive,11.5749
+GROSSOS,2009,RES,rede de espera,passive,33.5453
+GROSSOS,2009,RTP,rede de tapagem,passive,0.0
+GROSSOS,2009,SRD,sardinheira,active,0.0
+GROSSOS,2009,TNR,tainheira,active,12.327
+GROSSOS,2009,TRF,tarrafa,active,8.4385
+GROSSOS,2009,TRM,tresmalho,passive,0.0
+GROSSOS,2010,APA,arrasto de praia,active,0.0
+GROSSOS,2010,APO,arrasto de porta,active,0.0
+GROSSOS,2010,CMN,coleta manual,active,10.045
+GROSSOS,2010,CMP,compressor,active,0.0
+GROSSOS,2010,CUR,curral,passive,0.0
+GROSSOS,2010,CVL,covo lagosta,passive,3.833
+GROSSOS,2010,CVP,covo peixe,passive,0.0
+GROSSOS,2010,ESP,espinhel,passive,0.0
+GROSSOS,2010,LCP,linha e covo peixe,passive,0.0
+GROSSOS,2010,LES,linha e espinhel,passive,0.0
+GROSSOS,2010,LIJ,linha e jereré,passive,0.0
+GROSSOS,2010,LIN,linha,passive,1.155
+GROSSOS,2010,LRE,linha e rede de espera,passive,0.0
+GROSSOS,2010,MEL,mergulho livre,active,0.621
+GROSSOS,2010,PUC,puçá,active,5.46
+GROSSOS,2010,RAG,rede de agulha,passive,0.0
+GROSSOS,2010,RCA,rede caçoeira,passive,10.867
+GROSSOS,2010,RES,rede de espera,passive,46.662
+GROSSOS,2010,RTP,rede de tapagem,passive,0.0
+GROSSOS,2010,SRD,sardinheira,active,0.0
+GROSSOS,2010,TNR,tainheira,active,20.804
+GROSSOS,2010,TRF,tarrafa,active,8.567
+GROSSOS,2010,TRM,tresmalho,passive,0.0
+GROSSOS,2011,APO,arrasto de porta,active,2.159
+GROSSOS,2011,CMN,coleta manual,active,4.03
+GROSSOS,2011,CPL,covo peixe e lagosta,passive,0.451
+GROSSOS,2011,CVL,covo lagosta,passive,18.725
+GROSSOS,2011,MEL,mergulho livre,active,0.328
+GROSSOS,2011,PUC,puçá,active,7.74
+GROSSOS,2011,RCA,rede caçoeira,passive,3.966
+GROSSOS,2011,RES,rede de espera,passive,23.563
+GROSSOS,2011,TNR,traineira,active,34.32
+GROSSOS,2011,TRF,tarrafa,active,7.947
+GROSSOS,2012,APA,arrasto de praia,active,0.0
+GROSSOS,2012,APO,arrasto de porta,active,0.0
+GROSSOS,2012,CMN,coleta manual,active,4.3
+GROSSOS,2012,CMP,compressor,active,0.0
+GROSSOS,2012,CPL,covo peixe e lagosta,passive,0.4
+GROSSOS,2012,CUR,curral,passive,0.0
+GROSSOS,2012,CVL,covo lagosta,passive,20.4
+GROSSOS,2012,CVP,covo peixe,passive,0.0
+GROSSOS,2012,JER,jereré,active,0.0
+GROSSOS,2012,LCL,linha e covo lagosta,mixed,0.0
+GROSSOS,2012,LCP,linha e covo peixe,mixed,0.0
+GROSSOS,2012,LES,linha e espinhel,mixed,0.0
+GROSSOS,2012,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2012,LIN,linha,passive,0.0
+GROSSOS,2012,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2012,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2012,MEL,mergulho livre,active,0.0
+GROSSOS,2012,PUC,puçá,active,6.6
+GROSSOS,2012,RAG,rede agulha,passive,0.0
+GROSSOS,2012,RCA,rede caçoeira,passive,0.0
+GROSSOS,2012,RES,rede de espera,passive,19.1
+GROSSOS,2012,RTP,rede de tapagem,passive,0.0
+GROSSOS,2012,SRD,sardinheira,passive,0.0
+GROSSOS,2012,TNR,traineira,active,39.09999999999999
+GROSSOS,2012,TRF,tarrafa,active,7.1
+GROSSOS,2012,TRM,tremalho,passive,0.0
+GROSSOS,2013,APA,arrasto de praia,active,0.0
+GROSSOS,2013,APO,arrasto de porta,active,0.0
+GROSSOS,2013,CMN,coleta manual,active,2.5
+GROSSOS,2013,CMP,compressor,active,0.0
+GROSSOS,2013,CPL,covo peixe e lagosta,passive,0.0
+GROSSOS,2013,CUR,curral,passive,0.0
+GROSSOS,2013,CVL,covo lagosta,passive,20.9
+GROSSOS,2013,CVP,covo peixe,passive,3.5
+GROSSOS,2013,ESP,espinhel,passive,0.0
+GROSSOS,2013,JER,jereré,active,0.0
+GROSSOS,2013,LCL,linha e covo lagosta,passive,0.0
+GROSSOS,2013,LCP,linha e covo peixe,passive,0.0
+GROSSOS,2013,LES,linha e espinhel,passive,0.2
+GROSSOS,2013,LIJ,linha e jereré,passive,0.0
+GROSSOS,2013,LIN,linha,passive,0.1
+GROSSOS,2013,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2013,LRE,linha e rede de espera,passive,0.0
+GROSSOS,2013,MEL,mergulho livre,active,0.0
+GROSSOS,2013,PUC,puçá,active,4.5
+GROSSOS,2013,RAG,rede agulha,passive,0.0
+GROSSOS,2013,RCA,rede caçoeira,passive,0.0
+GROSSOS,2013,RES,rede de espera,passive,17.2
+GROSSOS,2013,RTP,rede de tapagem,passive,0.0
+GROSSOS,2013,SRD,sardinheira,active,0.0
+GROSSOS,2013,TNR,tainheira,active,22.3
+GROSSOS,2013,TRF,tarrafa,active,7.3
+GROSSOS,2013,TRM,tresmalho,passive,0.0
+GROSSOS,2014,APA,arrasto de praia,active,0.0
+GROSSOS,2014,APO,arrasto de porta,active,0.0
+GROSSOS,2014,CMN,coleta manual,active,0.8
+GROSSOS,2014,CMP,compressor,active,0.0
+GROSSOS,2014,CPL,covo peixe e lagosta,passive,0.0
+GROSSOS,2014,CUR,curral,passive,0.0
+GROSSOS,2014,CVL,covo lagosta,passive,4.4
+GROSSOS,2014,CVP,covo peixe,passive,0.7
+GROSSOS,2014,JER,jereré,active,0.0
+GROSSOS,2014,LCP,linha e covo peixe,mixed,0.0
+GROSSOS,2014,LES,linha e espinhel,mixed,0.7
+GROSSOS,2014,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2014,LIN,linha,passive,0.0
+GROSSOS,2014,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2014,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2014,MEL,mergulho livre,active,0.0
+GROSSOS,2014,PUC,puçá,active,2.9
+GROSSOS,2014,RAG,rede agulha,passive,0.0
+GROSSOS,2014,RCA,rede caçoeira,passive,0.0
+GROSSOS,2014,RES,rede de espera,passive,8.4
+GROSSOS,2014,RTP,rede de tapagem,passive,0.0
+GROSSOS,2014,SRD,sardinheira,passive,0.0
+GROSSOS,2014,TNR,traineira,active,14.0
+GROSSOS,2014,TRF,tarrafa,active,4.1
+GROSSOS,2014,TRM,tremalho,passive,0.0
+GROSSOS,2015,APA,arrasto de praia,active,0.0
+GROSSOS,2015,APO,arrasto de porta,active,0.0
+GROSSOS,2015,CMN,coleta manual,active,0.6
+GROSSOS,2015,CMP,compressor,active,0.0
+GROSSOS,2015,COQ,coqueiro,active,0.0
+GROSSOS,2015,CPL,covo peixe e lagosta,passive,0.0
+GROSSOS,2015,CUR,curral,passive,0.0
+GROSSOS,2015,CVL,covo lagosta,passive,11.3
+GROSSOS,2015,CVP,covo peixe,passive,0.0
+GROSSOS,2015,JER,jereré,active,0.0
+GROSSOS,2015,LCL,linha e covo lagosta,mixed,0.0
+GROSSOS,2015,LCP,linha e covo peixe,mixed,0.0
+GROSSOS,2015,LES,linha e espinhel,mixed,0.7
+GROSSOS,2015,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2015,LIN,linha,passive,0.4
+GROSSOS,2015,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2015,MEL,mergulho livre,active,0.0
+GROSSOS,2015,PUC,puçá,active,1.8
+GROSSOS,2015,RAG,rede agulha,passive,0.0
+GROSSOS,2015,RCA,rede caçoeira,passive,0.0
+GROSSOS,2015,RES,rede de espera,passive,3.2
+GROSSOS,2015,RTP,rede de tapagem,passive,0.0
+GROSSOS,2015,SRD,sardinheira,passive,0.0
+GROSSOS,2015,TNR,traineira,active,13.3
+GROSSOS,2015,TRF,tarrafa,active,3.4
+GROSSOS,2015,TRM,tremalho,passive,0.0
+GROSSOS,2016,APA,arrasto de praia,active,0.0
+GROSSOS,2016,APO,arrasto de porta,active,0.0
+GROSSOS,2016,CMN,coleta manual,active,1.7
+GROSSOS,2016,CMP,compressor,active,0.0
+GROSSOS,2016,COQ,coqueiro,active,0.0
+GROSSOS,2016,CPL,covo peixe e lagosta,passive,0.4
+GROSSOS,2016,CUR,curral,passive,0.0
+GROSSOS,2016,CVL,covo lagosta,passive,18.7
+GROSSOS,2016,CVP,covo peixe,passive,1.3
+GROSSOS,2016,JER,jereré,active,0.0
+GROSSOS,2016,LCL,linha e covo lagosta,mixed,0.0
+GROSSOS,2016,LCP,linha e covo peixe,mixed,0.0
+GROSSOS,2016,LES,linha e espinhel,mixed,1.6
+GROSSOS,2016,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2016,LIN,linha,passive,0.5
+GROSSOS,2016,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2016,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2016,MEL,mergulho livre,active,0.0
+GROSSOS,2016,PUC,puçá,active,4.7
+GROSSOS,2016,RAG,rede agulha,passive,0.0
+GROSSOS,2016,RCA,rede caçoeira,passive,0.0
+GROSSOS,2016,RES,rede de espera,passive,11.7
+GROSSOS,2016,RTP,rede de tapagem,passive,0.0
+GROSSOS,2016,SRD,sardinheira,passive,0.0
+GROSSOS,2016,TNR,traineira,active,27.5
+GROSSOS,2016,TRF,tarrafa,active,7.2
+GROSSOS,2016,TRM,tremalho,passive,0.0
+GROSSOS,2017,APA,arrasto de praia,active,0.0
+GROSSOS,2017,APO,arrasto de porta,active,0.0
+GROSSOS,2017,CMN,coleta manual,active,1.6
+GROSSOS,2017,CMP,compressor,active,0.0
+GROSSOS,2017,COQ,coqueiro,active,0.0
+GROSSOS,2017,CPL,covo peixe e lagosta,passive,0.0
+GROSSOS,2017,CUR,curral,passive,0.0
+GROSSOS,2017,CVL,covo lagosta,passive,18.1
+GROSSOS,2017,CVP,covo peixe,passive,1.7
+GROSSOS,2017,JER,jereré,active,0.0
+GROSSOS,2017,LCL,linha e covo lagosta,mixed,0.0
+GROSSOS,2017,LCP,linha e covo peixe,mixed,0.0
+GROSSOS,2017,LES,linha e espinhel,mixed,1.0
+GROSSOS,2017,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2017,LIN,linha,passive,0.2
+GROSSOS,2017,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2017,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2017,MEL,mergulho livre,active,0.0
+GROSSOS,2017,PUC,puçá,active,5.2
+GROSSOS,2017,RAG,rede agulha,passive,0.0
+GROSSOS,2017,RCA,rede caçoeira,passive,0.0
+GROSSOS,2017,RES,rede de espera,passive,13.2
+GROSSOS,2017,RTP,rede de tapagem,passive,0.0
+GROSSOS,2017,SRD,sardinheira,passive,0.0
+GROSSOS,2017,TNR,traineira,active,26.3
+GROSSOS,2017,TRF,tarrafa,active,7.7
+GROSSOS,2017,TRM,tremalho,passive,0.0
+GROSSOS,2018,APA,arrasto de praia,active,0.0
+GROSSOS,2018,APO,arrasto de porta,active,0.0
+GROSSOS,2018,CMN,coleta manual,active,0.5
+GROSSOS,2018,CMP,compressor,active,0.0
+GROSSOS,2018,COQ,coqueiro,active,0.0
+GROSSOS,2018,CPL,covo peixe e lagosta,passive,0.0
+GROSSOS,2018,CUR,curral,passive,0.0
+GROSSOS,2018,CVL,covo lagosta,passive,8.0
+GROSSOS,2018,CVP,covo peixe,passive,0.2
+GROSSOS,2018,JER,jereré,active,0.0
+GROSSOS,2018,LES,linha e espinhel,mixed,0.0
+GROSSOS,2018,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2018,LIN,linha,passive,0.0
+GROSSOS,2018,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2018,MEL,mergulho livre,active,0.0
+GROSSOS,2018,PUC,puçá,active,0.0
+GROSSOS,2018,RAG,rede agulha,passive,0.6
+GROSSOS,2018,RCA,rede caçoeira,passive,0.0
+GROSSOS,2018,RES,rede de espera,passive,3.1
+GROSSOS,2018,RTP,rede de tapagem,passive,0.0
+GROSSOS,2018,SRD,sardinheira,passive,0.0
+GROSSOS,2018,TNR,traineira,active,5.0
+GROSSOS,2018,TRF,tarrafa,active,0.3
+GROSSOS,2018,TRM,tremalho,passive,0.0
+GROSSOS,2019,APA,arrasto de praia,active,0.0
+GROSSOS,2019,APO,arrasto de porta,active,0.0
+GROSSOS,2019,CMN,coleta manual,active,0.9
+GROSSOS,2019,CMP,compressor,active,0.0
+GROSSOS,2019,COQ,coqueiro,active,0.0
+GROSSOS,2019,CPL,covo peixe e lagosta,passive,0.3
+GROSSOS,2019,CUR,curral,passive,0.0
+GROSSOS,2019,CVL,covo lagosta,passive,9.7
+GROSSOS,2019,CVP,covo peixe,passive,2.5
+GROSSOS,2019,JER,jereré,active,0.0
+GROSSOS,2019,LCL,linha e covo lagosta,mixed,0.0
+GROSSOS,2019,LCP,linha e covo peixe,mixed,0.0
+GROSSOS,2019,LES,linha e espinhel,mixed,0.5
+GROSSOS,2019,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2019,LIN,linha,passive,0.0
+GROSSOS,2019,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2019,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2019,MEL,mergulho livre,active,0.0
+GROSSOS,2019,PUC,puçá,active,0.0
+GROSSOS,2019,RAG,rede agulha,passive,0.0
+GROSSOS,2019,RCA,rede caçoeira,passive,0.0
+GROSSOS,2019,RES,rede de espera,passive,7.5
+GROSSOS,2019,RTP,rede de tapagem,passive,0.0
+GROSSOS,2019,SRD,sardinheira,passive,0.0
+GROSSOS,2019,TNR,traineira,active,12.3
+GROSSOS,2019,TRF,tarrafa,active,0.4
+GROSSOS,2019,TRM,tremalho,passive,0.0
+GROSSOS,2020,APA,arrasto de praia,active,0.0
+GROSSOS,2020,APO,arrasto de porta,active,0.0
+GROSSOS,2020,CMN,coleta manual,active,2.3
+GROSSOS,2020,CMP,compressor,active,0.0
+GROSSOS,2020,COQ,coqueiro,active,0.0
+GROSSOS,2020,CPL,covo peixe e lagosta,passive,0.0
+GROSSOS,2020,CUR,curral,passive,0.0
+GROSSOS,2020,CVL,covo lagosta,passive,1.5
+GROSSOS,2020,CVP,covo peixe,passive,5.8
+GROSSOS,2020,JER,jereré,active,0.0
+GROSSOS,2020,LCL,linha e covo lagosta,mixed,0.0
+GROSSOS,2020,LCP,linha e covo peixe,mixed,0.0
+GROSSOS,2020,LES,linha e espinhel,mixed,0.7
+GROSSOS,2020,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2020,LIN,linha,passive,0.1
+GROSSOS,2020,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2020,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2020,MEL,mergulho livre,active,0.0
+GROSSOS,2020,PUC,puçá,active,0.0
+GROSSOS,2020,RAG,rede agulha,passive,0.1
+GROSSOS,2020,RCA,rede caçoeira,passive,0.0
+GROSSOS,2020,RES,rede de espera,passive,6.0
+GROSSOS,2020,RTP,rede de tapagem,passive,0.0
+GROSSOS,2020,SRD,sardinheira,passive,0.0
+GROSSOS,2020,TNR,traineira,active,159.6
+GROSSOS,2020,TRF,tarrafa,active,0.0
+GROSSOS,2020,TRM,tremalho,passive,0.0
+GROSSOS,2021,APA,arrasto de praia,active,0.0
+GROSSOS,2021,APO,arrasto de porta,active,0.0
+GROSSOS,2021,CMN,coleta manual,active,1.4
+GROSSOS,2021,CMP,compressor,active,0.0
+GROSSOS,2021,COQ,coqueiro,active,0.0
+GROSSOS,2021,CPL,covo peixe e lagosta,passive,0.0
+GROSSOS,2021,CUR,curral,passive,0.0
+GROSSOS,2021,CVL,covo lagosta,passive,4.6
+GROSSOS,2021,CVP,covo peixe,passive,1.5
+GROSSOS,2021,JER,jereré,active,0.0
+GROSSOS,2021,LCL,linha e covo lagosta,mixed,0.0
+GROSSOS,2021,LCP,linha e covo peixe,mixed,0.0
+GROSSOS,2021,LES,linha e espinhel,mixed,0.2
+GROSSOS,2021,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2021,LIN,linha,passive,0.0
+GROSSOS,2021,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2021,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2021,MEL,mergulho livre,active,0.0
+GROSSOS,2021,PUC,puçá,active,0.0
+GROSSOS,2021,RAG,rede agulha,passive,0.0
+GROSSOS,2021,RCA,rede caçoeira,passive,1.1
+GROSSOS,2021,RES,rede de espera,passive,6.6
+GROSSOS,2021,RTP,rede de tapagem,passive,0.0
+GROSSOS,2021,SRD,sardinheira,passive,0.0
+GROSSOS,2021,TNR,traineira,active,13.1
+GROSSOS,2021,TRF,tarrafa,active,0.0
+GROSSOS,2021,TRM,tremalho,passive,0.0
+GROSSOS,2022,APO,arrasto de porta,active,0.0
+GROSSOS,2022,CMN,coleta manual,active,1.1
+GROSSOS,2022,CMP,compressor,active,0.0
+GROSSOS,2022,COQ,coqueiro,active,0.0
+GROSSOS,2022,CPL,covo peixe e lagosta,passive,0.7
+GROSSOS,2022,CUR,curral,passive,0.0
+GROSSOS,2022,CVL,covo lagosta,passive,2.2
+GROSSOS,2022,CVP,covo peixe,passive,1.1
+GROSSOS,2022,LES,linha e espinhel,mixed,0.0
+GROSSOS,2022,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2022,LIN,linha,passive,0.0
+GROSSOS,2022,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2022,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2022,MEL,mergulho livre,active,0.0
+GROSSOS,2022,PUC,puçá,active,0.0
+GROSSOS,2022,RAG,rede agulha,passive,0.1
+GROSSOS,2022,RCA,rede caçoeira,passive,0.0
+GROSSOS,2022,RES,rede de espera,passive,6.7
+GROSSOS,2022,RTP,rede de tapagem,passive,0.0
+GROSSOS,2022,SRD,sardinheira,passive,0.0
+GROSSOS,2022,TNR,traineira,active,18.1
+GROSSOS,2022,TRF,tarrafa,active,0.0
+GROSSOS,2022,TRM,tremalho,passive,0.0
+GROSSOS,2023,APO,arrasto de porta,active,0.0
+GROSSOS,2023,CMN,coleta manual,active,2.0
+GROSSOS,2023,CMP,compressor,active,0.0
+GROSSOS,2023,COQ,coqueiro,active,0.0
+GROSSOS,2023,CPL,covo peixe e lagosta,passive,0.9
+GROSSOS,2023,CUR,curral,passive,0.0
+GROSSOS,2023,CVL,covo lagosta,passive,4.9
+GROSSOS,2023,CVP,covo peixe,passive,1.4
+GROSSOS,2023,JER,jereré,active,0.0
+GROSSOS,2023,LES,linha e espinhel,mixed,0.0
+GROSSOS,2023,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2023,LIN,linha,passive,0.0
+GROSSOS,2023,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2023,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2023,MEL,mergulho livre,active,0.0
+GROSSOS,2023,PUC,puçá,active,0.0
+GROSSOS,2023,RAG,rede agulha,passive,0.8
+GROSSOS,2023,RCA,rede caçoeira,passive,0.0
+GROSSOS,2023,RES,rede de espera,passive,8.6
+GROSSOS,2023,RTP,rede de tapagem,passive,0.0
+GROSSOS,2023,SRD,sardinheira,passive,0.0
+GROSSOS,2023,TNR,traineira,active,14.5
+GROSSOS,2023,TRF,tarrafa,active,0.0
+GROSSOS,2023,TRM,tremalho,passive,0.0
+GROSSOS,2024,APO,arrasto de porta,active,0.0
+GROSSOS,2024,CMN,coleta manual,active,2.2
+GROSSOS,2024,CMP,compressor,active,0.0
+GROSSOS,2024,COQ,palha de coqueiro,passive,0.0
+GROSSOS,2024,CUR,curral,passive,0.0
+GROSSOS,2024,CVL,covo lagosta,passive,2.6
+GROSSOS,2024,CVP,covo peixe,passive,1.8
+GROSSOS,2024,ESP,espinhel,passive,0.0
+GROSSOS,2024,LES,linha e espinhel,mixed,0.0
+GROSSOS,2024,LIJ,linha e jereré,mixed,0.0
+GROSSOS,2024,LIN,linha,passive,0.0
+GROSSOS,2024,LML,linha e mergulho livre,mixed,0.0
+GROSSOS,2024,LRE,linha e rede de espera,mixed,0.0
+GROSSOS,2024,MEL,mergulho livre,active,0.0
+GROSSOS,2024,PUC,puçá,active,0.0
+GROSSOS,2024,RAG,rede agulha,passive,0.5
+GROSSOS,2024,REC,rede caçoeira,passive,0.0
+GROSSOS,2024,RES,rede de espera,passive,18.8
+GROSSOS,2024,RTP,rede de tapagem,passive,0.0
+GROSSOS,2024,SRD,sardinheira,passive,0.0
+GROSSOS,2024,TRF,tarrafa,active,0.0
+GROSSOS,2024,TRM,tremalho,passive,0.0
+GUAMARE,2001,APA,arrasto de praia,active,4.1
+GUAMARE,2001,APO,arrasto de porta,active,0.02
+GUAMARE,2001,CMN,coleta manual,active,4.92
+GUAMARE,2001,CVL,covo lagosta,passive,0.03
+GUAMARE,2001,LCP,linha e covo peixe,mixed,1.64
+GUAMARE,2001,LIN,linha,passive,4.95
+GUAMARE,2001,MEL,mergulho livre,active,0.23
+GUAMARE,2001,PUC,puçá,active,0.32
+GUAMARE,2001,RAG,rede agulha,passive,1.75
+GUAMARE,2001,RES,rede de espera,passive,18.44
+GUAMARE,2001,SRD,sardinheira,passive,1.12
+GUAMARE,2001,TRF,tarrafa,active,0.26
+GUAMARE,2001,TRM,tremalho,passive,4.85
+GUAMARE,2002,APO,arrasto de porta,active,3.51
+GUAMARE,2002,CMN,coleta manual,active,10.51
+GUAMARE,2002,LIN,linha,passive,10.74
+GUAMARE,2002,MEL,mergulho livre,active,0.42
+GUAMARE,2002,PUC,puçá,active,2.04
+GUAMARE,2002,RAG,rede agulha,passive,5.49
+GUAMARE,2002,RES,rede de espera,passive,27.68
+GUAMARE,2002,SRD,sardinheira,passive,0.05
+GUAMARE,2002,TRF,tarrafa,active,0.33
+GUAMARE,2002,TRM,tremalho,passive,12.61
+GUAMARE,2003,APO,arrasto de porta,active,1.37
+GUAMARE,2003,CMN,coleta manual,active,4.45
+GUAMARE,2003,LIN,linha,passive,7.46
+GUAMARE,2003,MEL,mergulho livre,active,0.18
+GUAMARE,2003,PUC,puçá,active,1.84
+GUAMARE,2003,RAG,rede agulha,passive,4.87
+GUAMARE,2003,RES,rede de espera,passive,31.33
+GUAMARE,2003,TRF,tarrafa,active,0.3
+GUAMARE,2003,TRM,tremalho,passive,15.87
+GUAMARE,2004,APO,arrasto de porta,active,5.07
+GUAMARE,2004,CMN,coleta manual,active,16.23
+GUAMARE,2004,LIN,linha,passive,15.59
+GUAMARE,2004,MEL,mergulho livre,active,0.12
+GUAMARE,2004,PUC,puçá,active,3.0
+GUAMARE,2004,RAG,rede agulha,passive,8.66
+GUAMARE,2004,RES,rede de espera,passive,60.59
+GUAMARE,2004,SRD,sardinheira,passive,7.44
+GUAMARE,2004,TRF,tarrafa,active,0.1
+GUAMARE,2004,TRM,tremalho,passive,32.25
+GUAMARE,2005,APO,arrasto de porta,active,4.12
+GUAMARE,2005,CMN,coleta manual,active,9.98
+GUAMARE,2005,LIN,linha,passive,8.63
+GUAMARE,2005,PUC,puçá,active,2.39
+GUAMARE,2005,RAG,rede agulha,passive,3.69
+GUAMARE,2005,RES,rede de espera,passive,33.32
+GUAMARE,2005,RTP,rede de tapagem,passive,1.32
+GUAMARE,2005,TRM,tremalho,passive,18.7
+GUAMARE,2006,APO,arrasto de porta,active,1.63
+GUAMARE,2006,CMN,coleta manual,active,8.1
+GUAMARE,2006,LIN,linha,passive,5.99
+GUAMARE,2006,PUC,puçá,active,1.83
+GUAMARE,2006,RAG,rede agulha,passive,3.66
+GUAMARE,2006,RES,rede de espera,passive,19.53
+GUAMARE,2006,TRM,tremalho,passive,8.18
+GUAMARE,2007,APA,arrasto de praia,active,0.96
+GUAMARE,2007,APO,arrasto de porta,active,2.69
+GUAMARE,2007,CMN,coleta manual,active,13.91
+GUAMARE,2007,LIN,linha,passive,5.95
+GUAMARE,2007,PUC,puçá,active,0.57
+GUAMARE,2007,RAG,rede agulha,passive,2.98
+GUAMARE,2007,RES,rede de espera,passive,19.29
+GUAMARE,2007,RTP,rede de tapagem,passive,1.02
+GUAMARE,2007,SRD,sardinheira,passive,0.08
+GUAMARE,2007,TRM,tremalho,passive,4.5
+GUAMARE,2008,APA,arrasto de praia,active,8.1
+GUAMARE,2008,APO,arrasto de porta,active,27.18
+GUAMARE,2008,CMN,coleta manual,active,43.28
+GUAMARE,2008,CVP,covo peixe,passive,247.85
+GUAMARE,2008,LIJ,linha e jereré,mixed,0.19
+GUAMARE,2008,LIN,linha,passive,17.55
+GUAMARE,2008,MEL,mergulho livre,active,0.06
+GUAMARE,2008,PUC,puçá,active,3.69
+GUAMARE,2008,RAG,rede agulha,passive,8.81
+GUAMARE,2008,RES,rede de espera,passive,72.32
+GUAMARE,2008,RTP,rede de tapagem,passive,0.18
+GUAMARE,2008,SRD,sardinheira,passive,2.37
+GUAMARE,2008,TRM,tremalho,passive,31.2
+GUAMARE,2009,APA,arrasto de praia,active,0.0
+GUAMARE,2009,APO,arrasto de porta,active,27.873
+GUAMARE,2009,CMN,coleta manual,active,99.4765
+GUAMARE,2009,CMP,compressor,active,0.0
+GUAMARE,2009,CUR,curral,passive,0.0
+GUAMARE,2009,CVL,covo lagosta,passive,0.0
+GUAMARE,2009,CVP,covo peixe,passive,77.524
+GUAMARE,2009,ESP,espinhel,passive,0.0
+GUAMARE,2009,LCP,linha e covo peixe,mixed,0.0
+GUAMARE,2009,LIJ,linha e jereré,passive,0.0
+GUAMARE,2009,LIN,linha,passive,27.2109
+GUAMARE,2009,MEL,mergulho livre,active,0.276
+GUAMARE,2009,PUC,puçá/mangote,active,4.5395
+GUAMARE,2009,RAG,rede agulha,passive,7.448
+GUAMARE,2009,RCA,rede caçoeira,passive,0.0
+GUAMARE,2009,RES,rede de espera,passive,44.0056
+GUAMARE,2009,RTP,rede de tapagem,passive,0.0
+GUAMARE,2009,SRD,sardinheira,active,0.305
+GUAMARE,2009,TNR,tainheira,active,96.634
+GUAMARE,2009,TRF,tarrafa,active,0.0
+GUAMARE,2009,TRM,tresmalho,passive,53.315
+GUAMARE,2010,APA,arrasto de praia,active,0.0
+GUAMARE,2010,APO,arrasto de porta,active,21.972
+GUAMARE,2010,CMN,coleta manual,active,71.208
+GUAMARE,2010,CMP,compressor,active,0.0
+GUAMARE,2010,CUR,curral,passive,0.0
+GUAMARE,2010,CVL,covo lagosta,passive,0.0
+GUAMARE,2010,CVP,covo peixe,passive,24.886
+GUAMARE,2010,ESP,espinhel,passive,0.0
+GUAMARE,2010,LCP,linha e covo peixe,passive,0.0
+GUAMARE,2010,LES,linha e espinhel,passive,0.0
+GUAMARE,2010,LIJ,linha e jereré,passive,3.503
+GUAMARE,2010,LIN,linha,passive,46.775
+GUAMARE,2010,LRE,linha e rede de espera,passive,0.0
+GUAMARE,2010,MEL,mergulho livre,active,0.406
+GUAMARE,2010,PUC,puçá,active,5.057
+GUAMARE,2010,RAG,rede de agulha,passive,3.041
+GUAMARE,2010,RCA,rede caçoeira,passive,0.0
+GUAMARE,2010,RES,rede de espera,passive,29.876
+GUAMARE,2010,RTP,rede de tapagem,passive,0.0
+GUAMARE,2010,SRD,sardinheira,active,25.834
+GUAMARE,2010,TNR,tainheira,active,90.261
+GUAMARE,2010,TRF,tarrafa,active,0.0
+GUAMARE,2010,TRM,tresmalho,passive,41.618
+GUAMARE,2011,APO,arrasto de porta,active,12.921
+GUAMARE,2011,CMN,coleta manual,active,67.7
+GUAMARE,2011,CVL,covo lagosta,passive,0.369
+GUAMARE,2011,CVP,covo peixe,passive,75.305
+GUAMARE,2011,LIJ,linha e jereré,mixed,2.182
+GUAMARE,2011,LIN,linha,passive,34.708
+GUAMARE,2011,LRE,linha e rede de espera,mixed,0.143
+GUAMARE,2011,MEL,mergulho livre,active,0.696
+GUAMARE,2011,PUC,puçá,active,4.28
+GUAMARE,2011,RAG,rede agulha,passive,3.985
+GUAMARE,2011,RCA,rede caçoeira,passive,0.912
+GUAMARE,2011,RES,rede de espera,passive,27.234
+GUAMARE,2011,TNR,traineira,active,75.566
+GUAMARE,2011,TRM,tremalho,passive,40.65
+GUAMARE,2012,APA,arrasto de praia,active,0.0
+GUAMARE,2012,APO,arrasto de porta,active,3.5
+GUAMARE,2012,CMN,coleta manual,active,33.6
+GUAMARE,2012,CMP,compressor,active,0.1
+GUAMARE,2012,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2012,CUR,curral,passive,0.0
+GUAMARE,2012,CVL,covo lagosta,passive,0.5
+GUAMARE,2012,CVP,covo peixe,passive,0.0
+GUAMARE,2012,JER,jereré,active,2.0
+GUAMARE,2012,LCL,linha e covo lagosta,mixed,0.0
+GUAMARE,2012,LCP,linha e covo peixe,mixed,1.1
+GUAMARE,2012,LES,linha e espinhel,mixed,0.0
+GUAMARE,2012,LIJ,linha e jereré,mixed,9.399999999999999
+GUAMARE,2012,LIN,linha,passive,23.9
+GUAMARE,2012,LML,linha e mergulho livre,mixed,0.0
+GUAMARE,2012,LRE,linha e rede de espera,mixed,0.1
+GUAMARE,2012,MEL,mergulho livre,active,0.2
+GUAMARE,2012,PUC,puçá,active,3.0
+GUAMARE,2012,RAG,rede agulha,passive,5.300000000000001
+GUAMARE,2012,RCA,rede caçoeira,passive,0.0
+GUAMARE,2012,RES,rede de espera,passive,11.2
+GUAMARE,2012,RTP,rede de tapagem,passive,0.0
+GUAMARE,2012,SRD,sardinheira,passive,0.0
+GUAMARE,2012,TNR,traineira,active,59.9
+GUAMARE,2012,TRF,tarrafa,active,0.2
+GUAMARE,2012,TRM,tremalho,passive,29.7
+GUAMARE,2013,APA,arrasto de praia,active,0.0
+GUAMARE,2013,APO,arrasto de porta,active,1.7
+GUAMARE,2013,CMN,coleta manual,active,30.9
+GUAMARE,2013,CMP,compressor,active,0.0
+GUAMARE,2013,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2013,CUR,curral,passive,0.0
+GUAMARE,2013,CVL,covo lagosta,passive,4.4
+GUAMARE,2013,CVP,covo peixe,passive,0.0
+GUAMARE,2013,ESP,espinhel,passive,0.0
+GUAMARE,2013,JER,jereré,active,0.3
+GUAMARE,2013,LCL,linha e covo lagosta,passive,0.0
+GUAMARE,2013,LCP,linha e covo peixe,passive,0.0
+GUAMARE,2013,LES,linha e espinhel,passive,0.0
+GUAMARE,2013,LIJ,linha e jereré,passive,9.3
+GUAMARE,2013,LIN,linha,passive,26.9
+GUAMARE,2013,LML,linha e mergulho livre,mixed,0.0
+GUAMARE,2013,LRE,linha e rede de espera,passive,0.0
+GUAMARE,2013,MEL,mergulho livre,active,0.1
+GUAMARE,2013,PUC,puçá,active,5.1
+GUAMARE,2013,RAG,rede agulha,passive,9.7
+GUAMARE,2013,RCA,rede caçoeira,passive,0.0
+GUAMARE,2013,RES,rede de espera,passive,19.2
+GUAMARE,2013,RTP,rede de tapagem,passive,0.0
+GUAMARE,2013,SRD,sardinheira,active,0.0
+GUAMARE,2013,TNR,tainheira,active,54.3
+GUAMARE,2013,TRF,tarrafa,active,0.2
+GUAMARE,2013,TRM,tresmalho,passive,32.7
+GUAMARE,2014,APA,arrasto de praia,active,0.0
+GUAMARE,2014,APO,arrasto de porta,active,0.3
+GUAMARE,2014,CMN,coleta manual,active,12.3
+GUAMARE,2014,CMP,compressor,active,0.0
+GUAMARE,2014,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2014,CUR,curral,passive,0.0
+GUAMARE,2014,CVL,covo lagosta,passive,0.0
+GUAMARE,2014,CVP,covo peixe,passive,0.0
+GUAMARE,2014,JER,jereré,active,0.3
+GUAMARE,2014,LCP,linha e covo peixe,mixed,0.0
+GUAMARE,2014,LES,linha e espinhel,mixed,0.0
+GUAMARE,2014,LIJ,linha e jereré,mixed,9.5
+GUAMARE,2014,LIN,linha,passive,10.1
+GUAMARE,2014,LML,linha e mergulho livre,mixed,0.0
+GUAMARE,2014,LRE,linha e rede de espera,mixed,0.2
+GUAMARE,2014,MEL,mergulho livre,active,0.6
+GUAMARE,2014,PUC,puçá,active,3.0
+GUAMARE,2014,RAG,rede agulha,passive,5.2
+GUAMARE,2014,RCA,rede caçoeira,passive,0.0
+GUAMARE,2014,RES,rede de espera,passive,13.4
+GUAMARE,2014,RTP,rede de tapagem,passive,0.0
+GUAMARE,2014,SRD,sardinheira,passive,0.0
+GUAMARE,2014,TNR,traineira,active,28.0
+GUAMARE,2014,TRF,tarrafa,active,0.1
+GUAMARE,2014,TRM,tremalho,passive,19.3
+GUAMARE,2015,APA,arrasto de praia,active,0.0
+GUAMARE,2015,APO,arrasto de porta,active,0.2
+GUAMARE,2015,CMN,coleta manual,active,13.8
+GUAMARE,2015,CMP,compressor,active,0.0
+GUAMARE,2015,COQ,coqueiro,active,0.0
+GUAMARE,2015,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2015,CUR,curral,passive,0.0
+GUAMARE,2015,CVL,covo lagosta,passive,0.0
+GUAMARE,2015,CVP,covo peixe,passive,0.0
+GUAMARE,2015,JER,jereré,active,0.7
+GUAMARE,2015,LCL,linha e covo lagosta,mixed,0.0
+GUAMARE,2015,LCP,linha e covo peixe,mixed,0.0
+GUAMARE,2015,LES,linha e espinhel,mixed,0.0
+GUAMARE,2015,LIJ,linha e jereré,mixed,4.7
+GUAMARE,2015,LIN,linha,passive,14.7
+GUAMARE,2015,LRE,linha e rede de espera,mixed,0.0
+GUAMARE,2015,MEL,mergulho livre,active,1.0
+GUAMARE,2015,PUC,puçá,active,2.5
+GUAMARE,2015,RAG,rede agulha,passive,6.9
+GUAMARE,2015,RCA,rede caçoeira,passive,0.0
+GUAMARE,2015,RES,rede de espera,passive,12.1
+GUAMARE,2015,RTP,rede de tapagem,passive,0.0
+GUAMARE,2015,SRD,sardinheira,passive,0.0
+GUAMARE,2015,TNR,traineira,active,45.4
+GUAMARE,2015,TRF,tarrafa,active,0.0
+GUAMARE,2015,TRM,tremalho,passive,15.0
+GUAMARE,2016,APA,arrasto de praia,active,0.0
+GUAMARE,2016,APO,arrasto de porta,active,0.8
+GUAMARE,2016,CMN,coleta manual,active,24.2
+GUAMARE,2016,CMP,compressor,active,0.0
+GUAMARE,2016,COQ,coqueiro,active,0.0
+GUAMARE,2016,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2016,CUR,curral,passive,0.0
+GUAMARE,2016,CVL,covo lagosta,passive,1.2
+GUAMARE,2016,CVP,covo peixe,passive,0.0
+GUAMARE,2016,JER,jereré,active,1.8
+GUAMARE,2016,LCL,linha e covo lagosta,mixed,0.0
+GUAMARE,2016,LCP,linha e covo peixe,mixed,0.3
+GUAMARE,2016,LES,linha e espinhel,mixed,0.0
+GUAMARE,2016,LIJ,linha e jereré,mixed,12.2
+GUAMARE,2016,LIN,linha,passive,30.3
+GUAMARE,2016,LML,linha e mergulho livre,mixed,0.0
+GUAMARE,2016,LRE,linha e rede de espera,mixed,0.2
+GUAMARE,2016,MEL,mergulho livre,active,1.8
+GUAMARE,2016,PUC,puçá,active,5.2
+GUAMARE,2016,RAG,rede agulha,passive,9.3
+GUAMARE,2016,RCA,rede caçoeira,passive,0.0
+GUAMARE,2016,RES,rede de espera,passive,25.5
+GUAMARE,2016,RTP,rede de tapagem,passive,0.0
+GUAMARE,2016,SRD,sardinheira,passive,0.0
+GUAMARE,2016,TNR,traineira,active,77.5
+GUAMARE,2016,TRF,tarrafa,active,0.1
+GUAMARE,2016,TRM,tremalho,passive,38.2
+GUAMARE,2017,APA,arrasto de praia,active,0.0
+GUAMARE,2017,APO,arrasto de porta,active,1.3
+GUAMARE,2017,CMN,coleta manual,active,27.3
+GUAMARE,2017,CMP,compressor,active,0.0
+GUAMARE,2017,COQ,coqueiro,active,0.0
+GUAMARE,2017,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2017,CUR,curral,passive,0.0
+GUAMARE,2017,CVL,covo lagosta,passive,1.5
+GUAMARE,2017,CVP,covo peixe,passive,0.0
+GUAMARE,2017,JER,jereré,active,0.8
+GUAMARE,2017,LCL,linha e covo lagosta,mixed,0.0
+GUAMARE,2017,LCP,linha e covo peixe,mixed,0.0
+GUAMARE,2017,LES,linha e espinhel,mixed,0.0
+GUAMARE,2017,LIJ,linha e jereré,mixed,12.4
+GUAMARE,2017,LIN,linha,passive,28.9
+GUAMARE,2017,LML,linha e mergulho livre,mixed,0.0
+GUAMARE,2017,LRE,linha e rede de espera,mixed,0.1
+GUAMARE,2017,MEL,mergulho livre,active,0.9
+GUAMARE,2017,PUC,puçá,active,5.4
+GUAMARE,2017,RAG,rede agulha,passive,10.1
+GUAMARE,2017,RCA,rede caçoeira,passive,0.0
+GUAMARE,2017,RES,rede de espera,passive,21.9
+GUAMARE,2017,RTP,rede de tapagem,passive,0.0
+GUAMARE,2017,SRD,sardinheira,passive,0.0
+GUAMARE,2017,TNR,traineira,active,71.0
+GUAMARE,2017,TRF,tarrafa,active,0.2
+GUAMARE,2017,TRM,tremalho,passive,48.8
+GUAMARE,2018,APA,arrasto de praia,active,0.0
+GUAMARE,2018,APO,arrasto de porta,active,0.0
+GUAMARE,2018,CMN,coleta manual,active,38.2
+GUAMARE,2018,CMP,compressor,active,0.0
+GUAMARE,2018,COQ,coqueiro,active,0.1
+GUAMARE,2018,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2018,CUR,curral,passive,0.0
+GUAMARE,2018,CVL,covo lagosta,passive,0.0
+GUAMARE,2018,CVP,covo peixe,passive,0.0
+GUAMARE,2018,JER,jereré,active,0.6
+GUAMARE,2018,LES,linha e espinhel,mixed,0.0
+GUAMARE,2018,LIJ,linha e jereré,mixed,0.0
+GUAMARE,2018,LIN,linha,passive,6.4
+GUAMARE,2018,LRE,linha e rede de espera,mixed,0.8
+GUAMARE,2018,MEL,mergulho livre,active,0.3
+GUAMARE,2018,PUC,puçá,active,1.5
+GUAMARE,2018,RAG,rede agulha,passive,6.0
+GUAMARE,2018,RCA,rede caçoeira,passive,0.0
+GUAMARE,2018,RES,rede de espera,passive,13.9
+GUAMARE,2018,RTP,rede de tapagem,passive,0.0
+GUAMARE,2018,SRD,sardinheira,passive,0.0
+GUAMARE,2018,TNR,traineira,active,24.7
+GUAMARE,2018,TRF,tarrafa,active,0.1
+GUAMARE,2018,TRM,tremalho,passive,19.2
+GUAMARE,2019,APA,arrasto de praia,active,0.0
+GUAMARE,2019,APO,arrasto de porta,active,0.2
+GUAMARE,2019,CMN,coleta manual,active,106.2
+GUAMARE,2019,CMP,compressor,active,0.0
+GUAMARE,2019,COQ,coqueiro,active,0.1
+GUAMARE,2019,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2019,CUR,curral,passive,0.0
+GUAMARE,2019,CVL,covo lagosta,passive,0.0
+GUAMARE,2019,CVP,covo peixe,passive,27.9
+GUAMARE,2019,JER,jereré,active,0.0
+GUAMARE,2019,LCL,linha e covo lagosta,mixed,0.0
+GUAMARE,2019,LCP,linha e covo peixe,mixed,0.0
+GUAMARE,2019,LES,linha e espinhel,mixed,0.0
+GUAMARE,2019,LIJ,linha e jereré,mixed,6.4
+GUAMARE,2019,LIN,linha,passive,14.0
+GUAMARE,2019,LML,linha e mergulho livre,mixed,0.0
+GUAMARE,2019,LRE,linha e rede de espera,mixed,0.7
+GUAMARE,2019,MEL,mergulho livre,active,1.0
+GUAMARE,2019,PUC,puçá,active,8.2
+GUAMARE,2019,RAG,rede agulha,passive,7.9
+GUAMARE,2019,RCA,rede caçoeira,passive,0.0
+GUAMARE,2019,RES,rede de espera,passive,26.6
+GUAMARE,2019,RTP,rede de tapagem,passive,0.0
+GUAMARE,2019,SRD,sardinheira,passive,0.0
+GUAMARE,2019,TNR,traineira,active,52.8
+GUAMARE,2019,TRF,tarrafa,active,0.0
+GUAMARE,2019,TRM,tremalho,passive,44.3
+GUAMARE,2020,APA,arrasto de praia,active,0.0
+GUAMARE,2020,APO,arrasto de porta,active,0.9
+GUAMARE,2020,CMN,coleta manual,active,35.2
+GUAMARE,2020,CMP,compressor,active,0.0
+GUAMARE,2020,COQ,coqueiro,active,0.4
+GUAMARE,2020,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2020,CUR,curral,passive,0.0
+GUAMARE,2020,CVL,covo lagosta,passive,0.0
+GUAMARE,2020,CVP,covo peixe,passive,0.0
+GUAMARE,2020,JER,jereré,active,0.0
+GUAMARE,2020,LCL,linha e covo lagosta,mixed,0.0
+GUAMARE,2020,LCP,linha e covo peixe,mixed,0.0
+GUAMARE,2020,LES,linha e espinhel,mixed,0.0
+GUAMARE,2020,LIJ,linha e jereré,mixed,7.2
+GUAMARE,2020,LIN,linha,passive,15.2
+GUAMARE,2020,LML,linha e mergulho livre,mixed,0.1
+GUAMARE,2020,LRE,linha e rede de espera,mixed,0.9
+GUAMARE,2020,MEL,mergulho livre,active,1.0
+GUAMARE,2020,PUC,puçá,active,8.2
+GUAMARE,2020,RAG,rede agulha,passive,9.8
+GUAMARE,2020,RCA,rede caçoeira,passive,0.0
+GUAMARE,2020,RES,rede de espera,passive,42.5
+GUAMARE,2020,RTP,rede de tapagem,passive,0.0
+GUAMARE,2020,SRD,sardinheira,passive,0.3
+GUAMARE,2020,TNR,traineira,active,41.3
+GUAMARE,2020,TRF,tarrafa,active,0.1
+GUAMARE,2020,TRM,tremalho,passive,25.7
+GUAMARE,2021,APA,arrasto de praia,active,0.0
+GUAMARE,2021,APO,arrasto de porta,active,0.5
+GUAMARE,2021,CMN,coleta manual,active,64.3
+GUAMARE,2021,CMP,compressor,active,0.0
+GUAMARE,2021,COQ,coqueiro,active,0.1
+GUAMARE,2021,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2021,CUR,curral,passive,0.0
+GUAMARE,2021,CVL,covo lagosta,passive,0.0
+GUAMARE,2021,CVP,covo peixe,passive,0.0
+GUAMARE,2021,JER,jereré,active,0.0
+GUAMARE,2021,LCL,linha e covo lagosta,mixed,0.0
+GUAMARE,2021,LCP,linha e covo peixe,mixed,0.0
+GUAMARE,2021,LES,linha e espinhel,mixed,0.0
+GUAMARE,2021,LIJ,linha e jereré,mixed,19.5
+GUAMARE,2021,LIN,linha,passive,28.7
+GUAMARE,2021,LML,linha e mergulho livre,mixed,0.0
+GUAMARE,2021,LRE,linha e rede de espera,mixed,1.1
+GUAMARE,2021,MEL,mergulho livre,active,0.2
+GUAMARE,2021,PUC,puçá,active,3.8
+GUAMARE,2021,RAG,rede agulha,passive,7.4
+GUAMARE,2021,RCA,rede caçoeira,passive,0.0
+GUAMARE,2021,RES,rede de espera,passive,18.4
+GUAMARE,2021,RTP,rede de tapagem,passive,0.0
+GUAMARE,2021,SRD,sardinheira,passive,0.0
+GUAMARE,2021,TNR,traineira,active,51.1
+GUAMARE,2021,TRF,tarrafa,active,0.1
+GUAMARE,2021,TRM,tremalho,passive,8.2
+GUAMARE,2022,APO,arrasto de porta,active,0.4
+GUAMARE,2022,CMN,coleta manual,active,164.3
+GUAMARE,2022,CMP,compressor,active,0.0
+GUAMARE,2022,COQ,coqueiro,active,0.8
+GUAMARE,2022,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2022,CUR,curral,passive,0.0
+GUAMARE,2022,CVL,covo lagosta,passive,0.0
+GUAMARE,2022,CVP,covo peixe,passive,0.0
+GUAMARE,2022,LES,linha e espinhel,mixed,0.0
+GUAMARE,2022,LIJ,linha e jereré,mixed,10.4
+GUAMARE,2022,LIN,linha,passive,34.1
+GUAMARE,2022,LML,linha e mergulho livre,mixed,0.5
+GUAMARE,2022,LRE,linha e rede de espera,mixed,1.8
+GUAMARE,2022,MEL,mergulho livre,active,0.4
+GUAMARE,2022,PUC,puçá,active,11.2
+GUAMARE,2022,RAG,rede agulha,passive,10.5
+GUAMARE,2022,RCA,rede caçoeira,passive,0.0
+GUAMARE,2022,RES,rede de espera,passive,45.9
+GUAMARE,2022,RTP,rede de tapagem,passive,0.0
+GUAMARE,2022,SRD,sardinheira,passive,0.3
+GUAMARE,2022,TNR,traineira,active,51.0
+GUAMARE,2022,TRF,tarrafa,active,0.0
+GUAMARE,2022,TRM,tremalho,passive,10.7
+GUAMARE,2023,APO,arrasto de porta,active,0.0
+GUAMARE,2023,CMN,coleta manual,active,208.2
+GUAMARE,2023,CMP,compressor,active,0.0
+GUAMARE,2023,COQ,coqueiro,active,0.3
+GUAMARE,2023,CPL,covo peixe e lagosta,passive,0.0
+GUAMARE,2023,CUR,curral,passive,0.0
+GUAMARE,2023,CVL,covo lagosta,passive,0.0
+GUAMARE,2023,CVP,covo peixe,passive,0.0
+GUAMARE,2023,JER,jereré,active,0.0
+GUAMARE,2023,LES,linha e espinhel,mixed,0.4
+GUAMARE,2023,LIJ,linha e jereré,mixed,6.3
+GUAMARE,2023,LIN,linha,passive,27.7
+GUAMARE,2023,LML,linha e mergulho livre,mixed,0.3
+GUAMARE,2023,LRE,linha e rede de espera,mixed,2.0
+GUAMARE,2023,MEL,mergulho livre,active,1.2
+GUAMARE,2023,PUC,puçá,active,4.5
+GUAMARE,2023,RAG,rede agulha,passive,10.8
+GUAMARE,2023,RCA,rede caçoeira,passive,0.0
+GUAMARE,2023,RES,rede de espera,passive,36.5
+GUAMARE,2023,RTP,rede de tapagem,passive,0.0
+GUAMARE,2023,SRD,sardinheira,passive,0.0
+GUAMARE,2023,TNR,traineira,active,69.5
+GUAMARE,2023,TRF,tarrafa,active,0.0
+GUAMARE,2023,TRM,tremalho,passive,37.5
+GUAMARE,2024,APO,arrasto de porta,active,0.0
+GUAMARE,2024,CMN,coleta manual,active,87.7
+GUAMARE,2024,CMP,compressor,active,0.0
+GUAMARE,2024,COQ,palha de coqueiro,passive,0.1
+GUAMARE,2024,CUR,curral,passive,0.0
+GUAMARE,2024,CVL,covo lagosta,passive,0.0
+GUAMARE,2024,CVP,covo peixe,passive,0.0
+GUAMARE,2024,ESP,espinhel,passive,0.0
+GUAMARE,2024,LES,linha e espinhel,mixed,0.0
+GUAMARE,2024,LIJ,linha e jereré,mixed,1.5
+GUAMARE,2024,LIN,linha,passive,14.4
+GUAMARE,2024,LML,linha e mergulho livre,mixed,0.0
+GUAMARE,2024,LRE,linha e rede de espera,mixed,0.5
+GUAMARE,2024,MEL,mergulho livre,active,0.7
+GUAMARE,2024,PUC,puçá,active,4.8
+GUAMARE,2024,RAG,rede agulha,passive,9.1
+GUAMARE,2024,REC,rede caçoeira,passive,0.0
+GUAMARE,2024,RES,rede de espera,passive,65.5
+GUAMARE,2024,RTP,rede de tapagem,passive,0.0
+GUAMARE,2024,SRD,sardinheira,passive,0.0
+GUAMARE,2024,TRF,tarrafa,active,0.0
+GUAMARE,2024,TRM,tremalho,passive,22.9
+MACAU,2001,APA,arrasto de praia,active,0.7
+MACAU,2001,CPL,covo peixe e lagosta,passive,0.18
+MACAU,2001,CUR,curral,passive,2.41
+MACAU,2001,JER,jereré,active,1.26
+MACAU,2001,LIJ,linha e jereré,mixed,10.62
+MACAU,2001,LIN,linha,passive,10.06
+MACAU,2001,MEL,mergulho livre,active,0.23
+MACAU,2001,PUC,puçá,active,2.39
+MACAU,2001,RAG,rede agulha,passive,4.33
+MACAU,2001,RES,rede de espera,passive,63.26000000000001
+MACAU,2001,RTP,rede de tapagem,passive,0.11
+MACAU,2001,SRD,sardinheira,passive,127.56
+MACAU,2001,TRF,tarrafa,active,0.12
+MACAU,2001,TRM,tremalho,passive,1.28
+MACAU,2002,APA,arrasto de praia,active,8.34
+MACAU,2002,CPL,covo peixe e lagosta,passive,0.9199999999999999
+MACAU,2002,CUR,curral,passive,2.04
+MACAU,2002,CVL,covo lagosta,passive,0.04
+MACAU,2002,LIJ,linha e jereré,mixed,28.02
+MACAU,2002,LIN,linha,passive,9.67
+MACAU,2002,PUC,puçá,active,1.44
+MACAU,2002,RAG,rede agulha,passive,3.37
+MACAU,2002,RES,rede de espera,passive,70.65
+MACAU,2002,RTP,rede de tapagem,passive,1.2
+MACAU,2002,SRD,sardinheira,passive,122.98
+MACAU,2002,TRF,tarrafa,active,0.06
+MACAU,2002,TRM,tremalho,passive,3.95
+MACAU,2003,APA,arrasto de praia,active,18.16
+MACAU,2003,CPL,covo peixe e lagosta,passive,0.36
+MACAU,2003,CUR,curral,passive,0.06
+MACAU,2003,CVL,covo lagosta,passive,0.07
+MACAU,2003,LCL,linha e covo lagosta,mixed,0.13
+MACAU,2003,LIJ,linha e jereré,mixed,41.31
+MACAU,2003,LIN,linha,passive,21.43
+MACAU,2003,MEL,mergulho livre,active,0.39
+MACAU,2003,PUC,puçá,active,1.8
+MACAU,2003,RAG,rede agulha,passive,4.38
+MACAU,2003,RES,rede de espera,passive,71.57
+MACAU,2003,RTP,rede de tapagem,passive,4.59
+MACAU,2003,SRD,sardinheira,passive,211.88
+MACAU,2003,TRF,tarrafa,active,0.1
+MACAU,2003,TRM,tremalho,passive,1.47
+MACAU,2004,APA,arrasto de praia,active,27.75
+MACAU,2004,CPL,covo peixe e lagosta,passive,0.37
+MACAU,2004,CUR,curral,passive,3.36
+MACAU,2004,CVL,covo lagosta,passive,0.0
+MACAU,2004,LIJ,linha e jereré,mixed,93.57
+MACAU,2004,LIN,linha,passive,17.22
+MACAU,2004,LML,linha e mergulho livre,mixed,0.27
+MACAU,2004,MEL,mergulho livre,active,0.91
+MACAU,2004,PUC,puçá,active,1.95
+MACAU,2004,RAG,rede agulha,passive,3.91
+MACAU,2004,RES,rede de espera,passive,115.88
+MACAU,2004,RTP,rede de tapagem,passive,2.86
+MACAU,2004,SRD,sardinheira,passive,417.26
+MACAU,2004,TRF,tarrafa,active,0.16
+MACAU,2004,TRM,tremalho,passive,2.61
+MACAU,2005,APA,arrasto de praia,active,7.94
+MACAU,2005,CPL,covo peixe e lagosta,passive,0.02
+MACAU,2005,CUR,curral,passive,3.71
+MACAU,2005,CVL,covo lagosta,passive,0.04
+MACAU,2005,LIJ,linha e jereré,mixed,74.13
+MACAU,2005,LIN,linha,passive,18.67
+MACAU,2005,MEL,mergulho livre,active,0.3
+MACAU,2005,PUC,puçá,active,6.88
+MACAU,2005,RAG,rede agulha,passive,2.12
+MACAU,2005,RES,rede de espera,passive,125.78
+MACAU,2005,RTP,rede de tapagem,passive,3.2
+MACAU,2005,SRD,sardinheira,passive,140.28
+MACAU,2005,TRF,tarrafa,active,3.14
+MACAU,2005,TRM,tremalho,passive,4.56
+MACAU,2006,APA,arrasto de praia,active,1.68
+MACAU,2006,CUR,curral,passive,0.35
+MACAU,2006,CVP,covo peixe,passive,0.37
+MACAU,2006,LCL,linha e covo lagosta,mixed,0.18
+MACAU,2006,LIJ,linha e jereré,mixed,16.76
+MACAU,2006,LIN,linha,passive,26.68
+MACAU,2006,MEL,mergulho livre,active,0.16
+MACAU,2006,PUC,puçá,active,1.29
+MACAU,2006,RAG,rede agulha,passive,7.07
+MACAU,2006,RES,rede de espera,passive,83.12
+MACAU,2006,RTP,rede de tapagem,passive,0.79
+MACAU,2006,SRD,sardinheira,passive,76.11
+MACAU,2006,TRF,tarrafa,active,0.11
+MACAU,2006,TRM,tremalho,passive,2.0
+MACAU,2007,APA,arrasto de praia,active,2.12
+MACAU,2007,APO,arrasto de porta,active,0.11
+MACAU,2007,CMN,coleta manual,active,1.92
+MACAU,2007,CUR,curral,passive,0.56
+MACAU,2007,CVL,covo lagosta,passive,0.04
+MACAU,2007,CVP,covo peixe,passive,4.61
+MACAU,2007,LCP,linha e covo peixe,mixed,0.99
+MACAU,2007,LIJ,linha e jereré,mixed,32.7
+MACAU,2007,LIN,linha,passive,21.08
+MACAU,2007,MEL,mergulho livre,active,0.77
+MACAU,2007,PUC,puçá,active,3.07
+MACAU,2007,RAG,rede agulha,passive,3.77
+MACAU,2007,RES,rede de espera,passive,132.42
+MACAU,2007,RTP,rede de tapagem,passive,8.86
+MACAU,2007,SRD,sardinheira,passive,152.64
+MACAU,2007,TRF,tarrafa,active,0.09
+MACAU,2007,TRM,tremalho,passive,3.92
+MACAU,2008,APA,arrasto de praia,active,34.96
+MACAU,2008,APO,arrasto de porta,active,17.05
+MACAU,2008,CMN,coleta manual,active,6.7
+MACAU,2008,CPL,covo peixe e lagosta,passive,1.75
+MACAU,2008,CUR,curral,passive,0.13
+MACAU,2008,CVP,covo peixe,passive,36.2
+MACAU,2008,LIJ,linha e jereré,mixed,151.36
+MACAU,2008,LIN,linha,passive,49.3
+MACAU,2008,MEL,mergulho livre,active,0.03
+MACAU,2008,PUC,puçá,active,4.53
+MACAU,2008,RAG,rede agulha,passive,14.25
+MACAU,2008,RES,rede de espera,passive,277.3
+MACAU,2008,RTP,rede de tapagem,passive,5.81
+MACAU,2008,SRD,sardinheira,passive,340.25
+MACAU,2008,TRF,tarrafa,active,15.32
+MACAU,2008,TRM,tremalho,passive,14.87
+MACAU,2009,APA,arrasto de praia,active,83.6513
+MACAU,2009,APO,arrasto de porta,active,24.624
+MACAU,2009,CMN,coleta manual,active,20.1358
+MACAU,2009,CMP,compressor,active,1.887
+MACAU,2009,CUR,curral,passive,1.304
+MACAU,2009,CVL,covo lagosta,passive,0.0
+MACAU,2009,CVP,covo peixe,passive,0.0
+MACAU,2009,ESP,espinhel,passive,0.0
+MACAU,2009,LCP,linha e covo peixe,mixed,0.0
+MACAU,2009,LIJ,linha e jereré,passive,250.2625
+MACAU,2009,LIN,linha,passive,129.3012
+MACAU,2009,MEL,mergulho livre,active,0.05
+MACAU,2009,PUC,puçá/mangote,active,11.9696
+MACAU,2009,RAG,rede agulha,passive,30.5935
+MACAU,2009,RCA,rede caçoeira,passive,0.0
+MACAU,2009,RES,rede de espera,passive,213.3969
+MACAU,2009,RTP,rede de tapagem,passive,1.809
+MACAU,2009,SRD,sardinheira,active,1286.4088
+MACAU,2009,TNR,tainheira,active,319.5689
+MACAU,2009,TRF,tarrafa,active,13.4273
+MACAU,2009,TRM,tresmalho,passive,18.062
+MACAU,2010,APA,arrasto de praia,active,37.95
+MACAU,2010,APO,arrasto de porta,active,0.0
+MACAU,2010,CMN,coleta manual,active,50.613
+MACAU,2010,CMP,compressor,active,2.902
+MACAU,2010,CUR,curral,passive,6.349
+MACAU,2010,CVL,covo lagosta,passive,0.0
+MACAU,2010,CVP,covo peixe,passive,1.111
+MACAU,2010,ESP,espinhel,passive,0.0
+MACAU,2010,LCP,linha e covo peixe,passive,0.0
+MACAU,2010,LES,linha e espinhel,passive,0.0
+MACAU,2010,LIJ,linha e jereré,passive,312.87
+MACAU,2010,LIN,linha,passive,92.489
+MACAU,2010,LRE,linha e rede de espera,passive,0.0
+MACAU,2010,MEL,mergulho livre,active,0.041
+MACAU,2010,PUC,puçá,active,16.982
+MACAU,2010,RAG,rede de agulha,passive,11.459
+MACAU,2010,RCA,rede caçoeira,passive,0.0
+MACAU,2010,RES,rede de espera,passive,193.485
+MACAU,2010,RTP,rede de tapagem,passive,2.956
+MACAU,2010,SRD,sardinheira,active,1065.63
+MACAU,2010,TNR,tainheira,active,258.171
+MACAU,2010,TRF,tarrafa,active,11.127
+MACAU,2010,TRM,tresmalho,passive,17.111
+MACAU,2011,APO,arrasto de porta,active,0.017
+MACAU,2011,CMN,coleta manual,active,72.83
+MACAU,2011,CMP,compressor,active,5.73
+MACAU,2011,CUR,curral,passive,8.338
+MACAU,2011,CVP,covo peixe,passive,0.359
+MACAU,2011,JER,jereré,active,18.147
+MACAU,2011,LIJ,linha e jereré,mixed,296.588
+MACAU,2011,LIN,linha,passive,86.983
+MACAU,2011,LRE,linha e rede de espera,mixed,60.749
+MACAU,2011,PUC,puçá,active,16.031
+MACAU,2011,RAG,rede agulha,passive,42.893
+MACAU,2011,RCA,rede caçoeira,passive,8.265
+MACAU,2011,RES,rede de espera,passive,169.356
+MACAU,2011,SRD,sardinheira,passive,648.525
+MACAU,2011,TNR,traineira,active,221.783
+MACAU,2011,TRF,tarrafa,active,10.676
+MACAU,2011,TRM,tremalho,passive,85.414
+MACAU,2012,APA,arrasto de praia,active,0.9
+MACAU,2012,APO,arrasto de porta,active,0.0
+MACAU,2012,CMN,coleta manual,active,33.2
+MACAU,2012,CMP,compressor,active,0.0
+MACAU,2012,CPL,covo peixe e lagosta,passive,0.1
+MACAU,2012,CUR,curral,passive,35.7
+MACAU,2012,CVL,covo lagosta,passive,0.4
+MACAU,2012,CVP,covo peixe,passive,0.1
+MACAU,2012,JER,jereré,active,1.7
+MACAU,2012,LCL,linha e covo lagosta,mixed,0.0
+MACAU,2012,LCP,linha e covo peixe,mixed,0.0
+MACAU,2012,LES,linha e espinhel,mixed,0.0
+MACAU,2012,LIJ,linha e jereré,mixed,317.0
+MACAU,2012,LIN,linha,passive,63.1
+MACAU,2012,LML,linha e mergulho livre,mixed,0.0
+MACAU,2012,LRE,linha e rede de espera,mixed,34.5
+MACAU,2012,MEL,mergulho livre,active,0.0
+MACAU,2012,PUC,puçá,active,7.9
+MACAU,2012,RAG,rede agulha,passive,57.7
+MACAU,2012,RCA,rede caçoeira,passive,12.1
+MACAU,2012,RES,rede de espera,passive,219.6
+MACAU,2012,RTP,rede de tapagem,passive,2.8
+MACAU,2012,SRD,sardinheira,passive,70.3
+MACAU,2012,TNR,traineira,active,179.1
+MACAU,2012,TRF,tarrafa,active,6.8
+MACAU,2012,TRM,tremalho,passive,43.2
+MACAU,2013,APA,arrasto de praia,active,0.0
+MACAU,2013,APO,arrasto de porta,active,0.0
+MACAU,2013,CMN,coleta manual,active,34.3
+MACAU,2013,CMP,compressor,active,0.0
+MACAU,2013,CPL,covo peixe e lagosta,passive,0.0
+MACAU,2013,CUR,curral,passive,6.9
+MACAU,2013,CVL,covo lagosta,passive,1.1
+MACAU,2013,CVP,covo peixe,passive,0.0
+MACAU,2013,ESP,espinhel,passive,0.0
+MACAU,2013,JER,jereré,active,0.8
+MACAU,2013,LCL,linha e covo lagosta,passive,0.0
+MACAU,2013,LCP,linha e covo peixe,passive,0.0
+MACAU,2013,LES,linha e espinhel,passive,0.0
+MACAU,2013,LIJ,linha e jereré,passive,403.9
+MACAU,2013,LIN,linha,passive,71.2
+MACAU,2013,LML,linha e mergulho livre,mixed,0.0
+MACAU,2013,LRE,linha e rede de espera,passive,125.7
+MACAU,2013,MEL,mergulho livre,active,0.0
+MACAU,2013,PUC,puçá,active,6.8
+MACAU,2013,RAG,rede agulha,passive,50.6
+MACAU,2013,RCA,rede caçoeira,passive,24.3
+MACAU,2013,RES,rede de espera,passive,396.6
+MACAU,2013,RTP,rede de tapagem,passive,3.1
+MACAU,2013,SRD,sardinheira,active,103.4
+MACAU,2013,TNR,tainheira,active,180.3
+MACAU,2013,TRF,tarrafa,active,9.4
+MACAU,2013,TRM,tresmalho,passive,51.8
+MACAU,2014,APA,arrasto de praia,active,0.0
+MACAU,2014,APO,arrasto de porta,active,0.0
+MACAU,2014,CMN,coleta manual,active,15.9
+MACAU,2014,CMP,compressor,active,0.0
+MACAU,2014,CPL,covo peixe e lagosta,passive,0.0
+MACAU,2014,CUR,curral,passive,1.6
+MACAU,2014,CVL,covo lagosta,passive,0.1
+MACAU,2014,CVP,covo peixe,passive,0.0
+MACAU,2014,JER,jereré,active,0.0
+MACAU,2014,LCP,linha e covo peixe,mixed,0.0
+MACAU,2014,LES,linha e espinhel,mixed,0.0
+MACAU,2014,LIJ,linha e jereré,mixed,345.3
+MACAU,2014,LIN,linha,passive,24.8
+MACAU,2014,LML,linha e mergulho livre,mixed,0.0
+MACAU,2014,LRE,linha e rede de espera,mixed,13.6
+MACAU,2014,MEL,mergulho livre,active,0.0
+MACAU,2014,PUC,puçá,active,2.1
+MACAU,2014,RAG,rede agulha,passive,27.6
+MACAU,2014,RCA,rede caçoeira,passive,10.1
+MACAU,2014,RES,rede de espera,passive,215.8
+MACAU,2014,RTP,rede de tapagem,passive,0.2
+MACAU,2014,SRD,sardinheira,passive,47.9
+MACAU,2014,TNR,traineira,active,93.9
+MACAU,2014,TRF,tarrafa,active,3.4
+MACAU,2014,TRM,tremalho,passive,16.5
+MACAU,2015,APA,arrasto de praia,active,0.0
+MACAU,2015,APO,arrasto de porta,active,0.0
+MACAU,2015,CMN,coleta manual,active,16.9
+MACAU,2015,CMP,compressor,active,0.0
+MACAU,2015,COQ,coqueiro,active,0.0
+MACAU,2015,CPL,covo peixe e lagosta,passive,0.0
+MACAU,2015,CUR,curral,passive,3.8
+MACAU,2015,CVL,covo lagosta,passive,0.0
+MACAU,2015,CVP,covo peixe,passive,0.1
+MACAU,2015,JER,jereré,active,0.0
+MACAU,2015,LCL,linha e covo lagosta,mixed,0.0
+MACAU,2015,LCP,linha e covo peixe,mixed,0.0
+MACAU,2015,LES,linha e espinhel,mixed,0.0
+MACAU,2015,LIJ,linha e jereré,mixed,113.6
+MACAU,2015,LIN,linha,passive,60.1
+MACAU,2015,LRE,linha e rede de espera,mixed,99.7
+MACAU,2015,MEL,mergulho livre,active,0.0
+MACAU,2015,PUC,puçá,active,3.0
+MACAU,2015,RAG,rede agulha,passive,32.2
+MACAU,2015,RCA,rede caçoeira,passive,12.4
+MACAU,2015,RES,rede de espera,passive,151.6
+MACAU,2015,RTP,rede de tapagem,passive,0.0
+MACAU,2015,SRD,sardinheira,passive,148.7
+MACAU,2015,TNR,traineira,active,92.0
+MACAU,2015,TRF,tarrafa,active,3.0
+MACAU,2015,TRM,tremalho,passive,15.9
+MACAU,2016,APA,arrasto de praia,active,0.2
+MACAU,2016,APO,arrasto de porta,active,0.0
+MACAU,2016,CMN,coleta manual,active,38.5
+MACAU,2016,CMP,compressor,active,0.1
+MACAU,2016,COQ,coqueiro,active,0.0
+MACAU,2016,CPL,covo peixe e lagosta,passive,0.0
+MACAU,2016,CUR,curral,passive,12.4
+MACAU,2016,CVL,covo lagosta,passive,0.5
+MACAU,2016,CVP,covo peixe,passive,0.0
+MACAU,2016,JER,jereré,active,0.2
+MACAU,2016,LCL,linha e covo lagosta,mixed,0.0
+MACAU,2016,LCP,linha e covo peixe,mixed,0.0
+MACAU,2016,LES,linha e espinhel,mixed,0.0
+MACAU,2016,LIJ,linha e jereré,mixed,408.2
+MACAU,2016,LIN,linha,passive,88.6
+MACAU,2016,LML,linha e mergulho livre,mixed,0.0
+MACAU,2016,LRE,linha e rede de espera,mixed,109.1
+MACAU,2016,MEL,mergulho livre,active,0.0
+MACAU,2016,PUC,puçá,active,6.0
+MACAU,2016,RAG,rede agulha,passive,52.1
+MACAU,2016,RCA,rede caçoeira,passive,22.7
+MACAU,2016,RES,rede de espera,passive,349.9
+MACAU,2016,RTP,rede de tapagem,passive,2.2
+MACAU,2016,SRD,sardinheira,passive,129.5
+MACAU,2016,TNR,traineira,active,205.5
+MACAU,2016,TRF,tarrafa,active,6.4
+MACAU,2016,TRM,tremalho,passive,34.5
+MACAU,2017,APA,arrasto de praia,active,0.0
+MACAU,2017,APO,arrasto de porta,active,0.0
+MACAU,2017,CMN,coleta manual,active,33.3
+MACAU,2017,CMP,compressor,active,0.1
+MACAU,2017,COQ,coqueiro,active,0.0
+MACAU,2017,CPL,covo peixe e lagosta,passive,0.0
+MACAU,2017,CUR,curral,passive,6.4
+MACAU,2017,CVL,covo lagosta,passive,0.5
+MACAU,2017,CVP,covo peixe,passive,0.0
+MACAU,2017,JER,jereré,active,0.3
+MACAU,2017,LCL,linha e covo lagosta,mixed,0.0
+MACAU,2017,LCP,linha e covo peixe,mixed,0.0
+MACAU,2017,LES,linha e espinhel,mixed,0.0
+MACAU,2017,LIJ,linha e jereré,mixed,468.3
+MACAU,2017,LIN,linha,passive,72.9
+MACAU,2017,LML,linha e mergulho livre,mixed,0.0
+MACAU,2017,LRE,linha e rede de espera,mixed,123.4
+MACAU,2017,MEL,mergulho livre,active,0.0
+MACAU,2017,PUC,puçá,active,5.7
+MACAU,2017,RAG,rede agulha,passive,50.6
+MACAU,2017,RCA,rede caçoeira,passive,21.9
+MACAU,2017,RES,rede de espera,passive,351.9
+MACAU,2017,RTP,rede de tapagem,passive,1.1
+MACAU,2017,SRD,sardinheira,passive,163.1
+MACAU,2017,TNR,traineira,active,182.7
+MACAU,2017,TRF,tarrafa,active,7.7
+MACAU,2017,TRM,tremalho,passive,41.9
+MACAU,2018,APA,arrasto de praia,active,0.0
+MACAU,2018,APO,arrasto de porta,active,0.0
+MACAU,2018,CMN,coleta manual,active,126.8
+MACAU,2018,CMP,compressor,active,0.0
+MACAU,2018,COQ,coqueiro,active,27.4
+MACAU,2018,CPL,covo peixe e lagosta,passive,0.0
+MACAU,2018,CUR,curral,passive,0.8
+MACAU,2018,CVL,covo lagosta,passive,0.0
+MACAU,2018,CVP,covo peixe,passive,0.0
+MACAU,2018,JER,jereré,active,0.3
+MACAU,2018,LES,linha e espinhel,mixed,0.0
+MACAU,2018,LIJ,linha e jereré,mixed,1.8
+MACAU,2018,LIN,linha,passive,43.4
+MACAU,2018,LRE,linha e rede de espera,mixed,106.8
+MACAU,2018,MEL,mergulho livre,active,0.0
+MACAU,2018,PUC,puçá,active,3.0
+MACAU,2018,RAG,rede agulha,passive,6.8
+MACAU,2018,RCA,rede caçoeira,passive,3.4
+MACAU,2018,RES,rede de espera,passive,124.3
+MACAU,2018,RTP,rede de tapagem,passive,0.2
+MACAU,2018,SRD,sardinheira,passive,48.4
+MACAU,2018,TNR,traineira,active,80.0
+MACAU,2018,TRF,tarrafa,active,1.4
+MACAU,2018,TRM,tremalho,passive,20.5
+MACAU,2019,APA,arrasto de praia,active,0.0
+MACAU,2019,APO,arrasto de porta,active,0.0
+MACAU,2019,CMN,coleta manual,active,528.4
+MACAU,2019,CMP,compressor,active,0.1
+MACAU,2019,COQ,coqueiro,active,1.3
+MACAU,2019,CPL,covo peixe e lagosta,passive,0.0
+MACAU,2019,CUR,curral,passive,6.4
+MACAU,2019,CVL,covo lagosta,passive,0.0
+MACAU,2019,CVP,covo peixe,passive,0.0
+MACAU,2019,JER,jereré,active,0.0
+MACAU,2019,LCL,linha e covo lagosta,mixed,0.0
+MACAU,2019,LCP,linha e covo peixe,mixed,0.0
+MACAU,2019,LES,linha e espinhel,mixed,0.0
+MACAU,2019,LIJ,linha e jereré,mixed,201.1
+MACAU,2019,LIN,linha,passive,69.7
+MACAU,2019,LML,linha e mergulho livre,mixed,0.0
+MACAU,2019,LRE,linha e rede de espera,mixed,123.0
+MACAU,2019,MEL,mergulho livre,active,0.2
+MACAU,2019,PUC,puçá,active,7.5
+MACAU,2019,RAG,rede agulha,passive,23.3
+MACAU,2019,RCA,rede caçoeira,passive,3.1
+MACAU,2019,RES,rede de espera,passive,279.3
+MACAU,2019,RTP,rede de tapagem,passive,1.2
+MACAU,2019,SRD,sardinheira,passive,163.6
+MACAU,2019,TNR,traineira,active,178.6
+MACAU,2019,TRF,tarrafa,active,6.2
+MACAU,2019,TRM,tremalho,passive,51.1
+MACAU,2020,APA,arrasto de praia,active,0.0
+MACAU,2020,APO,arrasto de porta,active,0.0
+MACAU,2020,CMN,coleta manual,active,443.2
+MACAU,2020,CMP,compressor,active,0.3
+MACAU,2020,COQ,coqueiro,active,0.0
+MACAU,2020,CPL,covo peixe e lagosta,passive,0.0
+MACAU,2020,CUR,curral,passive,4.4
+MACAU,2020,CVL,covo lagosta,passive,0.0
+MACAU,2020,CVP,covo peixe,passive,0.0
+MACAU,2020,JER,jereré,active,0.0
+MACAU,2020,LCL,linha e covo lagosta,mixed,0.0
+MACAU,2020,LCP,linha e covo peixe,mixed,0.0
+MACAU,2020,LES,linha e espinhel,mixed,0.0
+MACAU,2020,LIJ,linha e jereré,mixed,218.4
+MACAU,2020,LIN,linha,passive,83.8
+MACAU,2020,LML,linha e mergulho livre,mixed,0.0
+MACAU,2020,LRE,linha e rede de espera,mixed,94.3
+MACAU,2020,MEL,mergulho livre,active,0.0
+MACAU,2020,PUC,puçá,active,6.4
+MACAU,2020,RAG,rede agulha,passive,22.5
+MACAU,2020,RCA,rede caçoeira,passive,0.0
+MACAU,2020,RES,rede de espera,passive,187.6
+MACAU,2020,RTP,rede de tapagem,passive,2.4
+MACAU,2020,SRD,sardinheira,passive,87.8
+MACAU,2020,TNR,traineira,active,179.3
+MACAU,2020,TRF,tarrafa,active,4.6
+MACAU,2020,TRM,tremalho,passive,35.7
+MACAU,2021,APA,arrasto de praia,active,0.0
+MACAU,2021,APO,arrasto de porta,active,0.0
+MACAU,2021,CMN,coleta manual,active,284.4
+MACAU,2021,CMP,compressor,active,0.0
+MACAU,2021,COQ,coqueiro,active,14.4
+MACAU,2021,CPL,covo peixe e lagosta,passive,0.0
+MACAU,2021,CUR,curral,passive,3.4
+MACAU,2021,CVL,covo lagosta,passive,0.0
+MACAU,2021,CVP,covo peixe,passive,0.0
+MACAU,2021,JER,jereré,active,0.0
+MACAU,2021,LCL,linha e covo lagosta,mixed,0.0
+MACAU,2021,LCP,linha e covo peixe,mixed,0.0
+MACAU,2021,LES,linha e espinhel,mixed,0.0
+MACAU,2021,LIJ,linha e jereré,mixed,224.4
+MACAU,2021,LIN,linha,passive,161.0
+MACAU,2021,LML,linha e mergulho livre,mixed,0.0
+MACAU,2021,LRE,linha e rede de espera,mixed,90.9
+MACAU,2021,MEL,mergulho livre,active,0.1
+MACAU,2021,PUC,puçá,active,5.4
+MACAU,2021,RAG,rede agulha,passive,53.6
+MACAU,2021,RCA,rede caçoeira,passive,0.0
+MACAU,2021,RES,rede de espera,passive,167.9
+MACAU,2021,RTP,rede de tapagem,passive,1.1
+MACAU,2021,SRD,sardinheira,passive,80.0
+MACAU,2021,TNR,traineira,active,185.4
+MACAU,2021,TRF,tarrafa,active,11.2
+MACAU,2021,TRM,tremalho,passive,25.4
+MACAU,2022,APO,arrasto de porta,active,0.0
+MACAU,2022,CMN,coleta manual,active,333.9
+MACAU,2022,CMP,compressor,active,0.0
+MACAU,2022,COQ,coqueiro,active,1.1
+MACAU,2022,CPL,covo peixe e lagosta,passive,2.3
+MACAU,2022,CUR,curral,passive,2.4
+MACAU,2022,CVL,covo lagosta,passive,0.0
+MACAU,2022,CVP,covo peixe,passive,0.0
+MACAU,2022,LES,linha e espinhel,mixed,0.0
+MACAU,2022,LIJ,linha e jereré,mixed,171.1
+MACAU,2022,LIN,linha,passive,156.7
+MACAU,2022,LML,linha e mergulho livre,mixed,0.0
+MACAU,2022,LRE,linha e rede de espera,mixed,99.4
+MACAU,2022,MEL,mergulho livre,active,0.1
+MACAU,2022,PUC,puçá,active,5.5
+MACAU,2022,RAG,rede agulha,passive,48.0
+MACAU,2022,RCA,rede caçoeira,passive,0.0
+MACAU,2022,RES,rede de espera,passive,231.8
+MACAU,2022,RTP,rede de tapagem,passive,0.8
+MACAU,2022,SRD,sardinheira,passive,71.3
+MACAU,2022,TNR,traineira,active,200.1
+MACAU,2022,TRF,tarrafa,active,6.3
+MACAU,2022,TRM,tremalho,passive,27.5
+MACAU,2023,APO,arrasto de porta,active,0.0
+MACAU,2023,CMN,coleta manual,active,418.4
+MACAU,2023,CMP,compressor,active,0.0
+MACAU,2023,COQ,coqueiro,active,0.0
+MACAU,2023,CPL,covo peixe e lagosta,passive,4.7
+MACAU,2023,CUR,curral,passive,2.9
+MACAU,2023,CVL,covo lagosta,passive,0.0
+MACAU,2023,CVP,covo peixe,passive,0.0
+MACAU,2023,JER,jereré,active,0.0
+MACAU,2023,LES,linha e espinhel,mixed,0.2
+MACAU,2023,LIJ,linha e jereré,mixed,140.7
+MACAU,2023,LIN,linha,passive,92.1
+MACAU,2023,LML,linha e mergulho livre,mixed,0.0
+MACAU,2023,LRE,linha e rede de espera,mixed,101.8
+MACAU,2023,MEL,mergulho livre,active,0.5
+MACAU,2023,PUC,puçá,active,4.5
+MACAU,2023,RAG,rede agulha,passive,22.4
+MACAU,2023,RCA,rede caçoeira,passive,0.0
+MACAU,2023,RES,rede de espera,passive,235.5
+MACAU,2023,RTP,rede de tapagem,passive,0.7
+MACAU,2023,SRD,sardinheira,passive,94.7
+MACAU,2023,TNR,traineira,active,199.4
+MACAU,2023,TRF,tarrafa,active,6.0
+MACAU,2023,TRM,tremalho,passive,36.5
+MACAU,2024,APO,arrasto de porta,active,0.0
+MACAU,2024,CMN,coleta manual,active,193.4
+MACAU,2024,CMP,compressor,active,0.0
+MACAU,2024,COQ,palha de coqueiro,passive,0.0
+MACAU,2024,CUR,curral,passive,2.9
+MACAU,2024,CVL,covo lagosta,passive,0.0
+MACAU,2024,CVP,covo peixe,passive,1.3
+MACAU,2024,ESP,espinhel,passive,8.4
+MACAU,2024,LES,linha e espinhel,mixed,0.0
+MACAU,2024,LIJ,linha e jereré,mixed,67.4
+MACAU,2024,LIN,linha,passive,157.5
+MACAU,2024,LML,linha e mergulho livre,mixed,0.6
+MACAU,2024,LRE,linha e rede de espera,mixed,37.3
+MACAU,2024,MEL,mergulho livre,active,2.3
+MACAU,2024,PUC,puçá,active,2.6
+MACAU,2024,RAG,rede agulha,passive,18.7
+MACAU,2024,REC,rede caçoeira,passive,0.0
+MACAU,2024,RES,rede de espera,passive,404.9
+MACAU,2024,RTP,rede de tapagem,passive,0.8
+MACAU,2024,SRD,sardinheira,passive,79.5
+MACAU,2024,TRF,tarrafa,active,4.5
+MACAU,2024,TRM,tremalho,passive,15.0
+PORTO DO MANGUE,2001,APO,arrasto de porta,active,4.57
+PORTO DO MANGUE,2001,CCM,coleta de camarão,active,3.02
+PORTO DO MANGUE,2001,CPL,covo peixe e lagosta,passive,16.15
+PORTO DO MANGUE,2001,CVL,covo lagosta,passive,6.52
+PORTO DO MANGUE,2001,LCL,linha e covo lagosta,mixed,5.09
+PORTO DO MANGUE,2001,LIN,linha,passive,34.23
+PORTO DO MANGUE,2001,RAG,rede agulha,passive,2.42
+PORTO DO MANGUE,2001,RES,rede de espera,passive,18.54
+PORTO DO MANGUE,2001,TRF,tarrafa,active,6.07
+PORTO DO MANGUE,2002,APO,arrasto de porta,active,7.33
+PORTO DO MANGUE,2002,CCM,coleta de camarão,active,3.86
+PORTO DO MANGUE,2002,CPL,covo peixe e lagosta,passive,3.52
+PORTO DO MANGUE,2002,CVL,covo lagosta,passive,5.88
+PORTO DO MANGUE,2002,LIN,linha,passive,26.64
+PORTO DO MANGUE,2002,RES,rede de espera,passive,12.2
+PORTO DO MANGUE,2002,TRF,tarrafa,active,6.41
+PORTO DO MANGUE,2003,APO,arrasto de porta,active,2.17
+PORTO DO MANGUE,2003,CCM,coleta de camarão,active,2.34
+PORTO DO MANGUE,2003,CPL,covo peixe e lagosta,passive,3.21
+PORTO DO MANGUE,2003,CVL,covo lagosta,passive,5.5
+PORTO DO MANGUE,2003,CVP,covo peixe,passive,17.3
+PORTO DO MANGUE,2003,LIN,linha,passive,6.99
+PORTO DO MANGUE,2003,RES,rede de espera,passive,5.32
+PORTO DO MANGUE,2003,TRF,tarrafa,active,3.25
+PORTO DO MANGUE,2004,APO,arrasto de porta,active,22.57
+PORTO DO MANGUE,2004,CPL,covo peixe e lagosta,passive,9.27
+PORTO DO MANGUE,2004,CVL,covo lagosta,passive,5.33
+PORTO DO MANGUE,2004,CVP,covo peixe,passive,0.57
+PORTO DO MANGUE,2004,LCL,linha e covo lagosta,mixed,1.74
+PORTO DO MANGUE,2004,LIN,linha,passive,12.54
+PORTO DO MANGUE,2004,RES,rede de espera,passive,15.48
+PORTO DO MANGUE,2004,TRF,tarrafa,active,2.35
+PORTO DO MANGUE,2005,APO,arrasto de porta,active,5.35
+PORTO DO MANGUE,2005,CCM,coleta de camarão,active,2.15
+PORTO DO MANGUE,2005,CMN,coleta manual,active,3.56
+PORTO DO MANGUE,2005,CPL,covo peixe e lagosta,passive,15.63
+PORTO DO MANGUE,2005,CVL,covo lagosta,passive,3.08
+PORTO DO MANGUE,2005,LCL,linha e covo lagosta,mixed,3.12
+PORTO DO MANGUE,2005,LIN,linha,passive,39.09
+PORTO DO MANGUE,2005,RAG,rede agulha,passive,0.21
+PORTO DO MANGUE,2005,RES,rede de espera,passive,35.28
+PORTO DO MANGUE,2005,SRD,sardinheira,passive,27.4
+PORTO DO MANGUE,2005,TRF,tarrafa,active,4.79
+PORTO DO MANGUE,2006,APO,arrasto de porta,active,9.58
+PORTO DO MANGUE,2006,CCM,coleta de camarão,active,6.7
+PORTO DO MANGUE,2006,CPL,covo peixe e lagosta,passive,4.02
+PORTO DO MANGUE,2006,CVL,covo lagosta,passive,1.72
+PORTO DO MANGUE,2006,LCL,linha e covo lagosta,mixed,0.53
+PORTO DO MANGUE,2006,LIN,linha,passive,27.53
+PORTO DO MANGUE,2006,RES,rede de espera,passive,32.33
+PORTO DO MANGUE,2006,TRF,tarrafa,active,2.75
+PORTO DO MANGUE,2007,APO,arrasto de porta,active,0.31
+PORTO DO MANGUE,2007,CCM,coleta de camarão,active,2.17
+PORTO DO MANGUE,2007,CPL,covo peixe e lagosta,passive,5.81
+PORTO DO MANGUE,2007,CVL,covo lagosta,passive,0.5800000000000001
+PORTO DO MANGUE,2007,LCL,linha e covo lagosta,mixed,1.51
+PORTO DO MANGUE,2007,LIN,linha,passive,19.78
+PORTO DO MANGUE,2007,MEL,mergulho livre,active,0.35
+PORTO DO MANGUE,2007,RES,rede de espera,passive,12.43
+PORTO DO MANGUE,2007,TRF,tarrafa,active,1.89
+PORTO DO MANGUE,2008,APA,arrasto de praia,active,19.7
+PORTO DO MANGUE,2008,APO,arrasto de porta,active,146.03
+PORTO DO MANGUE,2008,CCM,coleta de camarão,active,22.53
+PORTO DO MANGUE,2008,CPL,covo peixe e lagosta,passive,6.34
+PORTO DO MANGUE,2008,CVL,covo lagosta,passive,5.6
+PORTO DO MANGUE,2008,LCL,linha e covo lagosta,mixed,2.46
+PORTO DO MANGUE,2008,LIN,linha,passive,50.4
+PORTO DO MANGUE,2008,MEL,mergulho livre,active,20.2
+PORTO DO MANGUE,2008,RES,rede de espera,passive,57.66
+PORTO DO MANGUE,2008,TRF,tarrafa,active,20.58
+PORTO DO MANGUE,2009,APA,arrasto de praia,active,13.8723
+PORTO DO MANGUE,2009,APO,arrasto de porta,active,171.5083
+PORTO DO MANGUE,2009,CMN,coleta manual,active,0.0
+PORTO DO MANGUE,2009,CMP,compressor,active,12.213
+PORTO DO MANGUE,2009,CUR,curral,passive,0.0
+PORTO DO MANGUE,2009,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2009,CVP,covo peixe,passive,0.0
+PORTO DO MANGUE,2009,ESP,espinhel,passive,0.0
+PORTO DO MANGUE,2009,LCP,linha e covo peixe,mixed,0.0
+PORTO DO MANGUE,2009,LIJ,linha e jereré,passive,0.0
+PORTO DO MANGUE,2009,LIN,linha,passive,75.8251
+PORTO DO MANGUE,2009,MEL,mergulho livre,active,21.067
+PORTO DO MANGUE,2009,PUC,puçá/mangote,active,34.71
+PORTO DO MANGUE,2009,RAG,rede agulha,passive,0.0
+PORTO DO MANGUE,2009,RCA,rede caçoeira,passive,13.1115
+PORTO DO MANGUE,2009,RES,rede de espera,passive,70.0022
+PORTO DO MANGUE,2009,RTP,rede de tapagem,passive,0.0
+PORTO DO MANGUE,2009,SRD,sardinheira,active,0.0
+PORTO DO MANGUE,2009,TNR,tainheira,active,115.7184
+PORTO DO MANGUE,2009,TRF,tarrafa,active,42.7153
+PORTO DO MANGUE,2009,TRM,tresmalho,passive,0.0
+PORTO DO MANGUE,2010,APA,arrasto de praia,active,43.751
+PORTO DO MANGUE,2010,APO,arrasto de porta,active,40.44
+PORTO DO MANGUE,2010,CMN,coleta manual,active,0.6
+PORTO DO MANGUE,2010,CMP,compressor,active,25.46
+PORTO DO MANGUE,2010,CUR,curral,passive,0.0
+PORTO DO MANGUE,2010,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2010,CVP,covo peixe,passive,13.703
+PORTO DO MANGUE,2010,ESP,espinhel,passive,0.0
+PORTO DO MANGUE,2010,LCP,linha e covo peixe,passive,0.0
+PORTO DO MANGUE,2010,LES,linha e espinhel,passive,0.0
+PORTO DO MANGUE,2010,LIJ,linha e jereré,passive,0.0
+PORTO DO MANGUE,2010,LIN,linha,passive,80.048
+PORTO DO MANGUE,2010,LRE,linha e rede de espera,passive,0.0
+PORTO DO MANGUE,2010,MEL,mergulho livre,active,10.252
+PORTO DO MANGUE,2010,PUC,puçá,active,0.0
+PORTO DO MANGUE,2010,RAG,rede de agulha,passive,0.123
+PORTO DO MANGUE,2010,RCA,rede caçoeira,passive,4.128
+PORTO DO MANGUE,2010,RES,rede de espera,passive,96.703
+PORTO DO MANGUE,2010,RTP,rede de tapagem,passive,0.0
+PORTO DO MANGUE,2010,SRD,sardinheira,active,42.181
+PORTO DO MANGUE,2010,TNR,tainheira,active,70.329
+PORTO DO MANGUE,2010,TRF,tarrafa,active,24.623
+PORTO DO MANGUE,2010,TRM,tresmalho,passive,0.0
+PORTO DO MANGUE,2011,APA,arrasto de praia,active,0.57
+PORTO DO MANGUE,2011,APO,arrasto de porta,active,121.251
+PORTO DO MANGUE,2011,CMN,coleta manual,active,31.86
+PORTO DO MANGUE,2011,CMP,compressor,active,60.507
+PORTO DO MANGUE,2011,CVL,covo lagosta,passive,0.003
+PORTO DO MANGUE,2011,CVP,covo peixe,passive,9.58
+PORTO DO MANGUE,2011,JER,jereré,active,0.265
+PORTO DO MANGUE,2011,LCP,linha e covo peixe,mixed,0.621
+PORTO DO MANGUE,2011,LIN,linha,passive,78.08699999999999
+PORTO DO MANGUE,2011,LML,linha e mergulho livre,mixed,2.92
+PORTO DO MANGUE,2011,LRE,linha e rede de espera,mixed,0.797
+PORTO DO MANGUE,2011,MEL,mergulho livre,active,13.2
+PORTO DO MANGUE,2011,PUC,puçá,active,0.853
+PORTO DO MANGUE,2011,RAG,rede agulha,passive,0.319
+PORTO DO MANGUE,2011,RCA,rede caçoeira,passive,1.248
+PORTO DO MANGUE,2011,RES,rede de espera,passive,77.92
+PORTO DO MANGUE,2011,SRD,sardinheira,passive,0.63
+PORTO DO MANGUE,2011,TNR,traineira,active,110.696
+PORTO DO MANGUE,2011,TRF,tarrafa,active,27.622
+PORTO DO MANGUE,2011,TRM,tremalho,passive,40.273
+PORTO DO MANGUE,2012,APA,arrasto de praia,active,14.3
+PORTO DO MANGUE,2012,APO,arrasto de porta,active,13.2
+PORTO DO MANGUE,2012,CMN,coleta manual,active,21.5
+PORTO DO MANGUE,2012,CMP,compressor,active,28.9
+PORTO DO MANGUE,2012,CPL,covo peixe e lagosta,passive,0.0
+PORTO DO MANGUE,2012,CUR,curral,passive,0.0
+PORTO DO MANGUE,2012,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2012,CVP,covo peixe,passive,24.9
+PORTO DO MANGUE,2012,JER,jereré,active,1.0
+PORTO DO MANGUE,2012,LCL,linha e covo lagosta,mixed,0.0
+PORTO DO MANGUE,2012,LCP,linha e covo peixe,mixed,1.5
+PORTO DO MANGUE,2012,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2012,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2012,LIN,linha,passive,51.6
+PORTO DO MANGUE,2012,LML,linha e mergulho livre,mixed,2.6
+PORTO DO MANGUE,2012,LRE,linha e rede de espera,mixed,0.5
+PORTO DO MANGUE,2012,MEL,mergulho livre,active,11.7
+PORTO DO MANGUE,2012,PUC,puçá,active,1.8
+PORTO DO MANGUE,2012,RAG,rede agulha,passive,0.2
+PORTO DO MANGUE,2012,RCA,rede caçoeira,passive,2.0
+PORTO DO MANGUE,2012,RES,rede de espera,passive,167.7
+PORTO DO MANGUE,2012,RTP,rede de tapagem,passive,0.0
+PORTO DO MANGUE,2012,SRD,sardinheira,passive,0.6
+PORTO DO MANGUE,2012,TNR,traineira,active,125.4
+PORTO DO MANGUE,2012,TRF,tarrafa,active,50.7
+PORTO DO MANGUE,2012,TRM,tremalho,passive,39.1
+PORTO DO MANGUE,2013,APA,arrasto de praia,active,8.6
+PORTO DO MANGUE,2013,APO,arrasto de porta,active,11.7
+PORTO DO MANGUE,2013,CMN,coleta manual,active,96.4
+PORTO DO MANGUE,2013,CMP,compressor,active,20.2
+PORTO DO MANGUE,2013,CPL,covo peixe e lagosta,passive,0.0
+PORTO DO MANGUE,2013,CUR,curral,passive,0.0
+PORTO DO MANGUE,2013,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2013,CVP,covo peixe,passive,60.3
+PORTO DO MANGUE,2013,ESP,espinhel,passive,0.7
+PORTO DO MANGUE,2013,JER,jereré,active,1.3
+PORTO DO MANGUE,2013,LCL,linha e covo lagosta,passive,0.0
+PORTO DO MANGUE,2013,LCP,linha e covo peixe,passive,0.9
+PORTO DO MANGUE,2013,LES,linha e espinhel,passive,0.0
+PORTO DO MANGUE,2013,LIJ,linha e jereré,passive,0.0
+PORTO DO MANGUE,2013,LIN,linha,passive,36.1
+PORTO DO MANGUE,2013,LML,linha e mergulho livre,mixed,3.2
+PORTO DO MANGUE,2013,LRE,linha e rede de espera,passive,2.5
+PORTO DO MANGUE,2013,MEL,mergulho livre,active,17.6
+PORTO DO MANGUE,2013,PUC,puçá,active,0.4
+PORTO DO MANGUE,2013,RAG,rede agulha,passive,0.1
+PORTO DO MANGUE,2013,RCA,rede caçoeira,passive,3.4
+PORTO DO MANGUE,2013,RES,rede de espera,passive,96.5
+PORTO DO MANGUE,2013,RTP,rede de tapagem,passive,1.5
+PORTO DO MANGUE,2013,SRD,sardinheira,active,0.0
+PORTO DO MANGUE,2013,TNR,tainheira,active,207.7
+PORTO DO MANGUE,2013,TRF,tarrafa,active,59.8
+PORTO DO MANGUE,2013,TRM,tresmalho,passive,35.1
+PORTO DO MANGUE,2014,APA,arrasto de praia,active,1.3
+PORTO DO MANGUE,2014,APO,arrasto de porta,active,5.1
+PORTO DO MANGUE,2014,CMN,coleta manual,active,11.6
+PORTO DO MANGUE,2014,CMP,compressor,active,11.8
+PORTO DO MANGUE,2014,CPL,covo peixe e lagosta,passive,0.0
+PORTO DO MANGUE,2014,CUR,curral,passive,0.0
+PORTO DO MANGUE,2014,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2014,CVP,covo peixe,passive,21.5
+PORTO DO MANGUE,2014,JER,jereré,active,0.1
+PORTO DO MANGUE,2014,LCP,linha e covo peixe,mixed,0.1
+PORTO DO MANGUE,2014,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2014,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2014,LIN,linha,passive,16.2
+PORTO DO MANGUE,2014,LML,linha e mergulho livre,mixed,0.4
+PORTO DO MANGUE,2014,LRE,linha e rede de espera,mixed,7.5
+PORTO DO MANGUE,2014,MEL,mergulho livre,active,9.8
+PORTO DO MANGUE,2014,PUC,puçá,active,0.5
+PORTO DO MANGUE,2014,RAG,rede agulha,passive,0.4
+PORTO DO MANGUE,2014,RCA,rede caçoeira,passive,1.4
+PORTO DO MANGUE,2014,RES,rede de espera,passive,58.7
+PORTO DO MANGUE,2014,RTP,rede de tapagem,passive,0.4
+PORTO DO MANGUE,2014,SRD,sardinheira,passive,0.0
+PORTO DO MANGUE,2014,TNR,traineira,active,70.0
+PORTO DO MANGUE,2014,TRF,tarrafa,active,27.1
+PORTO DO MANGUE,2014,TRM,tremalho,passive,13.6
+PORTO DO MANGUE,2015,APA,arrasto de praia,active,5.8
+PORTO DO MANGUE,2015,APO,arrasto de porta,active,1.2
+PORTO DO MANGUE,2015,CMN,coleta manual,active,11.7
+PORTO DO MANGUE,2015,CMP,compressor,active,16.5
+PORTO DO MANGUE,2015,COQ,coqueiro,active,0.0
+PORTO DO MANGUE,2015,CPL,covo peixe e lagosta,passive,4.3
+PORTO DO MANGUE,2015,CUR,curral,passive,0.0
+PORTO DO MANGUE,2015,CVL,covo lagosta,passive,2.3
+PORTO DO MANGUE,2015,CVP,covo peixe,passive,26.7
+PORTO DO MANGUE,2015,JER,jereré,active,0.5
+PORTO DO MANGUE,2015,LCL,linha e covo lagosta,mixed,0.0
+PORTO DO MANGUE,2015,LCP,linha e covo peixe,mixed,1.9
+PORTO DO MANGUE,2015,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2015,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2015,LIN,linha,passive,26.3
+PORTO DO MANGUE,2015,LRE,linha e rede de espera,mixed,2.1
+PORTO DO MANGUE,2015,MEL,mergulho livre,active,8.8
+PORTO DO MANGUE,2015,PUC,puçá,active,0.5
+PORTO DO MANGUE,2015,RAG,rede agulha,passive,0.9
+PORTO DO MANGUE,2015,RCA,rede caçoeira,passive,0.7
+PORTO DO MANGUE,2015,RES,rede de espera,passive,57.2
+PORTO DO MANGUE,2015,RTP,rede de tapagem,passive,0.4
+PORTO DO MANGUE,2015,SRD,sardinheira,passive,0.1
+PORTO DO MANGUE,2015,TNR,traineira,active,32.8
+PORTO DO MANGUE,2015,TRF,tarrafa,active,17.0
+PORTO DO MANGUE,2015,TRM,tremalho,passive,0.1
+PORTO DO MANGUE,2016,APA,arrasto de praia,active,11.7
+PORTO DO MANGUE,2016,APO,arrasto de porta,active,7.3
+PORTO DO MANGUE,2016,CMN,coleta manual,active,27.8
+PORTO DO MANGUE,2016,CMP,compressor,active,26.6
+PORTO DO MANGUE,2016,COQ,coqueiro,active,0.0
+PORTO DO MANGUE,2016,CPL,covo peixe e lagosta,passive,1.1
+PORTO DO MANGUE,2016,CUR,curral,passive,0.0
+PORTO DO MANGUE,2016,CVL,covo lagosta,passive,3.6
+PORTO DO MANGUE,2016,CVP,covo peixe,passive,55.9
+PORTO DO MANGUE,2016,JER,jereré,active,1.8
+PORTO DO MANGUE,2016,LCL,linha e covo lagosta,mixed,0.0
+PORTO DO MANGUE,2016,LCP,linha e covo peixe,mixed,5.3
+PORTO DO MANGUE,2016,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2016,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2016,LIN,linha,passive,42.9
+PORTO DO MANGUE,2016,LML,linha e mergulho livre,mixed,1.9
+PORTO DO MANGUE,2016,LRE,linha e rede de espera,mixed,4.5
+PORTO DO MANGUE,2016,MEL,mergulho livre,active,19.3
+PORTO DO MANGUE,2016,PUC,puçá,active,1.1
+PORTO DO MANGUE,2016,RAG,rede agulha,passive,0.8
+PORTO DO MANGUE,2016,RCA,rede caçoeira,passive,2.6
+PORTO DO MANGUE,2016,RES,rede de espera,passive,129.8
+PORTO DO MANGUE,2016,RTP,rede de tapagem,passive,0.5
+PORTO DO MANGUE,2016,SRD,sardinheira,passive,1.0
+PORTO DO MANGUE,2016,TNR,traineira,active,125.7
+PORTO DO MANGUE,2016,TRF,tarrafa,active,40.3
+PORTO DO MANGUE,2016,TRM,tremalho,passive,17.1
+PORTO DO MANGUE,2017,APA,arrasto de praia,active,9.0
+PORTO DO MANGUE,2017,APO,arrasto de porta,active,7.4
+PORTO DO MANGUE,2017,CMN,coleta manual,active,47.3
+PORTO DO MANGUE,2017,CMP,compressor,active,25.8
+PORTO DO MANGUE,2017,COQ,coqueiro,active,0.0
+PORTO DO MANGUE,2017,CPL,covo peixe e lagosta,passive,1.6
+PORTO DO MANGUE,2017,CUR,curral,passive,0.0
+PORTO DO MANGUE,2017,CVL,covo lagosta,passive,4.8
+PORTO DO MANGUE,2017,CVP,covo peixe,passive,55.2
+PORTO DO MANGUE,2017,JER,jereré,active,0.9
+PORTO DO MANGUE,2017,LCL,linha e covo lagosta,mixed,0.0
+PORTO DO MANGUE,2017,LCP,linha e covo peixe,mixed,1.4
+PORTO DO MANGUE,2017,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2017,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2017,LIN,linha,passive,38.1
+PORTO DO MANGUE,2017,LML,linha e mergulho livre,mixed,1.8
+PORTO DO MANGUE,2017,LRE,linha e rede de espera,mixed,5.6
+PORTO DO MANGUE,2017,MEL,mergulho livre,active,18.0
+PORTO DO MANGUE,2017,PUC,puçá,active,0.9
+PORTO DO MANGUE,2017,RAG,rede agulha,passive,0.9
+PORTO DO MANGUE,2017,RCA,rede caçoeira,passive,2.8
+PORTO DO MANGUE,2017,RES,rede de espera,passive,101.6
+PORTO DO MANGUE,2017,RTP,rede de tapagem,passive,0.9
+PORTO DO MANGUE,2017,SRD,sardinheira,passive,1.0
+PORTO DO MANGUE,2017,TNR,traineira,active,134.9
+PORTO DO MANGUE,2017,TRF,tarrafa,active,49.9
+PORTO DO MANGUE,2017,TRM,tremalho,passive,19.6
+PORTO DO MANGUE,2018,APA,arrasto de praia,active,3.1
+PORTO DO MANGUE,2018,APO,arrasto de porta,active,6.7
+PORTO DO MANGUE,2018,CMN,coleta manual,active,19.3
+PORTO DO MANGUE,2018,CMP,compressor,active,11.3
+PORTO DO MANGUE,2018,COQ,coqueiro,active,0.0
+PORTO DO MANGUE,2018,CPL,covo peixe e lagosta,passive,0.0
+PORTO DO MANGUE,2018,CUR,curral,passive,0.0
+PORTO DO MANGUE,2018,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2018,CVP,covo peixe,passive,15.4
+PORTO DO MANGUE,2018,JER,jereré,active,0.3
+PORTO DO MANGUE,2018,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2018,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2018,LIN,linha,passive,12.2
+PORTO DO MANGUE,2018,LRE,linha e rede de espera,mixed,0.0
+PORTO DO MANGUE,2018,MEL,mergulho livre,active,9.3
+PORTO DO MANGUE,2018,PUC,puçá,active,0.0
+PORTO DO MANGUE,2018,RAG,rede agulha,passive,0.3
+PORTO DO MANGUE,2018,RCA,rede caçoeira,passive,0.4
+PORTO DO MANGUE,2018,RES,rede de espera,passive,48.2
+PORTO DO MANGUE,2018,RTP,rede de tapagem,passive,0.0
+PORTO DO MANGUE,2018,SRD,sardinheira,passive,0.0
+PORTO DO MANGUE,2018,TNR,traineira,active,21.8
+PORTO DO MANGUE,2018,TRF,tarrafa,active,2.1
+PORTO DO MANGUE,2018,TRM,tremalho,passive,0.0
+PORTO DO MANGUE,2019,APA,arrasto de praia,active,12.4
+PORTO DO MANGUE,2019,APO,arrasto de porta,active,21.8
+PORTO DO MANGUE,2019,CMN,coleta manual,active,51.0
+PORTO DO MANGUE,2019,CMP,compressor,active,28.1
+PORTO DO MANGUE,2019,COQ,coqueiro,active,0.0
+PORTO DO MANGUE,2019,CPL,covo peixe e lagosta,passive,2.0
+PORTO DO MANGUE,2019,CUR,curral,passive,0.0
+PORTO DO MANGUE,2019,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2019,CVP,covo peixe,passive,15.9
+PORTO DO MANGUE,2019,JER,jereré,active,8.2
+PORTO DO MANGUE,2019,LCL,linha e covo lagosta,mixed,0.0
+PORTO DO MANGUE,2019,LCP,linha e covo peixe,mixed,0.0
+PORTO DO MANGUE,2019,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2019,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2019,LIN,linha,passive,32.2
+PORTO DO MANGUE,2019,LML,linha e mergulho livre,mixed,0.0
+PORTO DO MANGUE,2019,LRE,linha e rede de espera,mixed,0.0
+PORTO DO MANGUE,2019,MEL,mergulho livre,active,20.3
+PORTO DO MANGUE,2019,PUC,puçá,active,0.0
+PORTO DO MANGUE,2019,RAG,rede agulha,passive,0.3
+PORTO DO MANGUE,2019,RCA,rede caçoeira,passive,1.7
+PORTO DO MANGUE,2019,RES,rede de espera,passive,120.1
+PORTO DO MANGUE,2019,RTP,rede de tapagem,passive,2.4
+PORTO DO MANGUE,2019,SRD,sardinheira,passive,0.0
+PORTO DO MANGUE,2019,TNR,traineira,active,72.0
+PORTO DO MANGUE,2019,TRF,tarrafa,active,10.2
+PORTO DO MANGUE,2019,TRM,tremalho,passive,0.0
+PORTO DO MANGUE,2020,APA,arrasto de praia,active,0.8
+PORTO DO MANGUE,2020,APO,arrasto de porta,active,17.3
+PORTO DO MANGUE,2020,CMN,coleta manual,active,23.1
+PORTO DO MANGUE,2020,CMP,compressor,active,26.3
+PORTO DO MANGUE,2020,COQ,coqueiro,active,0.0
+PORTO DO MANGUE,2020,CPL,covo peixe e lagosta,passive,0.0
+PORTO DO MANGUE,2020,CUR,curral,passive,0.0
+PORTO DO MANGUE,2020,CVL,covo lagosta,passive,0.1
+PORTO DO MANGUE,2020,CVP,covo peixe,passive,20.7
+PORTO DO MANGUE,2020,JER,jereré,active,1.3
+PORTO DO MANGUE,2020,LCL,linha e covo lagosta,mixed,0.0
+PORTO DO MANGUE,2020,LCP,linha e covo peixe,mixed,0.0
+PORTO DO MANGUE,2020,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2020,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2020,LIN,linha,passive,32.5
+PORTO DO MANGUE,2020,LML,linha e mergulho livre,mixed,0.0
+PORTO DO MANGUE,2020,LRE,linha e rede de espera,mixed,0.0
+PORTO DO MANGUE,2020,MEL,mergulho livre,active,26.5
+PORTO DO MANGUE,2020,PUC,puçá,active,0.0
+PORTO DO MANGUE,2020,RAG,rede agulha,passive,9.7
+PORTO DO MANGUE,2020,RCA,rede caçoeira,passive,0.1
+PORTO DO MANGUE,2020,RES,rede de espera,passive,111.9
+PORTO DO MANGUE,2020,RTP,rede de tapagem,passive,0.6
+PORTO DO MANGUE,2020,SRD,sardinheira,passive,0.0
+PORTO DO MANGUE,2020,TNR,traineira,active,41.0
+PORTO DO MANGUE,2020,TRF,tarrafa,active,9.8
+PORTO DO MANGUE,2020,TRM,tremalho,passive,0.0
+PORTO DO MANGUE,2021,APA,arrasto de praia,active,0.0
+PORTO DO MANGUE,2021,APO,arrasto de porta,active,5.1
+PORTO DO MANGUE,2021,CMN,coleta manual,active,30.6
+PORTO DO MANGUE,2021,CMP,compressor,active,31.9
+PORTO DO MANGUE,2021,COQ,coqueiro,active,0.0
+PORTO DO MANGUE,2021,CPL,covo peixe e lagosta,passive,0.9
+PORTO DO MANGUE,2021,CUR,curral,passive,0.0
+PORTO DO MANGUE,2021,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2021,CVP,covo peixe,passive,35.6
+PORTO DO MANGUE,2021,JER,jereré,active,0.4
+PORTO DO MANGUE,2021,LCL,linha e covo lagosta,mixed,0.0
+PORTO DO MANGUE,2021,LCP,linha e covo peixe,mixed,0.0
+PORTO DO MANGUE,2021,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2021,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2021,LIN,linha,passive,41.7
+PORTO DO MANGUE,2021,LML,linha e mergulho livre,mixed,0.0
+PORTO DO MANGUE,2021,LRE,linha e rede de espera,mixed,0.0
+PORTO DO MANGUE,2021,MEL,mergulho livre,active,31.8
+PORTO DO MANGUE,2021,PUC,puçá,active,0.0
+PORTO DO MANGUE,2021,RAG,rede agulha,passive,1.4
+PORTO DO MANGUE,2021,RCA,rede caçoeira,passive,0.4
+PORTO DO MANGUE,2021,RES,rede de espera,passive,120.2
+PORTO DO MANGUE,2021,RTP,rede de tapagem,passive,0.0
+PORTO DO MANGUE,2021,SRD,sardinheira,passive,0.0
+PORTO DO MANGUE,2021,TNR,traineira,active,45.2
+PORTO DO MANGUE,2021,TRF,tarrafa,active,9.5
+PORTO DO MANGUE,2021,TRM,tremalho,passive,0.0
+PORTO DO MANGUE,2022,APO,arrasto de porta,active,1.5
+PORTO DO MANGUE,2022,CMN,coleta manual,active,27.1
+PORTO DO MANGUE,2022,CMP,compressor,active,30.3
+PORTO DO MANGUE,2022,COQ,coqueiro,active,0.0
+PORTO DO MANGUE,2022,CPL,covo peixe e lagosta,passive,0.0
+PORTO DO MANGUE,2022,CUR,curral,passive,0.0
+PORTO DO MANGUE,2022,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2022,CVP,covo peixe,passive,48.6
+PORTO DO MANGUE,2022,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2022,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2022,LIN,linha,passive,280.7
+PORTO DO MANGUE,2022,LML,linha e mergulho livre,mixed,0.0
+PORTO DO MANGUE,2022,LRE,linha e rede de espera,mixed,0.0
+PORTO DO MANGUE,2022,MEL,mergulho livre,active,22.7
+PORTO DO MANGUE,2022,PUC,puçá,active,0.0
+PORTO DO MANGUE,2022,RAG,rede agulha,passive,1.4
+PORTO DO MANGUE,2022,RCA,rede caçoeira,passive,0.5
+PORTO DO MANGUE,2022,RES,rede de espera,passive,167.0
+PORTO DO MANGUE,2022,RTP,rede de tapagem,passive,0.6
+PORTO DO MANGUE,2022,SRD,sardinheira,passive,0.0
+PORTO DO MANGUE,2022,TNR,traineira,active,54.6
+PORTO DO MANGUE,2022,TRF,tarrafa,active,7.3
+PORTO DO MANGUE,2022,TRM,tremalho,passive,7.0
+PORTO DO MANGUE,2023,APO,arrasto de porta,active,1.1
+PORTO DO MANGUE,2023,CMN,coleta manual,active,44.1
+PORTO DO MANGUE,2023,CMP,compressor,active,66.6
+PORTO DO MANGUE,2023,COQ,coqueiro,active,0.0
+PORTO DO MANGUE,2023,CPL,covo peixe e lagosta,passive,0.0
+PORTO DO MANGUE,2023,CUR,curral,passive,0.0
+PORTO DO MANGUE,2023,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2023,CVP,covo peixe,passive,38.0
+PORTO DO MANGUE,2023,JER,jereré,active,1.0
+PORTO DO MANGUE,2023,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2023,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2023,LIN,linha,passive,170.4
+PORTO DO MANGUE,2023,LML,linha e mergulho livre,mixed,0.0
+PORTO DO MANGUE,2023,LRE,linha e rede de espera,mixed,0.0
+PORTO DO MANGUE,2023,MEL,mergulho livre,active,45.6
+PORTO DO MANGUE,2023,PUC,puçá,active,0.0
+PORTO DO MANGUE,2023,RAG,rede agulha,passive,0.6
+PORTO DO MANGUE,2023,RCA,rede caçoeira,passive,3.2
+PORTO DO MANGUE,2023,RES,rede de espera,passive,109.4
+PORTO DO MANGUE,2023,RTP,rede de tapagem,passive,0.2
+PORTO DO MANGUE,2023,SRD,sardinheira,passive,0.0
+PORTO DO MANGUE,2023,TNR,traineira,active,54.5
+PORTO DO MANGUE,2023,TRF,tarrafa,active,7.9
+PORTO DO MANGUE,2023,TRM,tremalho,passive,3.4
+PORTO DO MANGUE,2024,APO,arrasto de porta,active,6.7
+PORTO DO MANGUE,2024,CMN,coleta manual,active,33.8
+PORTO DO MANGUE,2024,CMP,compressor,active,37.6
+PORTO DO MANGUE,2024,COQ,palha de coqueiro,passive,0.0
+PORTO DO MANGUE,2024,CUR,curral,passive,0.0
+PORTO DO MANGUE,2024,CVL,covo lagosta,passive,0.0
+PORTO DO MANGUE,2024,CVP,covo peixe,passive,48.9
+PORTO DO MANGUE,2024,ESP,espinhel,passive,0.0
+PORTO DO MANGUE,2024,LES,linha e espinhel,mixed,0.0
+PORTO DO MANGUE,2024,LIJ,linha e jereré,mixed,0.0
+PORTO DO MANGUE,2024,LIN,linha,passive,161.3
+PORTO DO MANGUE,2024,LML,linha e mergulho livre,mixed,0.0
+PORTO DO MANGUE,2024,LRE,linha e rede de espera,mixed,0.0
+PORTO DO MANGUE,2024,MEL,mergulho livre,active,13.4
+PORTO DO MANGUE,2024,PUC,puçá,active,0.0
+PORTO DO MANGUE,2024,RAG,rede agulha,passive,0.3
+PORTO DO MANGUE,2024,REC,rede caçoeira,passive,0.2
+PORTO DO MANGUE,2024,RES,rede de espera,passive,87.2
+PORTO DO MANGUE,2024,RTP,rede de tapagem,passive,0.0
+PORTO DO MANGUE,2024,SRD,sardinheira,passive,0.0
+PORTO DO MANGUE,2024,TRF,tarrafa,active,3.4
+PORTO DO MANGUE,2024,TRM,tremalho,passive,0.2
+TIBAU,2008,CVL,covo lagosta,passive,2.44
+TIBAU,2008,LIN,linha,passive,0.12
+TIBAU,2009,APA,arrasto de praia,active,0.0
+TIBAU,2009,APO,arrasto de porta,active,2.1364
+TIBAU,2009,CMN,coleta manual,active,0.0
+TIBAU,2009,CMP,compressor,active,0.0
+TIBAU,2009,CUR,curral,passive,0.0
+TIBAU,2009,CVL,covo lagosta,passive,0.0
+TIBAU,2009,CVP,covo peixe,passive,0.0
+TIBAU,2009,ESP,espinhel,passive,0.0
+TIBAU,2009,LCP,linha e covo peixe,mixed,0.0
+TIBAU,2009,LIJ,linha e jereré,passive,0.0
+TIBAU,2009,LIN,linha,passive,3.8217
+TIBAU,2009,MEL,mergulho livre,active,0.0
+TIBAU,2009,PUC,puçá/mangote,active,0.0
+TIBAU,2009,RAG,rede agulha,passive,0.0
+TIBAU,2009,RCA,rede caçoeira,passive,20.5209
+TIBAU,2009,RES,rede de espera,passive,9.7881
+TIBAU,2009,RTP,rede de tapagem,passive,0.0
+TIBAU,2009,SRD,sardinheira,active,0.0
+TIBAU,2009,TNR,tainheira,active,0.0
+TIBAU,2009,TRF,tarrafa,active,0.0
+TIBAU,2009,TRM,tresmalho,passive,0.0
+TIBAU,2010,APA,arrasto de praia,active,1.792
+TIBAU,2010,APO,arrasto de porta,active,0.15
+TIBAU,2010,CMN,coleta manual,active,0.0
+TIBAU,2010,CMP,compressor,active,0.0
+TIBAU,2010,CUR,curral,passive,0.0
+TIBAU,2010,CVL,covo lagosta,passive,3.445
+TIBAU,2010,CVP,covo peixe,passive,0.116
+TIBAU,2010,ESP,espinhel,passive,0.0
+TIBAU,2010,LCP,linha e covo peixe,passive,0.0
+TIBAU,2010,LES,linha e espinhel,passive,0.0
+TIBAU,2010,LIJ,linha e jereré,passive,0.0
+TIBAU,2010,LIN,linha,passive,7.837
+TIBAU,2010,LRE,linha e rede de espera,passive,0.0
+TIBAU,2010,MEL,mergulho livre,active,0.0
+TIBAU,2010,PUC,puçá,active,0.0
+TIBAU,2010,RAG,rede de agulha,passive,0.0
+TIBAU,2010,RCA,rede caçoeira,passive,8.436
+TIBAU,2010,RES,rede de espera,passive,17.744
+TIBAU,2010,RTP,rede de tapagem,passive,0.0
+TIBAU,2010,SRD,sardinheira,active,0.0
+TIBAU,2010,TNR,tainheira,active,0.0
+TIBAU,2010,TRF,tarrafa,active,0.0
+TIBAU,2010,TRM,tresmalho,passive,0.0
+TIBAU,2011,APA,arrasto de praia,active,0.523
+TIBAU,2011,APO,arrasto de porta,active,0.312
+TIBAU,2011,CPL,covo peixe e lagosta,passive,0.451
+TIBAU,2011,CVL,covo lagosta,passive,12.723
+TIBAU,2011,CVP,covo peixe,passive,0.041
+TIBAU,2011,LCL,linha e covo lagosta,mixed,0.44
+TIBAU,2011,LIN,linha,passive,7.43
+TIBAU,2011,RCA,rede caçoeira,passive,3.621
+TIBAU,2011,RES,rede de espera,passive,13.403
+TIBAU,2011,TRM,tremalho,passive,3.9
+TIBAU,2012,APA,arrasto de praia,active,0.0
+TIBAU,2012,APO,arrasto de porta,active,0.0
+TIBAU,2012,CMN,coleta manual,active,0.0
+TIBAU,2012,CMP,compressor,active,0.0
+TIBAU,2012,CPL,covo peixe e lagosta,passive,0.7
+TIBAU,2012,CUR,curral,passive,0.0
+TIBAU,2012,CVL,covo lagosta,passive,18.0
+TIBAU,2012,CVP,covo peixe,passive,0.4
+TIBAU,2012,JER,jereré,active,0.0
+TIBAU,2012,LCL,linha e covo lagosta,mixed,0.7999999999999999
+TIBAU,2012,LCP,linha e covo peixe,mixed,0.0
+TIBAU,2012,LES,linha e espinhel,mixed,0.0
+TIBAU,2012,LIJ,linha e jereré,mixed,0.0
+TIBAU,2012,LIN,linha,passive,3.8
+TIBAU,2012,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2012,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2012,MEL,mergulho livre,active,0.0
+TIBAU,2012,PUC,puçá,active,0.0
+TIBAU,2012,RAG,rede agulha,passive,0.0
+TIBAU,2012,RCA,rede caçoeira,passive,0.0
+TIBAU,2012,RES,rede de espera,passive,11.5
+TIBAU,2012,RTP,rede de tapagem,passive,0.0
+TIBAU,2012,SRD,sardinheira,passive,0.0
+TIBAU,2012,TNR,traineira,active,0.0
+TIBAU,2012,TRF,tarrafa,active,0.0
+TIBAU,2012,TRM,tremalho,passive,0.7
+TIBAU,2013,APA,arrasto de praia,active,0.0
+TIBAU,2013,APO,arrasto de porta,active,0.0
+TIBAU,2013,CMN,coleta manual,active,0.0
+TIBAU,2013,CMP,compressor,active,0.0
+TIBAU,2013,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2013,CUR,curral,passive,0.0
+TIBAU,2013,CVL,covo lagosta,passive,25.9
+TIBAU,2013,CVP,covo peixe,passive,0.2
+TIBAU,2013,ESP,espinhel,passive,0.0
+TIBAU,2013,JER,jereré,active,0.0
+TIBAU,2013,LCL,linha e covo lagosta,passive,0.0
+TIBAU,2013,LCP,linha e covo peixe,passive,0.0
+TIBAU,2013,LES,linha e espinhel,passive,0.0
+TIBAU,2013,LIJ,linha e jereré,passive,0.0
+TIBAU,2013,LIN,linha,passive,1.8
+TIBAU,2013,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2013,LRE,linha e rede de espera,passive,0.0
+TIBAU,2013,MEL,mergulho livre,active,0.0
+TIBAU,2013,PUC,puçá,active,0.0
+TIBAU,2013,RAG,rede agulha,passive,0.0
+TIBAU,2013,RCA,rede caçoeira,passive,0.0
+TIBAU,2013,RES,rede de espera,passive,11.3
+TIBAU,2013,RTP,rede de tapagem,passive,0.0
+TIBAU,2013,SRD,sardinheira,active,0.0
+TIBAU,2013,TNR,tainheira,active,0.0
+TIBAU,2013,TRF,tarrafa,active,0.0
+TIBAU,2013,TRM,tresmalho,passive,2.2
+TIBAU,2014,APA,arrasto de praia,active,0.0
+TIBAU,2014,APO,arrasto de porta,active,0.0
+TIBAU,2014,CMN,coleta manual,active,0.0
+TIBAU,2014,CMP,compressor,active,0.0
+TIBAU,2014,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2014,CUR,curral,passive,0.0
+TIBAU,2014,CVL,covo lagosta,passive,6.3
+TIBAU,2014,CVP,covo peixe,passive,0.0
+TIBAU,2014,JER,jereré,active,0.0
+TIBAU,2014,LCP,linha e covo peixe,mixed,0.0
+TIBAU,2014,LES,linha e espinhel,mixed,0.0
+TIBAU,2014,LIJ,linha e jereré,mixed,0.0
+TIBAU,2014,LIN,linha,passive,1.1
+TIBAU,2014,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2014,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2014,MEL,mergulho livre,active,0.0
+TIBAU,2014,PUC,puçá,active,0.0
+TIBAU,2014,RAG,rede agulha,passive,0.0
+TIBAU,2014,RCA,rede caçoeira,passive,0.0
+TIBAU,2014,RES,rede de espera,passive,4.5
+TIBAU,2014,RTP,rede de tapagem,passive,0.0
+TIBAU,2014,SRD,sardinheira,passive,0.0
+TIBAU,2014,TNR,traineira,active,0.0
+TIBAU,2014,TRF,tarrafa,active,0.0
+TIBAU,2014,TRM,tremalho,passive,0.5
+TIBAU,2015,APA,arrasto de praia,active,0.0
+TIBAU,2015,APO,arrasto de porta,active,0.0
+TIBAU,2015,CMN,coleta manual,active,0.0
+TIBAU,2015,CMP,compressor,active,0.0
+TIBAU,2015,COQ,coqueiro,active,0.0
+TIBAU,2015,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2015,CUR,curral,passive,0.0
+TIBAU,2015,CVL,covo lagosta,passive,10.4
+TIBAU,2015,CVP,covo peixe,passive,0.0
+TIBAU,2015,JER,jereré,active,0.0
+TIBAU,2015,LCL,linha e covo lagosta,mixed,0.0
+TIBAU,2015,LCP,linha e covo peixe,mixed,0.0
+TIBAU,2015,LES,linha e espinhel,mixed,0.0
+TIBAU,2015,LIJ,linha e jereré,mixed,0.0
+TIBAU,2015,LIN,linha,passive,1.6
+TIBAU,2015,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2015,MEL,mergulho livre,active,0.0
+TIBAU,2015,PUC,puçá,active,0.0
+TIBAU,2015,RAG,rede agulha,passive,0.0
+TIBAU,2015,RCA,rede caçoeira,passive,0.0
+TIBAU,2015,RES,rede de espera,passive,4.7
+TIBAU,2015,RTP,rede de tapagem,passive,0.0
+TIBAU,2015,SRD,sardinheira,passive,0.0
+TIBAU,2015,TNR,traineira,active,0.0
+TIBAU,2015,TRF,tarrafa,active,0.0
+TIBAU,2015,TRM,tremalho,passive,0.0
+TIBAU,2016,APA,arrasto de praia,active,0.0
+TIBAU,2016,APO,arrasto de porta,active,0.0
+TIBAU,2016,CMN,coleta manual,active,0.0
+TIBAU,2016,CMP,compressor,active,0.0
+TIBAU,2016,COQ,coqueiro,active,0.0
+TIBAU,2016,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2016,CUR,curral,passive,0.0
+TIBAU,2016,CVL,covo lagosta,passive,19.8
+TIBAU,2016,CVP,covo peixe,passive,0.0
+TIBAU,2016,JER,jereré,active,0.0
+TIBAU,2016,LCL,linha e covo lagosta,mixed,0.2
+TIBAU,2016,LCP,linha e covo peixe,mixed,0.0
+TIBAU,2016,LES,linha e espinhel,mixed,0.0
+TIBAU,2016,LIJ,linha e jereré,mixed,0.0
+TIBAU,2016,LIN,linha,passive,2.5
+TIBAU,2016,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2016,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2016,MEL,mergulho livre,active,0.0
+TIBAU,2016,PUC,puçá,active,0.0
+TIBAU,2016,RAG,rede agulha,passive,0.0
+TIBAU,2016,RCA,rede caçoeira,passive,0.0
+TIBAU,2016,RES,rede de espera,passive,12.0
+TIBAU,2016,RTP,rede de tapagem,passive,0.0
+TIBAU,2016,SRD,sardinheira,passive,0.0
+TIBAU,2016,TNR,traineira,active,0.0
+TIBAU,2016,TRF,tarrafa,active,0.0
+TIBAU,2016,TRM,tremalho,passive,0.7
+TIBAU,2017,APA,arrasto de praia,active,0.0
+TIBAU,2017,APO,arrasto de porta,active,0.0
+TIBAU,2017,CMN,coleta manual,active,0.0
+TIBAU,2017,CMP,compressor,active,0.0
+TIBAU,2017,COQ,coqueiro,active,0.0
+TIBAU,2017,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2017,CUR,curral,passive,0.0
+TIBAU,2017,CVL,covo lagosta,passive,20.4
+TIBAU,2017,CVP,covo peixe,passive,0.1
+TIBAU,2017,JER,jereré,active,0.0
+TIBAU,2017,LCL,linha e covo lagosta,mixed,0.0
+TIBAU,2017,LCP,linha e covo peixe,mixed,0.0
+TIBAU,2017,LES,linha e espinhel,mixed,0.0
+TIBAU,2017,LIJ,linha e jereré,mixed,0.0
+TIBAU,2017,LIN,linha,passive,2.2
+TIBAU,2017,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2017,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2017,MEL,mergulho livre,active,0.0
+TIBAU,2017,PUC,puçá,active,0.0
+TIBAU,2017,RAG,rede agulha,passive,0.0
+TIBAU,2017,RCA,rede caçoeira,passive,0.0
+TIBAU,2017,RES,rede de espera,passive,9.4
+TIBAU,2017,RTP,rede de tapagem,passive,0.0
+TIBAU,2017,SRD,sardinheira,passive,0.0
+TIBAU,2017,TNR,traineira,active,0.0
+TIBAU,2017,TRF,tarrafa,active,0.0
+TIBAU,2017,TRM,tremalho,passive,1.2
+TIBAU,2018,APA,arrasto de praia,active,0.0
+TIBAU,2018,APO,arrasto de porta,active,0.0
+TIBAU,2018,CMN,coleta manual,active,0.0
+TIBAU,2018,CMP,compressor,active,0.0
+TIBAU,2018,COQ,coqueiro,active,0.0
+TIBAU,2018,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2018,CUR,curral,passive,0.0
+TIBAU,2018,CVL,covo lagosta,passive,24.1
+TIBAU,2018,CVP,covo peixe,passive,0.0
+TIBAU,2018,JER,jereré,active,0.0
+TIBAU,2018,LES,linha e espinhel,mixed,0.0
+TIBAU,2018,LIJ,linha e jereré,mixed,0.0
+TIBAU,2018,LIN,linha,passive,2.6
+TIBAU,2018,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2018,MEL,mergulho livre,active,0.0
+TIBAU,2018,PUC,puçá,active,0.0
+TIBAU,2018,RAG,rede agulha,passive,0.0
+TIBAU,2018,RCA,rede caçoeira,passive,0.0
+TIBAU,2018,RES,rede de espera,passive,7.4
+TIBAU,2018,RTP,rede de tapagem,passive,0.0
+TIBAU,2018,SRD,sardinheira,passive,0.0
+TIBAU,2018,TNR,traineira,active,0.0
+TIBAU,2018,TRF,tarrafa,active,0.0
+TIBAU,2018,TRM,tremalho,passive,0.0
+TIBAU,2019,APA,arrasto de praia,active,1.5
+TIBAU,2019,APO,arrasto de porta,active,0.0
+TIBAU,2019,CMN,coleta manual,active,0.0
+TIBAU,2019,CMP,compressor,active,0.0
+TIBAU,2019,COQ,coqueiro,active,0.0
+TIBAU,2019,CPL,covo peixe e lagosta,passive,0.7
+TIBAU,2019,CUR,curral,passive,0.0
+TIBAU,2019,CVL,covo lagosta,passive,22.7
+TIBAU,2019,CVP,covo peixe,passive,0.0
+TIBAU,2019,JER,jereré,active,0.0
+TIBAU,2019,LCL,linha e covo lagosta,mixed,0.0
+TIBAU,2019,LCP,linha e covo peixe,mixed,0.0
+TIBAU,2019,LES,linha e espinhel,mixed,0.0
+TIBAU,2019,LIJ,linha e jereré,mixed,0.0
+TIBAU,2019,LIN,linha,passive,0.3
+TIBAU,2019,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2019,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2019,MEL,mergulho livre,active,0.0
+TIBAU,2019,PUC,puçá,active,0.0
+TIBAU,2019,RAG,rede agulha,passive,0.0
+TIBAU,2019,RCA,rede caçoeira,passive,0.0
+TIBAU,2019,RES,rede de espera,passive,8.8
+TIBAU,2019,RTP,rede de tapagem,passive,0.0
+TIBAU,2019,SRD,sardinheira,passive,0.0
+TIBAU,2019,TNR,traineira,active,0.0
+TIBAU,2019,TRF,tarrafa,active,0.0
+TIBAU,2019,TRM,tremalho,passive,0.0
+TIBAU,2020,APA,arrasto de praia,active,0.1
+TIBAU,2020,APO,arrasto de porta,active,0.0
+TIBAU,2020,CMN,coleta manual,active,0.0
+TIBAU,2020,CMP,compressor,active,0.0
+TIBAU,2020,COQ,coqueiro,active,0.0
+TIBAU,2020,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2020,CUR,curral,passive,0.0
+TIBAU,2020,CVL,covo lagosta,passive,5.5
+TIBAU,2020,CVP,covo peixe,passive,0.0
+TIBAU,2020,JER,jereré,active,0.0
+TIBAU,2020,LCL,linha e covo lagosta,mixed,0.0
+TIBAU,2020,LCP,linha e covo peixe,mixed,0.0
+TIBAU,2020,LES,linha e espinhel,mixed,0.0
+TIBAU,2020,LIJ,linha e jereré,mixed,0.0
+TIBAU,2020,LIN,linha,passive,3.4
+TIBAU,2020,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2020,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2020,MEL,mergulho livre,active,0.0
+TIBAU,2020,PUC,puçá,active,0.0
+TIBAU,2020,RAG,rede agulha,passive,0.0
+TIBAU,2020,RCA,rede caçoeira,passive,0.0
+TIBAU,2020,RES,rede de espera,passive,8.8
+TIBAU,2020,RTP,rede de tapagem,passive,0.0
+TIBAU,2020,SRD,sardinheira,passive,0.0
+TIBAU,2020,TNR,traineira,active,0.0
+TIBAU,2020,TRF,tarrafa,active,0.0
+TIBAU,2020,TRM,tremalho,passive,0.0
+TIBAU,2021,APA,arrasto de praia,active,0.0
+TIBAU,2021,APO,arrasto de porta,active,0.0
+TIBAU,2021,CMN,coleta manual,active,0.0
+TIBAU,2021,CMP,compressor,active,0.0
+TIBAU,2021,COQ,coqueiro,active,0.0
+TIBAU,2021,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2021,CUR,curral,passive,0.0
+TIBAU,2021,CVL,covo lagosta,passive,1.2
+TIBAU,2021,CVP,covo peixe,passive,0.0
+TIBAU,2021,JER,jereré,active,0.0
+TIBAU,2021,LCL,linha e covo lagosta,mixed,0.0
+TIBAU,2021,LCP,linha e covo peixe,mixed,0.0
+TIBAU,2021,LES,linha e espinhel,mixed,0.0
+TIBAU,2021,LIJ,linha e jereré,mixed,0.0
+TIBAU,2021,LIN,linha,passive,1.4
+TIBAU,2021,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2021,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2021,MEL,mergulho livre,active,0.0
+TIBAU,2021,PUC,puçá,active,0.0
+TIBAU,2021,RAG,rede agulha,passive,0.0
+TIBAU,2021,RCA,rede caçoeira,passive,9.0
+TIBAU,2021,RES,rede de espera,passive,1.3
+TIBAU,2021,RTP,rede de tapagem,passive,0.0
+TIBAU,2021,SRD,sardinheira,passive,0.0
+TIBAU,2021,TNR,traineira,active,0.0
+TIBAU,2021,TRF,tarrafa,active,0.0
+TIBAU,2021,TRM,tremalho,passive,0.0
+TIBAU,2022,APO,arrasto de porta,active,0.0
+TIBAU,2022,CMN,coleta manual,active,0.0
+TIBAU,2022,CMP,compressor,active,0.0
+TIBAU,2022,COQ,coqueiro,active,0.0
+TIBAU,2022,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2022,CUR,curral,passive,0.0
+TIBAU,2022,CVL,covo lagosta,passive,2.7
+TIBAU,2022,CVP,covo peixe,passive,0.0
+TIBAU,2022,LES,linha e espinhel,mixed,0.0
+TIBAU,2022,LIJ,linha e jereré,mixed,0.0
+TIBAU,2022,LIN,linha,passive,0.0
+TIBAU,2022,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2022,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2022,MEL,mergulho livre,active,0.0
+TIBAU,2022,PUC,puçá,active,0.0
+TIBAU,2022,RAG,rede agulha,passive,0.0
+TIBAU,2022,RCA,rede caçoeira,passive,10.3
+TIBAU,2022,RES,rede de espera,passive,3.0
+TIBAU,2022,RTP,rede de tapagem,passive,0.0
+TIBAU,2022,SRD,sardinheira,passive,0.0
+TIBAU,2022,TNR,traineira,active,0.0
+TIBAU,2022,TRF,tarrafa,active,0.0
+TIBAU,2022,TRM,tremalho,passive,0.0
+TIBAU,2023,APO,arrasto de porta,active,0.0
+TIBAU,2023,CMN,coleta manual,active,0.0
+TIBAU,2023,CMP,compressor,active,0.0
+TIBAU,2023,COQ,coqueiro,active,0.0
+TIBAU,2023,CPL,covo peixe e lagosta,passive,0.0
+TIBAU,2023,CUR,curral,passive,0.0
+TIBAU,2023,CVL,covo lagosta,passive,5.3
+TIBAU,2023,CVP,covo peixe,passive,0.0
+TIBAU,2023,JER,jereré,active,0.0
+TIBAU,2023,LES,linha e espinhel,mixed,0.0
+TIBAU,2023,LIJ,linha e jereré,mixed,0.0
+TIBAU,2023,LIN,linha,passive,0.0
+TIBAU,2023,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2023,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2023,MEL,mergulho livre,active,0.0
+TIBAU,2023,PUC,puçá,active,0.0
+TIBAU,2023,RAG,rede agulha,passive,0.0
+TIBAU,2023,RCA,rede caçoeira,passive,15.5
+TIBAU,2023,RES,rede de espera,passive,2.3
+TIBAU,2023,RTP,rede de tapagem,passive,0.0
+TIBAU,2023,SRD,sardinheira,passive,0.0
+TIBAU,2023,TNR,traineira,active,0.0
+TIBAU,2023,TRF,tarrafa,active,0.0
+TIBAU,2023,TRM,tremalho,passive,0.0
+TIBAU,2024,APO,arrasto de porta,active,0.0
+TIBAU,2024,CMN,coleta manual,active,0.0
+TIBAU,2024,CMP,compressor,active,0.0
+TIBAU,2024,COQ,palha de coqueiro,passive,0.0
+TIBAU,2024,CUR,curral,passive,0.0
+TIBAU,2024,CVL,covo lagosta,passive,0.0
+TIBAU,2024,CVP,covo peixe,passive,0.0
+TIBAU,2024,ESP,espinhel,passive,0.0
+TIBAU,2024,LES,linha e espinhel,mixed,0.0
+TIBAU,2024,LIJ,linha e jereré,mixed,0.0
+TIBAU,2024,LIN,linha,passive,0.0
+TIBAU,2024,LML,linha e mergulho livre,mixed,0.0
+TIBAU,2024,LRE,linha e rede de espera,mixed,0.0
+TIBAU,2024,MEL,mergulho livre,active,0.0
+TIBAU,2024,PUC,puçá,active,0.0
+TIBAU,2024,RAG,rede agulha,passive,0.0
+TIBAU,2024,REC,rede caçoeira,passive,11.6
+TIBAU,2024,RES,rede de espera,passive,5.6
+TIBAU,2024,RTP,rede de tapagem,passive,0.0
+TIBAU,2024,SRD,sardinheira,passive,0.0
+TIBAU,2024,TRF,tarrafa,active,0.0
+TIBAU,2024,TRM,tremalho,passive,0.0
