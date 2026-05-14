@@ -24,5 +24,4 @@ __pycache__/
 
 # ── Private / local-only files ────────────────────────────────────────────────
 .claude/
-research_questions_v2.md
-results_summary.md
+paper_draft/
