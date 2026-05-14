@@ -1,111 +1,170 @@
-# Fish catches × Oil platforms Brazil — Analytical Pipeline
+# Fish catches × Oil platforms — Rio Grande do Norte, Brazil
 
-## Project
 **Research question:** How are small-scale fisheries productivity, effort structure, and catch composition associated with spatial exposure to offshore oil platforms and marine protected areas over time?
 
 **Study area:** Rio Grande do Norte, Brazil  
-**Data:** PMDP monitoring programme, 2001–2025
+**Data:** PMDP fisheries monitoring programme, 2001–2025  
+**Localities:** 8 coastal fishing communities (7 primary analysis + Areia Branca case study)
 
 ---
 
-## Repository structure
+## Running the app
 
-```
-pipeline_fish_brazil/
-│
-├── 00_config.py                   Central configuration (paths, CRS, thresholds)
-├── 01_cleaning.py                 Load and clean all 5 DB sheets + landing points
-├── 02_crosswalks.py               Build all reference crosswalk tables
-├── 03_spatial_exposure.py         Compute platform/MPA distance and exposure classes
-├── 04_productivity_diversity.py   CPUE, richness, Shannon H', Simpson, Pielou J'
-├── 05_effort_structure.py         Gear shares, boat shares, effort composition
-├── 06_species_composition.py      Species matrices, SIMPER, turnover
-├── 07_species_shares.py           Species-level proportional contributions
-├── 08_temporal_dynamics.py        Time series and period comparisons
-├── 09_diagnostics.py              QC checks and production reconciliation
-├── 10_figures.py                  All maps, plots, and visualisations
-│
-├── run_pipeline.py                Master runner script
-│
-├── data/
-│   ├── raw/                       ← Place all source files here
-│   ├── interim/                   Cleaned and intermediate files
-│   └── processed/                 Final analytical outputs
-│
-├── outputs/
-│   └── figures/                   All figures (F01–F21)
-│
-└── logs/                          Per-script log files
+```bash
+pip install -r requirements.txt
+streamlit run app_explorer.py
 ```
 
 ---
 
-## Source data (place in `data/raw/`)
+## Repository contents
+
+```
+.
+├── app_explorer.py          Interactive Streamlit data explorer
+├── requirements.txt         Python dependencies
+│
+├── py_data/
+│   ├── interim/             Cleaned and spatially-enriched source tables
+│   └── processed/           Analytical outputs (CPUE, diversity, models, species)
+│
+└── .streamlit/
+    └── config.toml          Streamlit server configuration
+```
+
+---
+
+## Data: `py_data/interim/`
+
+Cleaned and crosswalked tables derived from the PMDP database and spatial layers.
 
 | File | Description |
 |------|-------------|
-| `PMDP_DATABASE_clean.xlsx` | Main fisheries database (5 sheets) |
-| `local_landing_points.xlsx` | Landing point coordinates |
-| `pontos_desembarque_pmdp.zip` | Spatial layer of landing points |
-| `RN_Municipios_2025.zip` | Rio Grande do Norte municipalities |
-| `platforms_rio_grande_do_norte.zip` | Offshore oil/gas platforms |
-| `rds_ponta_tubarao_sirgas2000.zip` | RDS Ponta do Tubarão MPA |
-| `apa_dunas_rosado_sirgas2000.zip` | APA Dunas do Rosado MPA |
-
-### Database sheets
-
-| Sheet | Columns |
-|-------|---------|
-| `PMDP_MASTER` | local, year, fleet_monitored, assisted_trips, estimated_fishermen, production_ton |
-| `PMDP_COMPOSITION` | local, year, boat_type, vessels_monitored, fleet_production_ton |
-| `PMDP_PRODUCTION` | local, year, gear_cod, gear_type, gear_group, gear_production_ton, gear_cod_original |
-| `PMDP_LANDINGS` | local, year, species, sp_production_ton |
-| `PMDP_SOCIOECONOMIC` | local, year, fleet_monitored, estimated_fishermen, fishermen_per_vessel |
-
----
-
-## Installation
-
-```bash
-pip install pandas numpy geopandas matplotlib scipy openpyxl
-```
+| `master_clean.csv` | Locality × year summary (production, effort, fleet) |
+| `composition_clean.csv` | Vessel type × locality × year |
+| `production_clean.csv` | Gear × locality × year production |
+| `landings_clean.csv` | Species × locality × year landings |
+| `socioeconomic_clean.csv` | Fishermen and vessel metrics |
+| `landing_points_clean.csv` | Landing point coordinates (lat/lon) |
+| `landing_points_exposure.csv` | Landing points enriched with platform and MPA distances |
+| `local_exposure.csv` | Locality-level spatial exposure summary |
+| `locality_year.csv` | Balanced locality × year panel |
+| `municipality_year.csv` | Municipality × year aggregation |
+| `xwalk_gear.csv` | Gear type crosswalk |
+| `xwalk_boat.csv` | Vessel type crosswalk |
+| `xwalk_species.csv` | Species name crosswalk |
+| `xwalk_local.csv` / `xwalk_local_updated.csv` | Locality name crosswalk |
+| `xwalk_landing.csv` | Landing point crosswalk |
+| `mpas_combined.gpkg` | MPA boundaries (RDS Ponta do Tubarão + APA Dunas do Rosado) |
+| `platforms_projected.gpkg` | Offshore oil/gas platform locations |
 
 ---
 
-## Running the pipeline
+## Data: `py_data/processed/`
 
-### Full pipeline
-```bash
-python run_pipeline.py
-```
+Analytical tables ready for exploration and modelling.
 
-### Re-run from a specific step
-```bash
-python run_pipeline.py --from 4
-```
+### Productivity and CPUE
+| File | Description |
+|------|-------------|
+| `productivity_local_year.csv` | CPUE, richness, Shannon H', Pielou J' by locality × year |
+| `productivity_platform_year.csv` | Aggregated by platform exposure class × year |
+| `productivity_mpa_year.csv` | Aggregated by MPA exposure class × year |
+| `productivity_combined_year.csv` | Aggregated by combined exposure class × year |
+| `productivity_municipality_year.csv` | Aggregated by municipality × year |
+| `productivity_local_period.csv` | Locality means by time period |
+| `cpue_std_data.csv` / `cpue_std_index.csv` | GAM-standardised CPUE index |
+| `cpue_std_gam_partial.csv` / `cpue_std_gam_summary.csv` | GAM partial effects |
+| `cpue_std_lmm.csv` | LMM coefficients for CPUE standardisation |
+| `cpue_three_way_index.csv` | CPUE comparison: raw, per fisherman, standardised |
 
-### Run a single script
-```bash
-python run_pipeline.py --only 10
-python 04_productivity_diversity.py   # or run directly
-```
+### Temporal dynamics
+| File | Description |
+|------|-------------|
+| `timeseries_regional.csv` | Regional production and CPUE time series |
+| `timeseries_platform.csv` | Time series by platform exposure class |
+| `timeseries_mpa.csv` | Time series by MPA exposure class |
+| `timeseries_combined.csv` | Time series by combined exposure class |
+| `timeseries_gear_year.csv` | Gear composition over time |
+| `timeseries_boat_year.csv` | Vessel composition over time |
+| `timeseries_species_top20.csv` | Top-20 species production over time |
+| `period_comparison.csv` | CPUE and diversity by exposure class × period |
+
+### CPUE and diversity trends (research questions P1–P9)
+| File | Description |
+|------|-------------|
+| `spatial_p1_local_means.csv` / `spatial_p1_spearman.csv` | P1: spatial gradients |
+| `cpue_p2_mannkendall.csv` / `cpue_p2_gam_trend.csv` | P2: CPUE temporal trends |
+| `diversity_p3a_mannkendall.csv` | P3a: diversity temporal trends |
+| `effort_p3b_mannkendall.csv` | P3b: gear/vessel composition trends |
+| `cpue_p4_trajectories.csv` / `cpue_p4_lmm.csv` | P4: CPUE trajectories by MPA status |
+| `cpue_p4_trajectories_n8.csv` / `cpue_p4_lmm_n8.csv` | P4 sensitivity (n=8 incl. Areia Branca) |
+| `diversity_p5_trajectories.csv` / `diversity_p5_lmm.csv` | P5: diversity trajectories by MPA status |
+| `diversity_p5_trajectories_n8.csv` / `diversity_p5_lmm_n8.csv` | P5 sensitivity (n=8) |
+| `effort_p6_spearman.csv` / `effort_p6_lmm.csv` | P6: CPUE ~ gear/vessel composition |
+| `effort_p6_gam_partial.csv` / `effort_p6_year_smooth.csv` | P6 GAM partial effects |
+| `within_p7_density_dep.csv` | P7: density dependence (CPUE ~ fishermen) |
+| `within_p8_spearman.csv` / `within_p8_gam_partial.csv` | P8: CPUE ~ diversity within localities |
+| `within_p8_year_smooth.csv` | P8 year smooth |
+
+### Gear and vessel structure
+| File | Description |
+|------|-------------|
+| `gear_year.csv` / `boat_year.csv` | Gear and vessel counts by year |
+| `gear_share_local_year.csv` / `boat_share_local_year.csv` | Shares by locality × year |
+| `gear_share_platform_year.csv` / `gear_share_mpa_year.csv` | Shares by exposure class |
+| `boat_share_platform_year.csv` / `boat_share_mpa_year.csv` | Vessel shares by exposure class |
+| `gear_share_combined_year.csv` / `boat_share_combined_year.csv` | Shares by combined class |
+| `gear_shares_exposure.csv` / `boat_shares_exposure.csv` | Long-format exposure summaries |
+
+### Species composition
+| File | Description |
+|------|-------------|
+| `species_year.csv` | Species-level production by year |
+| `species_share_local_year.csv` | Species shares by locality × year |
+| `species_share_platform_year.csv` / `species_share_mpa_year.csv` | Shares by exposure class |
+| `species_share_gear_year.csv` / `species_share_boat_year.csv` | Shares by gear/vessel type |
+| `species_share_combined_year.csv` | Shares by combined exposure class |
+| `species_rank_platform.csv` / `species_rank_mpa.csv` / `species_rank_combined.csv` | Species rankings by exposure class |
+| `species_SIMPER_platform.csv` / `species_SIMPER_mpa.csv` / `species_SIMPER_combined.csv` | SIMPER dissimilarity contributions |
+| `species_p9_simper_n7.csv` / `species_p9_simper_ab.csv` | P9a: SIMPER (n=7 and Areia Branca) |
+| `species_p9_species_mk.csv` / `species_p9_species_mk_ab.csv` | P9b: Mann-Kendall per species |
+| `species_catch_matrix_local_year.csv` | Catch matrix (wide) by locality × year |
+| `species_catch_wide_local_year.csv` / `species_catch_wide_combined.csv` | Wide-format catch tables |
+| `species_catch_wide_platform.csv` / `species_catch_wide_mpa.csv` | Catch matrices by exposure class |
+| `species_rel_wide_local_year.csv` | Relative abundance matrix |
+| `species_turnover_period.csv` | Bray-Curtis compositional turnover between periods |
+
+### Areia Branca case study
+| File | Description |
+|------|-------------|
+| `ab_case_metrics.csv` | Key metrics time series for Areia Branca vs. Porto do Mangue |
+| `ab_case_species_top.csv` | Top species comparison between localities |
+
+### Statistical models
+| File | Description |
+|------|-------------|
+| `models_mann_kendall.csv` / `models_mann_kendall_local.csv` | Mann-Kendall trend tests |
+| `models_spearman.csv` | Spearman correlations |
+| `models_kruskal.csv` / `models_mann_whitney_pairwise.csv` | Non-parametric group tests |
+| `models_permanova.csv` | PERMANOVA for species composition |
+| `models_gear_mk.csv` / `models_boat_mk.csv` | Mann-Kendall for gear/vessel trends |
+| `models_gear_kruskal.csv` / `models_gear_mann_whitney.csv` | Gear group comparisons |
+| `models_boat_kruskal.csv` / `models_boat_mann_whitney.csv` | Vessel group comparisons |
+| `models_gear_permanova.csv` | PERMANOVA for gear composition |
+
+### Quality control
+| File | Description |
+|------|-------------|
+| `diagnostics_summary.csv` | Pipeline QC check results |
+| `diagnostics_report.txt` | Full diagnostics report |
+| `production_reconciliation.csv` | Production cross-table reconciliation |
 
 ---
 
-## CRS policy
+## Spatial exposure classes
 
-| Purpose | EPSG | Description |
-|---------|------|-------------|
-| Source / display | 4674 | SIRGAS 2000 geographic |
-| Distance calculations | 31984 | SIRGAS 2000 / UTM zone 24S (metres) |
-
-All spatial operations are performed in EPSG:31984. Results are stored in metres and kilometres.
-
----
-
-## Exposure class definitions
-
-### Platform distance classes
+### Platform distance
 | Class | Range |
 |-------|-------|
 | `0-20 km` | Very near |
@@ -114,7 +173,7 @@ All spatial operations are performed in EPSG:31984. Results are stored in metres
 | `100-200 km` | Far |
 | `>200 km` | Very far |
 
-### MPA exposure classes
+### MPA exposure
 | Class | Description |
 |-------|-------------|
 | `inside` | Within MPA boundary |
@@ -128,58 +187,6 @@ All spatial operations are performed in EPSG:31984. Results are stored in metres
 
 ---
 
-## Key outputs
-
-### Cleaned tables (`data/interim/`)
-- `master_clean.csv`, `composition_clean.csv`, `production_clean.csv`
-- `landings_clean.csv`, `socioeconomic_clean.csv`, `landing_points_clean.csv`
-- `xwalk_gear.csv`, `xwalk_boat.csv`, `xwalk_species.csv`, `xwalk_local.csv`
-- `locality_year.csv`, `municipality_year.csv`
-- `landing_points_exposure.csv`, `local_exposure.csv`
-
-### Analytical tables (`data/processed/`)
-- `productivity_local_year.csv` — CPUE, richness, H', J' by local × year
-- `productivity_platform_year.csv` / `_mpa_year.csv` / `_combined_year.csv`
-- `gear_share_*.csv`, `boat_share_*.csv` — effort structure
-- `species_catch_matrix_*.csv`, `species_SIMPER_*.csv` — composition
-- `species_share_*.csv`, `species_rank_*.csv` — species shares
-- `timeseries_*.csv`, `period_comparison.csv` — temporal dynamics
-- `diagnostics_summary.csv`, `production_reconciliation.csv` — QC
-
-### Figures (`outputs/figures/`)
-| Code | Description |
-|------|-------------|
-| F01 | Study area map |
-| F02 | Platform distance gradient map |
-| F03 | MPA exposure map |
-| F04 | CPUE × time by platform class |
-| F05 | CPUE × time by MPA class |
-| F06 | CPUE boxplot by platform class |
-| F08 | Shannon H' × time by platform class |
-| F10 | Gear composition stacked area |
-| F11 | Gear shares by platform class |
-| F13 | Boat composition stacked area |
-| F15 | Top-10 species share area chart |
-| F17 | SIMPER bar chart — platform differences |
-| F18 | Bray-Curtis turnover between periods |
-| F19 | Regional production time series |
-| F20 | CPUE multi-panel (regional / platform / MPA) |
-| F21 | CPUE heatmap: platform × period |
-
----
-
-## Configuration
-
-All key parameters are in `00_config.py`:
-- `MIN_TRIPS_CPUE = 5` — minimum trips to compute CPUE
-- `PERIOD_BREAKS` — temporal period definitions
-- `PLATFORM_BREAKS_KM`, `MPA_BREAKS_KM` — exposure thresholds
-- `DPI = 300` — figure resolution
-
----
-
-## Notes
-- All scripts are idempotent: re-running overwrites existing outputs cleanly.
-- Each script checks for its required inputs and exits with an error if any are missing.
-- Logs are written to `logs/` alongside console output.
-- The `combined_exposure_class` variable allows analysis of platform–MPA interaction contexts without fitting an explicit interaction term.
+## MPAs
+- **RDS Ponta do Tubarão** — Reserva de Desenvolvimento Sustentável
+- **APA Dunas do Rosado** — Área de Proteção Ambiental
